@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/providers.dart';
 import '../../domain/enums.dart';
+import '../capture/capture_sheet.dart';
 
 final inboxCountProvider = StreamProvider<int>(
   (ref) => ref.watch(itemRepositoryProvider).watchCount(ItemStatus.inbox),
@@ -22,6 +23,11 @@ class HomeShell extends ConsumerWidget {
 
     return Scaffold(
       body: navigationShell,
+      floatingActionButton: FloatingActionButton(
+        tooltip: 'Capture',
+        onPressed: () => showCaptureSheet(context),
+        child: const Icon(Icons.add),
+      ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: navigationShell.currentIndex,
         onDestinationSelected: (index) => navigationShell.goBranch(

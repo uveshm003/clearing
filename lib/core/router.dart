@@ -1,19 +1,32 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../presentation/clarify/clarify_screen.dart';
 import '../presentation/inbox/inbox_screen.dart';
+import '../presentation/item/item_screen.dart';
+import '../presentation/lists/list_screen.dart';
 import '../presentation/lists/lists_screen.dart';
+import '../presentation/lists/someday_screen.dart';
 import '../presentation/settings/settings_screen.dart';
+import '../presentation/settings/suggestions_screen.dart';
 import '../presentation/shell/home_shell.dart';
+import '../presentation/today/this_week_screen.dart';
 import '../presentation/today/today_screen.dart';
 import '../presentation/upcoming/upcoming_screen.dart';
 
 abstract final class Routes {
   static const today = '/today';
+  static const thisWeek = '/today/week';
   static const inbox = '/inbox';
   static const upcoming = '/upcoming';
   static const lists = '/lists';
+  static const someday = '/lists/someday';
   static const settings = '/settings';
+  static const suggestions = '/settings/suggestions';
+
+  static String list(String id) => '/lists/$id';
+  static String item(String id) => '/item/$id';
+  static String clarify(String id) => '/clarify/$id';
 }
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -30,6 +43,12 @@ GoRouter buildRouter({String initialLocation = Routes.today}) => GoRouter(
             GoRoute(
               path: Routes.today,
               builder: (context, state) => const TodayScreen(),
+              routes: [
+                GoRoute(
+                  path: 'week',
+                  builder: (context, state) => const ThisWeekScreen(),
+                ),
+              ],
             ),
           ],
         ),
@@ -54,15 +73,46 @@ GoRouter buildRouter({String initialLocation = Routes.today}) => GoRouter(
             GoRoute(
               path: Routes.lists,
               builder: (context, state) => const ListsScreen(),
+              routes: [
+                GoRoute(
+                  path: 'someday',
+                  builder: (context, state) => const SomedayScreen(),
+                ),
+                GoRoute(
+                  path: ':id',
+                  builder: (context, state) =>
+                      ListScreen(listId: state.pathParameters['id']!),
+                ),
+              ],
             ),
           ],
         ),
       ],
     ),
     GoRoute(
+      path: '/item/:id',
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (context, state) =>
+          ItemScreen(itemId: state.pathParameters['id']!),
+    ),
+    GoRoute(
+      path: '/clarify/:id',
+      parentNavigatorKey: rootNavigatorKey,
+      pageBuilder: (context, state) => MaterialPage(
+        fullscreenDialog: true,
+        child: ClarifyScreen(itemId: state.pathParameters['id']!),
+      ),
+    ),
+    GoRoute(
       path: Routes.settings,
       parentNavigatorKey: rootNavigatorKey,
       builder: (context, state) => const SettingsScreen(),
+      routes: [
+        GoRoute(
+          path: 'suggestions',
+          builder: (context, state) => const SuggestionsScreen(),
+        ),
+      ],
     ),
   ],
 );

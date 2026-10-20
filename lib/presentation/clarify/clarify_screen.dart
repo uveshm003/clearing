@@ -138,7 +138,7 @@ class _ClarifyFlowState extends ConsumerState<_ClarifyFlow> {
       padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
       children: [
         Text(
-          widget.item.title,
+          _title.text.trim().isEmpty ? widget.item.title : _title.text.trim(),
           style: theme.textTheme.bodyMedium?.copyWith(
             color: theme.colorScheme.onSurfaceVariant,
           ),

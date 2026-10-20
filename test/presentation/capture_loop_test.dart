@@ -4,6 +4,7 @@ import 'package:clearing/data/db/database.dart';
 import 'package:clearing/domain/enums.dart';
 import 'package:clearing/domain/local_date.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -136,6 +137,28 @@ void main() {
     final [row] = (await tester.runAsync(() => db.select(db.items).get()))!;
     expect(row.status, ItemStatus.active);
     expect(row.whenHorizon, WhenHorizon.anytime);
+
+    await closeDatabase(tester, db);
+  });
+
+  testWidgets('a hardware Enter saves; Shift+Enter adds a line', (
+    tester,
+  ) async {
+    await pumpApp(tester);
+    await tester.tap(find.byTooltip('Capture'));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(find.byType(TextField), 'Water plants');
+    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Saved 1'), findsOneWidget);
+
+    await tester.enterText(find.byType(TextField), 'Buy soil');
+    await tester.sendKeyDownEvent(LogicalKeyboardKey.shiftLeft);
+    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+    await tester.sendKeyUpEvent(LogicalKeyboardKey.shiftLeft);
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Saved 1'), findsOneWidget);
 
     await closeDatabase(tester, db);
   });

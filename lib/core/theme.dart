@@ -30,6 +30,11 @@ abstract final class AppTheme {
           color: scheme.onSurface,
         ),
       ),
+      // Material's default badge is the error red; counts here are neutral.
+      badgeTheme: BadgeThemeData(
+        backgroundColor: scheme.primary,
+        textColor: scheme.onPrimary,
+      ),
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: scheme.surfaceContainer,
         indicatorColor: scheme.secondaryContainer,

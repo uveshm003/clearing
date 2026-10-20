@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/providers.dart';
@@ -32,8 +33,29 @@ class CaptureSheet extends ConsumerStatefulWidget {
 }
 
 class _CaptureSheetState extends ConsumerState<CaptureSheet> {
-  late final _controller = TextEditingController(text: widget.initialText);
-  final _focus = FocusNode();
+  late final _controller = TextEditingController.fromValue(
+    TextEditingValue(
+      text: widget.initialText ?? '',
+      selection: TextSelection.collapsed(
+        offset: widget.initialText?.length ?? 0,
+      ),
+    ),
+  );
+
+  /// Enter saves, as on the keyboard's action button; Shift+Enter still
+  /// starts a new line. Needed because a multi-line field would otherwise
+  /// insert a newline for a hardware Enter.
+  late final _focus = FocusNode(
+    onKeyEvent: (node, event) {
+      if (event is KeyDownEvent &&
+          event.logicalKey == LogicalKeyboardKey.enter &&
+          !HardwareKeyboard.instance.isShiftPressed) {
+        _save();
+        return KeyEventResult.handled;
+      }
+      return KeyEventResult.ignored;
+    },
+  );
   final _saved = <String>[];
 
   @override
@@ -51,7 +73,7 @@ class _CaptureSheetState extends ConsumerState<CaptureSheet> {
         .read(itemActionsProvider)
         .capture(value, listId: widget.listId);
     if (!mounted) return;
-    setState(() => _saved.insertAll(0, items.map((i) => i.title)));
+    setState(() => _saved.insertAll(0, items.reversed.map((i) => i.title)));
     if (text == null) _controller.clear();
     _focus.requestFocus();
     SemanticsService.sendAnnouncement(
@@ -75,7 +97,7 @@ class _CaptureSheetState extends ConsumerState<CaptureSheet> {
         .read(itemActionsProvider)
         .capture(suggestion.title, listId: listId);
     if (!mounted) return;
-    setState(() => _saved.insertAll(0, items.map((i) => i.title)));
+    setState(() => _saved.insertAll(0, items.reversed.map((i) => i.title)));
   }
 
   @override

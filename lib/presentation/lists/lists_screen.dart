@@ -6,6 +6,7 @@ import '../../core/providers.dart';
 import '../../core/router.dart';
 import '../../domain/enums.dart';
 import '../../domain/item_list.dart';
+import '../widgets/search_button.dart';
 import '../widgets/section_header.dart';
 
 /// Open-item counts per list id, and the number of Someday items.
@@ -51,6 +52,7 @@ class ListsScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Lists'),
         actions: [
+          const SearchButton(),
           IconButton(
             icon: const Icon(Icons.settings_outlined),
             tooltip: 'Settings',

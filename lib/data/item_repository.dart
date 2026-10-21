@@ -3,6 +3,7 @@ import 'package:drift/drift.dart';
 import '../core/ids.dart';
 import '../domain/enums.dart';
 import '../domain/item.dart';
+import '../domain/search_filter.dart';
 import '../domain/subtask.dart';
 import 'db/database.dart';
 import 'mappers.dart';
@@ -92,6 +93,49 @@ class ItemRepository {
                     : t.trashedAt.isSmallerThanValue(before)),
           ))
           .go();
+
+  /// Items matching [filter] (FR-16): best text matches first, otherwise
+  /// most recently changed first.
+  Future<List<Item>> search(SearchFilter filter) async {
+    final match = ftsQuery(filter.text);
+    List<String>? ranked;
+    if (match != null) {
+      final rows = await _db
+          .customSelect(
+            'SELECT item_id FROM search_fts WHERE search_fts MATCH ? '
+            'ORDER BY rank',
+            variables: [Variable(match)],
+            readsFrom: {_db.items, _db.subtasks},
+          )
+          .get();
+      ranked = [for (final row in rows) row.read<String>('item_id')];
+      if (ranked.isEmpty) return const [];
+    }
+
+    final query = _db.select(_db.items)
+      ..where((t) {
+        var where = t.status.isInValues(filter.statuses.toList());
+        if (ranked != null) where &= t.id.isIn(ranked);
+        if (filter.listId case final listId?) where &= t.listId.equals(listId);
+        if (filter.from case final from?) {
+          where &= t.doDate.isBiggerOrEqualValue(from.toIso());
+        }
+        if (filter.to case final to?) {
+          where &= t.doDate.isSmallerOrEqualValue(to.toIso());
+        }
+        if (filter.repeating case final repeating?) {
+          where &= repeating ? t.seriesId.isNotNull() : t.seriesId.isNull();
+        }
+        return where;
+      })
+      ..orderBy([
+        (t) => OrderingTerm(expression: t.updatedAt, mode: OrderingMode.desc),
+      ]);
+    final items = _toDomain(await query.get());
+    if (ranked == null) return items;
+    final order = {for (final (i, id) in ranked.indexed) id: i};
+    return items..sort((a, b) => order[a.id]!.compareTo(order[b.id]!));
+  }
 
   Stream<int> watchCount(ItemStatus status) {
     final count = _db.items.id.count();

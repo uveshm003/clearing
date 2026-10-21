@@ -7,6 +7,7 @@ import '../../core/providers.dart';
 import '../../core/router.dart';
 import '../../domain/today_rules.dart';
 import '../format.dart';
+import '../widgets/search_button.dart';
 import '../widgets/empty_state.dart';
 import '../widgets/item_tile.dart';
 import '../widgets/section_header.dart';
@@ -43,6 +44,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
               ),
           ],
         ),
+        actions: const [SearchButton()],
       ),
       body: switch (view) {
         AsyncData(:final value) => _body(context, value, cap),

@@ -9,6 +9,7 @@ import '../../core/router.dart';
 import '../../domain/item.dart';
 import '../../domain/starter_suggestion.dart';
 import '../item_commands.dart';
+import '../widgets/search_button.dart';
 import '../widgets/empty_state.dart';
 import '../widgets/item_tile.dart';
 import '../widgets/when_sheet.dart';
@@ -23,7 +24,10 @@ class InboxScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final items = ref.watch(inboxItemsProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('Inbox')),
+      appBar: AppBar(
+        title: const Text('Inbox'),
+        actions: const [SearchButton()],
+      ),
       body: switch (items) {
         AsyncData(value: final items) when items.isEmpty => const _EmptyInbox(),
         AsyncData(value: final items) => SlidableAutoCloseBehavior(

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/providers.dart';
 import '../../domain/upcoming_rules.dart';
 import '../format.dart';
+import '../widgets/search_button.dart';
 import '../widgets/empty_state.dart';
 import '../widgets/item_tile.dart';
 import '../widgets/section_header.dart';
@@ -27,7 +28,10 @@ class UpcomingScreen extends ConsumerWidget {
     final view = ref.watch(_upcomingProvider).value;
     final today = ref.watch(todayProvider).value;
     return Scaffold(
-      appBar: AppBar(title: const Text('Upcoming')),
+      appBar: AppBar(
+        title: const Text('Upcoming'),
+        actions: const [SearchButton()],
+      ),
       body: view == null || today == null
           ? const SizedBox.shrink()
           : view.days.isEmpty && view.waiting.isEmpty

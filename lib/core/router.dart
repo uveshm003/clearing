@@ -9,6 +9,7 @@ import '../presentation/lists/list_screen.dart';
 import '../presentation/lists/lists_screen.dart';
 import '../presentation/lists/someday_screen.dart';
 import '../presentation/lists/trash_screen.dart';
+import '../presentation/search/search_screen.dart';
 import '../presentation/settings/reminders_help_screen.dart';
 import '../presentation/settings/settings_screen.dart';
 import '../presentation/settings/suggestions_screen.dart';
@@ -27,6 +28,7 @@ abstract final class Routes {
   static const archive = '/lists/archive';
   static const trash = '/lists/trash';
   static const settings = '/settings';
+  static const search = '/search';
   static const suggestions = '/settings/suggestions';
   static const remindersHelp = '/settings/reminders-help';
 
@@ -116,6 +118,11 @@ GoRouter buildRouter({String initialLocation = Routes.today}) => GoRouter(
         fullscreenDialog: true,
         child: ClarifyScreen(itemId: state.pathParameters['id']!),
       ),
+    ),
+    GoRoute(
+      path: Routes.search,
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (context, state) => const SearchScreen(),
     ),
     GoRoute(
       path: Routes.settings,

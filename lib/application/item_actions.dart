@@ -31,6 +31,8 @@ class ItemActions {
     ];
   }
 
+  Future<Item?> get(String id) => _items.getItem(id);
+
   Future<Item> planToday(Item item) => _items.save(item.planToday(_today));
 
   Future<Item> planThisWeek(Item item) =>

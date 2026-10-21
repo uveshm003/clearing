@@ -20,6 +20,8 @@ class SettingsRepository {
         }),
       );
 
+  Future<AppSettings> get() => watch().first;
+
   Future<void> save(AppSettings settings) {
     final now = _now();
     return _db.batch((b) {

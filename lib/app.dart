@@ -7,6 +7,7 @@ import 'core/router.dart';
 import 'core/theme.dart';
 import 'domain/enums.dart';
 import 'presentation/capture/share_intake.dart';
+import 'presentation/shell/scheduler_sync.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final router = buildRouter();
@@ -31,7 +32,8 @@ class ClearingApp extends ConsumerWidget {
         ThemePreference.system || null => ThemeMode.system,
       },
       routerConfig: ref.watch(routerProvider),
-      builder: (context, child) => ShareIntake(child: child!),
+      builder: (context, child) =>
+          SchedulerSync(child: ShareIntake(child: child!)),
     );
   }
 }

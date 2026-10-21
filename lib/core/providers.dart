@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../application/item_actions.dart';
+import '../application/notification_scheduler.dart';
 import '../application/series_actions.dart';
 import '../data/db/database.dart';
 import '../data/item_repository.dart';
@@ -78,6 +79,30 @@ final itemActionsProvider = Provider(
     ref.watch(itemRepositoryProvider),
     now: ref.watch(clockProvider),
     series: ref.watch(seriesActionsProvider),
+  ),
+);
+
+/// Overridden in `main()` with the device's notifications.
+final notificationGatewayProvider = Provider<NotificationGateway>(
+  (ref) => const NoNotifications(),
+);
+
+final notificationSchedulerProvider = Provider(
+  (ref) => NotificationScheduler(
+    ref.watch(notificationGatewayProvider),
+    ref.watch(reminderRepositoryProvider),
+    ref.watch(settingsRepositoryProvider),
+    now: ref.watch(clockProvider),
+  ),
+);
+
+final notificationActionsProvider = Provider(
+  (ref) => NotificationActions(
+    ref.watch(itemActionsProvider),
+    ref.watch(reminderRepositoryProvider),
+    ref.watch(settingsRepositoryProvider),
+    ref.watch(notificationSchedulerProvider),
+    now: ref.watch(clockProvider),
   ),
 );
 

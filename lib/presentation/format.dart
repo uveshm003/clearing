@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../domain/enums.dart';
 import '../domain/local_date.dart';
+import '../domain/repeat_series.dart';
 
 /// "Today", "Tomorrow", "Yesterday", a weekday within the coming week,
 /// otherwise "Fri 23 Oct" (with the year when it differs).
@@ -30,3 +32,66 @@ TimeOfDay timeOfDay(int minutes) =>
 
 DateTime dateTimeOf(LocalDate date) =>
     DateTime(date.year, date.month, date.day);
+
+/// "Mon", "Tue"… for [DateTime.weekday] numbers.
+String weekdayShort(int weekday) =>
+    DateFormat.E().format(DateTime(2024, 1, weekday)); // 1 Jan 2024: Monday
+
+/// "1st", "2nd", "23rd"…
+String ordinal(int n) {
+  if (n % 100 >= 11 && n % 100 <= 13) return '${n}th';
+  return switch (n % 10) {
+    1 => '${n}st',
+    2 => '${n}nd',
+    3 => '${n}rd',
+    _ => '${n}th',
+  };
+}
+
+/// "Every day", "Every 2 weeks on Mon, Thu", "Every month on the 31st,
+/// until Fri 30 Oct".
+String describeRepeat(RepeatSeries series, LocalDate today) {
+  final n = series.interval;
+  final unit = switch (series.freq) {
+    RepeatFrequency.daily => 'day',
+    RepeatFrequency.weekly => 'week',
+    RepeatFrequency.monthly => 'month',
+  };
+  final weekdays = series.weekdays.isEmpty
+      ? [series.startDate.weekday]
+      : (series.weekdays.toList()..sort());
+  final rule = [
+    n == 1 ? 'Every $unit' : 'Every $n ${unit}s',
+    if (series.freq == RepeatFrequency.weekly)
+      'on ${weekdays.map(weekdayShort).join(', ')}',
+    if (series.freq == RepeatFrequency.monthly)
+      'on the ${ordinal(series.monthDay ?? series.startDate.day)}',
+  ];
+  return [
+    rule.join(' '),
+    if (series.endDate case final end?) 'until ${dateLabel(end, today)}',
+    if (series.maxCount case final count?) '$count times',
+  ].join(', ');
+}
+
+/// "At the time", "10 min before", "1 day before", or the custom time.
+String reminderLabel(
+  BuildContext context, {
+  int? offsetMinutes,
+  DateTime? fireAt,
+  required LocalDate today,
+}) {
+  if (offsetMinutes != null) return offsetLabel(offsetMinutes);
+  final at = fireAt!;
+  return '${dateLabel(LocalDate.fromDateTime(at), today)}, '
+      '${timeLabel(context, at.hour * 60 + at.minute)}';
+}
+
+String offsetLabel(int minutes) => switch (minutes) {
+  0 => 'At the time',
+  < 60 => '$minutes min before',
+  _ when minutes % (24 * 60) == 0 =>
+    minutes == 24 * 60 ? '1 day before' : '${minutes ~/ (24 * 60)} days before',
+  _ when minutes % 60 == 0 => '${minutes ~/ 60} h before',
+  _ => '$minutes min before',
+};

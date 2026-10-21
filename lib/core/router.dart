@@ -7,6 +7,7 @@ import '../presentation/item/item_screen.dart';
 import '../presentation/lists/list_screen.dart';
 import '../presentation/lists/lists_screen.dart';
 import '../presentation/lists/someday_screen.dart';
+import '../presentation/settings/reminders_help_screen.dart';
 import '../presentation/settings/settings_screen.dart';
 import '../presentation/settings/suggestions_screen.dart';
 import '../presentation/shell/home_shell.dart';
@@ -23,6 +24,7 @@ abstract final class Routes {
   static const someday = '/lists/someday';
   static const settings = '/settings';
   static const suggestions = '/settings/suggestions';
+  static const remindersHelp = '/settings/reminders-help';
 
   static String list(String id) => '/lists/$id';
   static String item(String id) => '/item/$id';
@@ -111,6 +113,10 @@ GoRouter buildRouter({String initialLocation = Routes.today}) => GoRouter(
         GoRoute(
           path: 'suggestions',
           builder: (context, state) => const SuggestionsScreen(),
+        ),
+        GoRoute(
+          path: 'reminders-help',
+          builder: (context, state) => const RemindersHelpScreen(),
         ),
       ],
     ),

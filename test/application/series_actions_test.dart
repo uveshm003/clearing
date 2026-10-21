@@ -138,13 +138,12 @@ void main() {
     await items.deleteForever(afterThat.id);
 
     final s = (await seriesRepo.get('s1'))!;
-    await seriesRepo.save(s.copyWith(paused: true));
+    await series.setPaused(s, paused: true);
     now = DateTime(2026, 10, 25, 9);
     await series.advanceAll();
     expect(await open(), isEmpty);
 
-    await seriesRepo.save(s.copyWith(paused: false));
-    await series.advanceAll();
+    await series.setPaused(s, paused: false);
     expect((await open()).single.doDate, day(25));
   });
 

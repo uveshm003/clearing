@@ -14,7 +14,7 @@ close**. It's deliberately not a feature-dense task manager.
 - **Recovery over punishment.** No streaks, no red overdue badges. Missed items
   are "carried over".
 
-> Status: early development (milestone M0/M1). Android first, iOS later.
+> Status: early development (milestones M0–M2). Android first, iOS later.
 
 ## Development
 

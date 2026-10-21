@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/ids.dart';
 import '../../core/providers.dart';
+import '../../domain/enums.dart';
 import '../../domain/item.dart';
 import '../../domain/local_date.dart';
+import '../../domain/reminder.dart';
+import '../../domain/repeat_series.dart';
 import '../format.dart';
+import '../item/repeat_editor.dart';
 import '../item_commands.dart';
+import '../widgets/reminder_editor.dart';
 import '../widgets/subtask_editor.dart';
 import '../widgets/when_sheet.dart';
 
@@ -51,6 +57,8 @@ class _ClarifyFlowState extends ConsumerState<_ClarifyFlow> {
   WhenChoice _when = const WhenAnytime();
   String? _listId;
   bool _mustDo = false;
+  final _reminders = <ReminderChoice>[];
+  RepeatSeries? _repeat;
 
   @override
   void initState() {
@@ -90,9 +98,65 @@ class _ClarifyFlowState extends ConsumerState<_ClarifyFlow> {
   );
 
   Future<void> _savePlanned() => _finish(() async {
-    final planned = await ref.plan(_edited, _when);
+    var planned = await ref.plan(_edited, _when);
+    final reminders = ref.read(reminderRepositoryProvider);
+    for (final r in _reminders) {
+      await reminders.add(
+        planned.id,
+        offsetMinutes: r.offsetMinutes,
+        fireAt: r.fireAt,
+      );
+    }
+    // After the reminders, so the series template includes them.
+    if (_repeat case final repeat?) {
+      await ref.read(seriesActionsProvider).startRepeating(planned, repeat);
+      planned = (await ref.read(itemActionsProvider).get(planned.id))!;
+    }
     if (_mustDo && mounted) await ref.toggleMustDo(context, planned);
   });
+
+  /// The item as it will be once placed, for offering reminder offsets.
+  Item get _placed => switch (_when) {
+    WhenOnDate(:final date, :final time) => _edited.copyWith(
+      doDate: () => date,
+      doTime: () => time,
+    ),
+    _ => _edited,
+  };
+
+  LocalDate get _repeatStart => switch (_when) {
+    WhenOnDate(:final date) => date,
+    _ => _today,
+  };
+
+  Future<void> _addReminder() async {
+    final choice = await pickReminder(
+      context,
+      item: _placed,
+      today: _today,
+      taken: {for (final r in _reminders) ?r.offsetMinutes},
+    );
+    if (choice == null || !mounted) return;
+    setState(() => _reminders.add(choice));
+    await askToNotify(context, ref);
+  }
+
+  Future<void> _editRepeat() async {
+    final edited = await editRepeat(
+      context,
+      today: _today,
+      initial:
+          _repeat?.copyWith(startDate: _repeatStart) ??
+          RepeatSeries(
+            id: newId(),
+            freq: RepeatFrequency.daily,
+            startDate: _repeatStart,
+            onMissed: OnMissed.carryOver,
+            template: SeriesTemplate(title: _edited.title),
+          ),
+    );
+    if (edited != null) setState(() => _repeat = edited);
+  }
 
   bool get _whenIsToday => switch (_when) {
     WhenToday() => true,
@@ -343,6 +407,50 @@ class _ClarifyFlowState extends ConsumerState<_ClarifyFlow> {
             value: _mustDo,
             onChanged: (value) => setState(() => _mustDo = value),
           ),
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          leading: const Icon(Icons.notifications_none),
+          title: const Text('Remind me'),
+          subtitle: Text(
+            _reminders.isEmpty
+                ? 'No reminder'
+                : [
+                    for (final r in _reminders)
+                      reminderLabel(
+                        context,
+                        offsetMinutes: r.offsetMinutes,
+                        fireAt: r.fireAt,
+                        today: _today,
+                      ),
+                  ].join(' · '),
+          ),
+          trailing: _reminders.isEmpty
+              ? null
+              : IconButton(
+                  icon: const Icon(Icons.close),
+                  tooltip: 'Remove reminders',
+                  onPressed: () => setState(_reminders.clear),
+                ),
+          onTap: _reminders.length < maxRemindersPerItem ? _addReminder : null,
+        ),
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          leading: const Icon(Icons.repeat),
+          title: const Text('Repeat'),
+          subtitle: Text(
+            _repeat == null
+                ? 'Doesn’t repeat'
+                : describeRepeat(_repeat!, _today),
+          ),
+          trailing: _repeat == null
+              ? null
+              : IconButton(
+                  icon: const Icon(Icons.close),
+                  tooltip: 'Don’t repeat',
+                  onPressed: () => setState(() => _repeat = null),
+                ),
+          onTap: _editRepeat,
+        ),
         const SizedBox(height: 8),
         TextField(
           controller: _doneMeans,

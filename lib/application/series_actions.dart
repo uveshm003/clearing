@@ -109,6 +109,13 @@ class SeriesActions {
     );
   });
 
+  /// Pausing keeps the open occurrence where it is and creates no new ones;
+  /// resuming picks up from today.
+  Future<void> setPaused(RepeatSeries series, {required bool paused}) async {
+    await _series.save(series.copyWith(paused: paused));
+    if (!paused) await advance(series.id);
+  }
+
   /// "This and future": future occurrences start from [occurrence] as it is
   /// now. Its own date stays where it is.
   Future<void> applyToFuture(Item occurrence) async {

@@ -79,6 +79,11 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.widgetWithText(SwitchListTile, 'Must-do today'));
     await tester.pumpAndSettle();
+    await scrollTo(
+      tester,
+      find.widgetWithText(FilledButton, 'Done'),
+      within: find.text('Anything else?'),
+    );
     await tester.tap(find.widgetWithText(FilledButton, 'Done'));
     await tester.pumpAndSettle();
 
@@ -130,6 +135,11 @@ void main() {
       await tester.tap(find.text('Skip'));
       await tester.pumpAndSettle();
     }
+    await scrollTo(
+      tester,
+      find.widgetWithText(FilledButton, 'Done'),
+      within: find.text('Anything else?'),
+    );
     await tester.tap(find.widgetWithText(FilledButton, 'Done'));
     await tester.pumpAndSettle();
 

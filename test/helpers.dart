@@ -21,3 +21,17 @@ Future<void> closeDatabase(WidgetTester tester, AppDatabase db) async {
   await tester.pump(Duration.zero);
   await closing;
 }
+
+/// Scrolls the list that contains [within] until [target] is built and on
+/// screen. Lists build lazily, so [target] may not exist before this.
+Future<void> scrollTo(
+  WidgetTester tester,
+  Finder target, {
+  required Finder within,
+}) => tester.scrollUntilVisible(
+  target,
+  200,
+  scrollable: find
+      .ancestor(of: within, matching: find.byType(Scrollable))
+      .first,
+);

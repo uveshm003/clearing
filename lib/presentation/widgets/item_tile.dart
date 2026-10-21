@@ -44,6 +44,7 @@ class ItemTile extends ConsumerWidget {
 
     final details = <String>[
       if (showDate && today != null) ?_whenDetail(context, today),
+      if (item.seriesId != null) 'Repeats',
       if (item.status == ItemStatus.waiting && item.waitingOn != null)
         'Waiting on ${item.waitingOn}',
       if (item.followUpDate case final followUp?

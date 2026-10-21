@@ -141,11 +141,6 @@ class RepeatSeries {
   final bool paused;
   final SeriesTemplate template;
 
-  /// The default for what happens to a missed occurrence: Life Admin carries
-  /// over, routines skip quietly (FR-10).
-  static OnMissed defaultOnMissed({required bool isLifeAdmin}) =>
-      isLifeAdmin ? OnMissed.carryOver : OnMissed.skip;
-
   RepeatSeries copyWith({
     RepeatFrequency? freq,
     int? interval,

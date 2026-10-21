@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'enums.dart';
+import 'item.dart';
 import 'local_date.dart';
 import 'repeat_series.dart';
 
@@ -34,6 +35,27 @@ extension Recurrence on RepeatSeries {
     }
     return null;
   }
+
+  /// A new open occurrence on [date], filled in from the template. Its
+  /// subtasks and reminders are created alongside it by the caller.
+  Item occurrenceOn(
+    LocalDate date, {
+    required String id,
+    required DateTime now,
+  }) => Item(
+    id: id,
+    title: template.title,
+    status: ItemStatus.active,
+    doneMeans: template.doneMeans,
+    doDate: date,
+    doTime: template.doTime,
+    listId: template.listId,
+    seriesId: this.id,
+    occurrenceDate: date,
+    sortOrder: now.millisecondsSinceEpoch.toDouble(),
+    createdAt: now,
+    updatedAt: now,
+  );
 
   Iterable<LocalDate> _daily() sync* {
     for (var k = 0; ; k++) {

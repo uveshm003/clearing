@@ -113,6 +113,10 @@ class Reminders extends Table {
   IntColumn get offsetMinutes => integer().nullable()();
   DateTimeColumn get fireAt => dateTime().nullable()();
   BoolColumn get enabled => boolean().withDefault(const Constant(true))();
+
+  /// Set by Snooze on a notification; the reminder fires again at this time
+  /// unless its own time is later. Added in schema version 2.
+  DateTimeColumn get snoozedUntil => dateTime().nullable()();
   DateTimeColumn get updatedAt => dateTime()();
 
   @override

@@ -104,6 +104,13 @@ class ItemRepository {
     return query.watch().map((rows) => [for (final r in rows) r.toDomain()]);
   }
 
+  Future<List<Subtask>> subtasksOf(String itemId) async {
+    final query = _db.select(_db.subtasks)
+      ..where((t) => t.itemId.equals(itemId))
+      ..orderBy([(t) => OrderingTerm(expression: t.sortOrder)]);
+    return [for (final row in await query.get()) row.toDomain()];
+  }
+
   /// Subtask progress for every item that has subtasks, keyed by item id.
   Stream<Map<String, SubtaskProgress>> watchSubtaskProgress() {
     final total = _db.subtasks.id.count();

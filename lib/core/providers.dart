@@ -1,15 +1,20 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../application/item_actions.dart';
+import '../application/series_actions.dart';
 import '../data/db/database.dart';
 import '../data/item_repository.dart';
 import '../data/list_repository.dart';
+import '../data/reminder_repository.dart';
+import '../data/series_repository.dart';
 import '../data/settings_repository.dart';
 import '../domain/app_settings.dart';
 import '../domain/enums.dart';
 import '../domain/item.dart';
 import '../domain/item_list.dart';
 import '../domain/local_date.dart';
+import '../domain/reminder.dart';
+import '../domain/repeat_series.dart';
 import '../domain/starter_suggestion.dart';
 import '../domain/subtask.dart';
 import '../domain/today_rules.dart';
@@ -44,10 +49,35 @@ final settingsRepositoryProvider = Provider(
   ),
 );
 
+final reminderRepositoryProvider = Provider(
+  (ref) => ReminderRepository(
+    ref.watch(databaseProvider),
+    now: ref.watch(clockProvider),
+  ),
+);
+
+final seriesRepositoryProvider = Provider(
+  (ref) => SeriesRepository(
+    ref.watch(databaseProvider),
+    now: ref.watch(clockProvider),
+  ),
+);
+
+final seriesActionsProvider = Provider(
+  (ref) => SeriesActions(
+    ref.watch(databaseProvider),
+    ref.watch(seriesRepositoryProvider),
+    ref.watch(itemRepositoryProvider),
+    ref.watch(reminderRepositoryProvider),
+    now: ref.watch(clockProvider),
+  ),
+);
+
 final itemActionsProvider = Provider(
   (ref) => ItemActions(
     ref.watch(itemRepositoryProvider),
     now: ref.watch(clockProvider),
+    series: ref.watch(seriesActionsProvider),
   ),
 );
 
@@ -91,6 +121,16 @@ final subtasksProvider = StreamProvider.autoDispose
 
 final subtaskProgressProvider = StreamProvider<Map<String, SubtaskProgress>>(
   (ref) => ref.watch(itemRepositoryProvider).watchSubtaskProgress(),
+);
+
+final remindersProvider = StreamProvider.autoDispose
+    .family<List<Reminder>, String>(
+      (ref, itemId) =>
+          ref.watch(reminderRepositoryProvider).watchForItem(itemId),
+    );
+
+final seriesProvider = StreamProvider.autoDispose.family<RepeatSeries?, String>(
+  (ref, id) => ref.watch(seriesRepositoryProvider).watch(id),
 );
 
 final listsProvider = StreamProvider<List<ItemList>>(

@@ -2,6 +2,8 @@ import 'package:drift/drift.dart';
 
 import '../domain/item.dart';
 import '../domain/item_list.dart';
+import '../domain/reminder.dart';
+import '../domain/repeat_series.dart';
 import '../domain/starter_suggestion.dart';
 import '../domain/subtask.dart';
 import 'db/database.dart';
@@ -90,3 +92,58 @@ extension StarterSuggestionRowMapper on StarterSuggestionRow {
     userCreated: userCreated,
   );
 }
+
+extension ReminderRowMapper on ReminderRow {
+  Reminder toDomain() => Reminder(
+    id: id,
+    itemId: itemId,
+    offsetMinutes: offsetMinutes,
+    fireAt: fireAt,
+    enabled: enabled,
+    snoozedUntil: snoozedUntil,
+  );
+}
+
+extension SeriesRowMapper on SeriesRow {
+  RepeatSeries toDomain() => RepeatSeries(
+    id: id,
+    freq: freq,
+    interval: interval,
+    weekdays: weekdaysFromMask(weekdays ?? 0),
+    monthDay: monthDay,
+    startDate: startDate,
+    endDate: endDate,
+    maxCount: maxCount,
+    mode: mode,
+    onMissed: onMissed,
+    paused: paused,
+    template: SeriesTemplate.fromJson(template),
+  );
+}
+
+extension SeriesMapper on RepeatSeries {
+  SeriesCompanion toCompanion(DateTime updatedAt) => SeriesCompanion(
+    id: Value(id),
+    freq: Value(freq),
+    interval: Value(interval),
+    weekdays: Value(weekdays.isEmpty ? null : weekdaysToMask(weekdays)),
+    monthDay: Value(monthDay),
+    startDate: Value(startDate),
+    endDate: Value(endDate),
+    maxCount: Value(maxCount),
+    mode: Value(mode),
+    onMissed: Value(onMissed),
+    paused: Value(paused),
+    template: Value(template.toJson()),
+    updatedAt: Value(updatedAt),
+  );
+}
+
+/// Bit 0 = Monday … bit 6 = Sunday, as stored in `series.weekdays`.
+int weekdaysToMask(Set<int> weekdays) =>
+    weekdays.fold(0, (mask, day) => mask | 1 << (day - 1));
+
+Set<int> weekdaysFromMask(int mask) => {
+  for (var day = 1; day <= 7; day++)
+    if (mask & 1 << (day - 1) != 0) day,
+};

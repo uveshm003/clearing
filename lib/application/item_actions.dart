@@ -1,4 +1,5 @@
 import '../data/item_repository.dart';
+import 'series_actions.dart';
 import '../domain/item.dart';
 import '../domain/item_transitions.dart';
 import '../domain/local_date.dart';
@@ -8,9 +9,12 @@ import '../domain/today_rules.dart';
 /// call these instead of editing items directly, so rules such as the
 /// must-do cap live in one place.
 class ItemActions {
-  ItemActions(this._items, {required this._now});
+  ItemActions(this._items, {required this._now, this._series});
 
   final ItemRepository _items;
+
+  /// Keeps repeating items moving: closing an occurrence creates the next.
+  final SeriesActions? _series;
   final DateTime Function() _now;
 
   LocalDate get _today => LocalDate.fromDateTime(_now());
@@ -45,14 +49,38 @@ class ItemActions {
   Future<Item> waitFor(Item item, String person, {LocalDate? followUp}) =>
       _items.save(item.waitFor(person, followUp: followUp));
 
-  Future<Item> complete(Item item) => _items.save(item.complete(_now()));
+  /// Completes [item]; for a repeating item the next occurrence is created
+  /// straight away (PRD §8.4).
+  Future<Item> complete(Item item) async {
+    final saved = await _items.save(item.complete(_now()));
+    await _advance(saved);
+    return saved;
+  }
 
-  Future<Item> reopen(Item item) => _items.save(item.reopen());
+  Future<Item> reopen(Item item) async {
+    final saved = await _items.save(item.reopen());
+    await _series?.removeOccurrencesAfter(saved);
+    return saved;
+  }
 
-  Future<Item> trash(Item item) => _items.save(item.trash(_now()));
+  /// Deleting one occurrence of a repeating item skips just that one.
+  Future<Item> trash(Item item) async {
+    final saved = await _items.save(item.trash(_now()));
+    await _advance(saved);
+    return saved;
+  }
 
-  /// Puts back an exact earlier version, for undo.
-  Future<void> undo(Item previous) => _items.restore(previous);
+  /// Puts back an exact earlier version, for undo. Undoing the completion of
+  /// a repeating item also removes the occurrence that completion created.
+  Future<void> undo(Item previous) async {
+    await _items.restore(previous);
+    await _series?.removeOccurrencesAfter(previous);
+  }
+
+  Future<void> _advance(Item item) async {
+    final seriesId = item.seriesId;
+    if (seriesId != null) await _series?.advance(seriesId);
+  }
 
   Future<Item> save(Item item) => _items.save(item);
 

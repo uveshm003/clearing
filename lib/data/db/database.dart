@@ -6,6 +6,7 @@ import '../../domain/enums.dart';
 import '../../domain/local_date.dart';
 import '../../domain/starter_suggestion.dart';
 import 'converters.dart';
+import 'database.steps.dart';
 import 'tables.dart';
 
 part 'database.g.dart';
@@ -38,7 +39,7 @@ class AppDatabase extends _$AppDatabase {
   final DateTime Function() _now;
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -47,6 +48,11 @@ class AppDatabase extends _$AppDatabase {
       await createSearchIndex(this);
       await _seed();
     },
+    onUpgrade: stepByStep(
+      from1To2: (m, schema) async {
+        await m.addColumn(schema.reminders, schema.reminders.snoozedUntil);
+      },
+    ),
     beforeOpen: (details) async {
       await customStatement('PRAGMA foreign_keys = ON');
     },

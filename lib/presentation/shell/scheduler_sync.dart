@@ -10,9 +10,9 @@ import '../../domain/local_date.dart';
 /// Keeps series and notifications in step with the database while the app
 /// is open (PRD §8.3, §8.4). The background side is `background.dart`.
 ///
-/// Series advance on start, on resume and at local midnight. Notifications
-/// are reconciled after those and after any change to items, reminders,
-/// series or settings.
+/// Series advance, and Archive and Trash are tidied, on start, on resume and
+/// at local midnight. Notifications are reconciled after those and after any
+/// change to items, reminders, series or settings.
 class SchedulerSync extends ConsumerStatefulWidget {
   const SchedulerSync({super.key, required this.child});
 
@@ -64,6 +64,7 @@ class _SchedulerSyncState extends ConsumerState<SchedulerSync>
 
   Future<void> _advance() async {
     await ref.read(seriesActionsProvider).advanceAll();
+    await ref.read(lifecycleActionsProvider).tidy();
     _reconcileSoon();
   }
 

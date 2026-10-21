@@ -75,6 +75,18 @@ class ListsScreen extends ConsumerWidget {
             trailing: Text('${counts.someday}'),
             onTap: () => context.push(Routes.someday),
           ),
+          ListTile(
+            leading: const Icon(Icons.inventory_2_outlined),
+            title: const Text('Done'),
+            subtitle: const Text('Recently done and the archive'),
+            onTap: () => context.push(Routes.archive),
+          ),
+          ListTile(
+            leading: const Icon(Icons.delete_outline),
+            title: const Text('Trash'),
+            subtitle: const Text('Kept for 30 days'),
+            onTap: () => context.push(Routes.trash),
+          ),
           if (hidden.isNotEmpty)
             ExpansionTile(
               leading: const Icon(Icons.visibility_off_outlined),

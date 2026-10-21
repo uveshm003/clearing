@@ -46,6 +46,53 @@ class ItemRepository {
     return query.watch().map(_toDomain);
   }
 
+  /// Done items, most recently completed first; archived ones included.
+  Stream<List<Item>> watchDone() {
+    final query = _db.select(_db.items)
+      ..where((t) => t.status.equalsValue(ItemStatus.done))
+      ..orderBy([
+        (t) => OrderingTerm(expression: t.completedAt, mode: OrderingMode.desc),
+      ]);
+    return query.watch().map(_toDomain);
+  }
+
+  /// Trashed items, most recently deleted first.
+  Stream<List<Item>> watchTrash() {
+    final query = _db.select(_db.items)
+      ..where((t) => t.status.equalsValue(ItemStatus.trashed))
+      ..orderBy([
+        (t) => OrderingTerm(expression: t.trashedAt, mode: OrderingMode.desc),
+      ]);
+    return query.watch().map(_toDomain);
+  }
+
+  /// Archives done items completed before [cutoff]. Returns how many.
+  Future<int> archiveDoneBefore(DateTime cutoff) =>
+      (_db.update(_db.items)..where(
+            (t) =>
+                t.status.equalsValue(ItemStatus.done) &
+                t.archived.equals(false) &
+                t.completedAt.isSmallerThanValue(cutoff),
+          ))
+          .write(
+            ItemsCompanion(
+              archived: const Value(true),
+              updatedAt: Value(_now()),
+            ),
+          );
+
+  /// Permanently deletes items trashed before [cutoff]; all of Trash when
+  /// null. Returns how many.
+  Future<int> purgeTrash({DateTime? before}) =>
+      (_db.delete(_db.items)..where(
+            (t) =>
+                t.status.equalsValue(ItemStatus.trashed) &
+                (before == null
+                    ? const Constant(true)
+                    : t.trashedAt.isSmallerThanValue(before)),
+          ))
+          .go();
+
   Stream<int> watchCount(ItemStatus status) {
     final count = _db.items.id.count();
     final query = _db.selectOnly(_db.items)

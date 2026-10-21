@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../application/item_actions.dart';
+import '../application/lifecycle_actions.dart';
 import '../application/notification_scheduler.dart';
 import '../application/series_actions.dart';
 import '../data/db/database.dart';
@@ -79,6 +80,14 @@ final itemActionsProvider = Provider(
     ref.watch(itemRepositoryProvider),
     now: ref.watch(clockProvider),
     series: ref.watch(seriesActionsProvider),
+  ),
+);
+
+final lifecycleActionsProvider = Provider(
+  (ref) => LifecycleActions(
+    ref.watch(itemRepositoryProvider),
+    ref.watch(settingsRepositoryProvider),
+    now: ref.watch(clockProvider),
   ),
 );
 

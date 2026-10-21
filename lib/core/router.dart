@@ -4,9 +4,11 @@ import 'package:go_router/go_router.dart';
 import '../presentation/clarify/clarify_screen.dart';
 import '../presentation/inbox/inbox_screen.dart';
 import '../presentation/item/item_screen.dart';
+import '../presentation/lists/archive_screen.dart';
 import '../presentation/lists/list_screen.dart';
 import '../presentation/lists/lists_screen.dart';
 import '../presentation/lists/someday_screen.dart';
+import '../presentation/lists/trash_screen.dart';
 import '../presentation/settings/reminders_help_screen.dart';
 import '../presentation/settings/settings_screen.dart';
 import '../presentation/settings/suggestions_screen.dart';
@@ -22,6 +24,8 @@ abstract final class Routes {
   static const upcoming = '/upcoming';
   static const lists = '/lists';
   static const someday = '/lists/someday';
+  static const archive = '/lists/archive';
+  static const trash = '/lists/trash';
   static const settings = '/settings';
   static const suggestions = '/settings/suggestions';
   static const remindersHelp = '/settings/reminders-help';
@@ -79,6 +83,14 @@ GoRouter buildRouter({String initialLocation = Routes.today}) => GoRouter(
                 GoRoute(
                   path: 'someday',
                   builder: (context, state) => const SomedayScreen(),
+                ),
+                GoRoute(
+                  path: 'archive',
+                  builder: (context, state) => const ArchiveScreen(),
+                ),
+                GoRoute(
+                  path: 'trash',
+                  builder: (context, state) => const TrashScreen(),
                 ),
                 GoRoute(
                   path: ':id',

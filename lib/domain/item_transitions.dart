@@ -71,6 +71,18 @@ extension ItemTransitions on Item {
   Item trash(DateTime now) =>
       copyWith(status: ItemStatus.trashed, trashedAt: () => now);
 
+  /// Takes an item out of Trash to wherever its placement says it was:
+  /// Waiting with a person, active with a date or horizon, otherwise Inbox
+  /// to be decided again (FR-18).
+  Item restoreFromTrash() => copyWith(
+    status: switch (this) {
+      Item(waitingOn: _?) => ItemStatus.waiting,
+      Item(doDate: _?) || Item(horizon: _?) => ItemStatus.active,
+      _ => ItemStatus.inbox,
+    },
+    trashedAt: () => null,
+  );
+
   Item _activate({required WhenHorizon horizon, LocalDate? horizonSetOn}) =>
       copyWith(
         status: ItemStatus.active,

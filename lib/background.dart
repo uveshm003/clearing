@@ -19,6 +19,7 @@ Future<void> backgroundSync() async {
   try {
     await _withServices((container) async {
       await container.read(seriesActionsProvider).advanceAll();
+      await container.read(lifecycleActionsProvider).tidy();
       await container.read(notificationSchedulerProvider).reconcile();
     });
   } finally {

@@ -6,6 +6,7 @@ import '../../core/providers.dart';
 import '../../core/router.dart';
 import '../../domain/app_settings.dart';
 import '../../domain/enums.dart';
+import '../../domain/lifecycle.dart';
 import '../format.dart';
 import '../widgets/section_header.dart';
 
@@ -129,6 +130,36 @@ class SettingsScreen extends ConsumerWidget {
             title: const Text('Reminders not arriving?'),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.push(Routes.remindersHelp),
+          ),
+          const SectionHeader('Done items'),
+          ListTile(
+            title: const Text('Move done items to the archive'),
+            subtitle: const Text('They stay searchable there'),
+            trailing: DropdownButton<int>(
+              value: settings.autoArchiveDays,
+              underline: const SizedBox.shrink(),
+              items: [
+                for (final (days, label) in const [
+                  (1, 'After a day'),
+                  (7, 'After a week'),
+                  (30, 'After a month'),
+                  (archiveNever, 'Never'),
+                ])
+                  DropdownMenuItem(value: days, child: Text(label)),
+                if (!const [
+                  1,
+                  7,
+                  30,
+                  archiveNever,
+                ].contains(settings.autoArchiveDays))
+                  DropdownMenuItem(
+                    value: settings.autoArchiveDays,
+                    child: Text('After ${settings.autoArchiveDays} days'),
+                  ),
+              ],
+              onChanged: (days) =>
+                  save(settings.copyWith(autoArchiveDays: days)),
+            ),
           ),
           const SectionHeader('Appearance'),
           Padding(

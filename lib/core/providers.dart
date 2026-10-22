@@ -6,6 +6,7 @@ import '../application/lifecycle_actions.dart';
 import '../application/notification_scheduler.dart';
 import '../application/reset_actions.dart';
 import '../application/series_actions.dart';
+import '../application/widget_sync.dart';
 import '../data/backup.dart';
 import '../data/backup_files.dart';
 import '../data/db/database.dart';
@@ -121,6 +122,19 @@ final backupActionsProvider = Provider(
     ref.watch(backupFilesProvider),
     ref.watch(settingsRepositoryProvider),
     ref.watch(seriesActionsProvider),
+    now: ref.watch(clockProvider),
+  ),
+);
+
+/// Overridden in `main()` with the device's home-screen widgets.
+final homeWidgetGatewayProvider = Provider<HomeWidgetGateway>(
+  (ref) => const NoHomeWidgets(),
+);
+
+final widgetSyncProvider = Provider(
+  (ref) => WidgetSync(
+    ref.watch(itemRepositoryProvider),
+    ref.watch(homeWidgetGatewayProvider),
     now: ref.watch(clockProvider),
   ),
 );

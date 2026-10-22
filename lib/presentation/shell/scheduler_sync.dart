@@ -11,8 +11,9 @@ import '../../domain/local_date.dart';
 /// is open (PRD §8.3, §8.4). The background side is `background.dart`.
 ///
 /// Series advance, and Archive and Trash are tidied, on start, on resume and
-/// at local midnight. Notifications are reconciled after those and after any
-/// change to items, reminders, series or settings.
+/// at local midnight. Notifications and the Today home-screen widget are
+/// refreshed after those and after any change to items, reminders, series
+/// or settings.
 class SchedulerSync extends ConsumerStatefulWidget {
   const SchedulerSync({super.key, required this.child});
 
@@ -71,10 +72,10 @@ class _SchedulerSyncState extends ConsumerState<SchedulerSync>
   /// Batches bursts of writes, such as a brain-dump capture, into one pass.
   void _reconcileSoon() {
     _debounce?.cancel();
-    _debounce = Timer(
-      const Duration(milliseconds: 300),
-      () => ref.read(notificationSchedulerProvider).reconcile(),
-    );
+    _debounce = Timer(const Duration(milliseconds: 300), () {
+      ref.read(notificationSchedulerProvider).reconcile();
+      ref.read(widgetSyncProvider).refresh();
+    });
   }
 
   @override

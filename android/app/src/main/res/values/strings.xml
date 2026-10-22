@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_today_label">Today</string>
+    <string name="widget_today_description">Your must-dos, with one-tap done</string>
+    <string name="widget_capture_label">Quick capture</string>
+    <string name="widget_capture_description">Opens straight into capture</string>
+    <string name="widget_today_title">Today</string>
+    <string name="widget_today_empty">Nothing on Today. Enjoy the space.</string>
+    <string name="widget_capture_hint">What’s on your mind?</string>
+    <plurals name="widget_today_more">
+        <item quantity="one">+%d more on Today</item>
+        <item quantity="other">+%d more on Today</item>
+    </plurals>
+    <string name="widget_mark_done">Mark done: %s</string>
+</resources>

@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'application/notification_scheduler.dart';
 import 'core/providers.dart';
 import 'data/db/database.dart';
+import 'data/home_widgets.dart';
 import 'data/local_notifications.dart';
 
 /// Entry points that run without the UI, in their own isolate.
@@ -21,6 +22,7 @@ Future<void> backgroundSync() async {
       await container.read(seriesActionsProvider).advanceAll();
       await container.read(lifecycleActionsProvider).tidy();
       await container.read(notificationSchedulerProvider).reconcile();
+      await container.read(widgetSyncProvider).refresh();
     });
   } finally {
     await const MethodChannel('clearing/background').invokeMethod<void>('done');
@@ -41,6 +43,20 @@ Future<void> onBackgroundNotificationAction(
   );
 }
 
+/// The Today widget's check mark (FR-14): completes the item without opening
+/// the app, then refreshes the widget and reminders.
+@pragma('vm:entry-point')
+Future<void> onWidgetAction(Uri? uri) async {
+  if (WidgetLink.parse(uri) case CompleteLink(:final id)) {
+    await _withServices((container) async {
+      final actions = container.read(itemActionsProvider);
+      if (await actions.get(id) case final item?) await actions.complete(item);
+      await container.read(widgetSyncProvider).refresh();
+      await container.read(notificationSchedulerProvider).reconcile();
+    });
+  }
+}
+
 Future<void> _withServices(
   Future<void> Function(ProviderContainer container) run,
 ) async {
@@ -56,6 +72,7 @@ Future<void> _withServices(
     overrides: [
       databaseProvider.overrideWithValue(db),
       notificationGatewayProvider.overrideWithValue(notifications),
+      homeWidgetGatewayProvider.overrideWithValue(const HomeWidgets()),
     ],
   );
   try {

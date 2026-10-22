@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:home_widget/home_widget.dart';
 
 import 'app.dart';
 import 'application/notification_scheduler.dart';
@@ -8,6 +9,7 @@ import 'background.dart';
 import 'core/providers.dart';
 import 'core/router.dart';
 import 'data/db/database.dart';
+import 'data/home_widgets.dart';
 import 'data/local_notifications.dart';
 import 'domain/notification_plan.dart';
 
@@ -18,6 +20,7 @@ Future<void> main() async {
     overrides: [
       databaseProvider.overrideWithValue(AppDatabase.open()),
       notificationGatewayProvider.overrideWithValue(notifications),
+      homeWidgetGatewayProvider.overrideWithValue(const HomeWidgets()),
     ],
   );
 
@@ -53,6 +56,7 @@ Future<void> main() async {
       onBackgroundAction: onBackgroundNotificationAction,
     );
     launch = await notifications.launchResponse();
+    await HomeWidget.registerInteractivityCallback(onWidgetAction);
   } catch (error, stack) {
     // The app works without reminders; never block start-up on them.
     FlutterError.reportError(

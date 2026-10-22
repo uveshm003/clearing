@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Home-screen widget colours, from the app's sage palette (lib/core/theme.dart).
+     Text pairs meet WCAG AA on the widget surface (FR-20). -->
+<resources>
+    <color name="widget_surface">#F6FAF7</color>
+    <color name="widget_on_surface">#171D1B</color>
+    <color name="widget_on_surface_variant">#404945</color>
+    <color name="widget_primary">#3F6A5C</color>
+    <color name="widget_pill">#DCE5E0</color>
+</resources>

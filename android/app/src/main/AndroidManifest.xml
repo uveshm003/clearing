@@ -30,6 +30,10 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <!-- Opened by the home-screen widgets (FR-14). -->
+            <intent-filter>
+                <action android:name="es.antonborri.home_widget.action.LAUNCH"/>
+            </intent-filter>
             <!-- Quick capture from the Android share sheet (FR-01). -->
             <intent-filter android:label="Capture in Clearing">
                 <action android:name="android.intent.action.SEND"/>
@@ -58,6 +62,32 @@
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
                 <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
                 <action android:name="android.intent.action.TIME_SET"/>
+            </intent-filter>
+        </receiver>
+        <!-- Home-screen widgets (FR-14), and home_widget's receiver that runs
+             the Today widget's check mark in the background. -->
+        <receiver android:name=".TodayWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_today_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/widget_today_info"/>
+        </receiver>
+        <receiver android:name=".CaptureWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_capture_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/widget_capture_info"/>
+        </receiver>
+        <receiver android:name="es.antonborri.home_widget.HomeWidgetBackgroundReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="es.antonborri.home_widget.action.BACKGROUND"/>
             </intent-filter>
         </receiver>
         <!-- Don't delete the meta-data below.

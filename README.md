@@ -14,7 +14,8 @@ close**. It's deliberately not a feature-dense task manager.
 - **Recovery over punishment.** No streaks, no red overdue badges. Missed items
   are "carried over".
 
-> Status: early development (milestones M0–M4). Android first, iOS later.
+> Status: preparing the closed beta (M5); see [docs/beta](docs/beta/README.md).
+> Android first, iOS later.
 
 ## Development
 
@@ -24,6 +25,7 @@ Requires Flutter 3.44 (stable) and Dart 3.12.
 flutter pub get
 dart run build_runner build     # Drift code generation
 flutter test
+flutter test integration_test   # end-to-end, with a phone connected
 flutter run
 ```
 

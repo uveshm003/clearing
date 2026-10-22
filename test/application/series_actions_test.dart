@@ -182,4 +182,53 @@ void main() {
     await actions.complete(stopped);
     expect(await seriesRepo.occurrences('s1'), isEmpty);
   });
+
+  group('after completion', () {
+    Future<Item> haircut({int? maxCount}) async {
+      final [captured] = await actions.capture('Haircut');
+      final item = await actions.planOnDate(captured, day(20));
+      await series.startRepeating(
+        item,
+        RepeatSeries(
+          id: 's1',
+          freq: RepeatFrequency.weekly,
+          interval: 6,
+          startDate: day(20),
+          maxCount: maxCount,
+          mode: RepeatMode.afterCompletion,
+          onMissed: OnMissed.skip,
+          template: const SeriesTemplate(title: ''),
+        ),
+      );
+      return (await items.getItem(item.id))!;
+    }
+
+    test('the next one counts from the day it was done', () async {
+      final item = await haircut();
+      now = DateTime(2026, 10, 27, 15); // a week late
+      await actions.complete(item);
+      final [next] = await open();
+      expect(next.doDate, LocalDate(2026, 12, 8)); // 27 Oct + 6 weeks
+    });
+
+    test('a late one is never skipped, it waits', () async {
+      final item = await haircut();
+      now = DateTime(2026, 11, 30, 9);
+      await series.advanceAll();
+      expect((await open()).single.id, item.id);
+    });
+
+    test('stops after the maximum count', () async {
+      final first = await haircut(maxCount: 2);
+      await actions.complete(first);
+      final [second] = await open();
+      await actions.complete(second);
+      expect(await open(), isEmpty);
+    });
+  });
+
+  test('months add up with clamping', () {
+    expect(LocalDate(2026, 1, 31).addMonths(1), LocalDate(2026, 2, 28));
+    expect(LocalDate(2026, 11, 15).addMonths(3), LocalDate(2027, 2, 15));
+  });
 }

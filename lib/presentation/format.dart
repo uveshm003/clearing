@@ -66,9 +66,11 @@ String describeRepeat(RepeatSeries series, LocalDate today) {
       : (series.weekdays.toList()..sort());
   final rule = [
     n == 1 ? 'Every $unit' : 'Every $n ${unit}s',
-    if (series.freq == RepeatFrequency.weekly)
-      'on ${weekdays.map(weekdayShort).join(', ')}',
-    if (series.freq == RepeatFrequency.monthly)
+    if (series.isAfterCompletion)
+      'after it’s done'
+    else if (series.freq == RepeatFrequency.weekly)
+      'on ${weekdays.map(weekdayShort).join(', ')}'
+    else if (series.freq == RepeatFrequency.monthly)
       'on the ${ordinal(series.monthDay ?? series.startDate.day)}',
   ];
   return [

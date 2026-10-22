@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide RepeatMode;
 
 import '../../domain/enums.dart';
 import '../../domain/local_date.dart';
@@ -106,6 +106,14 @@ class _RepeatEditorState extends State<RepeatEditor> {
       body: ListView(
         padding: const EdgeInsets.only(bottom: 32),
         children: [
+          // The rule in words, updated as it changes.
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+            child: Text(
+              describeRepeat(series, widget.today),
+              style: theme.textTheme.titleMedium,
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
             child: SegmentedButton<RepeatFrequency>(
@@ -154,7 +162,21 @@ class _RepeatEditorState extends State<RepeatEditor> {
               ],
             ),
           ),
-          if (series.freq == RepeatFrequency.weekly)
+          SwitchListTile(
+            title: const Text('Count from when it’s done'),
+            subtitle: const Text(
+              'For things like haircuts: the next one is set when you finish '
+              'this one',
+            ),
+            value: series.isAfterCompletion,
+            onChanged: (on) => _update(
+              series.copyWith(
+                mode: on ? RepeatMode.afterCompletion : RepeatMode.fixed,
+              ),
+            ),
+          ),
+          if (series.freq == RepeatFrequency.weekly &&
+              !series.isAfterCompletion)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Wrap(
@@ -181,7 +203,8 @@ class _RepeatEditorState extends State<RepeatEditor> {
                 ],
               ),
             ),
-          if (series.freq == RepeatFrequency.monthly)
+          if (series.freq == RepeatFrequency.monthly &&
+              !series.isAfterCompletion)
             ListTile(
               title: const Text('On day'),
               subtitle: const Text('Short months use their last day'),
@@ -243,38 +266,31 @@ class _RepeatEditorState extends State<RepeatEditor> {
                 ],
               ),
             ),
-          const SectionHeader('If one is missed'),
-          RadioGroup<OnMissed>(
-            groupValue: series.onMissed,
-            onChanged: (v) => _update(series.copyWith(onMissed: v)),
-            child: const Column(
-              children: [
-                RadioListTile(
-                  value: OnMissed.carryOver,
-                  title: Text('Carry it over'),
-                  subtitle: Text(
-                    'It stays on Today until done; the next one waits',
+          if (!series.isAfterCompletion) ...[
+            const SectionHeader('If one is missed'),
+            RadioGroup<OnMissed>(
+              groupValue: series.onMissed,
+              onChanged: (v) => _update(series.copyWith(onMissed: v)),
+              child: const Column(
+                children: [
+                  RadioListTile(
+                    value: OnMissed.carryOver,
+                    title: Text('Carry it over'),
+                    subtitle: Text(
+                      'It stays on Today until done; the next one waits',
+                    ),
                   ),
-                ),
-                RadioListTile(
-                  value: OnMissed.skip,
-                  title: Text('Skip it quietly'),
-                  subtitle: Text(
-                    'Good for routines: tomorrow is a fresh start',
+                  RadioListTile(
+                    value: OnMissed.skip,
+                    title: Text('Skip it quietly'),
+                    subtitle: Text(
+                      'Good for routines: tomorrow is a fresh start',
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
-            child: Text(
-              describeRepeat(series, widget.today),
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+                ],
               ),
             ),
-          ),
+          ],
         ],
       ),
     );

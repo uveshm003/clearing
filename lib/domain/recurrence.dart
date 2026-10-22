@@ -36,6 +36,23 @@ extension Recurrence on RepeatSeries {
     return null;
   }
 
+  /// For an after-completion series: the next date, [interval] units after
+  /// the day the last occurrence was closed. Null once [endDate] or
+  /// [maxCount] ([countSoFar] occurrences so far) is reached.
+  LocalDate? nextAfterCompletion({
+    required LocalDate closedOn,
+    required int countSoFar,
+  }) {
+    if (maxCount case final max? when countSoFar >= max) return null;
+    final next = switch (freq) {
+      RepeatFrequency.daily => closedOn.addDays(interval),
+      RepeatFrequency.weekly => closedOn.addDays(7 * interval),
+      RepeatFrequency.monthly => closedOn.addMonths(interval),
+    };
+    final end = endDate;
+    return end != null && next.isAfter(end) ? null : next;
+  }
+
   /// A new open occurrence on [date], filled in from the template. Its
   /// subtasks and reminders are created alongside it by the caller.
   Item occurrenceOn(

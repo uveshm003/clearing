@@ -134,9 +134,12 @@ class RepeatSeries {
   /// The total number of occurrences, counted from [startDate].
   final int? maxCount;
 
-  /// [RepeatMode.afterCompletion] arrives in v1.1; until then every series is
-  /// treated as fixed.
+  /// [RepeatMode.fixed] follows the calendar; [RepeatMode.afterCompletion]
+  /// counts [interval] units from the day the last occurrence was done, e.g.
+  /// "every 6 weeks after a haircut" (FR-10).
   final RepeatMode mode;
+
+  bool get isAfterCompletion => mode == RepeatMode.afterCompletion;
   final OnMissed onMissed;
   final bool paused;
   final SeriesTemplate template;
@@ -149,6 +152,7 @@ class RepeatSeries {
     LocalDate? startDate,
     LocalDate? Function()? endDate,
     int? Function()? maxCount,
+    RepeatMode? mode,
     OnMissed? onMissed,
     bool? paused,
     SeriesTemplate? template,
@@ -161,7 +165,7 @@ class RepeatSeries {
     startDate: startDate ?? this.startDate,
     endDate: endDate != null ? endDate() : this.endDate,
     maxCount: maxCount != null ? maxCount() : this.maxCount,
-    mode: mode,
+    mode: mode ?? this.mode,
     onMissed: onMissed ?? this.onMissed,
     paused: paused ?? this.paused,
     template: template ?? this.template,

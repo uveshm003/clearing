@@ -53,7 +53,10 @@ class SeriesActions {
     final all = await _series.occurrences(seriesId);
     final open = all.where(_isOpen).toList();
 
+    // An after-completion series has no fixed dates to miss: its open
+    // occurrence just waits until done.
     bool skippable(Item item) =>
+        !series.isAfterCompletion &&
         series.onMissed == OnMissed.skip &&
         (item.doDate?.isBefore(today) ?? false);
     if (open.isNotEmpty) {
@@ -66,7 +69,10 @@ class SeriesActions {
     }
 
     final last = all.map((i) => i.occurrenceDate).nonNulls.maxOrNull;
-    final next = series.nextOccurrence(onOrAfter: today, after: last);
+    final next = series.isAfterCompletion
+        ? _nextAfterCompletion(series, all) ??
+              (all.isEmpty ? series.nextOccurrence(onOrAfter: today) : null)
+        : series.nextOccurrence(onOrAfter: today, after: last);
     if (next == null) return null;
     final item = series.occurrenceOn(next, id: newId(), now: _now());
     await _series.insertOccurrence(item, series.template);
@@ -100,7 +106,9 @@ class SeriesActions {
         .map((i) => i.occurrenceDate)
         .nonNulls
         .maxOrNull;
-    final next = series.nextOccurrence(onOrAfter: _today, after: lastClosed);
+    final next = series.isAfterCompletion
+        ? _nextAfterCompletion(series, all)
+        : series.nextOccurrence(onOrAfter: _today, after: lastClosed);
     if (next == null || next == open.occurrenceDate) return;
     await _items.save(
       open
@@ -151,6 +159,21 @@ class SeriesActions {
         await _items.deleteForever(item.id);
       }
     }
+  }
+
+  /// [interval] units after the last occurrence was done (or deleted);
+  /// null before any has been, or once the series has ended.
+  LocalDate? _nextAfterCompletion(RepeatSeries series, List<Item> all) {
+    final closedOn = all
+        .whereNot(_isOpen)
+        .map((i) => i.completedAt ?? i.trashedAt ?? i.updatedAt)
+        .maxOrNull;
+    if (closedOn == null) return null;
+    return series.nextAfterCompletion(
+      closedOn: LocalDate.fromDateTime(closedOn),
+      // Only occurrences actually done count towards the maximum.
+      countSoFar: all.where((i) => i.status == ItemStatus.done).length,
+    );
   }
 
   Future<SeriesTemplate> _templateOf(Item item) async {

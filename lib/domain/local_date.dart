@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:meta/meta.dart';
 
 /// A calendar date with no time or time zone, e.g. "the 31st of October".
@@ -43,6 +45,12 @@ class LocalDate implements Comparable<LocalDate> {
   int get daysInMonth => DateTime.utc(year, month + 1, 0).day;
 
   LocalDate addDays(int days) => LocalDate(year, month, day + days);
+
+  /// The same day [months] later, clamped to the end of shorter months.
+  LocalDate addMonths(int months) {
+    final first = LocalDate(year, month + months, 1);
+    return LocalDate(first.year, first.month, min(day, first.daysInMonth));
+  }
 
   int daysUntil(LocalDate other) => other._utc.difference(_utc).inDays;
 

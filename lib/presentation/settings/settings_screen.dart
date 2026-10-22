@@ -143,6 +143,35 @@ class SettingsScreen extends ConsumerWidget {
               );
             },
           ),
+          SwitchListTile(
+            title: const Text('Morning summary'),
+            subtitle: Text(
+              settings.morningDigest
+                  ? 'Today’s must-dos at '
+                        '${timeLabel(context, settings.morningDigestTime)}. '
+                        'Nothing on a clear day.'
+                  : 'One note each morning with today’s must-dos',
+            ),
+            value: settings.morningDigest,
+            onChanged:
+                settings.notificationIntensity == NotificationIntensity.off
+                ? null
+                : (v) => save(settings.copyWith(morningDigest: v)),
+          ),
+          if (settings.morningDigest)
+            ListTile(
+              title: const Text('Summary time'),
+              trailing: Text(timeLabel(context, settings.morningDigestTime)),
+              onTap: () async {
+                final time = await showTimePicker(
+                  context: context,
+                  initialTime: timeOfDay(settings.morningDigestTime),
+                );
+                if (time != null) {
+                  save(settings.copyWith(morningDigestTime: minutesOf(time)));
+                }
+              },
+            ),
           const _ReminderAccess(),
           ListTile(
             title: const Text('Reminders not arriving?'),

@@ -15,6 +15,9 @@ close**. It's deliberately not a feature-dense task manager.
   are "carried over".
 
 > Status: preparing the closed beta (M5); see [docs/beta](docs/beta/README.md).
+> The v1.1 features (batch blocks, after-completion repeats, routines and
+> templates, week timeline and series calendar, printable worksheets, morning
+> summary) are built on the `v1.1` branch, to ship after beta feedback.
 > Android first, iOS later.
 
 ## Development

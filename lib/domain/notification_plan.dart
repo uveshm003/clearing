@@ -9,6 +9,7 @@ import 'item.dart';
 import 'local_date.dart';
 import 'reminder.dart';
 import 'review_rules.dart';
+import 'today_rules.dart';
 
 /// How far ahead notifications are scheduled (PRD §8.3). A rolling window
 /// keeps well under iOS's 64 pending notifications later.
@@ -27,6 +28,9 @@ enum NotificationKind {
 
   /// The start of a batch block (FR-05); tapping opens its list.
   block,
+
+  /// The optional morning summary of Today; tapping opens Today.
+  digest,
 }
 
 /// One notification the device should have pending.
@@ -54,6 +58,17 @@ class PlannedNotification {
   }) : kind = NotificationKind.block,
        itemId = null,
        reminderId = null;
+
+  const PlannedNotification.digest({
+    required String this._key,
+    required this.fireAt,
+    required String this.body,
+    required this.silent,
+  }) : kind = NotificationKind.digest,
+       itemId = null,
+       reminderId = null,
+       listId = null,
+       title = 'Today';
 
   const PlannedNotification.review({required this.fireAt, required this.silent})
     : kind = NotificationKind.review,
@@ -189,6 +204,7 @@ List<PlannedNotification> planNotifications(
   required DateTime now,
   DateTime? backupDueAt,
   Iterable<({BatchBlock block, String listName})> blocks = const [],
+  Iterable<Item> openItems = const [],
 }) {
   if (settings.notificationIntensity == NotificationIntensity.off) return [];
   final silent = settings.notificationIntensity == NotificationIntensity.gentle;
@@ -244,6 +260,24 @@ List<PlannedNotification> planNotifications(
           fireAt: fireAt,
           title: '$listName time',
           body: 'Work through $listName in one go.',
+          silent: silent,
+        ),
+      );
+    }
+  }
+  if (settings.morningDigest) {
+    // Today's and tomorrow's only: later ones would be guesses, and the
+    // nightly reconcile writes each one fresh.
+    final day = LocalDate.fromDateTime(now);
+    for (final date in [day, day.addDays(1)]) {
+      final fireAt = date.atMinutes(settings.morningDigestTime);
+      final body = morningDigest(openItems, date);
+      if (body == null || !fireAt.isAfter(now)) continue;
+      planned.add(
+        PlannedNotification.digest(
+          key: 'digest-${date.toIso()}',
+          fireAt: fireAt,
+          body: body,
           silent: silent,
         ),
       );
@@ -306,4 +340,20 @@ DateTime? nextBackupReminder({
     due = DateTime(due.year, due.month, due.day + days, 10);
   }
   return due;
+}
+
+/// The morning summary for [day], e.g. "2 must-dos: Pay rent, Call the
+/// dentist · 3 more today". Null on a clear day: no news needs no message.
+String? morningDigest(Iterable<Item> items, LocalDate day) {
+  final view = buildTodayView(items, day);
+  final others = view.alsoToday.length + view.carriedOver.length;
+  if (view.mustDo.isEmpty && others == 0) return null;
+  final parts = [
+    if (view.mustDo.isNotEmpty)
+      '${view.mustDo.length} must-do${view.mustDo.length == 1 ? '' : 's'}: '
+          '${view.mustDo.map((i) => i.title).join(', ')}',
+    if (others > 0)
+      view.mustDo.isEmpty ? '$others on Today' : '$others more today',
+  ];
+  return parts.join(' · ');
 }

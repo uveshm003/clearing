@@ -308,6 +308,63 @@ void main() {
     });
   });
 
+  group('morning summary', () {
+    Item planned(String id, {bool mustDo = false, LocalDate? on}) => Item(
+      id: id,
+      title: id,
+      status: ItemStatus.active,
+      doDate: on ?? today,
+      mustDo: mustDo,
+      createdAt: now,
+      updatedAt: now,
+    );
+
+    test('names the must-dos and counts the rest', () {
+      expect(
+        morningDigest([
+          planned('Pay rent', mustDo: true),
+          planned('Call Sam', mustDo: true),
+          planned('Stamps'),
+          planned('Old', on: today.addDays(-2)),
+        ], today),
+        '2 must-dos: Pay rent, Call Sam · 2 more today',
+      );
+      expect(morningDigest([planned('Stamps')], today), '1 on Today');
+    });
+
+    test('stays quiet on a clear day', () {
+      expect(morningDigest(const [], today), isNull);
+      expect(
+        morningDigest([planned('Later', on: today.addDays(3))], today),
+        isNull,
+      );
+    });
+
+    test('is planned for today and tomorrow, only when turned on', () {
+      final items = [
+        planned('Rent', mustDo: true),
+        planned('Dentist', on: today.addDays(1)),
+      ];
+      List<DateTime> digests(AppSettings s, DateTime at) => [
+        for (final n in planNotifications(
+          const [],
+          settings: s,
+          now: at,
+          openItems: items,
+        ))
+          if (n.kind == NotificationKind.digest) n.fireAt,
+      ];
+      const on = AppSettings(reviewReminder: false, morningDigest: true);
+      // 09:00 is after today's 08:00 summary, so only tomorrow's.
+      expect(digests(on, now), [DateTime(2026, 10, 21, 8)]);
+      expect(digests(on, DateTime(2026, 10, 20, 7)), [
+        DateTime(2026, 10, 20, 8),
+        DateTime(2026, 10, 21, 8),
+      ]);
+      expect(digests(const AppSettings(reviewReminder: false), now), isEmpty);
+    });
+  });
+
   test('notification ids are stable 31-bit numbers', () {
     expect(notificationIdFor('abc'), notificationIdFor('abc'));
     expect(notificationIdFor('abc'), isNot(notificationIdFor('abd')));

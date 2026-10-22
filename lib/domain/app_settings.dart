@@ -11,6 +11,8 @@ class AppSettings {
     this.reviewWeekday = DateTime.sunday,
     this.reviewTime = 18 * 60,
     this.reviewReminder = true,
+    this.morningDigest = false,
+    this.morningDigestTime = 8 * 60,
     this.mustDoCap = 3,
     this.notificationIntensity = NotificationIntensity.gentle,
     this.quietHoursStart = 22 * 60,
@@ -35,6 +37,13 @@ class AppSettings {
 
   /// A gentle weekly nudge to review, at [reviewWeekday] and [reviewTime].
   final bool reviewReminder;
+
+  /// One notification each morning summing up Today. Off by default: nothing
+  /// nags unless asked to (PRD §2.1).
+  final bool morningDigest;
+
+  /// Minutes from local midnight.
+  final int morningDigestTime;
   final int mustDoCap;
   final NotificationIntensity notificationIntensity;
   final int quietHoursStart;
@@ -55,6 +64,8 @@ class AppSettings {
     int? reviewWeekday,
     int? reviewTime,
     bool? reviewReminder,
+    bool? morningDigest,
+    int? morningDigestTime,
     int? mustDoCap,
     NotificationIntensity? notificationIntensity,
     int? quietHoursStart,
@@ -70,6 +81,8 @@ class AppSettings {
     reviewWeekday: reviewWeekday ?? this.reviewWeekday,
     reviewTime: reviewTime ?? this.reviewTime,
     reviewReminder: reviewReminder ?? this.reviewReminder,
+    morningDigest: morningDigest ?? this.morningDigest,
+    morningDigestTime: morningDigestTime ?? this.morningDigestTime,
     mustDoCap: mustDoCap ?? this.mustDoCap,
     notificationIntensity: notificationIntensity ?? this.notificationIntensity,
     quietHoursStart: quietHoursStart ?? this.quietHoursStart,
@@ -89,6 +102,8 @@ class AppSettings {
     'reviewWeekday': reviewWeekday,
     'reviewTime': reviewTime,
     'reviewReminder': reviewReminder,
+    'morningDigest': morningDigest,
+    'morningDigestTime': morningDigestTime,
     'mustDoCap': mustDoCap,
     'notificationIntensity': notificationIntensity.name,
     'quietHoursStart': quietHoursStart,
@@ -115,6 +130,8 @@ class AppSettings {
       reviewWeekday: read('reviewWeekday', d.reviewWeekday),
       reviewTime: read('reviewTime', d.reviewTime),
       reviewReminder: read('reviewReminder', d.reviewReminder),
+      morningDigest: read('morningDigest', d.morningDigest),
+      morningDigestTime: read('morningDigestTime', d.morningDigestTime),
       mustDoCap: read(
         'mustDoCap',
         d.mustDoCap,
@@ -144,6 +161,8 @@ class AppSettings {
       other.reviewWeekday == reviewWeekday &&
       other.reviewTime == reviewTime &&
       other.reviewReminder == reviewReminder &&
+      other.morningDigest == morningDigest &&
+      other.morningDigestTime == morningDigestTime &&
       other.mustDoCap == mustDoCap &&
       other.notificationIntensity == notificationIntensity &&
       other.quietHoursStart == quietHoursStart &&
@@ -161,6 +180,8 @@ class AppSettings {
     reviewWeekday,
     reviewTime,
     reviewReminder,
+    morningDigest,
+    morningDigestTime,
     mustDoCap,
     notificationIntensity,
     quietHoursStart,

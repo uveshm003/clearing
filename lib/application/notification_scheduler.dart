@@ -127,6 +127,9 @@ class NotificationScheduler {
           now: now,
         ),
         blocks: await _blockNudges(),
+        openItems: settings.morningDigest
+            ? await _items.watchOpen().first
+            : const [],
       ))
         n.id: n,
     };

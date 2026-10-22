@@ -7,4 +7,6 @@
     <color name="widget_on_surface_variant">#404945</color>
     <color name="widget_primary">#3F6A5C</color>
     <color name="widget_pill">#DCE5E0</color>
+    <!-- Launcher icon background: the app's sage seed colour. -->
+    <color name="ic_launcher_background">#5B7F72</color>
 </resources>

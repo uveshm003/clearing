@@ -9,12 +9,16 @@ import '../../domain/today_rules.dart';
 import '../format.dart';
 import '../widgets/search_button.dart';
 import '../widgets/block_tile.dart';
+import '../worksheet/print_worksheet.dart';
 import '../widgets/empty_state.dart';
 import '../widgets/item_tile.dart';
 import '../widgets/section_header.dart';
 
 /// "Also today" collapses beyond this many items to keep Today small.
 const _alsoTodayVisible = 5;
+
+/// The menu value for printing, which isn't a route.
+const _print = 'print';
 
 /// From this many items on Today, offer the overwhelm reset (PRD §4.4).
 const _offerResetFrom = 8;
@@ -52,13 +56,16 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
           const SearchButton(),
           PopupMenuButton<String>(
             tooltip: 'More',
-            onSelected: (route) => context.push(route),
+            onSelected: (route) => route == _print
+                ? printWorksheet(context, ref)
+                : context.push(route),
             itemBuilder: (context) => const [
               PopupMenuItem(value: Routes.review, child: Text('Weekly review')),
               PopupMenuItem(
                 value: Routes.reset,
                 child: Text('Overwhelm reset'),
               ),
+              PopupMenuItem(value: _print, child: Text('Print a worksheet')),
             ],
           ),
         ],

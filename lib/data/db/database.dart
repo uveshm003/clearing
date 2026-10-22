@@ -22,6 +22,7 @@ part 'database.g.dart';
     StarterSuggestions,
     ReviewSessions,
     Settings,
+    BatchBlocks,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -39,7 +40,7 @@ class AppDatabase extends _$AppDatabase {
   final DateTime Function() _now;
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -51,6 +52,9 @@ class AppDatabase extends _$AppDatabase {
     onUpgrade: stepByStep(
       from1To2: (m, schema) async {
         await m.addColumn(schema.reminders, schema.reminders.snoozedUntil);
+      },
+      from2To3: (m, schema) async {
+        await m.createTable(schema.batchBlocks);
       },
     ),
     beforeOpen: (details) async {

@@ -37,6 +37,10 @@ Future<void> main() async {
         container.read(routerProvider).push(Routes.review);
       case NotificationKind.backup:
         container.read(routerProvider).push(Routes.backup);
+      case NotificationKind.block:
+        if (payloadListId(response.payload) case final listId?) {
+          container.read(routerProvider).push(Routes.list(listId));
+        }
       case NotificationKind.reminder:
         if (parsePayload(response.payload) case (
           :final itemId,

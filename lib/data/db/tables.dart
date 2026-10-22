@@ -102,6 +102,32 @@ class Series extends Table {
   Set<Column> get primaryKey => {id};
 }
 
+/// A time slot for working through a whole list, e.g. "Errands, Saturday
+/// 10:00" (FR-05). Either one date, or weekly on [weekday]. Added in schema
+/// version 3.
+@DataClassName('BatchBlockRow')
+class BatchBlocks extends Table {
+  TextColumn get id => text()();
+  TextColumn get listId =>
+      text().references(Lists, #id, onDelete: KeyAction.cascade)();
+  TextColumn get date => text().map(const LocalDateConverter()).nullable()();
+
+  /// [DateTime.weekday] numbering; repeats weekly when set.
+  IntColumn get weekday => integer().nullable()();
+
+  /// Minutes from local midnight.
+  IntColumn get time => integer()();
+  DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+
+  @override
+  List<String> get customConstraints => [
+    'CHECK ((date IS NULL) != (weekday IS NULL))',
+  ];
+}
+
 @DataClassName('ReminderRow')
 @TableIndex(name: 'reminders_item_idx', columns: {#itemId})
 class Reminders extends Table {

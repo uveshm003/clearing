@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:meta/meta.dart';
 
 import 'app_settings.dart';
+import 'batch_block.dart';
 import 'enums.dart';
 import 'item.dart';
+import 'local_date.dart';
 import 'reminder.dart';
 import 'review_rules.dart';
 
@@ -22,6 +24,9 @@ enum NotificationKind {
 
   /// The periodic nudge to export a backup (FR-17); tapping opens Backup.
   backup,
+
+  /// The start of a batch block (FR-05); tapping opens its list.
+  block,
 }
 
 /// One notification the device should have pending.
@@ -34,12 +39,28 @@ class PlannedNotification {
     required this.title,
     required this.silent,
     this.body,
-  }) : kind = NotificationKind.reminder;
+  }) : kind = NotificationKind.reminder,
+       listId = null,
+       _key = null;
+
+  /// [key] tells apart each block on each date.
+  const PlannedNotification.block({
+    required String this.listId,
+    required String this._key,
+    required this.fireAt,
+    required this.title,
+    required this.silent,
+    this.body,
+  }) : kind = NotificationKind.block,
+       itemId = null,
+       reminderId = null;
 
   const PlannedNotification.review({required this.fireAt, required this.silent})
     : kind = NotificationKind.review,
       itemId = null,
       reminderId = null,
+      listId = null,
+      _key = null,
       title = 'Time for your weekly review',
       body = 'About 15 minutes to clear your head and plan the week.';
 
@@ -47,6 +68,8 @@ class PlannedNotification {
     : kind = NotificationKind.backup,
       itemId = null,
       reminderId = null,
+      listId = null,
+      _key = null,
       title = 'Time to back up',
       body = 'Export a copy, so a lost phone doesn’t mean lost plans.';
 
@@ -55,6 +78,10 @@ class PlannedNotification {
   /// Set for [NotificationKind.reminder] only.
   final String? itemId;
   final String? reminderId;
+
+  /// Set for [NotificationKind.block] only.
+  final String? listId;
+  final String? _key;
 
   bool get isReminder => kind == NotificationKind.reminder;
 
@@ -67,7 +94,8 @@ class PlannedNotification {
   final bool silent;
 
   /// Stable across runs, so reconciling can match it with what is pending.
-  int get id => notificationIdFor(reminderId ?? 'clearing-${kind.name}');
+  int get id =>
+      notificationIdFor(reminderId ?? _key ?? 'clearing-${kind.name}');
 
   /// Everything that identifies this notification, so a pending one whose
   /// payload differs is out of date.
@@ -75,8 +103,10 @@ class PlannedNotification {
     if (isReminder) ...{
       'item': itemId,
       'reminder': reminderId,
-    } else
+    } else ...{
       'kind': kind.name,
+      'list': ?listId,
+    },
     'at': fireAt.toIso8601String(),
     'title': title,
     'body': body,
@@ -104,6 +134,19 @@ NotificationKind? payloadKind(String? payload) {
     return NotificationKind.values
         .where((k) => k.name == json['kind'])
         .firstOrNull;
+  } on FormatException {
+    return null;
+  }
+}
+
+/// The list a batch block notification opens.
+String? payloadListId(String? payload) {
+  if (payload == null) return null;
+  try {
+    final json = jsonDecode(payload);
+    return json is Map && json['list'] is String
+        ? json['list'] as String
+        : null;
   } on FormatException {
     return null;
   }
@@ -145,6 +188,7 @@ List<PlannedNotification> planNotifications(
   required AppSettings settings,
   required DateTime now,
   DateTime? backupDueAt,
+  Iterable<({BatchBlock block, String listName})> blocks = const [],
 }) {
   if (settings.notificationIntensity == NotificationIntensity.off) return [];
   final silent = settings.notificationIntensity == NotificationIntensity.gentle;
@@ -187,6 +231,23 @@ List<PlannedNotification> planNotifications(
         silent: silent,
       ),
     );
+  }
+  for (final (:block, :listName) in blocks) {
+    final from = LocalDate.fromDateTime(now);
+    for (final day in block.datesBetween(from, from.addDays(14))) {
+      final fireAt = day.atMinutes(block.time);
+      if (!fireAt.isAfter(now) || fireAt.isAfter(until)) continue;
+      planned.add(
+        PlannedNotification.block(
+          listId: block.listId,
+          key: 'block-${block.id}-${day.toIso()}',
+          fireAt: fireAt,
+          title: '$listName time',
+          body: 'Work through $listName in one go.',
+          silent: silent,
+        ),
+      );
+    }
   }
   if (backupDueAt != null && !backupDueAt.isAfter(until)) {
     planned.add(

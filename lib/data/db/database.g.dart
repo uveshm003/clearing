@@ -4924,6 +4924,421 @@ class SettingsCompanion extends UpdateCompanion<SettingRow> {
   }
 }
 
+class $BatchBlocksTable extends BatchBlocks
+    with TableInfo<$BatchBlocksTable, BatchBlockRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $BatchBlocksTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _listIdMeta = const VerificationMeta('listId');
+  @override
+  late final GeneratedColumn<String> listId = GeneratedColumn<String>(
+    'list_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES lists (id) ON DELETE CASCADE',
+    ),
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<LocalDate?, String> date =
+      GeneratedColumn<String>(
+        'date',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      ).withConverter<LocalDate?>($BatchBlocksTable.$converterdaten);
+  static const VerificationMeta _weekdayMeta = const VerificationMeta(
+    'weekday',
+  );
+  @override
+  late final GeneratedColumn<int> weekday = GeneratedColumn<int>(
+    'weekday',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _timeMeta = const VerificationMeta('time');
+  @override
+  late final GeneratedColumn<int> time = GeneratedColumn<int>(
+    'time',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    listId,
+    date,
+    weekday,
+    time,
+    updatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'batch_blocks';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<BatchBlockRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('list_id')) {
+      context.handle(
+        _listIdMeta,
+        listId.isAcceptableOrUnknown(data['list_id']!, _listIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_listIdMeta);
+    }
+    if (data.containsKey('weekday')) {
+      context.handle(
+        _weekdayMeta,
+        weekday.isAcceptableOrUnknown(data['weekday']!, _weekdayMeta),
+      );
+    }
+    if (data.containsKey('time')) {
+      context.handle(
+        _timeMeta,
+        time.isAcceptableOrUnknown(data['time']!, _timeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_timeMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  BatchBlockRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return BatchBlockRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      listId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}list_id'],
+      )!,
+      date: $BatchBlocksTable.$converterdaten.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}date'],
+        ),
+      ),
+      weekday: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}weekday'],
+      ),
+      time: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}time'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $BatchBlocksTable createAlias(String alias) {
+    return $BatchBlocksTable(attachedDatabase, alias);
+  }
+
+  static TypeConverter<LocalDate, String> $converterdate =
+      const LocalDateConverter();
+  static TypeConverter<LocalDate?, String?> $converterdaten =
+      NullAwareTypeConverter.wrap($converterdate);
+}
+
+class BatchBlockRow extends DataClass implements Insertable<BatchBlockRow> {
+  final String id;
+  final String listId;
+  final LocalDate? date;
+
+  /// [DateTime.weekday] numbering; repeats weekly when set.
+  final int? weekday;
+
+  /// Minutes from local midnight.
+  final int time;
+  final DateTime updatedAt;
+  const BatchBlockRow({
+    required this.id,
+    required this.listId,
+    this.date,
+    this.weekday,
+    required this.time,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['list_id'] = Variable<String>(listId);
+    if (!nullToAbsent || date != null) {
+      map['date'] = Variable<String>(
+        $BatchBlocksTable.$converterdaten.toSql(date),
+      );
+    }
+    if (!nullToAbsent || weekday != null) {
+      map['weekday'] = Variable<int>(weekday);
+    }
+    map['time'] = Variable<int>(time);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  BatchBlocksCompanion toCompanion(bool nullToAbsent) {
+    return BatchBlocksCompanion(
+      id: Value(id),
+      listId: Value(listId),
+      date: date == null && nullToAbsent ? const Value.absent() : Value(date),
+      weekday: weekday == null && nullToAbsent
+          ? const Value.absent()
+          : Value(weekday),
+      time: Value(time),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory BatchBlockRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return BatchBlockRow(
+      id: serializer.fromJson<String>(json['id']),
+      listId: serializer.fromJson<String>(json['listId']),
+      date: serializer.fromJson<LocalDate?>(json['date']),
+      weekday: serializer.fromJson<int?>(json['weekday']),
+      time: serializer.fromJson<int>(json['time']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'listId': serializer.toJson<String>(listId),
+      'date': serializer.toJson<LocalDate?>(date),
+      'weekday': serializer.toJson<int?>(weekday),
+      'time': serializer.toJson<int>(time),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  BatchBlockRow copyWith({
+    String? id,
+    String? listId,
+    Value<LocalDate?> date = const Value.absent(),
+    Value<int?> weekday = const Value.absent(),
+    int? time,
+    DateTime? updatedAt,
+  }) => BatchBlockRow(
+    id: id ?? this.id,
+    listId: listId ?? this.listId,
+    date: date.present ? date.value : this.date,
+    weekday: weekday.present ? weekday.value : this.weekday,
+    time: time ?? this.time,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  BatchBlockRow copyWithCompanion(BatchBlocksCompanion data) {
+    return BatchBlockRow(
+      id: data.id.present ? data.id.value : this.id,
+      listId: data.listId.present ? data.listId.value : this.listId,
+      date: data.date.present ? data.date.value : this.date,
+      weekday: data.weekday.present ? data.weekday.value : this.weekday,
+      time: data.time.present ? data.time.value : this.time,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('BatchBlockRow(')
+          ..write('id: $id, ')
+          ..write('listId: $listId, ')
+          ..write('date: $date, ')
+          ..write('weekday: $weekday, ')
+          ..write('time: $time, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, listId, date, weekday, time, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is BatchBlockRow &&
+          other.id == this.id &&
+          other.listId == this.listId &&
+          other.date == this.date &&
+          other.weekday == this.weekday &&
+          other.time == this.time &&
+          other.updatedAt == this.updatedAt);
+}
+
+class BatchBlocksCompanion extends UpdateCompanion<BatchBlockRow> {
+  final Value<String> id;
+  final Value<String> listId;
+  final Value<LocalDate?> date;
+  final Value<int?> weekday;
+  final Value<int> time;
+  final Value<DateTime> updatedAt;
+  final Value<int> rowid;
+  const BatchBlocksCompanion({
+    this.id = const Value.absent(),
+    this.listId = const Value.absent(),
+    this.date = const Value.absent(),
+    this.weekday = const Value.absent(),
+    this.time = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  BatchBlocksCompanion.insert({
+    required String id,
+    required String listId,
+    this.date = const Value.absent(),
+    this.weekday = const Value.absent(),
+    required int time,
+    required DateTime updatedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       listId = Value(listId),
+       time = Value(time),
+       updatedAt = Value(updatedAt);
+  static Insertable<BatchBlockRow> custom({
+    Expression<String>? id,
+    Expression<String>? listId,
+    Expression<String>? date,
+    Expression<int>? weekday,
+    Expression<int>? time,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (listId != null) 'list_id': listId,
+      if (date != null) 'date': date,
+      if (weekday != null) 'weekday': weekday,
+      if (time != null) 'time': time,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  BatchBlocksCompanion copyWith({
+    Value<String>? id,
+    Value<String>? listId,
+    Value<LocalDate?>? date,
+    Value<int?>? weekday,
+    Value<int>? time,
+    Value<DateTime>? updatedAt,
+    Value<int>? rowid,
+  }) {
+    return BatchBlocksCompanion(
+      id: id ?? this.id,
+      listId: listId ?? this.listId,
+      date: date ?? this.date,
+      weekday: weekday ?? this.weekday,
+      time: time ?? this.time,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (listId.present) {
+      map['list_id'] = Variable<String>(listId.value);
+    }
+    if (date.present) {
+      map['date'] = Variable<String>(
+        $BatchBlocksTable.$converterdaten.toSql(date.value),
+      );
+    }
+    if (weekday.present) {
+      map['weekday'] = Variable<int>(weekday.value);
+    }
+    if (time.present) {
+      map['time'] = Variable<int>(time.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('BatchBlocksCompanion(')
+          ..write('id: $id, ')
+          ..write('listId: $listId, ')
+          ..write('date: $date, ')
+          ..write('weekday: $weekday, ')
+          ..write('time: $time, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -4937,6 +5352,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $StarterSuggestionsTable(this);
   late final $ReviewSessionsTable reviewSessions = $ReviewSessionsTable(this);
   late final $SettingsTable settings = $SettingsTable(this);
+  late final $BatchBlocksTable batchBlocks = $BatchBlocksTable(this);
   late final Index itemsStatusIdx = Index(
     'items_status_idx',
     'CREATE INDEX items_status_idx ON items (status)',
@@ -4975,6 +5391,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     starterSuggestions,
     reviewSessions,
     settings,
+    batchBlocks,
     itemsStatusIdx,
     itemsDoDateIdx,
     itemsListIdx,
@@ -5018,6 +5435,13 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         limitUpdateKind: UpdateKind.delete,
       ),
       result: [TableUpdate('templates', kind: UpdateKind.update)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'lists',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('batch_blocks', kind: UpdateKind.delete)],
     ),
   ]);
   @override
@@ -5066,6 +5490,24 @@ final class $$ListsTableReferences
     ).filter((f) => f.listId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_itemsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$BatchBlocksTable, List<BatchBlockRow>>
+  _batchBlocksRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.batchBlocks,
+    aliasName: 'lists__id__batch_blocks__list_id',
+  );
+
+  $$BatchBlocksTableProcessedTableManager get batchBlocksRefs {
+    final manager = $$BatchBlocksTableTableManager(
+      $_db,
+      $_db.batchBlocks,
+    ).filter((f) => f.listId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_batchBlocksRefsTable($_db));
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
     );
@@ -5132,6 +5574,31 @@ class $$ListsTableFilterComposer extends Composer<_$AppDatabase, $ListsTable> {
           }) => $$ItemsTableFilterComposer(
             $db: $db,
             $table: $db.items,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> batchBlocksRefs(
+    Expression<bool> Function($$BatchBlocksTableFilterComposer f) f,
+  ) {
+    final $$BatchBlocksTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.batchBlocks,
+      getReferencedColumn: (t) => t.listId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BatchBlocksTableFilterComposer(
+            $db: $db,
+            $table: $db.batchBlocks,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -5241,6 +5708,31 @@ class $$ListsTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> batchBlocksRefs<T extends Object>(
+    Expression<T> Function($$BatchBlocksTableAnnotationComposer a) f,
+  ) {
+    final $$BatchBlocksTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.batchBlocks,
+      getReferencedColumn: (t) => t.listId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BatchBlocksTableAnnotationComposer(
+            $db: $db,
+            $table: $db.batchBlocks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$ListsTableTableManager
@@ -5256,7 +5748,7 @@ class $$ListsTableTableManager
           $$ListsTableUpdateCompanionBuilder,
           (ListRow, $$ListsTableReferences),
           ListRow,
-          PrefetchHooks Function({bool itemsRefs})
+          PrefetchHooks Function({bool itemsRefs, bool batchBlocksRefs})
         > {
   $$ListsTableTableManager(_$AppDatabase db, $ListsTable table)
     : super(
@@ -5317,29 +5809,59 @@ class $$ListsTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({itemsRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [if (itemsRefs) db.items],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (itemsRefs)
-                    await $_getPrefetchedData<ListRow, $ListsTable, ItemRow>(
-                      currentTable: table,
-                      referencedTable: $$ListsTableReferences._itemsRefsTable(
-                        db,
-                      ),
-                      managerFromTypedResult: (p0) =>
-                          $$ListsTableReferences(db, table, p0).itemsRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where((e) => e.listId == item.id),
-                      typedResults: items,
-                    ),
-                ];
+          prefetchHooksCallback:
+              ({itemsRefs = false, batchBlocksRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (itemsRefs) db.items,
+                    if (batchBlocksRefs) db.batchBlocks,
+                  ],
+                  addJoins: null,
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (itemsRefs)
+                        await $_getPrefetchedData<
+                          ListRow,
+                          $ListsTable,
+                          ItemRow
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ListsTableReferences
+                              ._itemsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ListsTableReferences(db, table, p0).itemsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.listId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (batchBlocksRefs)
+                        await $_getPrefetchedData<
+                          ListRow,
+                          $ListsTable,
+                          BatchBlockRow
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ListsTableReferences
+                              ._batchBlocksRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ListsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).batchBlocksRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.listId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
               },
-            );
-          },
         ),
       );
 }
@@ -5356,7 +5878,7 @@ typedef $$ListsTableProcessedTableManager =
       $$ListsTableUpdateCompanionBuilder,
       (ListRow, $$ListsTableReferences),
       ListRow,
-      PrefetchHooks Function({bool itemsRefs})
+      PrefetchHooks Function({bool itemsRefs, bool batchBlocksRefs})
     >;
 typedef $$SeriesTableCreateCompanionBuilder =
     SeriesCompanion Function({
@@ -8545,6 +9067,343 @@ typedef $$SettingsTableProcessedTableManager =
       SettingRow,
       PrefetchHooks Function()
     >;
+typedef $$BatchBlocksTableCreateCompanionBuilder =
+    BatchBlocksCompanion Function({
+      required String id,
+      required String listId,
+      Value<LocalDate?> date,
+      Value<int?> weekday,
+      required int time,
+      required DateTime updatedAt,
+      Value<int> rowid,
+    });
+typedef $$BatchBlocksTableUpdateCompanionBuilder =
+    BatchBlocksCompanion Function({
+      Value<String> id,
+      Value<String> listId,
+      Value<LocalDate?> date,
+      Value<int?> weekday,
+      Value<int> time,
+      Value<DateTime> updatedAt,
+      Value<int> rowid,
+    });
+
+final class $$BatchBlocksTableReferences
+    extends BaseReferences<_$AppDatabase, $BatchBlocksTable, BatchBlockRow> {
+  $$BatchBlocksTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $ListsTable _listIdTable(_$AppDatabase db) =>
+      db.lists.createAlias('batch_blocks__list_id__lists__id');
+
+  $$ListsTableProcessedTableManager get listId {
+    final $_column = $_itemColumn<String>('list_id')!;
+
+    final manager = $$ListsTableTableManager(
+      $_db,
+      $_db.lists,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_listIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$BatchBlocksTableFilterComposer
+    extends Composer<_$AppDatabase, $BatchBlocksTable> {
+  $$BatchBlocksTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<LocalDate?, LocalDate, String> get date =>
+      $composableBuilder(
+        column: $table.date,
+        builder: (column) => ColumnWithTypeConverterFilters(column),
+      );
+
+  ColumnFilters<int> get weekday => $composableBuilder(
+    column: $table.weekday,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get time => $composableBuilder(
+    column: $table.time,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ListsTableFilterComposer get listId {
+    final $$ListsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.listId,
+      referencedTable: $db.lists,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ListsTableFilterComposer(
+            $db: $db,
+            $table: $db.lists,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$BatchBlocksTableOrderingComposer
+    extends Composer<_$AppDatabase, $BatchBlocksTable> {
+  $$BatchBlocksTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get date => $composableBuilder(
+    column: $table.date,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get weekday => $composableBuilder(
+    column: $table.weekday,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get time => $composableBuilder(
+    column: $table.time,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ListsTableOrderingComposer get listId {
+    final $$ListsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.listId,
+      referencedTable: $db.lists,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ListsTableOrderingComposer(
+            $db: $db,
+            $table: $db.lists,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$BatchBlocksTableAnnotationComposer
+    extends Composer<_$AppDatabase, $BatchBlocksTable> {
+  $$BatchBlocksTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<LocalDate?, String> get date =>
+      $composableBuilder(column: $table.date, builder: (column) => column);
+
+  GeneratedColumn<int> get weekday =>
+      $composableBuilder(column: $table.weekday, builder: (column) => column);
+
+  GeneratedColumn<int> get time =>
+      $composableBuilder(column: $table.time, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  $$ListsTableAnnotationComposer get listId {
+    final $$ListsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.listId,
+      referencedTable: $db.lists,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ListsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.lists,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$BatchBlocksTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $BatchBlocksTable,
+          BatchBlockRow,
+          $$BatchBlocksTableFilterComposer,
+          $$BatchBlocksTableOrderingComposer,
+          $$BatchBlocksTableAnnotationComposer,
+          $$BatchBlocksTableCreateCompanionBuilder,
+          $$BatchBlocksTableUpdateCompanionBuilder,
+          (BatchBlockRow, $$BatchBlocksTableReferences),
+          BatchBlockRow,
+          PrefetchHooks Function({bool listId})
+        > {
+  $$BatchBlocksTableTableManager(_$AppDatabase db, $BatchBlocksTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$BatchBlocksTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$BatchBlocksTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$BatchBlocksTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> listId = const Value.absent(),
+                Value<LocalDate?> date = const Value.absent(),
+                Value<int?> weekday = const Value.absent(),
+                Value<int> time = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => BatchBlocksCompanion(
+                id: id,
+                listId: listId,
+                date: date,
+                weekday: weekday,
+                time: time,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String listId,
+                Value<LocalDate?> date = const Value.absent(),
+                Value<int?> weekday = const Value.absent(),
+                required int time,
+                required DateTime updatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => BatchBlocksCompanion.insert(
+                id: id,
+                listId: listId,
+                date: date,
+                weekday: weekday,
+                time: time,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$BatchBlocksTable, BatchBlockRow>(table),
+                  $$BatchBlocksTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({listId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (listId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.listId,
+                                referencedTable: $$BatchBlocksTableReferences
+                                    ._listIdTable(db),
+                                referencedColumn: $$BatchBlocksTableReferences
+                                    ._listIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$BatchBlocksTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $BatchBlocksTable,
+      BatchBlockRow,
+      $$BatchBlocksTableFilterComposer,
+      $$BatchBlocksTableOrderingComposer,
+      $$BatchBlocksTableAnnotationComposer,
+      $$BatchBlocksTableCreateCompanionBuilder,
+      $$BatchBlocksTableUpdateCompanionBuilder,
+      (BatchBlockRow, $$BatchBlocksTableReferences),
+      BatchBlockRow,
+      PrefetchHooks Function({bool listId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -8567,4 +9426,6 @@ class $AppDatabaseManager {
       $$ReviewSessionsTableTableManager(_db, _db.reviewSessions);
   $$SettingsTableTableManager get settings =>
       $$SettingsTableTableManager(_db, _db.settings);
+  $$BatchBlocksTableTableManager get batchBlocks =>
+      $$BatchBlocksTableTableManager(_db, _db.batchBlocks);
 }

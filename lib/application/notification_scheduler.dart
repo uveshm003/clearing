@@ -1,9 +1,13 @@
 import 'dart:async';
 import 'dart:math';
 
+import '../data/block_repository.dart';
 import '../data/item_repository.dart';
+import '../data/list_repository.dart';
 import '../data/reminder_repository.dart';
 import '../data/settings_repository.dart';
+import '../domain/batch_block.dart';
+import '../domain/enums.dart';
 import '../domain/local_date.dart';
 import '../domain/notification_plan.dart';
 import '../domain/reminder.dart';
@@ -67,10 +71,14 @@ class NotificationScheduler {
     this._settings,
     this._items, {
     required this._now,
+    this._blocks,
+    this._lists,
   });
 
   final NotificationGateway _gateway;
   final ItemRepository _items;
+  final BlockRepository? _blocks;
+  final ListRepository? _lists;
   final ReminderRepository _reminders;
   final SettingsRepository _settings;
   final DateTime Function() _now;
@@ -84,6 +92,24 @@ class NotificationScheduler {
     // A failed run is reported to its caller but doesn't block later ones.
     _running = run.catchError((Object _) {});
     return run;
+  }
+
+  /// Blocks whose list has something to do; an empty list needs no nudge.
+  Future<List<({BatchBlock block, String listName})>> _blockNudges() async {
+    final blocks = await _blocks?.getAll() ?? const <BatchBlock>[];
+    if (blocks.isEmpty) return const [];
+    final lists = {
+      for (final list in await _lists!.watchAll().first) list.id: list.name,
+    };
+    final busy = {
+      for (final item in await _items.watchOpen().first)
+        if (item.status == ItemStatus.active) ?item.listId,
+    };
+    return [
+      for (final block in blocks)
+        if (busy.contains(block.listId) && lists[block.listId] != null)
+          (block: block, listName: lists[block.listId]!),
+    ];
   }
 
   Future<void> _reconcile() async {
@@ -100,6 +126,7 @@ class NotificationScheduler {
           firstUse: await _items.firstCreatedAt(),
           now: now,
         ),
+        blocks: await _blockNudges(),
       ))
         n.id: n,
     };

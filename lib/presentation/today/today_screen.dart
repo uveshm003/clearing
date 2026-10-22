@@ -8,6 +8,7 @@ import '../../core/router.dart';
 import '../../domain/today_rules.dart';
 import '../format.dart';
 import '../widgets/search_button.dart';
+import '../widgets/block_tile.dart';
 import '../widgets/empty_state.dart';
 import '../widgets/item_tile.dart';
 import '../widgets/section_header.dart';
@@ -71,7 +72,12 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
   }
 
   Widget _body(BuildContext context, TodayView view, int cap) {
-    if (view.isEmpty) {
+    final today = ref.watch(todayProvider).value;
+    final blocks = [
+      for (final block in ref.watch(blocksProvider).value ?? const [])
+        if (today != null && block.occursOn(today)) block,
+    ];
+    if (view.isEmpty && blocks.isEmpty) {
       return Column(
         children: [
           if (view.thisWeekCount > 0) _ThisWeekRow(count: view.thisWeekCount),
@@ -121,6 +127,10 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
               onPressed: () => setState(() => _showAllAlso = true),
               child: Text('Show ${also.length - _alsoTodayVisible} more'),
             ),
+        ],
+        if (blocks.isNotEmpty) ...[
+          const SectionHeader('Blocks'),
+          for (final block in blocks) BlockTile(block: block),
         ],
         if (view.thisWeekCount > 0) _ThisWeekRow(count: view.thisWeekCount),
         if (view.carriedOver.isNotEmpty)

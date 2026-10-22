@@ -10,6 +10,7 @@ import '../application/template_actions.dart';
 import '../application/widget_sync.dart';
 import '../data/backup.dart';
 import '../data/backup_files.dart';
+import '../data/block_repository.dart';
 import '../data/db/database.dart';
 import '../data/item_repository.dart';
 import '../data/list_repository.dart';
@@ -19,6 +20,7 @@ import '../data/series_repository.dart';
 import '../data/settings_repository.dart';
 import '../data/template_repository.dart';
 import '../domain/app_settings.dart';
+import '../domain/batch_block.dart';
 import '../domain/enums.dart';
 import '../domain/item.dart';
 import '../domain/item_list.dart';
@@ -107,6 +109,17 @@ final resetActionsProvider = Provider(
   ),
 );
 
+final blockRepositoryProvider = Provider(
+  (ref) => BlockRepository(
+    ref.watch(databaseProvider),
+    now: ref.watch(clockProvider),
+  ),
+);
+
+final blocksProvider = StreamProvider<List<BatchBlock>>(
+  (ref) => ref.watch(blockRepositoryProvider).watchAll(),
+);
+
 final templateRepositoryProvider = Provider(
   (ref) => TemplateRepository(
     ref.watch(databaseProvider),
@@ -138,6 +151,7 @@ final lifecycleActionsProvider = Provider(
     ref.watch(itemRepositoryProvider),
     ref.watch(settingsRepositoryProvider),
     now: ref.watch(clockProvider),
+    blocks: ref.watch(blockRepositoryProvider),
   ),
 );
 
@@ -180,6 +194,8 @@ final notificationSchedulerProvider = Provider(
     ref.watch(settingsRepositoryProvider),
     ref.watch(itemRepositoryProvider),
     now: ref.watch(clockProvider),
+    blocks: ref.watch(blockRepositoryProvider),
+    lists: ref.watch(listRepositoryProvider),
   ),
 );
 

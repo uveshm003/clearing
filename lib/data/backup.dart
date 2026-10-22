@@ -21,6 +21,7 @@ const backupTables = [
   'starter_suggestions',
   'review_sessions',
   'settings',
+  'batch_blocks',
 ];
 
 /// `clearing-backup-YYYYMMDD.json`.
@@ -258,6 +259,10 @@ class BackupService {
       'lists': lists,
       'items': [
         for (final row in backup.tables['items']!)
+          {...row, 'list_id': remap(row['list_id'])},
+      ],
+      'batch_blocks': [
+        for (final row in backup.tables['batch_blocks']!)
           {...row, 'list_id': remap(row['list_id'])},
       ],
       'series': [

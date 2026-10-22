@@ -12,8 +12,19 @@ import 'review_rules.dart';
 /// keeps well under iOS's 64 pending notifications later.
 const notificationWindow = Duration(days: 14);
 
-/// One notification the device should have pending: an item's reminder,
-/// or the weekly review nudge when [itemId] and [reminderId] are null.
+/// What a notification is for.
+enum NotificationKind {
+  /// An item's reminder, with Done and Snooze buttons.
+  reminder,
+
+  /// The weekly review nudge (FR-11); tapping opens the review.
+  review,
+
+  /// The periodic nudge to export a backup (FR-17); tapping opens Backup.
+  backup,
+}
+
+/// One notification the device should have pending.
 @immutable
 class PlannedNotification {
   const PlannedNotification({
@@ -23,20 +34,29 @@ class PlannedNotification {
     required this.title,
     required this.silent,
     this.body,
-  });
+  }) : kind = NotificationKind.reminder;
 
-  /// The weekly review reminder (FR-11). It has no buttons; tapping it
-  /// opens the review.
   const PlannedNotification.review({required this.fireAt, required this.silent})
-    : itemId = null,
+    : kind = NotificationKind.review,
+      itemId = null,
       reminderId = null,
       title = 'Time for your weekly review',
       body = 'About 15 minutes to clear your head and plan the week.';
 
+  const PlannedNotification.backup({required this.fireAt, required this.silent})
+    : kind = NotificationKind.backup,
+      itemId = null,
+      reminderId = null,
+      title = 'Time to back up',
+      body = 'Export a copy, so a lost phone doesn’t mean lost plans.';
+
+  final NotificationKind kind;
+
+  /// Set for [NotificationKind.reminder] only.
   final String? itemId;
   final String? reminderId;
 
-  bool get isReview => reminderId == null;
+  bool get isReminder => kind == NotificationKind.reminder;
 
   /// Local wall-clock time.
   final DateTime fireAt;
@@ -47,17 +67,16 @@ class PlannedNotification {
   final bool silent;
 
   /// Stable across runs, so reconciling can match it with what is pending.
-  int get id => notificationIdFor(reminderId ?? _reviewKey);
+  int get id => notificationIdFor(reminderId ?? 'clearing-${kind.name}');
 
   /// Everything that identifies this notification, so a pending one whose
   /// payload differs is out of date.
   String get payload => jsonEncode({
-    if (isReview)
-      'review': true
-    else ...{
+    if (isReminder) ...{
       'item': itemId,
       'reminder': reminderId,
-    },
+    } else
+      'kind': kind.name,
     'at': fireAt.toIso8601String(),
     'title': title,
     'body': body,
@@ -75,16 +94,18 @@ class PlannedNotification {
   String toString() => 'PlannedNotification("$title" at $fireAt)';
 }
 
-const _reviewKey = 'weekly-review';
-
-/// Whether a notification payload is the weekly review reminder.
-bool isReviewPayload(String? payload) {
-  if (payload == null) return false;
+/// The kind of notification a payload belongs to, or null if it isn't ours.
+NotificationKind? payloadKind(String? payload) {
+  if (payload == null) return null;
   try {
     final json = jsonDecode(payload);
-    return json is Map && json['review'] == true;
+    if (json is! Map) return null;
+    if (json.containsKey('reminder')) return NotificationKind.reminder;
+    return NotificationKind.values
+        .where((k) => k.name == json['kind'])
+        .firstOrNull;
   } on FormatException {
-    return false;
+    return null;
   }
 }
 
@@ -117,11 +138,13 @@ int notificationIdFor(String reminderId) {
 /// Only active and waiting items notify. Reminders the user timed exactly
 /// (at the item's time, at a custom time, or snoozed) fire as set; others
 /// that land in quiet hours wait until quiet hours end (FR-09). The weekly
-/// review reminder, when on, fires at the chosen day and time (FR-11).
+/// review reminder, when on, fires at the chosen day and time (FR-11), and
+/// the backup reminder at [backupDueAt] (FR-17).
 List<PlannedNotification> planNotifications(
   Iterable<(Item, Reminder)> reminders, {
   required AppSettings settings,
   required DateTime now,
+  DateTime? backupDueAt,
 }) {
   if (settings.notificationIntensity == NotificationIntensity.off) return [];
   final silent = settings.notificationIntensity == NotificationIntensity.gentle;
@@ -165,6 +188,11 @@ List<PlannedNotification> planNotifications(
       ),
     );
   }
+  if (backupDueAt != null && !backupDueAt.isAfter(until)) {
+    planned.add(
+      PlannedNotification.backup(fireAt: backupDueAt, silent: silent),
+    );
+  }
   planned.sort((a, b) => a.fireAt.compareTo(b.fireAt));
   return planned;
 }
@@ -199,4 +227,22 @@ class QuietHours {
       end,
     );
   }
+}
+
+/// When to next suggest exporting (FR-17): every [days] days counted from
+/// the last export, or from [firstUse] if there hasn't been one, at 10:00.
+/// Null when the reminder is off or there's nothing worth backing up yet.
+DateTime? nextBackupReminder({
+  required int? days,
+  required DateTime? lastExport,
+  required DateTime? firstUse,
+  required DateTime now,
+}) {
+  final anchor = lastExport ?? firstUse;
+  if (days == null || days <= 0 || anchor == null) return null;
+  var due = DateTime(anchor.year, anchor.month, anchor.day + days, 10);
+  while (!due.isAfter(now)) {
+    due = DateTime(due.year, due.month, due.day + days, 10);
+  }
+  return due;
 }

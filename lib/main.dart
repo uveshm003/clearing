@@ -27,13 +27,22 @@ Future<void> main() async {
       container
           .read(notificationActionsProvider)
           .handle(action, response.payload);
-    } else if (isReviewPayload(response.payload)) {
-      container.read(routerProvider).push(Routes.review);
-    } else if (parsePayload(response.payload) case (
-      :final itemId,
-      reminderId: _,
-    )) {
-      container.read(routerProvider).push(Routes.item(itemId));
+      return;
+    }
+    switch (payloadKind(response.payload)) {
+      case NotificationKind.review:
+        container.read(routerProvider).push(Routes.review);
+      case NotificationKind.backup:
+        container.read(routerProvider).push(Routes.backup);
+      case NotificationKind.reminder:
+        if (parsePayload(response.payload) case (
+          :final itemId,
+          reminderId: _,
+        )) {
+          container.read(routerProvider).push(Routes.item(itemId));
+        }
+      case null:
+        break;
     }
   }
 

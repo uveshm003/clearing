@@ -47,6 +47,13 @@ class ItemRepository {
     return query.watch().map(_toDomain);
   }
 
+  /// When the first item still in the database was captured.
+  Future<DateTime?> firstCreatedAt() async {
+    final first = _db.items.createdAt.min();
+    final query = _db.selectOnly(_db.items)..addColumns([first]);
+    return (await query.getSingle()).read(first);
+  }
+
   /// Done items, most recently completed first; archived ones included.
   Stream<List<Item>> watchDone() {
     final query = _db.select(_db.items)

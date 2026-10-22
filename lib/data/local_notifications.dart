@@ -123,7 +123,7 @@ class LocalNotifications implements NotificationGateway {
           enableVibration: !notification.silent,
           category: AndroidNotificationCategory.reminder,
           actions: [
-            if (!notification.isReview)
+            if (notification.isReminder)
               for (final action in NotificationAction.values)
                 AndroidNotificationAction(action.name, action.label),
           ],

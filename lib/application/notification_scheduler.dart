@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import '../data/item_repository.dart';
 import '../data/reminder_repository.dart';
 import '../data/settings_repository.dart';
 import '../domain/local_date.dart';
@@ -63,11 +64,13 @@ class NotificationScheduler {
   NotificationScheduler(
     this._gateway,
     this._reminders,
-    this._settings, {
+    this._settings,
+    this._items, {
     required this._now,
   });
 
   final NotificationGateway _gateway;
+  final ItemRepository _items;
   final ReminderRepository _reminders;
   final SettingsRepository _settings;
   final DateTime Function() _now;
@@ -84,11 +87,19 @@ class NotificationScheduler {
   }
 
   Future<void> _reconcile() async {
+    final settings = await _settings.get();
+    final now = _now();
     final desired = {
       for (final n in planNotifications(
         await _reminders.enabledWithOpenItems(),
-        settings: await _settings.get(),
-        now: _now(),
+        settings: settings,
+        now: now,
+        backupDueAt: nextBackupReminder(
+          days: settings.exportReminderDays,
+          lastExport: settings.lastExportAt,
+          firstUse: await _items.firstCreatedAt(),
+          now: now,
+        ),
       ))
         n.id: n,
     };

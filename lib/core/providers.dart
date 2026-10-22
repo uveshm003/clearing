@@ -1,10 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../application/backup_actions.dart';
 import '../application/item_actions.dart';
 import '../application/lifecycle_actions.dart';
 import '../application/notification_scheduler.dart';
 import '../application/reset_actions.dart';
 import '../application/series_actions.dart';
+import '../data/backup.dart';
+import '../data/backup_files.dart';
 import '../data/db/database.dart';
 import '../data/item_repository.dart';
 import '../data/list_repository.dart';
@@ -108,6 +111,20 @@ final lifecycleActionsProvider = Provider(
   ),
 );
 
+final backupFilesProvider = Provider<BackupFiles>(
+  (ref) => const PlatformBackupFiles(),
+);
+
+final backupActionsProvider = Provider(
+  (ref) => BackupActions(
+    BackupService(ref.watch(databaseProvider), now: ref.watch(clockProvider)),
+    ref.watch(backupFilesProvider),
+    ref.watch(settingsRepositoryProvider),
+    ref.watch(seriesActionsProvider),
+    now: ref.watch(clockProvider),
+  ),
+);
+
 /// Overridden in `main()` with the device's notifications.
 final notificationGatewayProvider = Provider<NotificationGateway>(
   (ref) => const NoNotifications(),
@@ -118,6 +135,7 @@ final notificationSchedulerProvider = Provider(
     ref.watch(notificationGatewayProvider),
     ref.watch(reminderRepositoryProvider),
     ref.watch(settingsRepositoryProvider),
+    ref.watch(itemRepositoryProvider),
     now: ref.watch(clockProvider),
   ),
 );

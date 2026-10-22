@@ -197,6 +197,14 @@ class SettingsScreen extends ConsumerWidget {
                   save(settings.copyWith(autoArchiveDays: days)),
             ),
           ),
+          const SectionHeader('Your data'),
+          ListTile(
+            leading: const Icon(Icons.backup_outlined),
+            title: const Text('Backup'),
+            subtitle: const Text('Export a copy, or restore one'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.push(Routes.backup),
+          ),
           const SectionHeader('Appearance'),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

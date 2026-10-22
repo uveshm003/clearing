@@ -19,6 +19,7 @@ class AppSettings {
     this.theme = ThemePreference.system,
     this.starterSuggestions = true,
     this.exportReminderDays = 30,
+    this.lastExportAt,
     this.inboxBadge = true,
   }) : assert(mustDoCap >= minMustDoCap && mustDoCap <= maxMustDoCap);
 
@@ -44,6 +45,9 @@ class AppSettings {
 
   /// Null turns the export reminder off.
   final int? exportReminderDays;
+
+  /// When a backup was last exported, which the export reminder counts from.
+  final DateTime? lastExportAt;
   final bool inboxBadge;
 
   AppSettings copyWith({
@@ -59,6 +63,7 @@ class AppSettings {
     ThemePreference? theme,
     bool? starterSuggestions,
     int? Function()? exportReminderDays,
+    DateTime? Function()? lastExportAt,
     bool? inboxBadge,
   }) => AppSettings(
     weekStart: weekStart ?? this.weekStart,
@@ -75,6 +80,7 @@ class AppSettings {
     exportReminderDays: exportReminderDays != null
         ? exportReminderDays()
         : this.exportReminderDays,
+    lastExportAt: lastExportAt != null ? lastExportAt() : this.lastExportAt,
     inboxBadge: inboxBadge ?? this.inboxBadge,
   );
 
@@ -91,6 +97,7 @@ class AppSettings {
     'theme': theme.name,
     'starterSuggestions': starterSuggestions,
     'exportReminderDays': exportReminderDays,
+    'lastExportAt': lastExportAt?.toIso8601String(),
     'inboxBadge': inboxBadge,
   };
 
@@ -125,6 +132,7 @@ class AppSettings {
       exportReminderDays: json.containsKey('exportReminderDays')
           ? json['exportReminderDays'] as int?
           : d.exportReminderDays,
+      lastExportAt: DateTime.tryParse('${json['lastExportAt']}'),
       inboxBadge: read('inboxBadge', d.inboxBadge),
     );
   }
@@ -144,6 +152,7 @@ class AppSettings {
       other.theme == theme &&
       other.starterSuggestions == starterSuggestions &&
       other.exportReminderDays == exportReminderDays &&
+      other.lastExportAt == lastExportAt &&
       other.inboxBadge == inboxBadge;
 
   @override
@@ -160,6 +169,7 @@ class AppSettings {
     theme,
     starterSuggestions,
     exportReminderDays,
+    lastExportAt,
     inboxBadge,
   );
 }

@@ -246,7 +246,7 @@ void main() {
     test('is planned unless turned off or notifications are off', () {
       List<PlannedNotification> plan(AppSettings s) =>
           planNotifications(const [], settings: s, now: now);
-      expect(plan(const AppSettings()).single.isReview, isTrue);
+      expect(plan(const AppSettings()).single.kind, NotificationKind.review);
       expect(plan(const AppSettings(reviewReminder: false)), isEmpty);
       expect(
         plan(
@@ -254,6 +254,57 @@ void main() {
         ),
         isEmpty,
       );
+    });
+  });
+
+  group('backup reminder', () {
+    test('counts from the last export, at 10:00', () {
+      expect(
+        nextBackupReminder(
+          days: 30,
+          lastExport: DateTime(2026, 10, 1, 21),
+          firstUse: DateTime(2026, 1, 1),
+          now: now,
+        ),
+        DateTime(2026, 10, 31, 10),
+      );
+    });
+
+    test('from first use when never exported, and rolls on if ignored', () {
+      expect(
+        nextBackupReminder(
+          days: 30,
+          lastExport: null,
+          firstUse: DateTime(2026, 8, 1),
+          now: now,
+        ),
+        DateTime(2026, 10, 30, 10),
+      );
+    });
+
+    test('is off when disabled or when there is nothing yet', () {
+      DateTime? due(int? days, DateTime? firstUse) => nextBackupReminder(
+        days: days,
+        lastExport: null,
+        firstUse: firstUse,
+        now: now,
+      );
+      expect(due(null, DateTime(2026)), isNull);
+      expect(due(30, null), isNull);
+    });
+
+    test('is planned only within the window', () {
+      List<NotificationKind> kinds(DateTime due) => [
+        for (final n in planNotifications(
+          const [],
+          settings: settings,
+          now: now,
+          backupDueAt: due,
+        ))
+          n.kind,
+      ];
+      expect(kinds(DateTime(2026, 10, 25, 10)), [NotificationKind.backup]);
+      expect(kinds(DateTime(2026, 11, 30, 10)), isEmpty);
     });
   });
 

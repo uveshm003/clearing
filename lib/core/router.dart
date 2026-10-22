@@ -13,6 +13,7 @@ import '../presentation/lists/trash_screen.dart';
 import '../presentation/reset/reset_screen.dart';
 import '../presentation/review/review_screen.dart';
 import '../presentation/search/search_screen.dart';
+import '../presentation/settings/backup_screen.dart';
 import '../presentation/settings/reminders_help_screen.dart';
 import '../presentation/settings/settings_screen.dart';
 import '../presentation/settings/suggestions_screen.dart';
@@ -36,6 +37,7 @@ abstract final class Routes {
   static const review = '/review';
   static const suggestions = '/settings/suggestions';
   static const remindersHelp = '/settings/reminders-help';
+  static const backup = '/settings/backup';
 
   static String list(String id) => '/lists/$id';
   static String item(String id) => '/item/$id';
@@ -158,6 +160,10 @@ GoRouter buildRouter({String initialLocation = Routes.today}) => GoRouter(
         GoRoute(
           path: 'suggestions',
           builder: (context, state) => const SuggestionsScreen(),
+        ),
+        GoRoute(
+          path: 'backup',
+          builder: (context, state) => const BackupScreen(),
         ),
         GoRoute(
           path: 'reminders-help',

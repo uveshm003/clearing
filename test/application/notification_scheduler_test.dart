@@ -66,7 +66,13 @@ void main() {
     );
     actions = ItemActions(items, now: clock, series: series);
     gateway = FakeGateway();
-    scheduler = NotificationScheduler(gateway, reminders, settings, now: clock);
+    scheduler = NotificationScheduler(
+      gateway,
+      reminders,
+      settings,
+      items,
+      now: clock,
+    );
     buttons = NotificationActions(
       actions,
       reminders,
@@ -151,8 +157,8 @@ void main() {
     );
     await scheduler.reconcile();
     final review = gateway.scheduled.values.single;
-    expect(review.isReview, isTrue);
-    expect(isReviewPayload(review.payload), isTrue);
+    expect(review.kind, NotificationKind.review);
+    expect(payloadKind(review.payload), NotificationKind.review);
     expect(parsePayload(review.payload), isNull);
     // Tuesday 20 Oct 09:00 → Sunday 25 Oct 18:00.
     expect(review.fireAt, DateTime(2026, 10, 25, 18));

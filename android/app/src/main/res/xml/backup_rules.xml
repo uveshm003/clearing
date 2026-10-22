@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 11 and below, which only has cloud backup: keep the database
+     out of it (PRD §7). Manual export is the way to move data there. -->
+<full-backup-content>
+    <exclude domain="root" path="app_flutter/" />
+</full-backup-content>

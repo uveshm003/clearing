@@ -34,10 +34,14 @@ class _ShareIntakeState extends State<ShareIntake> {
       }
     });
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final text = await ShareIntake.channel.invokeMethod<String>(
-        'takeSharedText',
-      );
-      if (text != null) _open(text);
+      try {
+        final text = await ShareIntake.channel.invokeMethod<String>(
+          'takeSharedText',
+        );
+        if (text != null) _open(text);
+      } on MissingPluginException {
+        // No Android host, e.g. in tests: nothing was shared.
+      }
     });
   }
 

@@ -8,6 +8,7 @@ void main() {
     expect(s.weekStart, DateTime.monday);
     expect(s.reviewWeekday, DateTime.sunday);
     expect(s.reviewTime, 18 * 60);
+    expect(s.reviewReminder, isTrue);
     expect(s.mustDoCap, 3);
     expect(s.notificationIntensity, NotificationIntensity.gentle);
     expect((s.quietHoursStart, s.quietHoursEnd), (22 * 60, 7 * 60));
@@ -21,6 +22,7 @@ void main() {
       theme: ThemePreference.dark,
       exportReminderDays: () => null,
       notificationIntensity: NotificationIntensity.off,
+      reviewReminder: false,
     );
     expect(AppSettings.fromJson(s.toJson()), s);
   });

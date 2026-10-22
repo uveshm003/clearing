@@ -27,6 +27,8 @@ Future<void> main() async {
       container
           .read(notificationActionsProvider)
           .handle(action, response.payload);
+    } else if (isReviewPayload(response.payload)) {
+      container.read(routerProvider).push(Routes.review);
     } else if (parsePayload(response.payload) case (
       :final itemId,
       reminderId: _,

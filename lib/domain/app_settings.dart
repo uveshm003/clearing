@@ -10,6 +10,7 @@ class AppSettings {
     this.weekStart = DateTime.monday,
     this.reviewWeekday = DateTime.sunday,
     this.reviewTime = 18 * 60,
+    this.reviewReminder = true,
     this.mustDoCap = 3,
     this.notificationIntensity = NotificationIntensity.gentle,
     this.quietHoursStart = 22 * 60,
@@ -30,6 +31,9 @@ class AppSettings {
 
   /// Minutes from local midnight.
   final int reviewTime;
+
+  /// A gentle weekly nudge to review, at [reviewWeekday] and [reviewTime].
+  final bool reviewReminder;
   final int mustDoCap;
   final NotificationIntensity notificationIntensity;
   final int quietHoursStart;
@@ -46,6 +50,7 @@ class AppSettings {
     int? weekStart,
     int? reviewWeekday,
     int? reviewTime,
+    bool? reviewReminder,
     int? mustDoCap,
     NotificationIntensity? notificationIntensity,
     int? quietHoursStart,
@@ -59,6 +64,7 @@ class AppSettings {
     weekStart: weekStart ?? this.weekStart,
     reviewWeekday: reviewWeekday ?? this.reviewWeekday,
     reviewTime: reviewTime ?? this.reviewTime,
+    reviewReminder: reviewReminder ?? this.reviewReminder,
     mustDoCap: mustDoCap ?? this.mustDoCap,
     notificationIntensity: notificationIntensity ?? this.notificationIntensity,
     quietHoursStart: quietHoursStart ?? this.quietHoursStart,
@@ -76,6 +82,7 @@ class AppSettings {
     'weekStart': weekStart,
     'reviewWeekday': reviewWeekday,
     'reviewTime': reviewTime,
+    'reviewReminder': reviewReminder,
     'mustDoCap': mustDoCap,
     'notificationIntensity': notificationIntensity.name,
     'quietHoursStart': quietHoursStart,
@@ -100,6 +107,7 @@ class AppSettings {
       weekStart: read('weekStart', d.weekStart),
       reviewWeekday: read('reviewWeekday', d.reviewWeekday),
       reviewTime: read('reviewTime', d.reviewTime),
+      reviewReminder: read('reviewReminder', d.reviewReminder),
       mustDoCap: read(
         'mustDoCap',
         d.mustDoCap,
@@ -127,6 +135,7 @@ class AppSettings {
       other.weekStart == weekStart &&
       other.reviewWeekday == reviewWeekday &&
       other.reviewTime == reviewTime &&
+      other.reviewReminder == reviewReminder &&
       other.mustDoCap == mustDoCap &&
       other.notificationIntensity == notificationIntensity &&
       other.quietHoursStart == quietHoursStart &&
@@ -142,6 +151,7 @@ class AppSettings {
     weekStart,
     reviewWeekday,
     reviewTime,
+    reviewReminder,
     mustDoCap,
     notificationIntensity,
     quietHoursStart,

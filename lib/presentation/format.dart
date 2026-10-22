@@ -37,6 +37,10 @@ DateTime dateTimeOf(LocalDate date) =>
 String weekdayShort(int weekday) =>
     DateFormat.E().format(DateTime(2024, 1, weekday)); // 1 Jan 2024: Monday
 
+/// "Monday", "Tuesday"… for [DateTime.weekday] numbers.
+String weekdayLong(int weekday) =>
+    DateFormat.EEEE().format(DateTime(2024, 1, weekday));
+
 /// "1st", "2nd", "23rd"…
 String ordinal(int n) {
   if (n % 100 >= 11 && n % 100 <= 13) return '${n}th';

@@ -185,12 +185,18 @@ void main() {
     await tester.tap(find.byTooltip('Settings'));
     await tester.pumpAndSettle();
 
-    await tester.ensureVisible(find.text('Quiet hours'));
+    await scrollTo(tester, find.text('Standard'), within: find.text('Today'));
     expect(find.text('Gentle'), findsOneWidget);
-    expect(find.textContaining('10:00 PM – 7:00 AM'), findsOneWidget);
     await tester.tap(find.text('Standard'));
     await tester.pumpAndSettle();
     expect(find.text('Only reminders you set, with sound.'), findsOneWidget);
+
+    await scrollTo(
+      tester,
+      find.text('Quiet hours'),
+      within: find.text('Standard'),
+    );
+    expect(find.textContaining('10:00 PM – 7:00 AM'), findsOneWidget);
 
     await closeDatabase(tester, db);
   });

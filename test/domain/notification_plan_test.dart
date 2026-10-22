@@ -4,12 +4,14 @@ import 'package:clearing/domain/item.dart';
 import 'package:clearing/domain/local_date.dart';
 import 'package:clearing/domain/notification_plan.dart';
 import 'package:clearing/domain/reminder.dart';
+import 'package:clearing/domain/review_rules.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 final now = DateTime(2026, 10, 20, 9);
 final today = LocalDate(2026, 10, 20);
 const settings = AppSettings(
   notificationIntensity: NotificationIntensity.standard,
+  reviewReminder: false,
 );
 
 Item item({
@@ -137,7 +139,10 @@ void main() {
       List<bool> silent(NotificationIntensity intensity) => [
         for (final n in planNotifications(
           [(tomorrowNoon, offset(0))],
-          settings: AppSettings(notificationIntensity: intensity),
+          settings: AppSettings(
+            notificationIntensity: intensity,
+            reviewReminder: false,
+          ),
           now: now,
         ))
           n.silent,
@@ -205,6 +210,50 @@ void main() {
       expect(parsePayload(n.payload), (itemId: 'i1', reminderId: 'r1'));
       expect(n.body, 'Done means: booked');
       expect(parsePayload('not json'), isNull);
+    });
+  });
+
+  group('weekly review reminder', () {
+    test('comes at the chosen day and time', () {
+      // Tuesday 09:00; default review is Sunday 18:00.
+      expect(
+        nextReviewAt(const AppSettings(), now),
+        DateTime(2026, 10, 25, 18),
+      );
+      expect(
+        nextReviewAt(
+          const AppSettings(
+            reviewWeekday: DateTime.tuesday,
+            reviewTime: 9 * 60,
+          ),
+          now,
+        ),
+        DateTime(2026, 10, 27, 9),
+        reason: 'exactly now has passed, so next week',
+      );
+      expect(
+        nextReviewAt(
+          const AppSettings(
+            reviewWeekday: DateTime.tuesday,
+            reviewTime: 20 * 60,
+          ),
+          now,
+        ),
+        DateTime(2026, 10, 20, 20),
+      );
+    });
+
+    test('is planned unless turned off or notifications are off', () {
+      List<PlannedNotification> plan(AppSettings s) =>
+          planNotifications(const [], settings: s, now: now);
+      expect(plan(const AppSettings()).single.isReview, isTrue);
+      expect(plan(const AppSettings(reviewReminder: false)), isEmpty);
+      expect(
+        plan(
+          const AppSettings(notificationIntensity: NotificationIntensity.off),
+        ),
+        isEmpty,
+      );
     });
   });
 

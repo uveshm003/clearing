@@ -75,7 +75,10 @@ void main() {
       now: clock,
     );
     await settings.save(
-      const AppSettings(notificationIntensity: NotificationIntensity.standard),
+      const AppSettings(
+        notificationIntensity: NotificationIntensity.standard,
+        reviewReminder: false,
+      ),
     );
   });
   tearDown(() => db.close());
@@ -142,6 +145,19 @@ void main() {
     expect(gateway.scheduled, isEmpty);
   });
 
+  test('schedules the weekly review reminder without buttons', () async {
+    await settings.save(
+      const AppSettings(notificationIntensity: NotificationIntensity.standard),
+    );
+    await scheduler.reconcile();
+    final review = gateway.scheduled.values.single;
+    expect(review.isReview, isTrue);
+    expect(isReviewPayload(review.payload), isTrue);
+    expect(parsePayload(review.payload), isNull);
+    // Tuesday 20 Oct 09:00 → Sunday 25 Oct 18:00.
+    expect(review.fireAt, DateTime(2026, 10, 25, 18));
+  });
+
   group('buttons', () {
     Future<PlannedNotification> scheduledDentist() async {
       final item = await dentistAtNoon();
@@ -153,7 +169,7 @@ void main() {
     test('Done completes the item and clears its reminders', () async {
       final n = await scheduledDentist();
       await buttons.handle(NotificationAction.done, n.payload);
-      expect((await items.getItem(n.itemId))!.status, ItemStatus.done);
+      expect((await items.getItem(n.itemId!))!.status, ItemStatus.done);
       expect(gateway.scheduled, isEmpty);
     });
 
@@ -163,7 +179,7 @@ void main() {
       expect(scheduledTimes(), [DateTime(2026, 10, 20, 12)]);
       // The reminder's own time is noon too, so the later of the two wins.
       expect(
-        (await reminders.get(n.reminderId))!.snoozedUntil,
+        (await reminders.get(n.reminderId!))!.snoozedUntil,
         DateTime(2026, 10, 20, 10),
       );
     });

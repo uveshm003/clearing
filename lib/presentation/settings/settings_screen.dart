@@ -131,6 +131,42 @@ class SettingsScreen extends ConsumerWidget {
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.push(Routes.remindersHelp),
           ),
+          const SectionHeader('Weekly review'),
+          SwitchListTile(
+            title: const Text('Remind me to review'),
+            subtitle: const Text('About 15 minutes, once a week'),
+            value: settings.reviewReminder,
+            onChanged: (v) => save(settings.copyWith(reviewReminder: v)),
+          ),
+          ListTile(
+            enabled: settings.reviewReminder,
+            title: const Text('Review day'),
+            trailing: DropdownButton<int>(
+              value: settings.reviewWeekday,
+              underline: const SizedBox.shrink(),
+              items: [
+                for (var day = 1; day <= 7; day++)
+                  DropdownMenuItem(value: day, child: Text(weekdayLong(day))),
+              ],
+              onChanged: settings.reviewReminder
+                  ? (day) => save(settings.copyWith(reviewWeekday: day))
+                  : null,
+            ),
+          ),
+          ListTile(
+            enabled: settings.reviewReminder,
+            title: const Text('Review time'),
+            trailing: Text(timeLabel(context, settings.reviewTime)),
+            onTap: () async {
+              final time = await showTimePicker(
+                context: context,
+                initialTime: timeOfDay(settings.reviewTime),
+              );
+              if (time != null) {
+                save(settings.copyWith(reviewTime: minutesOf(time)));
+              }
+            },
+          ),
           const SectionHeader('Done items'),
           ListTile(
             title: const Text('Move done items to the archive'),

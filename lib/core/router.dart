@@ -11,6 +11,7 @@ import '../presentation/lists/lists_screen.dart';
 import '../presentation/lists/someday_screen.dart';
 import '../presentation/lists/trash_screen.dart';
 import '../presentation/reset/reset_screen.dart';
+import '../presentation/review/review_screen.dart';
 import '../presentation/search/search_screen.dart';
 import '../presentation/settings/reminders_help_screen.dart';
 import '../presentation/settings/settings_screen.dart';
@@ -32,6 +33,7 @@ abstract final class Routes {
   static const settings = '/settings';
   static const search = '/search';
   static const reset = '/reset';
+  static const review = '/review';
   static const suggestions = '/settings/suggestions';
   static const remindersHelp = '/settings/reminders-help';
 
@@ -130,6 +132,12 @@ GoRouter buildRouter({String initialLocation = Routes.today}) => GoRouter(
         fullscreenDialog: true,
         child: FocusScreen(itemId: state.pathParameters['id']!),
       ),
+    ),
+    GoRoute(
+      path: Routes.review,
+      parentNavigatorKey: rootNavigatorKey,
+      pageBuilder: (context, state) =>
+          const MaterialPage(fullscreenDialog: true, child: ReviewScreen()),
     ),
     GoRoute(
       path: Routes.reset,

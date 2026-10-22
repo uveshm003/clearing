@@ -53,6 +53,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
             tooltip: 'More',
             onSelected: (route) => context.push(route),
             itemBuilder: (context) => const [
+              PopupMenuItem(value: Routes.review, child: Text('Weekly review')),
               PopupMenuItem(
                 value: Routes.reset,
                 child: Text('Overwhelm reset'),

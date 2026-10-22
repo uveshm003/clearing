@@ -6,25 +6,37 @@ import 'app_settings.dart';
 import 'enums.dart';
 import 'item.dart';
 import 'reminder.dart';
+import 'review_rules.dart';
 
 /// How far ahead notifications are scheduled (PRD §8.3). A rolling window
 /// keeps well under iOS's 64 pending notifications later.
 const notificationWindow = Duration(days: 14);
 
-/// One notification the device should have pending.
+/// One notification the device should have pending: an item's reminder,
+/// or the weekly review nudge when [itemId] and [reminderId] are null.
 @immutable
 class PlannedNotification {
   const PlannedNotification({
-    required this.itemId,
-    required this.reminderId,
+    required String this.itemId,
+    required String this.reminderId,
     required this.fireAt,
     required this.title,
     required this.silent,
     this.body,
   });
 
-  final String itemId;
-  final String reminderId;
+  /// The weekly review reminder (FR-11). It has no buttons; tapping it
+  /// opens the review.
+  const PlannedNotification.review({required this.fireAt, required this.silent})
+    : itemId = null,
+      reminderId = null,
+      title = 'Time for your weekly review',
+      body = 'About 15 minutes to clear your head and plan the week.';
+
+  final String? itemId;
+  final String? reminderId;
+
+  bool get isReview => reminderId == null;
 
   /// Local wall-clock time.
   final DateTime fireAt;
@@ -35,13 +47,17 @@ class PlannedNotification {
   final bool silent;
 
   /// Stable across runs, so reconciling can match it with what is pending.
-  int get id => notificationIdFor(reminderId);
+  int get id => notificationIdFor(reminderId ?? _reviewKey);
 
   /// Everything that identifies this notification, so a pending one whose
   /// payload differs is out of date.
   String get payload => jsonEncode({
-    'item': itemId,
-    'reminder': reminderId,
+    if (isReview)
+      'review': true
+    else ...{
+      'item': itemId,
+      'reminder': reminderId,
+    },
     'at': fireAt.toIso8601String(),
     'title': title,
     'body': body,
@@ -57,6 +73,19 @@ class PlannedNotification {
 
   @override
   String toString() => 'PlannedNotification("$title" at $fireAt)';
+}
+
+const _reviewKey = 'weekly-review';
+
+/// Whether a notification payload is the weekly review reminder.
+bool isReviewPayload(String? payload) {
+  if (payload == null) return false;
+  try {
+    final json = jsonDecode(payload);
+    return json is Map && json['review'] == true;
+  } on FormatException {
+    return false;
+  }
 }
 
 /// The item and reminder a notification payload points at.
@@ -87,7 +116,8 @@ int notificationIdFor(String reminderId) {
 ///
 /// Only active and waiting items notify. Reminders the user timed exactly
 /// (at the item's time, at a custom time, or snoozed) fire as set; others
-/// that land in quiet hours wait until quiet hours end (FR-09).
+/// that land in quiet hours wait until quiet hours end (FR-09). The weekly
+/// review reminder, when on, fires at the chosen day and time (FR-11).
 List<PlannedNotification> planNotifications(
   Iterable<(Item, Reminder)> reminders, {
   required AppSettings settings,
@@ -123,6 +153,14 @@ List<PlannedNotification> planNotifications(
         fireAt: fireAt,
         title: item.title,
         body: item.doneMeans == null ? null : 'Done means: ${item.doneMeans}',
+        silent: silent,
+      ),
+    );
+  }
+  if (settings.reviewReminder) {
+    planned.add(
+      PlannedNotification.review(
+        fireAt: nextReviewAt(settings, now),
         silent: silent,
       ),
     );

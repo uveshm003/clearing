@@ -157,8 +157,9 @@ class _CaptureSheetState extends ConsumerState<CaptureSheet> {
             ),
           ),
           if (suggestions.isNotEmpty)
+            // Tall enough for each chip's full 48 dp touch target (FR-20).
             SizedBox(
-              height: 56,
+              height: 64,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(

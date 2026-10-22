@@ -104,6 +104,7 @@ void main() {
     'Overwhelm reset': () => Routes.reset,
     'Reminders help': () => Routes.remindersHelp,
     'Intro': () => Routes.intro,
+    'About': () => Routes.about,
   };
 
   testWidgets('the capture sheet meets the guidelines', (tester) async {

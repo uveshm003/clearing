@@ -24,14 +24,23 @@ Future<void> closeDatabase(WidgetTester tester, AppDatabase db) async {
 
 /// Scrolls the list that contains [within] until [target] is built and on
 /// screen. Lists build lazily, so [target] may not exist before this.
+///
+/// The list is pinned before scrolling: [within] itself may scroll out of
+/// view (and out of the tree) on the way.
 Future<void> scrollTo(
   WidgetTester tester,
   Finder target, {
   required Finder within,
-}) => tester.scrollUntilVisible(
-  target,
-  200,
-  scrollable: find
-      .ancestor(of: within, matching: find.byType(Scrollable))
-      .first,
-);
+}) async {
+  final scrollable = tester.widget<Scrollable>(
+    find.ancestor(of: within, matching: find.byType(Scrollable)).first,
+  );
+  await tester.scrollUntilVisible(
+    target,
+    200,
+    scrollable: find.byWidget(scrollable),
+  );
+  // Fully on screen, so a tap lands on it rather than off its edge.
+  await tester.ensureVisible(target);
+  await tester.pumpAndSettle();
+}

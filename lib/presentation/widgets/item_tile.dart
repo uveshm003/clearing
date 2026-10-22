@@ -145,6 +145,12 @@ Future<void> showItemMenu(BuildContext context, WidgetRef ref, Item item) {
                   title: const Text('Tomorrow'),
                   onTap: () => run(() => ref.snooze(context, item)),
                 ),
+                ListTile(
+                  leading: const Icon(Icons.center_focus_strong_outlined),
+                  title: const Text('Focus on this'),
+                  onTap: () =>
+                      run(() async => context.push(Routes.focus(item.id))),
+                ),
               ],
               ListTile(
                 leading: const Icon(Icons.event_outlined),

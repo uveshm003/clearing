@@ -15,6 +15,9 @@ import '../widgets/section_header.dart';
 /// "Also today" collapses beyond this many items to keep Today small.
 const _alsoTodayVisible = 5;
 
+/// From this many items on Today, offer the overwhelm reset (PRD §4.4).
+const _offerResetFrom = 8;
+
 class TodayScreen extends ConsumerStatefulWidget {
   const TodayScreen({super.key});
 
@@ -44,7 +47,19 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
               ),
           ],
         ),
-        actions: const [SearchButton()],
+        actions: [
+          const SearchButton(),
+          PopupMenuButton<String>(
+            tooltip: 'More',
+            onSelected: (route) => context.push(route),
+            itemBuilder: (context) => const [
+              PopupMenuItem(
+                value: Routes.reset,
+                child: Text('Overwhelm reset'),
+              ),
+            ],
+          ),
+        ],
       ),
       body: switch (view) {
         AsyncData(:final value) => _body(context, value, cap),
@@ -76,9 +91,19 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
     final collapsed = !_showAllAlso && also.length > _alsoTodayVisible + 1;
     final visibleAlso = collapsed ? also.take(_alsoTodayVisible) : also;
 
+    final total = view.mustDo.length + also.length + view.carriedOver.length;
+
     return ListView(
       padding: const EdgeInsets.only(bottom: 96),
       children: [
+        if (total >= _offerResetFrom)
+          ListTile(
+            leading: const Icon(Icons.self_improvement_outlined),
+            title: const Text('Feeling like a lot?'),
+            subtitle: const Text('A five-minute reset narrows it to one thing'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.push(Routes.reset),
+          ),
         if (view.mustDo.isNotEmpty) ...[
           SectionHeader('Must-do', trailing: '${view.mustDo.length} of $cap'),
           for (final item in view.mustDo) ItemTile(item: item),

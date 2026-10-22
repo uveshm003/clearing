@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../application/item_actions.dart';
 import '../../core/ids.dart';
 import '../../core/providers.dart';
+import '../../core/router.dart';
 import '../../domain/enums.dart';
 import '../../domain/item.dart';
 import '../../domain/local_date.dart';
@@ -263,6 +265,15 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
       child: Scaffold(
         appBar: AppBar(
           actions: [
+            if (item.status == ItemStatus.active)
+              IconButton(
+                icon: const Icon(Icons.center_focus_strong_outlined),
+                tooltip: 'Focus on this',
+                onPressed: () async {
+                  await _saveText();
+                  if (context.mounted) context.push(Routes.focus(item.id));
+                },
+              ),
             if (item.status == ItemStatus.active)
               IconButton(
                 icon: Icon(

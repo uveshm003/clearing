@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../presentation/clarify/clarify_screen.dart';
+import '../presentation/focus/focus_screen.dart';
 import '../presentation/inbox/inbox_screen.dart';
 import '../presentation/item/item_screen.dart';
 import '../presentation/lists/archive_screen.dart';
@@ -9,6 +10,7 @@ import '../presentation/lists/list_screen.dart';
 import '../presentation/lists/lists_screen.dart';
 import '../presentation/lists/someday_screen.dart';
 import '../presentation/lists/trash_screen.dart';
+import '../presentation/reset/reset_screen.dart';
 import '../presentation/search/search_screen.dart';
 import '../presentation/settings/reminders_help_screen.dart';
 import '../presentation/settings/settings_screen.dart';
@@ -29,12 +31,14 @@ abstract final class Routes {
   static const trash = '/lists/trash';
   static const settings = '/settings';
   static const search = '/search';
+  static const reset = '/reset';
   static const suggestions = '/settings/suggestions';
   static const remindersHelp = '/settings/reminders-help';
 
   static String list(String id) => '/lists/$id';
   static String item(String id) => '/item/$id';
   static String clarify(String id) => '/clarify/$id';
+  static String focus(String id) => '/focus/$id';
 }
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -118,6 +122,20 @@ GoRouter buildRouter({String initialLocation = Routes.today}) => GoRouter(
         fullscreenDialog: true,
         child: ClarifyScreen(itemId: state.pathParameters['id']!),
       ),
+    ),
+    GoRoute(
+      path: '/focus/:id',
+      parentNavigatorKey: rootNavigatorKey,
+      pageBuilder: (context, state) => MaterialPage(
+        fullscreenDialog: true,
+        child: FocusScreen(itemId: state.pathParameters['id']!),
+      ),
+    ),
+    GoRoute(
+      path: Routes.reset,
+      parentNavigatorKey: rootNavigatorKey,
+      pageBuilder: (context, state) =>
+          const MaterialPage(fullscreenDialog: true, child: ResetScreen()),
     ),
     GoRoute(
       path: Routes.search,

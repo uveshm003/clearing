@@ -3,11 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../application/item_actions.dart';
 import '../application/lifecycle_actions.dart';
 import '../application/notification_scheduler.dart';
+import '../application/reset_actions.dart';
 import '../application/series_actions.dart';
 import '../data/db/database.dart';
 import '../data/item_repository.dart';
 import '../data/list_repository.dart';
 import '../data/reminder_repository.dart';
+import '../data/review_repository.dart';
 import '../data/series_repository.dart';
 import '../data/settings_repository.dart';
 import '../domain/app_settings.dart';
@@ -58,6 +60,13 @@ final reminderRepositoryProvider = Provider(
   ),
 );
 
+final reviewRepositoryProvider = Provider(
+  (ref) => ReviewRepository(
+    ref.watch(databaseProvider),
+    now: ref.watch(clockProvider),
+  ),
+);
+
 final seriesRepositoryProvider = Provider(
   (ref) => SeriesRepository(
     ref.watch(databaseProvider),
@@ -80,6 +89,14 @@ final itemActionsProvider = Provider(
     ref.watch(itemRepositoryProvider),
     now: ref.watch(clockProvider),
     series: ref.watch(seriesActionsProvider),
+  ),
+);
+
+final resetActionsProvider = Provider(
+  (ref) => ResetActions(
+    ref.watch(itemActionsProvider),
+    ref.watch(itemRepositoryProvider),
+    now: ref.watch(clockProvider),
   ),
 );
 

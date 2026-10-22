@@ -69,6 +69,12 @@ class ListsScreen extends ConsumerWidget {
             title: const Text('New list'),
             onTap: () => _createList(context, ref),
           ),
+          ListTile(
+            leading: const Icon(Icons.checklist),
+            title: const Text('Routines & templates'),
+            subtitle: const Text('Checklists you use again and again'),
+            onTap: () => context.push(Routes.templates),
+          ),
           const SectionHeader('Not now'),
           ListTile(
             leading: const Icon(Icons.lightbulb_outline),

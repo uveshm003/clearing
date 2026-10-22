@@ -81,19 +81,22 @@ Future<WhenChoice?> showWhenSheet(
   return showModalBottomSheet<WhenChoice>(
     context: context,
     builder: (sheetContext) => SafeArea(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
-            child: Text(
-              title,
-              style: Theme.of(sheetContext).textTheme.titleMedium,
+      // Scrolls on short screens and at large text sizes (FR-20).
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
+              child: Text(
+                title,
+                style: Theme.of(sheetContext).textTheme.titleMedium,
+              ),
             ),
-          ),
-          ...whenOptions(sheetContext, today: today),
-        ],
+            ...whenOptions(sheetContext, today: today),
+          ],
+        ),
       ),
     ),
   );

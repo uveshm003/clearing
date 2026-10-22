@@ -6,6 +6,7 @@ import '../application/lifecycle_actions.dart';
 import '../application/notification_scheduler.dart';
 import '../application/reset_actions.dart';
 import '../application/series_actions.dart';
+import '../application/template_actions.dart';
 import '../application/widget_sync.dart';
 import '../data/backup.dart';
 import '../data/backup_files.dart';
@@ -16,6 +17,7 @@ import '../data/reminder_repository.dart';
 import '../data/review_repository.dart';
 import '../data/series_repository.dart';
 import '../data/settings_repository.dart';
+import '../data/template_repository.dart';
 import '../domain/app_settings.dart';
 import '../domain/enums.dart';
 import '../domain/item.dart';
@@ -25,6 +27,7 @@ import '../domain/reminder.dart';
 import '../domain/repeat_series.dart';
 import '../domain/starter_suggestion.dart';
 import '../domain/subtask.dart';
+import '../domain/template.dart';
 import '../domain/today_rules.dart';
 
 /// Overridden in `main()` with the opened database, and in tests with an
@@ -102,6 +105,32 @@ final resetActionsProvider = Provider(
     ref.watch(itemRepositoryProvider),
     now: ref.watch(clockProvider),
   ),
+);
+
+final templateRepositoryProvider = Provider(
+  (ref) => TemplateRepository(
+    ref.watch(databaseProvider),
+    now: ref.watch(clockProvider),
+  ),
+);
+
+final templateActionsProvider = Provider(
+  (ref) => TemplateActions(
+    ref.watch(databaseProvider),
+    ref.watch(templateRepositoryProvider),
+    ref.watch(itemRepositoryProvider),
+    ref.watch(itemActionsProvider),
+    ref.watch(seriesRepositoryProvider),
+    ref.watch(seriesActionsProvider),
+  ),
+);
+
+final templatesProvider = StreamProvider<List<Template>>(
+  (ref) => ref.watch(templateRepositoryProvider).watchAll(),
+);
+
+final templateProvider = StreamProvider.autoDispose.family<Template?, String>(
+  (ref, id) => ref.watch(templateRepositoryProvider).watch(id),
 );
 
 final lifecycleActionsProvider = Provider(

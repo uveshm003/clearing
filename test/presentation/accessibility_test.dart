@@ -105,6 +105,7 @@ void main() {
     'Reminders help': () => Routes.remindersHelp,
     'Intro': () => Routes.intro,
     'About': () => Routes.about,
+    'Templates': () => Routes.templates,
   };
 
   testWidgets('the capture sheet meets the guidelines', (tester) async {

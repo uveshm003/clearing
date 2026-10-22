@@ -20,6 +20,8 @@ import '../presentation/settings/reminders_help_screen.dart';
 import '../presentation/settings/settings_screen.dart';
 import '../presentation/settings/suggestions_screen.dart';
 import '../presentation/shell/home_shell.dart';
+import '../presentation/templates/template_screen.dart';
+import '../presentation/templates/templates_screen.dart';
 import '../presentation/today/this_week_screen.dart';
 import '../presentation/today/today_screen.dart';
 import '../presentation/upcoming/upcoming_screen.dart';
@@ -33,6 +35,9 @@ abstract final class Routes {
   static const someday = '/lists/someday';
   static const archive = '/lists/archive';
   static const trash = '/lists/trash';
+  static const templates = '/lists/templates';
+
+  static String template(String id) => '/lists/templates/$id';
   static const settings = '/settings';
   static const search = '/search';
   static const reset = '/reset';
@@ -105,6 +110,18 @@ GoRouter buildRouter({String initialLocation = Routes.today}) => GoRouter(
                 GoRoute(
                   path: 'trash',
                   builder: (context, state) => const TrashScreen(),
+                ),
+                GoRoute(
+                  path: 'templates',
+                  builder: (context, state) => const TemplatesScreen(),
+                  routes: [
+                    GoRoute(
+                      path: ':id',
+                      builder: (context, state) => TemplateScreen(
+                        templateId: state.pathParameters['id']!,
+                      ),
+                    ),
+                  ],
                 ),
                 GoRoute(
                   path: ':id',

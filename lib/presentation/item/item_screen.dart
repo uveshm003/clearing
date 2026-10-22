@@ -18,6 +18,7 @@ import '../widgets/reminder_editor.dart';
 import '../widgets/subtask_editor.dart';
 import '../widgets/when_sheet.dart';
 import 'repeat_editor.dart';
+import 'series_calendar_screen.dart';
 
 /// Everything about one item (FR-03, FR-07). Text edits save automatically.
 class ItemScreen extends ConsumerWidget {
@@ -391,6 +392,18 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
                   _ => describeRepeat(series, today),
                 }),
                 onTap: done ? null : () => _editRepeat(series),
+                trailing: series == null
+                    ? null
+                    : IconButton(
+                        icon: const Icon(Icons.calendar_month_outlined),
+                        tooltip: 'See all dates',
+                        onPressed: () => Navigator.of(context).push(
+                          MaterialPageRoute<void>(
+                            builder: (_) =>
+                                SeriesCalendarScreen(seriesId: series.id),
+                          ),
+                        ),
+                      ),
               ),
             ListTile(
               leading: const Icon(Icons.flag_outlined),

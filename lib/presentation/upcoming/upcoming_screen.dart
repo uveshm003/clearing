@@ -9,6 +9,7 @@ import '../format.dart';
 import '../widgets/block_tile.dart';
 import '../widgets/empty_state.dart';
 import '../widgets/search_button.dart';
+import 'week_view.dart';
 import '../widgets/item_tile.dart';
 import '../widgets/section_header.dart';
 
@@ -23,11 +24,19 @@ final _upcomingProvider = Provider<AsyncValue<UpcomingView>>((ref) {
       );
 });
 
-class UpcomingScreen extends ConsumerWidget {
+/// The agenda of the next 30 days, or the week timeline (FR-15).
+class UpcomingScreen extends ConsumerStatefulWidget {
   const UpcomingScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<UpcomingScreen> createState() => _UpcomingScreenState();
+}
+
+class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
+  var _week = false;
+
+  @override
+  Widget build(BuildContext context) {
     final view = ref.watch(_upcomingProvider).value;
     final today = ref.watch(todayProvider).value;
     final allBlocks = ref.watch(blocksProvider).value ?? const [];
@@ -51,9 +60,20 @@ class UpcomingScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Upcoming'),
-        actions: const [SearchButton()],
+        actions: [
+          IconButton(
+            icon: Icon(
+              _week ? Icons.view_agenda_outlined : Icons.view_week_outlined,
+            ),
+            tooltip: _week ? 'Agenda' : 'Week view',
+            onPressed: () => setState(() => _week = !_week),
+          ),
+          const SearchButton(),
+        ],
       ),
-      body: view == null || today == null
+      body: _week
+          ? const WeekView()
+          : view == null || today == null
           ? const SizedBox.shrink()
           : days.isEmpty && view.waiting.isEmpty
           ? const EmptyState(

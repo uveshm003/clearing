@@ -27,17 +27,20 @@ Future<void> closeDatabase(WidgetTester tester, AppDatabase db) async {
 ///
 /// The list is pinned before scrolling: [within] itself may scroll out of
 /// view (and out of the tree) on the way.
+///
+/// A negative [delta] scrolls back up.
 Future<void> scrollTo(
   WidgetTester tester,
   Finder target, {
   required Finder within,
+  double delta = 200,
 }) async {
   final scrollable = tester.widget<Scrollable>(
     find.ancestor(of: within, matching: find.byType(Scrollable)).first,
   );
   await tester.scrollUntilVisible(
     target,
-    200,
+    delta,
     scrollable: find.byWidget(scrollable),
   );
   // Fully on screen, so a tap lands on it rather than off its edge.

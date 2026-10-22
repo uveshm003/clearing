@@ -45,6 +45,13 @@ class SeriesRepository {
     return [for (final row in await query.get()) row.toDomain()];
   }
 
+  Stream<List<Item>> watchOccurrences(String seriesId) {
+    final query = _db.select(_db.items)
+      ..where((t) => t.seriesId.equals(seriesId))
+      ..orderBy([(t) => OrderingTerm(expression: t.occurrenceDate)]);
+    return query.watch().map((rows) => [for (final r in rows) r.toDomain()]);
+  }
+
   /// Writes a new occurrence with the template's subtasks and reminders.
   Future<void> insertOccurrence(Item item, SeriesTemplate template) =>
       _db.transaction(() async {

@@ -7,6 +7,7 @@ import '../../core/router.dart';
 import '../../domain/app_settings.dart';
 import '../../domain/enums.dart';
 import '../../domain/lifecycle.dart';
+import '../../domain/local_date.dart';
 import '../format.dart';
 import '../widgets/section_header.dart';
 
@@ -38,6 +39,23 @@ class SettingsScreen extends ConsumerWidget {
             divisions: AppSettings.maxMustDoCap - AppSettings.minMustDoCap,
             label: '${settings.mustDoCap}',
             onChanged: (v) => save(settings.copyWith(mustDoCap: v.round())),
+          ),
+          ListTile(
+            title: const Text('Week starts on'),
+            subtitle: const Text('For “This week” and weekday choices'),
+            trailing: DropdownButton<int>(
+              value: settings.weekStart,
+              underline: const SizedBox.shrink(),
+              items: [
+                for (final day in const [
+                  DateTime.monday,
+                  DateTime.saturday,
+                  DateTime.sunday,
+                ])
+                  DropdownMenuItem(value: day, child: Text(weekdayLong(day))),
+              ],
+              onChanged: (day) => save(settings.copyWith(weekStart: day)),
+            ),
           ),
           const SectionHeader('Inbox'),
           SwitchListTile(
@@ -145,7 +163,7 @@ class SettingsScreen extends ConsumerWidget {
               value: settings.reviewWeekday,
               underline: const SizedBox.shrink(),
               items: [
-                for (var day = 1; day <= 7; day++)
+                for (final day in weekdaysFrom(settings.weekStart))
                   DropdownMenuItem(value: day, child: Text(weekdayLong(day))),
               ],
               onChanged: settings.reviewReminder
@@ -224,6 +242,13 @@ class SettingsScreen extends ConsumerWidget {
               onSelectionChanged: (s) =>
                   save(settings.copyWith(theme: s.single)),
             ),
+          ),
+          const SectionHeader('Help'),
+          ListTile(
+            leading: const Icon(Icons.help_outline),
+            title: const Text('How Clearing works'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.push(Routes.intro),
           ),
         ],
       ),

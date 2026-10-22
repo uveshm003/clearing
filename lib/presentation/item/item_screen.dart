@@ -129,6 +129,7 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
     final doDate = latest.doDate;
     final edited = await editRepeat(
       context,
+      weekStart: ref.read(settingsProvider).value?.weekStart ?? DateTime.monday,
       today: today,
       initial:
           current ??

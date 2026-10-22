@@ -103,6 +103,7 @@ void main() {
     'Weekly review': () => Routes.review,
     'Overwhelm reset': () => Routes.reset,
     'Reminders help': () => Routes.remindersHelp,
+    'Intro': () => Routes.intro,
   };
 
   testWidgets('the capture sheet meets the guidelines', (tester) async {

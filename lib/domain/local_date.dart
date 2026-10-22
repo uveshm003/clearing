@@ -79,3 +79,8 @@ class LocalDate implements Comparable<LocalDate> {
   @override
   String toString() => toIso();
 }
+
+/// The seven [DateTime.weekday] numbers in order, starting on [weekStart].
+List<int> weekdaysFrom(int weekStart) => [
+  for (var i = 0; i < 7; i++) (weekStart - 1 + i) % 7 + 1,
+];

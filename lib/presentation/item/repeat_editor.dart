@@ -13,20 +13,30 @@ Future<RepeatSeries?> editRepeat(
   BuildContext context, {
   required RepeatSeries initial,
   required LocalDate today,
+  int weekStart = DateTime.monday,
 }) => Navigator.of(context).push(
   MaterialPageRoute(
     fullscreenDialog: true,
-    builder: (_) => RepeatEditor(initial: initial, today: today),
+    builder: (_) =>
+        RepeatEditor(initial: initial, today: today, weekStart: weekStart),
   ),
 );
 
 enum _Ends { never, onDate, afterCount }
 
 class RepeatEditor extends StatefulWidget {
-  const RepeatEditor({super.key, required this.initial, required this.today});
+  const RepeatEditor({
+    super.key,
+    required this.initial,
+    required this.today,
+    this.weekStart = DateTime.monday,
+  });
 
   final RepeatSeries initial;
   final LocalDate today;
+
+  /// Weekday chips start on this day (FR-21).
+  final int weekStart;
 
   @override
   State<RepeatEditor> createState() => _RepeatEditorState();
@@ -151,7 +161,7 @@ class _RepeatEditorState extends State<RepeatEditor> {
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  for (var day = 1; day <= 7; day++)
+                  for (final day in weekdaysFrom(widget.weekStart))
                     FilterChip(
                       label: Text(weekdayShort(day)),
                       selected: series.weekdays.contains(day),

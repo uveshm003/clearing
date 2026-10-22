@@ -75,13 +75,17 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
       return Column(
         children: [
           if (view.thisWeekCount > 0) _ThisWeekRow(count: view.thisWeekCount),
-          const Expanded(
+          Expanded(
             child: EmptyState(
               icon: Icons.wb_sunny_outlined,
               title: 'A clear day',
               message:
                   'Capture anything on your mind. You can decide what it '
                   'means later.',
+              action: TextButton(
+                onPressed: () => context.push(Routes.intro),
+                child: const Text('How Clearing works'),
+              ),
             ),
           ),
         ],

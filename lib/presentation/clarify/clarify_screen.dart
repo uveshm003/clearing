@@ -144,6 +144,7 @@ class _ClarifyFlowState extends ConsumerState<_ClarifyFlow> {
   Future<void> _editRepeat() async {
     final edited = await editRepeat(
       context,
+      weekStart: ref.read(settingsProvider).value?.weekStart ?? DateTime.monday,
       today: _today,
       initial:
           _repeat?.copyWith(startDate: _repeatStart) ??

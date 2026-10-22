@@ -45,6 +45,16 @@ bool isCarriedOver(Item item, LocalDate today) {
 bool isThisWeek(Item item) =>
     item.status == ItemStatus.active && item.when == When.thisWeek;
 
+/// Whether a "This week" item was set in an earlier week than [today]'s,
+/// with weeks starting on [weekStart] (FR-21). Shown quietly, like carried
+/// over items on Today.
+bool isFromEarlierWeek(Item item, LocalDate today, int weekStart) {
+  final setOn = item.horizonSetOn;
+  return isThisWeek(item) &&
+      setOn != null &&
+      setOn.isBefore(today.startOfWeek(weekStart));
+}
+
 /// Builds the Today view from all items.
 ///
 /// Must-do items stay in Must-do even when carried over, so the user's chosen

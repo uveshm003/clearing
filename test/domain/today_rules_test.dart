@@ -136,4 +136,28 @@ void main() {
       expect((result as MustDoNeedsSwap).current, unorderedEquals(current));
     });
   });
+
+  group('weeks', () {
+    test('weekdays start on the chosen day', () {
+      expect(weekdaysFrom(DateTime.monday), [1, 2, 3, 4, 5, 6, 7]);
+      expect(weekdaysFrom(DateTime.sunday), [7, 1, 2, 3, 4, 5, 6]);
+      expect(weekdaysFrom(DateTime.saturday), [6, 7, 1, 2, 3, 4, 5]);
+    });
+
+    test('This week items from an earlier week are told apart', () {
+      // Tuesday 20 Oct 2026.
+      final lastWeek = item(
+        horizon: WhenHorizon.thisWeek,
+        horizonSetOn: LocalDate(2026, 10, 18),
+      );
+      final thisWeek = item(
+        horizon: WhenHorizon.thisWeek,
+        horizonSetOn: LocalDate(2026, 10, 19),
+      );
+      expect(isFromEarlierWeek(lastWeek, today, DateTime.monday), isTrue);
+      expect(isFromEarlierWeek(thisWeek, today, DateTime.monday), isFalse);
+      // With Sunday starts, Sunday 18 Oct is this week.
+      expect(isFromEarlierWeek(lastWeek, today, DateTime.sunday), isFalse);
+    });
+  });
 }

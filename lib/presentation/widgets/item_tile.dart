@@ -94,7 +94,11 @@ class ItemTile extends ConsumerWidget {
 
   String? _whenDetail(BuildContext context, LocalDate today) {
     final doDate = item.doDate;
-    if (doDate == null) return null;
+    if (doDate == null) {
+      return quiet && item.horizon == WhenHorizon.thisWeek
+          ? 'From last week'
+          : null;
+    }
     final time = switch (item.doTime) {
       final minutes? => timeLabel(context, minutes),
       null => null,

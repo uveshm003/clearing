@@ -31,6 +31,7 @@ import '../domain/starter_suggestion.dart';
 import '../domain/subtask.dart';
 import '../domain/template.dart';
 import '../domain/today_rules.dart';
+import '../domain/upcoming_rules.dart';
 
 /// Overridden in `main()` with the opened database, and in tests with an
 /// in-memory one.
@@ -214,16 +215,42 @@ final openItemsProvider = StreamProvider<List<Item>>(
   (ref) => ref.watch(itemRepositoryProvider).watchOpen(),
 );
 
-final inboxItemsProvider = Provider<AsyncValue<List<Item>>>(
-  (ref) => ref
-      .watch(openItemsProvider)
-      .whenData(
-        (items) => items.where((i) => i.status == ItemStatus.inbox).toList(),
-      ),
+final inboxItemsProvider = StreamProvider<List<Item>>(
+  (ref) => ref.watch(itemRepositoryProvider).watchByStatus(ItemStatus.inbox),
+);
+
+/// Only what Today shows, filtered by the database.
+final todayItemsProvider = StreamProvider<List<Item>>((ref) {
+  final today = ref.watch(todayProvider).value;
+  if (today == null) return const Stream.empty();
+  return ref.watch(itemRepositoryProvider).watchToday(today);
+});
+
+/// Only what Upcoming shows, filtered by the database.
+final upcomingItemsProvider = StreamProvider<List<Item>>((ref) {
+  final today = ref.watch(todayProvider).value;
+  if (today == null) return const Stream.empty();
+  return ref
+      .watch(itemRepositoryProvider)
+      .watchUpcoming(today, today.addDays(upcomingDays));
+});
+
+/// Open items per list id.
+final listCountsProvider = StreamProvider<Map<String, int>>(
+  (ref) => ref.watch(itemRepositoryProvider).watchListCounts(),
+);
+
+final somedayCountProvider = StreamProvider<int>(
+  (ref) => ref.watch(itemRepositoryProvider).watchCount(ItemStatus.someday),
+);
+
+/// Planned items per list id, for batch blocks.
+final activeListCountsProvider = StreamProvider<Map<String, int>>(
+  (ref) => ref.watch(itemRepositoryProvider).watchListCounts(activeOnly: true),
 );
 
 final todayViewProvider = Provider<AsyncValue<TodayView>>((ref) {
-  final items = ref.watch(openItemsProvider);
+  final items = ref.watch(todayItemsProvider);
   final today = ref.watch(todayProvider);
   return switch ((items, today)) {
     (AsyncData(value: final items), AsyncData(value: final today)) => AsyncData(

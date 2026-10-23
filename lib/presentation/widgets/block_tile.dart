@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../../core/providers.dart';
 import '../../core/router.dart';
 import '../../domain/batch_block.dart';
-import '../../domain/enums.dart';
 import '../format.dart';
 
 /// A batch block as one entry, e.g. "Errands · 10:00 · 4 to do" (FR-05).
@@ -22,9 +21,7 @@ class BlockTile extends ConsumerWidget {
         .value
         ?.where((l) => l.id == block.listId)
         .firstOrNull;
-    final toDo = (ref.watch(openItemsProvider).value ?? const [])
-        .where((i) => i.listId == block.listId && i.status == ItemStatus.active)
-        .length;
+    final toDo = ref.watch(activeListCountsProvider).value?[block.listId] ?? 0;
     if (list == null) return const SizedBox.shrink();
     return ListTile(
       leading: const Icon(Icons.event_available_outlined),

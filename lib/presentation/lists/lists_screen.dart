@@ -16,14 +16,9 @@ import '../widgets/section_header.dart';
 final _countsProvider = Provider<({Map<String, int> byList, int someday})>((
   ref,
 ) {
-  final items = ref.watch(openItemsProvider).value ?? const [];
-  final byList = <String, int>{};
-  for (final item in items) {
-    if (item.listId case final id?) byList[id] = (byList[id] ?? 0) + 1;
-  }
   return (
-    byList: byList,
-    someday: items.where((i) => i.status == ItemStatus.someday).length,
+    byList: ref.watch(listCountsProvider).value ?? const {},
+    someday: ref.watch(somedayCountProvider).value ?? 0,
   );
 });
 

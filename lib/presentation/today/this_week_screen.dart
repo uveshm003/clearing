@@ -11,7 +11,7 @@ import '../widgets/when_sheet.dart';
 
 final _thisWeekProvider = Provider(
   (ref) => ref
-      .watch(openItemsProvider)
+      .watch(todayItemsProvider)
       .whenData((items) => items.where(isThisWeek).toList()),
 );
 

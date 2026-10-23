@@ -19,7 +19,7 @@ import '../widgets/section_header.dart';
 final _upcomingProvider = Provider<AsyncValue<UpcomingView>>((ref) {
   final today = ref.watch(todayProvider).value;
   return ref
-      .watch(openItemsProvider)
+      .watch(upcomingItemsProvider)
       .whenData(
         (items) => today == null
             ? (days: const [], waiting: const [])

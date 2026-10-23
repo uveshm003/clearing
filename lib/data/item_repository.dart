@@ -3,6 +3,7 @@ import 'package:drift/drift.dart';
 import '../core/ids.dart';
 import '../domain/enums.dart';
 import '../domain/item.dart';
+import '../domain/local_date.dart';
 import '../domain/search_filter.dart';
 import '../domain/subtask.dart';
 import 'db/database.dart';
@@ -23,6 +24,65 @@ class ItemRepository {
       )
       ..orderBy([(t) => OrderingTerm(expression: t.sortOrder)]);
     return query.watch().map(_toDomain);
+  }
+
+  /// What Today needs and nothing more (FR-04): active items dated on or
+  /// before [today], and undated ones set to Today or This week. Filtering
+  /// in the database keeps Today fast however many items exist.
+  Stream<List<Item>> watchToday(LocalDate today) {
+    final query = _db.select(_db.items)
+      ..where(
+        (t) =>
+            t.status.equalsValue(ItemStatus.active) &
+            ((t.doDate.isNotNull() &
+                    t.doDate.isSmallerOrEqualValue(today.toIso())) |
+                (t.doDate.isNull() &
+                    t.whenHorizon.isInValues([
+                      WhenHorizon.today,
+                      WhenHorizon.thisWeek,
+                    ]))),
+      )
+      ..orderBy([(t) => OrderingTerm(expression: t.sortOrder)]);
+    return query.watch().map(_toDomain);
+  }
+
+  /// What Upcoming needs: active items dated after [from] up to [to], and
+  /// everything Waiting.
+  Stream<List<Item>> watchUpcoming(LocalDate from, LocalDate to) {
+    final query = _db.select(_db.items)
+      ..where(
+        (t) =>
+            (t.status.equalsValue(ItemStatus.active) &
+                t.doDate.isBiggerThanValue(from.toIso()) &
+                t.doDate.isSmallerOrEqualValue(to.toIso())) |
+            t.status.equalsValue(ItemStatus.waiting),
+      )
+      ..orderBy([(t) => OrderingTerm(expression: t.sortOrder)]);
+    return query.watch().map(_toDomain);
+  }
+
+  /// Open items per list, counted in the database. With [activeOnly], only
+  /// planned ones (what a batch block works through).
+  Stream<Map<String, int>> watchListCounts({bool activeOnly = false}) {
+    final count = _db.items.id.count();
+    final query = _db.selectOnly(_db.items)
+      ..addColumns([_db.items.listId, count])
+      ..where(
+        _db.items.listId.isNotNull() &
+            (activeOnly
+                ? _db.items.status.equalsValue(ItemStatus.active)
+                : _db.items.status.isNotInValues([
+                    ItemStatus.done,
+                    ItemStatus.trashed,
+                  ])),
+      )
+      ..groupBy([_db.items.listId]);
+    return query.watch().map(
+      (rows) => {
+        for (final row in rows)
+          row.read(_db.items.listId)!: row.read(count) ?? 0,
+      },
+    );
   }
 
   Stream<List<Item>> watchByStatus(ItemStatus status) {

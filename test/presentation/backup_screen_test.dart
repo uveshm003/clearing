@@ -101,6 +101,11 @@ void main() {
     ];
     files.toPick = jsonEncode(backup);
 
+    await scrollTo(
+      tester,
+      find.text('Restore from a backup'),
+      within: find.text('Share a backup'),
+    );
     await tester.tap(find.text('Restore from a backup'));
     await settle(tester);
     expect(find.text('Backup from Today'), findsOneWidget);
@@ -123,6 +128,11 @@ void main() {
   testWidgets('a file that isn’t a backup is explained', (tester) async {
     files.toPick = 'not a backup';
     await pumpBackup(tester);
+    await scrollTo(
+      tester,
+      find.text('Restore from a backup'),
+      within: find.text('Share a backup'),
+    );
     await tester.tap(find.text('Restore from a backup'));
     await tester.pumpAndSettle();
     expect(find.text('Can’t restore this file'), findsOneWidget);

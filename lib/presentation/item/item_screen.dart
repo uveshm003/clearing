@@ -14,6 +14,7 @@ import '../../domain/local_date.dart';
 import '../../domain/repeat_series.dart';
 import '../format.dart';
 import '../item_commands.dart';
+import '../widgets/choice_sheet.dart';
 import '../widgets/reminder_editor.dart';
 import '../widgets/subtask_editor.dart';
 import '../widgets/when_sheet.dart';
@@ -427,17 +428,26 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
             ListTile(
               leading: const Icon(Icons.list_alt_outlined),
               title: const Text('List'),
-              trailing: DropdownButton<String?>(
-                value: item.listId,
-                underline: const SizedBox.shrink(),
-                items: [
-                  const DropdownMenuItem(value: null, child: Text('None')),
-                  for (final list in lists)
-                    DropdownMenuItem(value: list.id, child: Text(list.name)),
-                ],
-                onChanged: (id) =>
-                    _actions.save(item.copyWith(listId: () => id)),
+              subtitle: Text(
+                lists.where((l) => l.id == item.listId).firstOrNull?.name ??
+                    'None',
               ),
+              onTap: () async {
+                final picked = await showChoiceSheet<String?>(
+                  context,
+                  title: 'List',
+                  selected: item.listId,
+                  options: [
+                    (null, 'None'),
+                    for (final list in lists) (list.id, list.name),
+                  ],
+                );
+                if (picked != null) {
+                  await _actions.save(
+                    item.copyWith(listId: () => picked.value),
+                  );
+                }
+              },
             ),
             const Divider(),
             Padding(

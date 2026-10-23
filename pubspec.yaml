@@ -80,10 +80,21 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
-  # Embedded in printed worksheets (FR-19); the app itself uses system fonts.
+  # Glade's fonts (SIL Open Font License), bundled because the app has no
+  # internet access. Roboto stays for the printed worksheet's fallback.
+  fonts:
+    - family: Fraunces
+      fonts:
+        - asset: assets/fonts/Fraunces-SemiBold.ttf
+          weight: 600
+    - family: AtkinsonHyperlegibleNext
+      fonts:
+        - asset: assets/fonts/AtkinsonHyperlegibleNext-Regular.ttf
+        - asset: assets/fonts/AtkinsonHyperlegibleNext-Bold.ttf
+          weight: 700
+
   assets:
-    - assets/fonts/Roboto-Regular.ttf
-    - assets/fonts/Roboto-Bold.ttf
+    - assets/fonts/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

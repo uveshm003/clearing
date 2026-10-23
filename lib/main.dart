@@ -7,6 +7,7 @@ import 'app.dart';
 import 'application/notification_scheduler.dart';
 import 'background.dart';
 import 'core/providers.dart';
+import 'core/licenses.dart';
 import 'core/router.dart';
 import 'data/db/database.dart';
 import 'data/home_widgets.dart';
@@ -15,6 +16,7 @@ import 'domain/notification_plan.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  registerFontLicenses();
   final notifications = LocalNotifications();
   final container = ProviderContainer(
     overrides: [

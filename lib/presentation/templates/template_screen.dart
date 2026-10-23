@@ -13,6 +13,7 @@ import '../../domain/template.dart';
 import '../format.dart';
 import '../item/repeat_editor.dart';
 import '../item_commands.dart';
+import '../widgets/choice_sheet.dart';
 import '../widgets/section_header.dart';
 import '../widgets/when_sheet.dart';
 
@@ -270,16 +271,24 @@ class _EditorState extends ConsumerState<_Editor> {
           ListTile(
             leading: const Icon(Icons.list_alt_outlined),
             title: const Text('List'),
-            trailing: DropdownButton<String?>(
-              value: template.listId,
-              underline: const SizedBox.shrink(),
-              items: [
-                const DropdownMenuItem(value: null, child: Text('None')),
-                for (final list in lists)
-                  DropdownMenuItem(value: list.id, child: Text(list.name)),
-              ],
-              onChanged: (id) => _save(template.copyWith(listId: () => id)),
+            subtitle: Text(
+              lists.where((l) => l.id == template.listId).firstOrNull?.name ??
+                  'None',
             ),
+            onTap: () async {
+              final picked = await showChoiceSheet<String?>(
+                context,
+                title: 'List',
+                selected: template.listId,
+                options: [
+                  (null, 'None'),
+                  for (final list in lists) (list.id, list.name),
+                ],
+              );
+              if (picked != null) {
+                await _save(template.copyWith(listId: () => picked.value));
+              }
+            },
           ),
           const SectionHeader('Use it'),
           ListTile(

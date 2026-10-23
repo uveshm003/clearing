@@ -27,7 +27,28 @@ jobs:
           git diff --exit-code -- lib test
       - run: dart format --output=none --set-exit-if-changed lib test integration_test
       - run: flutter analyze
-      - run: flutter test
+      - run: flutter test --exclude-tags golden
+
+  goldens:
+    # Screenshot tests: text renders differently on each OS, so these run on
+    # the OS the reference images were made on.
+    runs-on: macos-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.44.x
+          cache: true
+      - run: flutter pub get
+      - run: flutter test --tags golden
+      - name: Keep the differences for review
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: golden-failures
+          path: test/**/failures/
 
   android-release:
     runs-on: ubuntu-latest

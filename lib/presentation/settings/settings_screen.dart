@@ -267,6 +267,13 @@ class SettingsScreen extends ConsumerWidget {
             onTap: () => context.push(Routes.intro),
           ),
           ListTile(
+            leading: const Icon(Icons.quiz_outlined),
+            title: const Text('Questions and answers'),
+            subtitle: const Text('Backups, new phones, undo and more'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.push(Routes.faq),
+          ),
+          ListTile(
             leading: const Icon(Icons.info_outline),
             title: const Text('About and feedback'),
             trailing: const Icon(Icons.chevron_right),

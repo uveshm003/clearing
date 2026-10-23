@@ -108,6 +108,7 @@ void main() {
     'Intro': () => Routes.intro,
     'About': () => Routes.about,
     'Templates': () => Routes.templates,
+    'FAQ': () => Routes.faq,
   };
 
   testWidgets('the capture sheet meets the guidelines', (tester) async {

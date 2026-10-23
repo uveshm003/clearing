@@ -15,6 +15,7 @@ import '../presentation/review/review_screen.dart';
 import '../presentation/search/search_screen.dart';
 import '../presentation/settings/about_screen.dart';
 import '../presentation/settings/backup_screen.dart';
+import '../presentation/settings/faq_screen.dart';
 import '../presentation/settings/intro_screen.dart';
 import '../presentation/settings/reminders_help_screen.dart';
 import '../presentation/settings/settings_screen.dart';
@@ -46,6 +47,7 @@ abstract final class Routes {
   static const remindersHelp = '/settings/reminders-help';
   static const backup = '/settings/backup';
   static const about = '/settings/about';
+  static const faq = '/settings/faq';
   static const intro = '/intro';
 
   static String list(String id) => '/lists/$id';
@@ -188,6 +190,7 @@ GoRouter buildRouter({String initialLocation = Routes.today}) => GoRouter(
           path: 'suggestions',
           builder: (context, state) => const SuggestionsScreen(),
         ),
+        GoRoute(path: 'faq', builder: (context, state) => const FaqScreen()),
         GoRoute(
           path: 'about',
           builder: (context, state) => const AboutScreen(),

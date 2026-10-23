@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../application/backup_actions.dart';
+import 'error_log.dart';
 import '../application/item_actions.dart';
 import '../application/lifecycle_actions.dart';
 import '../application/notification_scheduler.dart';
@@ -38,6 +39,9 @@ import '../domain/upcoming_rules.dart';
 final databaseProvider = Provider<AppDatabase>(
   (ref) => throw UnimplementedError('databaseProvider must be overridden'),
 );
+
+/// Overridden in `main()` with the log file on the phone.
+final errorLogProvider = Provider<ErrorLog>((ref) => ErrorLog());
 
 /// The wall clock; tests override it to control "today".
 final clockProvider = Provider<DateTime Function()>((ref) => DateTime.now);

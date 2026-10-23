@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../core/providers.dart';
 import '../widgets/pebble.dart';
 import '../widgets/section_header.dart';
 
@@ -71,6 +72,7 @@ class AboutScreen extends ConsumerWidget {
               ),
             ),
           ),
+          const _ErrorLogTiles(),
           ListTile(
             leading: const Icon(Icons.code),
             title: const Text('Source code'),
@@ -102,3 +104,50 @@ String feedbackTemplate(String? version) => [
   '',
   'Anything else:',
 ].join('\n');
+
+final _errorCountProvider = FutureProvider.autoDispose<int>(
+  (ref) => ref.watch(errorLogProvider).count(),
+);
+
+/// Offers to include the on-phone error log with feedback, when there is
+/// one. The share sheet shows the whole text before anything is sent.
+class _ErrorLogTiles extends ConsumerWidget {
+  const _ErrorLogTiles();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final count = ref.watch(_errorCountProvider).value ?? 0;
+    if (count == 0) return const SizedBox.shrink();
+    final log = ref.read(errorLogProvider);
+    final version = ref.watch(appVersionProvider).value;
+    return Column(
+      children: [
+        ListTile(
+          leading: const Icon(Icons.bug_report_outlined),
+          title: Text('Send feedback with the error log ($count)'),
+          subtitle: const Text(
+            'Error types and where they happened; you see it all first',
+          ),
+          onTap: () async {
+            final text = await log.asText();
+            await SharePlus.instance.share(
+              ShareParams(
+                subject: 'Clearing feedback',
+                text:
+                    '${feedbackTemplate(version)}\n\n--- Error log ---\n$text',
+              ),
+            );
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.delete_sweep_outlined),
+          title: const Text('Clear the error log'),
+          onTap: () async {
+            await log.clear();
+            ref.invalidate(_errorCountProvider);
+          },
+        ),
+      ],
+    );
+  }
+}

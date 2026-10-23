@@ -11,6 +11,7 @@ import '../../domain/item.dart';
 import '../../domain/local_date.dart';
 import '../format.dart';
 import '../item_commands.dart';
+import '../shell/two_pane.dart';
 
 /// Items the user just ticked, so a row animating away after Done still
 /// looks done ("Mist"), whatever list it leaves.
@@ -133,7 +134,7 @@ class _ItemTileState extends ConsumerState<ItemTile> {
               semanticLabel: 'Must-do',
             )
           : null,
-      onTap: widget.onTap ?? () => context.push(Routes.item(item.id)),
+      onTap: widget.onTap ?? () => openItem(context, ref, item.id),
       onLongPress: () => showItemMenu(context, ref, item),
     );
   }

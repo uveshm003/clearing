@@ -24,17 +24,32 @@ import 'repeat_editor.dart';
 import 'series_calendar_screen.dart';
 
 /// Everything about one item (FR-03, FR-07). Text edits save automatically.
+///
+/// On wide screens it sits in a pane beside the list; [onClose] then closes
+/// the pane instead of popping a page.
 class ItemScreen extends ConsumerWidget {
-  const ItemScreen({super.key, required this.itemId});
+  const ItemScreen({super.key, required this.itemId, this.onClose});
 
   final String itemId;
+  final VoidCallback? onClose;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return switch (ref.watch(itemProvider(itemId))) {
-      AsyncData(value: final item?) => _ItemEditor(item: item),
+      AsyncData(value: final item?) => _ItemEditor(
+        item: item,
+        onClose: onClose,
+      ),
       AsyncData() => Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          leading: onClose == null
+              ? null
+              : IconButton(
+                  icon: const Icon(Icons.close),
+                  tooltip: 'Close',
+                  onPressed: onClose,
+                ),
+        ),
         body: const Center(child: Text('This item no longer exists.')),
       ),
       _ => const Scaffold(),
@@ -43,9 +58,10 @@ class ItemScreen extends ConsumerWidget {
 }
 
 class _ItemEditor extends ConsumerStatefulWidget {
-  const _ItemEditor({required this.item});
+  const _ItemEditor({required this.item, this.onClose});
 
   final Item item;
+  final VoidCallback? onClose;
 
   @override
   ConsumerState<_ItemEditor> createState() => _ItemEditorState();
@@ -57,6 +73,15 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
   late final _doneMeans = TextEditingController(text: widget.item.doneMeans);
   late final _notes = TextEditingController(text: widget.item.notes);
   Timer? _debounce;
+
+  /// Leaves the item: closes the pane, or pops the page.
+  void _close() {
+    if (widget.onClose case final close?) {
+      close();
+    } else {
+      Navigator.pop(context);
+    }
+  }
 
   /// The item as it was when opened, to tell whether a repeating item was
   /// edited during this visit.
@@ -167,7 +192,7 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
   Future<void> _leave() async {
     final latest = await _saveText();
     if (!mounted) return;
-    if (_sameForSeries(latest, _opened)) return Navigator.pop(context);
+    if (_sameForSeries(latest, _opened)) return _close();
     final choice = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -190,7 +215,7 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
     );
     if (choice == null || !mounted) return;
     if (choice) await ref.read(seriesActionsProvider).applyToFuture(latest);
-    if (mounted) Navigator.pop(context);
+    if (mounted) _close();
   }
 
   Future<void> _editDeadline() async {
@@ -269,6 +294,14 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
       },
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: widget.onClose == null,
+          leading: widget.onClose == null
+              ? null
+              : IconButton(
+                  icon: const Icon(Icons.close),
+                  tooltip: 'Close',
+                  onPressed: () => seriesId == null ? _close() : _leave(),
+                ),
           actions: [
             if (item.status == ItemStatus.active)
               IconButton(
@@ -299,7 +332,7 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
                     await _editWaiting();
                   case 'delete':
                     await ref.trash(context, latest);
-                    if (context.mounted) Navigator.pop(context);
+                    if (context.mounted) _close();
                   case 'future':
                     await ref.read(seriesActionsProvider).applyToFuture(latest);
                     _opened = latest;
@@ -361,7 +394,7 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
                       final latest = await _saveText();
                       if (!context.mounted) return;
                       await ref.complete(context, latest);
-                      if (context.mounted) Navigator.pop(context);
+                      if (context.mounted) _close();
                     },
                   ),
           ),

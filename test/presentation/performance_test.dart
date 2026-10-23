@@ -1,6 +1,5 @@
 import 'package:clearing/app.dart';
 import 'package:clearing/core/providers.dart';
-import 'package:clearing/data/db/database.dart';
 import 'package:clearing/data/mappers.dart';
 import 'package:clearing/domain/enums.dart';
 import 'package:clearing/domain/item.dart';

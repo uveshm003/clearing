@@ -81,8 +81,11 @@ void main() {
     required ThemePreference theme,
     double textScale = 1,
     String? route,
+    Size size = const Size(1080, 2340),
+    double pixelRatio = 2.625,
   }) async {
-    phoneSurface(tester);
+    phoneSurface(tester, size: size);
+    tester.view.devicePixelRatio = pixelRatio;
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
@@ -94,7 +97,9 @@ void main() {
           ),
         ],
         child: MediaQuery(
-          data: MediaQueryData(textScaler: TextScaler.linear(textScale)),
+          data: MediaQueryData.fromView(
+            tester.view,
+          ).copyWith(textScaler: TextScaler.linear(textScale)),
           child: const ClearingApp(),
         ),
       ),
@@ -170,6 +175,21 @@ void main() {
       await closeDatabase(tester, db);
     });
   }
+
+  testWidgets('tablet, two panes', (tester) async {
+    final db = await seeded();
+    await pump(
+      tester,
+      db,
+      theme: ThemePreference.light,
+      size: const Size(2560, 1600),
+      pixelRatio: 2,
+    );
+    await tester.tap(find.text('Pay rent'));
+    await tester.pumpAndSettle();
+    await shoot(tester, 'tablet');
+    await closeDatabase(tester, db);
+  });
 
   testWidgets('Today at 200% text', (tester) async {
     final db = await seeded();

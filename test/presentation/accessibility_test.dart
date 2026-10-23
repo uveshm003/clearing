@@ -67,7 +67,9 @@ void main() {
           ),
         ],
         child: MediaQuery(
-          data: MediaQueryData(textScaler: TextScaler.linear(textScale)),
+          data: MediaQueryData.fromView(
+            tester.view,
+          ).copyWith(textScaler: TextScaler.linear(textScale)),
           child: const ClearingApp(),
         ),
       ),

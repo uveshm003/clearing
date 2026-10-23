@@ -12,8 +12,13 @@ import 'presentation/capture/share_intake.dart';
 import 'presentation/shell/scheduler_sync.dart';
 import 'presentation/shell/widget_intake.dart';
 
+/// Where the app opens; `main()` sends a first launch to the welcome.
+final initialLocationProvider = Provider<String>((ref) => Routes.today);
+
 final routerProvider = Provider<GoRouter>((ref) {
-  final router = buildRouter();
+  final router = buildRouter(
+    initialLocation: ref.read(initialLocationProvider),
+  );
   ref.onDispose(router.dispose);
   return router;
 });

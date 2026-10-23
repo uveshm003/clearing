@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
 import 'enums.dart';
@@ -23,6 +24,9 @@ class AppSettings {
     this.exportReminderDays = 30,
     this.lastExportAt,
     this.inboxBadge = true,
+    this.onboardingDone = false,
+    this.showTips = true,
+    this.seenTips = const {},
   }) : assert(mustDoCap >= minMustDoCap && mustDoCap <= maxMustDoCap);
 
   static const minMustDoCap = 1;
@@ -59,6 +63,16 @@ class AppSettings {
   final DateTime? lastExportAt;
   final bool inboxBadge;
 
+  /// The welcome has been finished or skipped. It shows on first launch
+  /// only, and can be replayed from Settings › Help.
+  final bool onboardingDone;
+
+  /// One-time tips shown where they matter ("Tips as you go").
+  final bool showTips;
+
+  /// Tips already dismissed, by id.
+  final Set<String> seenTips;
+
   AppSettings copyWith({
     int? weekStart,
     int? reviewWeekday,
@@ -76,6 +90,9 @@ class AppSettings {
     int? Function()? exportReminderDays,
     DateTime? Function()? lastExportAt,
     bool? inboxBadge,
+    bool? onboardingDone,
+    bool? showTips,
+    Set<String>? seenTips,
   }) => AppSettings(
     weekStart: weekStart ?? this.weekStart,
     reviewWeekday: reviewWeekday ?? this.reviewWeekday,
@@ -95,6 +112,9 @@ class AppSettings {
         : this.exportReminderDays,
     lastExportAt: lastExportAt != null ? lastExportAt() : this.lastExportAt,
     inboxBadge: inboxBadge ?? this.inboxBadge,
+    onboardingDone: onboardingDone ?? this.onboardingDone,
+    showTips: showTips ?? this.showTips,
+    seenTips: seenTips ?? this.seenTips,
   );
 
   Map<String, Object?> toJson() => {
@@ -114,6 +134,9 @@ class AppSettings {
     'exportReminderDays': exportReminderDays,
     'lastExportAt': lastExportAt?.toIso8601String(),
     'inboxBadge': inboxBadge,
+    'onboardingDone': onboardingDone,
+    'showTips': showTips,
+    'seenTips': seenTips.toList()..sort(),
   };
 
   /// Unknown or malformed values fall back to defaults, so an older or
@@ -151,6 +174,12 @@ class AppSettings {
           : d.exportReminderDays,
       lastExportAt: DateTime.tryParse('${json['lastExportAt']}'),
       inboxBadge: read('inboxBadge', d.inboxBadge),
+      onboardingDone: read('onboardingDone', d.onboardingDone),
+      showTips: read('showTips', d.showTips),
+      seenTips: {
+        for (final id in read<List<Object?>>('seenTips', const []))
+          if (id is String) id,
+      },
     );
   }
 
@@ -172,7 +201,10 @@ class AppSettings {
       other.starterSuggestions == starterSuggestions &&
       other.exportReminderDays == exportReminderDays &&
       other.lastExportAt == lastExportAt &&
-      other.inboxBadge == inboxBadge;
+      other.inboxBadge == inboxBadge &&
+      other.onboardingDone == onboardingDone &&
+      other.showTips == showTips &&
+      const SetEquality<String>().equals(other.seenTips, seenTips);
 
   @override
   int get hashCode => Object.hash(
@@ -192,5 +224,8 @@ class AppSettings {
     exportReminderDays,
     lastExportAt,
     inboxBadge,
+    onboardingDone,
+    showTips,
+    const SetEquality<String>().hash(seenTips),
   );
 }

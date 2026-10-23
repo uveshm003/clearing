@@ -16,7 +16,9 @@ import '../presentation/search/search_screen.dart';
 import '../presentation/settings/about_screen.dart';
 import '../presentation/settings/backup_screen.dart';
 import '../presentation/settings/faq_screen.dart';
-import '../presentation/settings/intro_screen.dart';
+import '../presentation/guidance/guides.dart';
+import '../presentation/guidance/help_screen.dart';
+import '../presentation/guidance/onboarding_screen.dart';
 import '../presentation/settings/reminders_help_screen.dart';
 import '../presentation/settings/settings_screen.dart';
 import '../presentation/settings/suggestions_screen.dart';
@@ -49,6 +51,10 @@ abstract final class Routes {
   static const about = '/settings/about';
   static const faq = '/settings/faq';
   static const intro = '/intro';
+  static const welcome = '/welcome';
+  static const help = '/settings/help';
+
+  static String guide(String topic) => '/settings/help/$topic';
 
   static String list(String id) => '/lists/$id';
   static String item(String id) => '/item/$id';
@@ -161,8 +167,16 @@ GoRouter buildRouter({String initialLocation = Routes.today}) => GoRouter(
     GoRoute(
       path: Routes.intro,
       parentNavigatorKey: rootNavigatorKey,
+      pageBuilder: (context, state) => const MaterialPage(
+        fullscreenDialog: true,
+        child: OnboardingScreen(tourOnly: true),
+      ),
+    ),
+    GoRoute(
+      path: Routes.welcome,
+      parentNavigatorKey: rootNavigatorKey,
       pageBuilder: (context, state) =>
-          const MaterialPage(fullscreenDialog: true, child: IntroScreen()),
+          const MaterialPage(fullscreenDialog: true, child: OnboardingScreen()),
     ),
     GoRoute(
       path: Routes.review,
@@ -189,6 +203,18 @@ GoRouter buildRouter({String initialLocation = Routes.today}) => GoRouter(
         GoRoute(
           path: 'suggestions',
           builder: (context, state) => const SuggestionsScreen(),
+        ),
+        GoRoute(
+          path: 'help',
+          builder: (context, state) => const HelpScreen(),
+          routes: [
+            GoRoute(
+              path: ':topic',
+              builder: (context, state) => GuideScreen(
+                topic: GuideTopic.values.byName(state.pathParameters['topic']!),
+              ),
+            ),
+          ],
         ),
         GoRoute(path: 'faq', builder: (context, state) => const FaqScreen()),
         GoRoute(

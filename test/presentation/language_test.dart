@@ -51,6 +51,9 @@ void main() {
     'Review': () => Routes.review,
     'Reset': () => Routes.reset,
     'Search': () => Routes.search,
+    'Welcome': () => Routes.welcome,
+    'Help': () => Routes.help,
+    'Guide': () => Routes.guide('review'),
   };
 
   Future<void> pump(

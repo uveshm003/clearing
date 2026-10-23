@@ -23,6 +23,9 @@ void main() {
       exportReminderDays: () => null,
       notificationIntensity: NotificationIntensity.off,
       reviewReminder: false,
+      onboardingDone: true,
+      showTips: false,
+      seenTips: {'today_ring', 'inbox_swipe'},
     );
     expect(AppSettings.fromJson(s.toJson()), s);
   });

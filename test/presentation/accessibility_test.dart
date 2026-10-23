@@ -109,6 +109,9 @@ void main() {
     'About': () => Routes.about,
     'Templates': () => Routes.templates,
     'FAQ': () => Routes.faq,
+    'Welcome': () => Routes.welcome,
+    'Help': () => Routes.help,
+    'Guide': () => Routes.guide('time'),
   };
 
   testWidgets('the capture sheet meets the guidelines', (tester) async {

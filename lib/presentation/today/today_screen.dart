@@ -11,6 +11,7 @@ import '../../domain/item.dart';
 import '../../domain/today_rules.dart';
 import '../../l10n/l10n.dart';
 import '../format.dart';
+import '../guidance/tip_card.dart';
 import '../widgets/block_tile.dart';
 import '../widgets/clearing_art.dart';
 import '../widgets/empty_state.dart';
@@ -147,6 +148,9 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
     return CustomScrollView(
       slivers: [
         SliverToBoxAdapter(child: header),
+        SliverToBoxAdapter(
+          child: TipCard(id: Tips.todayRing, text: context.l10n.tipTodayRing),
+        ),
         if (left >= _offerResetFrom)
           SliverToBoxAdapter(
             child: ListTile(

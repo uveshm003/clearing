@@ -16,8 +16,11 @@ import 'core/licenses.dart';
 import 'core/router.dart';
 import 'data/db/database.dart';
 import 'data/home_widgets.dart';
+import 'data/item_repository.dart';
+import 'data/settings_repository.dart';
 import 'data/local_notifications.dart';
 import 'domain/notification_plan.dart';
+import 'presentation/guidance/onboarding_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,11 +39,19 @@ Future<void> main() async {
     return false;
   };
 
+  final db = AppDatabase.open();
+  // A first launch opens on the welcome (skippable on every page).
+  final welcome = await shouldWelcome(
+    SettingsRepository(db).get(),
+    ItemRepository(db).firstCreatedAt(),
+  );
+
   final notifications = LocalNotifications();
   final container = ProviderContainer(
     overrides: [
       errorLogProvider.overrideWithValue(errorLog),
-      databaseProvider.overrideWithValue(AppDatabase.open()),
+      databaseProvider.overrideWithValue(db),
+      if (welcome) initialLocationProvider.overrideWithValue(Routes.welcome),
       notificationGatewayProvider.overrideWithValue(notifications),
       homeWidgetGatewayProvider.overrideWithValue(const HomeWidgets()),
     ],

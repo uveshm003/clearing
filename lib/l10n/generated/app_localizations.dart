@@ -3703,6 +3703,720 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Answers, and how Clearing works.'**
   String get settingsHelpHint;
+
+  /// First welcome page title.
+  ///
+  /// In en, this message translates to:
+  /// **'Close your mental tabs.'**
+  String get welcomeTitle;
+
+  /// First welcome page text.
+  ///
+  /// In en, this message translates to:
+  /// **'Clearing is a quiet place for everything on your mind, so you can stop carrying it around.'**
+  String get welcomeBody;
+
+  /// Button: start the tour.
+  ///
+  /// In en, this message translates to:
+  /// **'Show me around'**
+  String get welcomeShowMe;
+
+  /// Button: skip onboarding.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip the tour'**
+  String get welcomeSkip;
+
+  /// Tour page title.
+  ///
+  /// In en, this message translates to:
+  /// **'Capture it'**
+  String get welcomeCaptureTitle;
+
+  /// Tour page text.
+  ///
+  /// In en, this message translates to:
+  /// **'The moment something pops into your head, tap + and write one line. It waits in your Inbox until you have a minute.'**
+  String get welcomeCaptureBody;
+
+  /// Tour page title.
+  ///
+  /// In en, this message translates to:
+  /// **'Decide what it means'**
+  String get welcomeDecideTitle;
+
+  /// Tour page text.
+  ///
+  /// In en, this message translates to:
+  /// **'Later, give each thought a place: today, this week, a date, someone else’s job, or Someday if it’s just an idea.'**
+  String get welcomeDecideBody;
+
+  /// Tour page title.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep Today small'**
+  String get welcomeTodayTitle;
+
+  /// Tour page text.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick up to three must-dos. Missed things are carried over, never shown in red, never held against you.'**
+  String get welcomeTodayBody;
+
+  /// Tour page title.
+  ///
+  /// In en, this message translates to:
+  /// **'Look back once a week'**
+  String get welcomeReviewTitle;
+
+  /// Tour page text.
+  ///
+  /// In en, this message translates to:
+  /// **'A 15-minute weekly review clears your head and plans the week, so nothing slips.'**
+  String get welcomeReviewBody;
+
+  /// Tour page title.
+  ///
+  /// In en, this message translates to:
+  /// **'Private by design'**
+  String get welcomePrivateTitle;
+
+  /// Tour page text.
+  ///
+  /// In en, this message translates to:
+  /// **'No account, no ads, no internet access. Everything stays on this phone, and you can export a backup any time.'**
+  String get welcomePrivateBody;
+
+  /// Setup page title.
+  ///
+  /// In en, this message translates to:
+  /// **'Make it yours'**
+  String get welcomeSetupTitle;
+
+  /// Setup page hint.
+  ///
+  /// In en, this message translates to:
+  /// **'You can change all of this later in Settings.'**
+  String get welcomeSetupHint;
+
+  /// Setup: must-do cap.
+  ///
+  /// In en, this message translates to:
+  /// **'Must-dos per day'**
+  String get welcomeSetupMustDo;
+
+  /// Setup: must-do cap hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Fewer is calmer. Three is a good start.'**
+  String get welcomeSetupMustDoHint;
+
+  /// Setup: week start.
+  ///
+  /// In en, this message translates to:
+  /// **'Your week starts on'**
+  String get welcomeSetupWeek;
+
+  /// Setup: notification intensity.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get welcomeSetupReminders;
+
+  /// Setup: review reminder switch.
+  ///
+  /// In en, this message translates to:
+  /// **'Remind me to do a weekly review'**
+  String get welcomeSetupReview;
+
+  /// Setup: review day and time.
+  ///
+  /// In en, this message translates to:
+  /// **'{day} at {time}'**
+  String welcomeSetupReviewWhen(String day, String time);
+
+  /// Setup: finish button.
+  ///
+  /// In en, this message translates to:
+  /// **'Start using Clearing'**
+  String get welcomeSetupDone;
+
+  /// Last page title.
+  ///
+  /// In en, this message translates to:
+  /// **'You’re all set'**
+  String get welcomeReadyTitle;
+
+  /// Last page text.
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: add the Today and quick-capture widgets to your home screen. Long-press the home screen, then Widgets › Clearing.'**
+  String get welcomeReadyBody;
+
+  /// Last page button.
+  ///
+  /// In en, this message translates to:
+  /// **'Capture my first thought'**
+  String get welcomeCaptureFirst;
+
+  /// Last page button.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Today'**
+  String get welcomeGoToday;
+
+  /// Screen reader position in the welcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Page {page} of {total}'**
+  String welcomePageLabel(int page, int total);
+
+  /// Title when replaying the tour.
+  ///
+  /// In en, this message translates to:
+  /// **'How Clearing works'**
+  String get welcomeTourTitle;
+
+  /// Small label on a tip card.
+  ///
+  /// In en, this message translates to:
+  /// **'Tip'**
+  String get tipLabel;
+
+  /// Dismiss a tip.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get tipGotIt;
+
+  /// Tip on Today.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the ring when something’s done. Long-press any item for more options.'**
+  String get tipTodayRing;
+
+  /// Tip on the Inbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe right to plan an item for today or this week. Swipe left to pick a date, keep it for Someday, or delete it. Or tap it to decide step by step.'**
+  String get tipInboxSwipe;
+
+  /// Tip on Upcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'See a whole week at a time with the week icon at the top.'**
+  String get tipUpcomingWeek;
+
+  /// Tip on Lists.
+  ///
+  /// In en, this message translates to:
+  /// **'Open a list and tap the calendar icon to block out time for it, like “Errands, Saturday 10:00”.'**
+  String get tipListsBlock;
+
+  /// Tip on an item.
+  ///
+  /// In en, this message translates to:
+  /// **'Feeling stuck? Tap the focus icon at the top to see only this item.'**
+  String get tipItemFocus;
+
+  /// Tip in the capture sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Press Enter after each thought: the field stays open for the next one.'**
+  String get tipCaptureBurst;
+
+  /// Settings switch.
+  ///
+  /// In en, this message translates to:
+  /// **'Show tips as you go'**
+  String get settingsShowTips;
+
+  /// Settings switch hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Short hints the first time you visit each screen'**
+  String get settingsShowTipsHint;
+
+  /// Settings action.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all tips again'**
+  String get settingsResetTips;
+
+  /// Snackbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Tips will show again'**
+  String get settingsTipsReset;
+
+  /// Settings action: tour and setup again.
+  ///
+  /// In en, this message translates to:
+  /// **'Replay the welcome'**
+  String get settingsReplayWelcome;
+
+  /// Settings action hint.
+  ///
+  /// In en, this message translates to:
+  /// **'The tour, and setting up the basics'**
+  String get settingsReplayWelcomeHint;
+
+  /// Help hub title and settings entry.
+  ///
+  /// In en, this message translates to:
+  /// **'Help and guides'**
+  String get helpTitle;
+
+  /// Settings entry subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Guides, questions and answers'**
+  String get helpSubtitle;
+
+  /// Help hub section.
+  ///
+  /// In en, this message translates to:
+  /// **'Get started'**
+  String get helpGetStarted;
+
+  /// Help hub section.
+  ///
+  /// In en, this message translates to:
+  /// **'Guides'**
+  String get helpGuides;
+
+  /// Help hub section.
+  ///
+  /// In en, this message translates to:
+  /// **'More help'**
+  String get helpMore;
+
+  /// Help hub: tour row hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Five short pages'**
+  String get helpTourHint;
+
+  /// Guide title.
+  ///
+  /// In en, this message translates to:
+  /// **'Capturing thoughts'**
+  String get guideCaptureTitle;
+
+  /// Guide lead sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Get it out of your head first; decide later.'**
+  String get guideCaptureLead;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap + anywhere'**
+  String get guideCapture1Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'The capture button is on every tab. Write one line and press Enter; the field stays open for the next thought.'**
+  String get guideCapture1Body;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste a brain-dump'**
+  String get guideCapture2Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste several lines at once and each line becomes its own item.'**
+  String get guideCapture2Body;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Share from other apps'**
+  String get guideCapture3Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'Share text from a message or a web page to Clearing to capture it.'**
+  String get guideCapture3Body;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'From your home screen'**
+  String get guideCapture4Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'Add the quick-capture widget: long-press the home screen, then Widgets › Clearing.'**
+  String get guideCapture4Body;
+
+  /// Guide title.
+  ///
+  /// In en, this message translates to:
+  /// **'Deciding what things mean'**
+  String get guideDecideTitle;
+
+  /// Guide lead sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Every thought in the Inbox gets a place, in a few taps.'**
+  String get guideDecideLead;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Clarify step by step'**
+  String get guideDecide1Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap an Inbox item. Clearing asks: is it actionable, what’s the next action, is someone else doing it, and when?'**
+  String get guideDecide1Body;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe shortcuts'**
+  String get guideDecide2Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe right for Today or This week; swipe left to pick a date, keep it for Someday, or delete it.'**
+  String get guideDecide2Body;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Done means…'**
+  String get guideDecide3Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'For anything vague, write what finished looks like, and break it into steps.'**
+  String get guideDecide3Body;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting on someone'**
+  String get guideDecide4Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'If someone else is doing it, note who, and when to follow up.'**
+  String get guideDecide4Body;
+
+  /// Guide title.
+  ///
+  /// In en, this message translates to:
+  /// **'Today and must-dos'**
+  String get guideTodayTitle;
+
+  /// Guide lead sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Today shows what you planned for today, and keeps it small.'**
+  String get guideTodayLead;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Must-dos'**
+  String get guideToday1Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'Star up to three things that truly must happen. Everything else stays visible below.'**
+  String get guideToday1Body;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Carried over'**
+  String get guideToday2Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'Things from earlier days wait quietly at the bottom. Nothing turns red.'**
+  String get guideToday2Body;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'This week'**
+  String get guideToday3Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'Things for this week, without a day, gather in one row.'**
+  String get guideToday3Body;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Done, and undo'**
+  String get guideToday4Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the ring when done. Changed your mind? Tap Undo, or untick it in Lists › Done.'**
+  String get guideToday4Body;
+
+  /// Guide title.
+  ///
+  /// In en, this message translates to:
+  /// **'Dates, reminders and repeats'**
+  String get guideTimeTitle;
+
+  /// Guide lead sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'When you’ll do it, when it’s due, and when to be reminded are three separate things.'**
+  String get guideTimeLead;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Do on, deadline, remind me'**
+  String get guideTime1Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'“When” is the day you plan to do it. A deadline is when it’s due. A reminder is a notification; you can have up to three.'**
+  String get guideTime1Body;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeats'**
+  String get guideTime2Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily, weekly or monthly, or counted from when you finish (good for haircuts). Missed repeats never pile up.'**
+  String get guideTime2Body;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Quiet hours'**
+  String get guideTime3Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'Early reminders wait until morning; ones you timed exactly still arrive.'**
+  String get guideTime3Body;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Morning summary'**
+  String get guideTime4Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on one note each morning with today’s must-dos, in Settings › Reminders.'**
+  String get guideTime4Body;
+
+  /// Guide title.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviews and resets'**
+  String get guideReviewTitle;
+
+  /// Guide lead sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Two short routines that keep your head clear.'**
+  String get guideReviewLead;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly review'**
+  String get guideReview1Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'About 15 minutes: empty your head, sort the Inbox, look back at last week and ahead at the next.'**
+  String get guideReview1Body;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Overwhelm reset'**
+  String get guideReview2Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'When it’s all too much, five quick steps narrow everything down to one thing.'**
+  String get guideReview2Body;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Focus'**
+  String get guideReview3Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'Shows a single item and nothing else, until it’s done.'**
+  String get guideReview3Body;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Print a worksheet'**
+  String get guideReview4Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'Print today or this week on one page, with room to write.'**
+  String get guideReview4Body;
+
+  /// Guide title.
+  ///
+  /// In en, this message translates to:
+  /// **'Lists, blocks and templates'**
+  String get guideOrganizeTitle;
+
+  /// Guide lead sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Group things by context, and reuse what you do often.'**
+  String get guideOrganizeLead;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Lists'**
+  String get guideOrganize1Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'Life Admin, Errands, and your own lists. An item can be in a list and planned for a day.'**
+  String get guideOrganize1Body;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Time blocks'**
+  String get guideOrganize2Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'Block out time for a whole list, like Errands on Saturday morning, and it shows as one entry on Today.'**
+  String get guideOrganize2Body;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Templates and routines'**
+  String get guideOrganize3Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'Save checklists you use again and again. Make one a routine and it arrives on its own schedule.'**
+  String get guideOrganize3Body;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get guideOrganize4Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'Find anything, including done items, from the search icon.'**
+  String get guideOrganize4Body;
+
+  /// Guide title.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data and privacy'**
+  String get guideDataTitle;
+
+  /// Guide lead sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Clearing keeps everything on this phone.'**
+  String get guideDataLead;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'No account, no internet'**
+  String get guideData1Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'There’s no server and no tracking; the app can’t reach the internet at all.'**
+  String get guideData1Body;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Backups'**
+  String get guideData2Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'Export a copy in Settings › Backup, and restore it on any phone.'**
+  String get guideData2Body;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Moving phones'**
+  String get guideData3Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'Android’s phone-to-phone transfer brings Clearing’s data along, or use a backup.'**
+  String get guideData3Body;
+
+  /// Guide point heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Trash and archive'**
+  String get guideData4Title;
+
+  /// Guide point text.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted items stay in Trash for 30 days; done items move to the archive and stay searchable.'**
+  String get guideData4Body;
 }
 
 class _AppLocalizationsDelegate

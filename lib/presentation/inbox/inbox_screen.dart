@@ -10,6 +10,7 @@ import '../../domain/item.dart';
 import '../../domain/starter_suggestion.dart';
 import '../../l10n/l10n.dart';
 import '../item_commands.dart';
+import '../guidance/tip_card.dart';
 import '../widgets/search_button.dart';
 import '../widgets/clearing_art.dart';
 import '../widgets/empty_state.dart';
@@ -52,6 +53,12 @@ class InboxScreen extends ConsumerWidget {
                     title: context.l10n.tabInbox,
                     actions: const [SearchButton()],
                     subtitle: context.l10n.inboxToDecide(items.length),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: TipCard(
+                    id: Tips.inboxSwipe,
+                    text: context.l10n.tipInboxSwipe,
                   ),
                 ),
                 if (items.length >= _estimateThreshold)

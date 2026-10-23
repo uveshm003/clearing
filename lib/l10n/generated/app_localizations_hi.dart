@@ -2194,4 +2194,411 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get settingsHelpHint => 'जवाब, और Clearing कैसे काम करता है।';
+
+  @override
+  String get welcomeTitle => 'मन के खुले टैब बंद करें।';
+
+  @override
+  String get welcomeBody =>
+      'Clearing आपके मन की हर बात के लिए एक शांत जगह है, ताकि आपको सब कुछ याद रखने का बोझ न उठाना पड़े।';
+
+  @override
+  String get welcomeShowMe => 'मुझे दिखाएँ';
+
+  @override
+  String get welcomeSkip => 'टूर छोड़ें';
+
+  @override
+  String get welcomeCaptureTitle => 'लिख लें';
+
+  @override
+  String get welcomeCaptureBody =>
+      'जैसे ही कुछ याद आए, + दबाएँ और एक लाइन लिख दें। यह इनबॉक्स में तब तक रहेगा जब तक आपके पास एक मिनट न हो।';
+
+  @override
+  String get welcomeDecideTitle => 'तय करें कि इसका क्या करना है';
+
+  @override
+  String get welcomeDecideBody =>
+      'बाद में हर बात को जगह दें: आज, इस हफ़्ते, कोई तारीख़, किसी और का काम, या किसी दिन, अगर यह बस एक विचार है।';
+
+  @override
+  String get welcomeTodayTitle => 'आज को छोटा रखें';
+
+  @override
+  String get welcomeTodayBody =>
+      'ज़्यादा से ज़्यादा तीन ज़रूरी काम चुनें। छूटे काम आगे ले जाए जाते हैं, कभी लाल नहीं दिखते, कभी आपके ख़िलाफ़ नहीं गिने जाते।';
+
+  @override
+  String get welcomeReviewTitle => 'हफ़्ते में एक बार पीछे देखें';
+
+  @override
+  String get welcomeReviewBody =>
+      '15 मिनट की साप्ताहिक समीक्षा मन हल्का करती है और हफ़्ते की योजना बनाती है, ताकि कुछ न छूटे।';
+
+  @override
+  String get welcomePrivateTitle => 'शुरू से ही निजी';
+
+  @override
+  String get welcomePrivateBody =>
+      'न खाता, न विज्ञापन, न इंटरनेट। सब कुछ इसी फ़ोन पर रहता है, और आप कभी भी बैकअप एक्सपोर्ट कर सकते हैं।';
+
+  @override
+  String get welcomeSetupTitle => 'इसे अपने हिसाब से बनाएँ';
+
+  @override
+  String get welcomeSetupHint => 'यह सब आप बाद में सेटिंग्स में बदल सकते हैं।';
+
+  @override
+  String get welcomeSetupMustDo => 'हर दिन ज़रूरी काम';
+
+  @override
+  String get welcomeSetupMustDoHint =>
+      'कम हों तो मन शांत रहता है। तीन से शुरुआत अच्छी है।';
+
+  @override
+  String get welcomeSetupWeek => 'आपका हफ़्ता शुरू होता है';
+
+  @override
+  String get welcomeSetupReminders => 'रिमाइंडर';
+
+  @override
+  String get welcomeSetupReview => 'साप्ताहिक समीक्षा की याद दिलाएँ';
+
+  @override
+  String welcomeSetupReviewWhen(String day, String time) {
+    return '$day, $time बजे';
+  }
+
+  @override
+  String get welcomeSetupDone => 'Clearing शुरू करें';
+
+  @override
+  String get welcomeReadyTitle => 'सब तैयार है';
+
+  @override
+  String get welcomeReadyBody =>
+      'सुझाव: होम स्क्रीन पर आज और झटपट लिखें विजेट जोड़ें। होम स्क्रीन को दबाकर रखें, फिर विजेट › Clearing।';
+
+  @override
+  String get welcomeCaptureFirst => 'पहली बात लिखें';
+
+  @override
+  String get welcomeGoToday => 'आज पर जाएँ';
+
+  @override
+  String welcomePageLabel(int page, int total) {
+    return 'पेज $page / $total';
+  }
+
+  @override
+  String get welcomeTourTitle => 'Clearing कैसे काम करता है';
+
+  @override
+  String get tipLabel => 'सुझाव';
+
+  @override
+  String get tipGotIt => 'समझ गया';
+
+  @override
+  String get tipTodayRing =>
+      'कोई काम हो जाए तो गोले पर टैप करें। और विकल्पों के लिए किसी भी काम को दबाकर रखें।';
+
+  @override
+  String get tipInboxSwipe =>
+      'दाएँ स्वाइप करें: आज या इस हफ़्ते के लिए। बाएँ स्वाइप करें: तारीख़ चुनें, किसी दिन के लिए रखें, या हटाएँ। या टैप करके एक-एक कदम में तय करें।';
+
+  @override
+  String get tipUpcomingWeek =>
+      'ऊपर हफ़्ते वाले आइकन से पूरा हफ़्ता एक साथ देखें।';
+
+  @override
+  String get tipListsBlock =>
+      'कोई सूची खोलें और कैलेंडर आइकन टैप करके उसके लिए समय तय करें, जैसे “बाहर के काम, शनिवार 10:00”।';
+
+  @override
+  String get tipItemFocus =>
+      'अटक गए? ऊपर फ़ोकस आइकन टैप करें और सिर्फ़ यही काम देखें।';
+
+  @override
+  String get tipCaptureBurst =>
+      'हर बात के बाद Enter दबाएँ: अगली बात के लिए जगह खुली रहती है।';
+
+  @override
+  String get settingsShowTips => 'चलते-चलते सुझाव दिखाएँ';
+
+  @override
+  String get settingsShowTipsHint => 'हर स्क्रीन पर पहली बार छोटे संकेत';
+
+  @override
+  String get settingsResetTips => 'सारे सुझाव फिर से दिखाएँ';
+
+  @override
+  String get settingsTipsReset => 'सुझाव फिर से दिखेंगे';
+
+  @override
+  String get settingsReplayWelcome => 'स्वागत फिर से देखें';
+
+  @override
+  String get settingsReplayWelcomeHint => 'टूर, और ज़रूरी चीज़ें सेट करना';
+
+  @override
+  String get helpTitle => 'मदद और गाइड';
+
+  @override
+  String get helpSubtitle => 'गाइड, सवाल और जवाब';
+
+  @override
+  String get helpGetStarted => 'शुरुआत';
+
+  @override
+  String get helpGuides => 'गाइड';
+
+  @override
+  String get helpMore => 'और मदद';
+
+  @override
+  String get helpTourHint => 'पाँच छोटे पेज';
+
+  @override
+  String get guideCaptureTitle => 'विचार लिख लेना';
+
+  @override
+  String get guideCaptureLead => 'पहले दिमाग़ से बाहर निकालें; फ़ैसला बाद में।';
+
+  @override
+  String get guideCapture1Title => 'कहीं से भी + दबाएँ';
+
+  @override
+  String get guideCapture1Body =>
+      'लिखने का बटन हर टैब पर है। एक लाइन लिखें और Enter दबाएँ; अगली बात के लिए जगह खुली रहती है।';
+
+  @override
+  String get guideCapture2Title => 'एक साथ सब चिपकाएँ';
+
+  @override
+  String get guideCapture2Body =>
+      'एक साथ कई लाइनें चिपकाएँ, हर लाइन अलग काम बन जाएगी।';
+
+  @override
+  String get guideCapture3Title => 'दूसरे ऐप से शेयर करें';
+
+  @override
+  String get guideCapture3Body =>
+      'किसी मैसेज या वेब पेज का टेक्स्ट Clearing में शेयर करके लिख लें।';
+
+  @override
+  String get guideCapture4Title => 'होम स्क्रीन से';
+
+  @override
+  String get guideCapture4Body =>
+      'झटपट लिखें विजेट जोड़ें: होम स्क्रीन को दबाकर रखें, फिर विजेट › Clearing।';
+
+  @override
+  String get guideDecideTitle => 'तय करना कि क्या करना है';
+
+  @override
+  String get guideDecideLead =>
+      'इनबॉक्स की हर बात को कुछ टैप में जगह मिलती है।';
+
+  @override
+  String get guideDecide1Title => 'एक-एक कदम में स्पष्ट करें';
+
+  @override
+  String get guideDecide1Body =>
+      'इनबॉक्स के किसी काम पर टैप करें। Clearing पूछता है: क्या कुछ करना है, अगला कदम क्या है, क्या कोई और कर रहा है, और कब?';
+
+  @override
+  String get guideDecide2Title => 'स्वाइप के शॉर्टकट';
+
+  @override
+  String get guideDecide2Body =>
+      'दाएँ स्वाइप: आज या इस हफ़्ते। बाएँ स्वाइप: तारीख़ चुनें, किसी दिन के लिए रखें, या हटाएँ।';
+
+  @override
+  String get guideDecide3Title => 'पूरा होने का मतलब…';
+
+  @override
+  String get guideDecide3Body =>
+      'जो काम धुंधला लगे, उसमें लिखें कि पूरा होना कैसा दिखेगा, और उसे चरणों में बाँटें।';
+
+  @override
+  String get guideDecide4Title => 'किसी के इंतज़ार में';
+
+  @override
+  String get guideDecide4Body =>
+      'अगर कोई और कर रहा है, तो लिखें कौन, और कब पूछना है।';
+
+  @override
+  String get guideTodayTitle => 'आज और ज़रूरी काम';
+
+  @override
+  String get guideTodayLead =>
+      'आज वही दिखाता है जो आपने आज के लिए तय किया, और उसे छोटा रखता है।';
+
+  @override
+  String get guideToday1Title => 'ज़रूरी काम';
+
+  @override
+  String get guideToday1Body =>
+      'ज़्यादा से ज़्यादा तीन सच में ज़रूरी कामों पर स्टार लगाएँ। बाकी सब नीचे दिखता रहता है।';
+
+  @override
+  String get guideToday2Title => 'पिछले दिनों से बाकी';
+
+  @override
+  String get guideToday2Body =>
+      'पिछले दिनों के काम नीचे चुपचाप इंतज़ार करते हैं। कुछ भी लाल नहीं होता।';
+
+  @override
+  String get guideToday3Title => 'इस हफ़्ते';
+
+  @override
+  String get guideToday3Body =>
+      'इस हफ़्ते के काम, बिना किसी दिन के, एक ही पंक्ति में रहते हैं।';
+
+  @override
+  String get guideToday4Title => 'हो गया, और वापस लेना';
+
+  @override
+  String get guideToday4Body =>
+      'हो जाने पर गोले पर टैप करें। मन बदल गया? वापस लें दबाएँ, या सूचियाँ › पूरे हुए में टिक हटाएँ।';
+
+  @override
+  String get guideTimeTitle => 'तारीख़ें, रिमाइंडर और दोहराना';
+
+  @override
+  String get guideTimeLead =>
+      'कब करेंगे, कब तक करना है, और कब याद दिलाना है, ये तीन अलग बातें हैं।';
+
+  @override
+  String get guideTime1Title => 'कब करें, आख़िरी तारीख़, याद दिलाएँ';
+
+  @override
+  String get guideTime1Body =>
+      '“कब” वह दिन है जब आप करने वाले हैं। आख़िरी तारीख़ वह है जब तक करना है। रिमाइंडर एक सूचना है; तीन तक लगा सकते हैं।';
+
+  @override
+  String get guideTime2Title => 'दोहराना';
+
+  @override
+  String get guideTime2Body =>
+      'हर दिन, हर हफ़्ते, हर महीने, या पूरा करने के बाद से गिनकर (जैसे बाल कटवाना)। छूटे हुए दोहराव कभी जमा नहीं होते।';
+
+  @override
+  String get guideTime3Title => 'शांत समय';
+
+  @override
+  String get guideTime3Body =>
+      'पहले वाले रिमाइंडर सुबह तक रुकते हैं; जिनका समय आपने ख़ुद तय किया, वे समय पर आते हैं।';
+
+  @override
+  String get guideTime4Title => 'सुबह का सार';
+
+  @override
+  String get guideTime4Body =>
+      'सेटिंग्स › रिमाइंडर में हर सुबह आज के ज़रूरी कामों की एक सूचना चालू करें।';
+
+  @override
+  String get guideReviewTitle => 'समीक्षा और मन हल्का करना';
+
+  @override
+  String get guideReviewLead => 'दो छोटी आदतें जो मन को साफ़ रखती हैं।';
+
+  @override
+  String get guideReview1Title => 'साप्ताहिक समीक्षा';
+
+  @override
+  String get guideReview1Body =>
+      'लगभग 15 मिनट: मन ख़ाली करें, इनबॉक्स सँभालें, पिछले हफ़्ते को देखें और अगले की तैयारी करें।';
+
+  @override
+  String get guideReview2Title => 'बोझ हल्का करें';
+
+  @override
+  String get guideReview2Body =>
+      'जब सब बहुत ज़्यादा लगे, पाँच छोटे कदम सब कुछ एक काम तक ले आते हैं।';
+
+  @override
+  String get guideReview3Title => 'फ़ोकस';
+
+  @override
+  String get guideReview3Body =>
+      'सिर्फ़ एक काम दिखाता है, और कुछ नहीं, जब तक वह पूरा न हो।';
+
+  @override
+  String get guideReview4Title => 'वर्कशीट प्रिंट करें';
+
+  @override
+  String get guideReview4Body =>
+      'आज या इस हफ़्ते को एक पेज पर प्रिंट करें, लिखने की जगह के साथ।';
+
+  @override
+  String get guideOrganizeTitle => 'सूचियाँ, समय-खंड और टेम्पलेट';
+
+  @override
+  String get guideOrganizeLead =>
+      'कामों को जगह के हिसाब से रखें, और बार-बार होने वाले काम दोबारा इस्तेमाल करें।';
+
+  @override
+  String get guideOrganize1Title => 'सूचियाँ';
+
+  @override
+  String get guideOrganize1Body =>
+      'ज़िंदगी के काम, बाहर के काम, और आपकी अपनी सूचियाँ। कोई काम सूची में भी हो सकता है और किसी दिन के लिए तय भी।';
+
+  @override
+  String get guideOrganize2Title => 'समय-खंड';
+
+  @override
+  String get guideOrganize2Body =>
+      'पूरी सूची के लिए समय तय करें, जैसे शनिवार सुबह बाहर के काम, और वह आज में एक ही पंक्ति में दिखेगा।';
+
+  @override
+  String get guideOrganize3Title => 'टेम्पलेट और दिनचर्या';
+
+  @override
+  String get guideOrganize3Body =>
+      'बार-बार काम आने वाली चेकलिस्ट सहेजें। किसी को दिनचर्या बनाएँ, वह अपने समय पर आ जाएगी।';
+
+  @override
+  String get guideOrganize4Title => 'खोजें';
+
+  @override
+  String get guideOrganize4Body =>
+      'खोज आइकन से कुछ भी ढूँढें, पूरे हुए काम भी।';
+
+  @override
+  String get guideDataTitle => 'आपका डेटा और निजता';
+
+  @override
+  String get guideDataLead => 'Clearing सब कुछ इसी फ़ोन पर रखता है।';
+
+  @override
+  String get guideData1Title => 'न खाता, न इंटरनेट';
+
+  @override
+  String get guideData1Body =>
+      'न कोई सर्वर, न कोई ट्रैकिंग; यह ऐप इंटरनेट से जुड़ ही नहीं सकता।';
+
+  @override
+  String get guideData2Title => 'बैकअप';
+
+  @override
+  String get guideData2Body =>
+      'सेटिंग्स › बैकअप में एक कॉपी एक्सपोर्ट करें, और किसी भी फ़ोन पर रीस्टोर करें।';
+
+  @override
+  String get guideData3Title => 'नया फ़ोन';
+
+  @override
+  String get guideData3Body =>
+      'Android का फ़ोन-से-फ़ोन ट्रांसफ़र Clearing का डेटा साथ ले आता है, या बैकअप का इस्तेमाल करें।';
+
+  @override
+  String get guideData4Title => 'ट्रैश और आर्काइव';
+
+  @override
+  String get guideData4Body =>
+      'हटाए गए काम 30 दिन ट्रैश में रहते हैं; पूरे हुए काम आर्काइव में जाते हैं और खोजे जा सकते हैं।';
 }

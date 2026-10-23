@@ -282,16 +282,35 @@ class SettingsScreen extends ConsumerWidget {
           ),
           ListTile(
             leading: const Icon(Icons.help_outline),
-            title: Text(l10n.introTitle),
+            title: Text(l10n.helpTitle),
+            subtitle: Text(l10n.helpSubtitle),
             trailing: const Icon(Icons.chevron_right),
-            onTap: () => context.push(Routes.intro),
+            onTap: () => context.push(Routes.help),
+          ),
+          SwitchListTile(
+            secondary: const Icon(Icons.lightbulb_outline),
+            title: Text(l10n.settingsShowTips),
+            subtitle: Text(l10n.settingsShowTipsHint),
+            value: settings.showTips,
+            onChanged: (v) => save(settings.copyWith(showTips: v)),
           ),
           ListTile(
-            leading: const Icon(Icons.quiz_outlined),
-            title: Text(l10n.settingsFaq),
-            subtitle: Text(l10n.settingsFaqHint),
+            leading: const Icon(Icons.restart_alt),
+            title: Text(l10n.settingsResetTips),
+            enabled: settings.seenTips.isNotEmpty,
+            onTap: () {
+              save(settings.copyWith(showTips: true, seenTips: const {}));
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(SnackBar(content: Text(l10n.settingsTipsReset)));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.replay),
+            title: Text(l10n.settingsReplayWelcome),
+            subtitle: Text(l10n.settingsReplayWelcomeHint),
             trailing: const Icon(Icons.chevron_right),
-            onTap: () => context.push(Routes.faq),
+            onTap: () => context.push(Routes.welcome),
           ),
           ListTile(
             leading: const Icon(Icons.info_outline),

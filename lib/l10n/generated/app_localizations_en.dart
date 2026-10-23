@@ -2184,4 +2184,413 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsHelpHint => 'Answers, and how Clearing works.';
+
+  @override
+  String get welcomeTitle => 'Close your mental tabs.';
+
+  @override
+  String get welcomeBody =>
+      'Clearing is a quiet place for everything on your mind, so you can stop carrying it around.';
+
+  @override
+  String get welcomeShowMe => 'Show me around';
+
+  @override
+  String get welcomeSkip => 'Skip the tour';
+
+  @override
+  String get welcomeCaptureTitle => 'Capture it';
+
+  @override
+  String get welcomeCaptureBody =>
+      'The moment something pops into your head, tap + and write one line. It waits in your Inbox until you have a minute.';
+
+  @override
+  String get welcomeDecideTitle => 'Decide what it means';
+
+  @override
+  String get welcomeDecideBody =>
+      'Later, give each thought a place: today, this week, a date, someone else’s job, or Someday if it’s just an idea.';
+
+  @override
+  String get welcomeTodayTitle => 'Keep Today small';
+
+  @override
+  String get welcomeTodayBody =>
+      'Pick up to three must-dos. Missed things are carried over, never shown in red, never held against you.';
+
+  @override
+  String get welcomeReviewTitle => 'Look back once a week';
+
+  @override
+  String get welcomeReviewBody =>
+      'A 15-minute weekly review clears your head and plans the week, so nothing slips.';
+
+  @override
+  String get welcomePrivateTitle => 'Private by design';
+
+  @override
+  String get welcomePrivateBody =>
+      'No account, no ads, no internet access. Everything stays on this phone, and you can export a backup any time.';
+
+  @override
+  String get welcomeSetupTitle => 'Make it yours';
+
+  @override
+  String get welcomeSetupHint =>
+      'You can change all of this later in Settings.';
+
+  @override
+  String get welcomeSetupMustDo => 'Must-dos per day';
+
+  @override
+  String get welcomeSetupMustDoHint =>
+      'Fewer is calmer. Three is a good start.';
+
+  @override
+  String get welcomeSetupWeek => 'Your week starts on';
+
+  @override
+  String get welcomeSetupReminders => 'Reminders';
+
+  @override
+  String get welcomeSetupReview => 'Remind me to do a weekly review';
+
+  @override
+  String welcomeSetupReviewWhen(String day, String time) {
+    return '$day at $time';
+  }
+
+  @override
+  String get welcomeSetupDone => 'Start using Clearing';
+
+  @override
+  String get welcomeReadyTitle => 'You’re all set';
+
+  @override
+  String get welcomeReadyBody =>
+      'Tip: add the Today and quick-capture widgets to your home screen. Long-press the home screen, then Widgets › Clearing.';
+
+  @override
+  String get welcomeCaptureFirst => 'Capture my first thought';
+
+  @override
+  String get welcomeGoToday => 'Go to Today';
+
+  @override
+  String welcomePageLabel(int page, int total) {
+    return 'Page $page of $total';
+  }
+
+  @override
+  String get welcomeTourTitle => 'How Clearing works';
+
+  @override
+  String get tipLabel => 'Tip';
+
+  @override
+  String get tipGotIt => 'Got it';
+
+  @override
+  String get tipTodayRing =>
+      'Tap the ring when something’s done. Long-press any item for more options.';
+
+  @override
+  String get tipInboxSwipe =>
+      'Swipe right to plan an item for today or this week. Swipe left to pick a date, keep it for Someday, or delete it. Or tap it to decide step by step.';
+
+  @override
+  String get tipUpcomingWeek =>
+      'See a whole week at a time with the week icon at the top.';
+
+  @override
+  String get tipListsBlock =>
+      'Open a list and tap the calendar icon to block out time for it, like “Errands, Saturday 10:00”.';
+
+  @override
+  String get tipItemFocus =>
+      'Feeling stuck? Tap the focus icon at the top to see only this item.';
+
+  @override
+  String get tipCaptureBurst =>
+      'Press Enter after each thought: the field stays open for the next one.';
+
+  @override
+  String get settingsShowTips => 'Show tips as you go';
+
+  @override
+  String get settingsShowTipsHint =>
+      'Short hints the first time you visit each screen';
+
+  @override
+  String get settingsResetTips => 'Show all tips again';
+
+  @override
+  String get settingsTipsReset => 'Tips will show again';
+
+  @override
+  String get settingsReplayWelcome => 'Replay the welcome';
+
+  @override
+  String get settingsReplayWelcomeHint => 'The tour, and setting up the basics';
+
+  @override
+  String get helpTitle => 'Help and guides';
+
+  @override
+  String get helpSubtitle => 'Guides, questions and answers';
+
+  @override
+  String get helpGetStarted => 'Get started';
+
+  @override
+  String get helpGuides => 'Guides';
+
+  @override
+  String get helpMore => 'More help';
+
+  @override
+  String get helpTourHint => 'Five short pages';
+
+  @override
+  String get guideCaptureTitle => 'Capturing thoughts';
+
+  @override
+  String get guideCaptureLead => 'Get it out of your head first; decide later.';
+
+  @override
+  String get guideCapture1Title => 'Tap + anywhere';
+
+  @override
+  String get guideCapture1Body =>
+      'The capture button is on every tab. Write one line and press Enter; the field stays open for the next thought.';
+
+  @override
+  String get guideCapture2Title => 'Paste a brain-dump';
+
+  @override
+  String get guideCapture2Body =>
+      'Paste several lines at once and each line becomes its own item.';
+
+  @override
+  String get guideCapture3Title => 'Share from other apps';
+
+  @override
+  String get guideCapture3Body =>
+      'Share text from a message or a web page to Clearing to capture it.';
+
+  @override
+  String get guideCapture4Title => 'From your home screen';
+
+  @override
+  String get guideCapture4Body =>
+      'Add the quick-capture widget: long-press the home screen, then Widgets › Clearing.';
+
+  @override
+  String get guideDecideTitle => 'Deciding what things mean';
+
+  @override
+  String get guideDecideLead =>
+      'Every thought in the Inbox gets a place, in a few taps.';
+
+  @override
+  String get guideDecide1Title => 'Clarify step by step';
+
+  @override
+  String get guideDecide1Body =>
+      'Tap an Inbox item. Clearing asks: is it actionable, what’s the next action, is someone else doing it, and when?';
+
+  @override
+  String get guideDecide2Title => 'Swipe shortcuts';
+
+  @override
+  String get guideDecide2Body =>
+      'Swipe right for Today or This week; swipe left to pick a date, keep it for Someday, or delete it.';
+
+  @override
+  String get guideDecide3Title => 'Done means…';
+
+  @override
+  String get guideDecide3Body =>
+      'For anything vague, write what finished looks like, and break it into steps.';
+
+  @override
+  String get guideDecide4Title => 'Waiting on someone';
+
+  @override
+  String get guideDecide4Body =>
+      'If someone else is doing it, note who, and when to follow up.';
+
+  @override
+  String get guideTodayTitle => 'Today and must-dos';
+
+  @override
+  String get guideTodayLead =>
+      'Today shows what you planned for today, and keeps it small.';
+
+  @override
+  String get guideToday1Title => 'Must-dos';
+
+  @override
+  String get guideToday1Body =>
+      'Star up to three things that truly must happen. Everything else stays visible below.';
+
+  @override
+  String get guideToday2Title => 'Carried over';
+
+  @override
+  String get guideToday2Body =>
+      'Things from earlier days wait quietly at the bottom. Nothing turns red.';
+
+  @override
+  String get guideToday3Title => 'This week';
+
+  @override
+  String get guideToday3Body =>
+      'Things for this week, without a day, gather in one row.';
+
+  @override
+  String get guideToday4Title => 'Done, and undo';
+
+  @override
+  String get guideToday4Body =>
+      'Tap the ring when done. Changed your mind? Tap Undo, or untick it in Lists › Done.';
+
+  @override
+  String get guideTimeTitle => 'Dates, reminders and repeats';
+
+  @override
+  String get guideTimeLead =>
+      'When you’ll do it, when it’s due, and when to be reminded are three separate things.';
+
+  @override
+  String get guideTime1Title => 'Do on, deadline, remind me';
+
+  @override
+  String get guideTime1Body =>
+      '“When” is the day you plan to do it. A deadline is when it’s due. A reminder is a notification; you can have up to three.';
+
+  @override
+  String get guideTime2Title => 'Repeats';
+
+  @override
+  String get guideTime2Body =>
+      'Daily, weekly or monthly, or counted from when you finish (good for haircuts). Missed repeats never pile up.';
+
+  @override
+  String get guideTime3Title => 'Quiet hours';
+
+  @override
+  String get guideTime3Body =>
+      'Early reminders wait until morning; ones you timed exactly still arrive.';
+
+  @override
+  String get guideTime4Title => 'Morning summary';
+
+  @override
+  String get guideTime4Body =>
+      'Turn on one note each morning with today’s must-dos, in Settings › Reminders.';
+
+  @override
+  String get guideReviewTitle => 'Reviews and resets';
+
+  @override
+  String get guideReviewLead => 'Two short routines that keep your head clear.';
+
+  @override
+  String get guideReview1Title => 'Weekly review';
+
+  @override
+  String get guideReview1Body =>
+      'About 15 minutes: empty your head, sort the Inbox, look back at last week and ahead at the next.';
+
+  @override
+  String get guideReview2Title => 'Overwhelm reset';
+
+  @override
+  String get guideReview2Body =>
+      'When it’s all too much, five quick steps narrow everything down to one thing.';
+
+  @override
+  String get guideReview3Title => 'Focus';
+
+  @override
+  String get guideReview3Body =>
+      'Shows a single item and nothing else, until it’s done.';
+
+  @override
+  String get guideReview4Title => 'Print a worksheet';
+
+  @override
+  String get guideReview4Body =>
+      'Print today or this week on one page, with room to write.';
+
+  @override
+  String get guideOrganizeTitle => 'Lists, blocks and templates';
+
+  @override
+  String get guideOrganizeLead =>
+      'Group things by context, and reuse what you do often.';
+
+  @override
+  String get guideOrganize1Title => 'Lists';
+
+  @override
+  String get guideOrganize1Body =>
+      'Life Admin, Errands, and your own lists. An item can be in a list and planned for a day.';
+
+  @override
+  String get guideOrganize2Title => 'Time blocks';
+
+  @override
+  String get guideOrganize2Body =>
+      'Block out time for a whole list, like Errands on Saturday morning, and it shows as one entry on Today.';
+
+  @override
+  String get guideOrganize3Title => 'Templates and routines';
+
+  @override
+  String get guideOrganize3Body =>
+      'Save checklists you use again and again. Make one a routine and it arrives on its own schedule.';
+
+  @override
+  String get guideOrganize4Title => 'Search';
+
+  @override
+  String get guideOrganize4Body =>
+      'Find anything, including done items, from the search icon.';
+
+  @override
+  String get guideDataTitle => 'Your data and privacy';
+
+  @override
+  String get guideDataLead => 'Clearing keeps everything on this phone.';
+
+  @override
+  String get guideData1Title => 'No account, no internet';
+
+  @override
+  String get guideData1Body =>
+      'There’s no server and no tracking; the app can’t reach the internet at all.';
+
+  @override
+  String get guideData2Title => 'Backups';
+
+  @override
+  String get guideData2Body =>
+      'Export a copy in Settings › Backup, and restore it on any phone.';
+
+  @override
+  String get guideData3Title => 'Moving phones';
+
+  @override
+  String get guideData3Body =>
+      'Android’s phone-to-phone transfer brings Clearing’s data along, or use a backup.';
+
+  @override
+  String get guideData4Title => 'Trash and archive';
+
+  @override
+  String get guideData4Body =>
+      'Deleted items stay in Trash for 30 days; done items move to the archive and stay searchable.';
 }

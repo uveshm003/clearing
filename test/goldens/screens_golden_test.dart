@@ -83,6 +83,7 @@ void main() {
     String? route,
     Size size = const Size(1080, 2340),
     double pixelRatio = 2.625,
+    bool tips = false,
   }) async {
     phoneSurface(tester, size: size);
     tester.view.devicePixelRatio = pixelRatio;
@@ -93,7 +94,7 @@ void main() {
           clockProvider.overrideWithValue(() => now),
           todayProvider.overrideWith((ref) => Stream.value(today)),
           settingsProvider.overrideWith(
-            (ref) => Stream.value(AppSettings(theme: theme)),
+            (ref) => Stream.value(AppSettings(theme: theme, showTips: tips)),
           ),
         ],
         child: MediaQuery(
@@ -171,6 +172,36 @@ void main() {
       await pump(tester, db, theme: theme);
       GoRouter.of(tester.element(find.byType(Scaffold).first)).push(route());
       await tester.pumpAndSettle();
+      await shoot(tester, name);
+      await closeDatabase(tester, db);
+    });
+  }
+
+  testWidgets('a tip on Today', (tester) async {
+    final db = await seeded();
+    await pump(tester, db, theme: ThemePreference.light, tips: true);
+    await shoot(tester, 'tip');
+    await closeDatabase(tester, db);
+  });
+
+  for (final (name, theme, route, nexts) in [
+    ('welcome', ThemePreference.light, Routes.welcome, 0),
+    ('welcome_today', ThemePreference.dark, Routes.welcome, 3),
+    ('welcome_setup', ThemePreference.light, Routes.welcome, 6),
+    ('help', ThemePreference.light, Routes.help, 0),
+    ('guide', ThemePreference.dark, Routes.guide('time'), 0),
+  ]) {
+    testWidgets('$name screen', (tester) async {
+      final db = memoryDatabase(now: () => now);
+      await pump(tester, db, theme: theme);
+      GoRouter.of(tester.element(find.byType(Scaffold).first)).push(route);
+      await tester.pumpAndSettle();
+      for (var i = 0; i < nexts; i++) {
+        await tester.tap(
+          find.widgetWithText(FilledButton, i == 0 ? 'Show me around' : 'Next'),
+        );
+        await tester.pumpAndSettle();
+      }
       await shoot(tester, name);
       await closeDatabase(tester, db);
     });

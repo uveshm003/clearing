@@ -7,6 +7,7 @@ import '../../domain/local_date.dart';
 import '../../domain/upcoming_rules.dart';
 import '../../l10n/l10n.dart';
 import '../widgets/block_tile.dart';
+import '../guidance/tip_card.dart';
 import '../widgets/clearing_art.dart';
 import '../widgets/day_rail.dart';
 import '../widgets/empty_state.dart';
@@ -109,6 +110,11 @@ class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
                 const SearchButton(),
               ],
             ),
+            if (!_week)
+              TipCard(
+                id: Tips.upcomingWeek,
+                text: context.l10n.tipUpcomingWeek,
+              ),
             Expanded(
               child: _week
                   ? const WeekView()

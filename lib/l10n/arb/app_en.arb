@@ -2807,5 +2807,497 @@
   "settingsHelpHint": "Answers, and how Clearing works.",
   "@settingsHelpHint": {
     "description": "One-line explanation under a Settings section header."
+  },
+  "welcomeTitle": "Close your mental tabs.",
+  "@welcomeTitle": {
+    "description": "First welcome page title."
+  },
+  "welcomeBody": "Clearing is a quiet place for everything on your mind, so you can stop carrying it around.",
+  "@welcomeBody": {
+    "description": "First welcome page text."
+  },
+  "welcomeShowMe": "Show me around",
+  "@welcomeShowMe": {
+    "description": "Button: start the tour."
+  },
+  "welcomeSkip": "Skip the tour",
+  "@welcomeSkip": {
+    "description": "Button: skip onboarding."
+  },
+  "welcomeCaptureTitle": "Capture it",
+  "@welcomeCaptureTitle": {
+    "description": "Tour page title."
+  },
+  "welcomeCaptureBody": "The moment something pops into your head, tap + and write one line. It waits in your Inbox until you have a minute.",
+  "@welcomeCaptureBody": {
+    "description": "Tour page text."
+  },
+  "welcomeDecideTitle": "Decide what it means",
+  "@welcomeDecideTitle": {
+    "description": "Tour page title."
+  },
+  "welcomeDecideBody": "Later, give each thought a place: today, this week, a date, someone else’s job, or Someday if it’s just an idea.",
+  "@welcomeDecideBody": {
+    "description": "Tour page text."
+  },
+  "welcomeTodayTitle": "Keep Today small",
+  "@welcomeTodayTitle": {
+    "description": "Tour page title."
+  },
+  "welcomeTodayBody": "Pick up to three must-dos. Missed things are carried over, never shown in red, never held against you.",
+  "@welcomeTodayBody": {
+    "description": "Tour page text."
+  },
+  "welcomeReviewTitle": "Look back once a week",
+  "@welcomeReviewTitle": {
+    "description": "Tour page title."
+  },
+  "welcomeReviewBody": "A 15-minute weekly review clears your head and plans the week, so nothing slips.",
+  "@welcomeReviewBody": {
+    "description": "Tour page text."
+  },
+  "welcomePrivateTitle": "Private by design",
+  "@welcomePrivateTitle": {
+    "description": "Tour page title."
+  },
+  "welcomePrivateBody": "No account, no ads, no internet access. Everything stays on this phone, and you can export a backup any time.",
+  "@welcomePrivateBody": {
+    "description": "Tour page text."
+  },
+  "welcomeSetupTitle": "Make it yours",
+  "@welcomeSetupTitle": {
+    "description": "Setup page title."
+  },
+  "welcomeSetupHint": "You can change all of this later in Settings.",
+  "@welcomeSetupHint": {
+    "description": "Setup page hint."
+  },
+  "welcomeSetupMustDo": "Must-dos per day",
+  "@welcomeSetupMustDo": {
+    "description": "Setup: must-do cap."
+  },
+  "welcomeSetupMustDoHint": "Fewer is calmer. Three is a good start.",
+  "@welcomeSetupMustDoHint": {
+    "description": "Setup: must-do cap hint."
+  },
+  "welcomeSetupWeek": "Your week starts on",
+  "@welcomeSetupWeek": {
+    "description": "Setup: week start."
+  },
+  "welcomeSetupReminders": "Reminders",
+  "@welcomeSetupReminders": {
+    "description": "Setup: notification intensity."
+  },
+  "welcomeSetupReview": "Remind me to do a weekly review",
+  "@welcomeSetupReview": {
+    "description": "Setup: review reminder switch."
+  },
+  "welcomeSetupReviewWhen": "{day} at {time}",
+  "@welcomeSetupReviewWhen": {
+    "description": "Setup: review day and time.",
+    "placeholders": {
+      "day": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "welcomeSetupDone": "Start using Clearing",
+  "@welcomeSetupDone": {
+    "description": "Setup: finish button."
+  },
+  "welcomeReadyTitle": "You’re all set",
+  "@welcomeReadyTitle": {
+    "description": "Last page title."
+  },
+  "welcomeReadyBody": "Tip: add the Today and quick-capture widgets to your home screen. Long-press the home screen, then Widgets › Clearing.",
+  "@welcomeReadyBody": {
+    "description": "Last page text."
+  },
+  "welcomeCaptureFirst": "Capture my first thought",
+  "@welcomeCaptureFirst": {
+    "description": "Last page button."
+  },
+  "welcomeGoToday": "Go to Today",
+  "@welcomeGoToday": {
+    "description": "Last page button."
+  },
+  "welcomePageLabel": "Page {page} of {total}",
+  "@welcomePageLabel": {
+    "description": "Screen reader position in the welcome.",
+    "placeholders": {
+      "page": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "welcomeTourTitle": "How Clearing works",
+  "@welcomeTourTitle": {
+    "description": "Title when replaying the tour."
+  },
+  "tipLabel": "Tip",
+  "@tipLabel": {
+    "description": "Small label on a tip card."
+  },
+  "tipGotIt": "Got it",
+  "@tipGotIt": {
+    "description": "Dismiss a tip."
+  },
+  "tipTodayRing": "Tap the ring when something’s done. Long-press any item for more options.",
+  "@tipTodayRing": {
+    "description": "Tip on Today."
+  },
+  "tipInboxSwipe": "Swipe right to plan an item for today or this week. Swipe left to pick a date, keep it for Someday, or delete it. Or tap it to decide step by step.",
+  "@tipInboxSwipe": {
+    "description": "Tip on the Inbox."
+  },
+  "tipUpcomingWeek": "See a whole week at a time with the week icon at the top.",
+  "@tipUpcomingWeek": {
+    "description": "Tip on Upcoming."
+  },
+  "tipListsBlock": "Open a list and tap the calendar icon to block out time for it, like “Errands, Saturday 10:00”.",
+  "@tipListsBlock": {
+    "description": "Tip on Lists."
+  },
+  "tipItemFocus": "Feeling stuck? Tap the focus icon at the top to see only this item.",
+  "@tipItemFocus": {
+    "description": "Tip on an item."
+  },
+  "tipCaptureBurst": "Press Enter after each thought: the field stays open for the next one.",
+  "@tipCaptureBurst": {
+    "description": "Tip in the capture sheet."
+  },
+  "settingsShowTips": "Show tips as you go",
+  "@settingsShowTips": {
+    "description": "Settings switch."
+  },
+  "settingsShowTipsHint": "Short hints the first time you visit each screen",
+  "@settingsShowTipsHint": {
+    "description": "Settings switch hint."
+  },
+  "settingsResetTips": "Show all tips again",
+  "@settingsResetTips": {
+    "description": "Settings action."
+  },
+  "settingsTipsReset": "Tips will show again",
+  "@settingsTipsReset": {
+    "description": "Snackbar."
+  },
+  "settingsReplayWelcome": "Replay the welcome",
+  "@settingsReplayWelcome": {
+    "description": "Settings action: tour and setup again."
+  },
+  "settingsReplayWelcomeHint": "The tour, and setting up the basics",
+  "@settingsReplayWelcomeHint": {
+    "description": "Settings action hint."
+  },
+  "helpTitle": "Help and guides",
+  "@helpTitle": {
+    "description": "Help hub title and settings entry."
+  },
+  "helpSubtitle": "Guides, questions and answers",
+  "@helpSubtitle": {
+    "description": "Settings entry subtitle."
+  },
+  "helpGetStarted": "Get started",
+  "@helpGetStarted": {
+    "description": "Help hub section."
+  },
+  "helpGuides": "Guides",
+  "@helpGuides": {
+    "description": "Help hub section."
+  },
+  "helpMore": "More help",
+  "@helpMore": {
+    "description": "Help hub section."
+  },
+  "helpTourHint": "Five short pages",
+  "@helpTourHint": {
+    "description": "Help hub: tour row hint."
+  },
+  "guideCaptureTitle": "Capturing thoughts",
+  "@guideCaptureTitle": {
+    "description": "Guide title."
+  },
+  "guideCaptureLead": "Get it out of your head first; decide later.",
+  "@guideCaptureLead": {
+    "description": "Guide lead sentence."
+  },
+  "guideCapture1Title": "Tap + anywhere",
+  "@guideCapture1Title": {
+    "description": "Guide point heading."
+  },
+  "guideCapture1Body": "The capture button is on every tab. Write one line and press Enter; the field stays open for the next thought.",
+  "@guideCapture1Body": {
+    "description": "Guide point text."
+  },
+  "guideCapture2Title": "Paste a brain-dump",
+  "@guideCapture2Title": {
+    "description": "Guide point heading."
+  },
+  "guideCapture2Body": "Paste several lines at once and each line becomes its own item.",
+  "@guideCapture2Body": {
+    "description": "Guide point text."
+  },
+  "guideCapture3Title": "Share from other apps",
+  "@guideCapture3Title": {
+    "description": "Guide point heading."
+  },
+  "guideCapture3Body": "Share text from a message or a web page to Clearing to capture it.",
+  "@guideCapture3Body": {
+    "description": "Guide point text."
+  },
+  "guideCapture4Title": "From your home screen",
+  "@guideCapture4Title": {
+    "description": "Guide point heading."
+  },
+  "guideCapture4Body": "Add the quick-capture widget: long-press the home screen, then Widgets › Clearing.",
+  "@guideCapture4Body": {
+    "description": "Guide point text."
+  },
+  "guideDecideTitle": "Deciding what things mean",
+  "@guideDecideTitle": {
+    "description": "Guide title."
+  },
+  "guideDecideLead": "Every thought in the Inbox gets a place, in a few taps.",
+  "@guideDecideLead": {
+    "description": "Guide lead sentence."
+  },
+  "guideDecide1Title": "Clarify step by step",
+  "@guideDecide1Title": {
+    "description": "Guide point heading."
+  },
+  "guideDecide1Body": "Tap an Inbox item. Clearing asks: is it actionable, what’s the next action, is someone else doing it, and when?",
+  "@guideDecide1Body": {
+    "description": "Guide point text."
+  },
+  "guideDecide2Title": "Swipe shortcuts",
+  "@guideDecide2Title": {
+    "description": "Guide point heading."
+  },
+  "guideDecide2Body": "Swipe right for Today or This week; swipe left to pick a date, keep it for Someday, or delete it.",
+  "@guideDecide2Body": {
+    "description": "Guide point text."
+  },
+  "guideDecide3Title": "Done means…",
+  "@guideDecide3Title": {
+    "description": "Guide point heading."
+  },
+  "guideDecide3Body": "For anything vague, write what finished looks like, and break it into steps.",
+  "@guideDecide3Body": {
+    "description": "Guide point text."
+  },
+  "guideDecide4Title": "Waiting on someone",
+  "@guideDecide4Title": {
+    "description": "Guide point heading."
+  },
+  "guideDecide4Body": "If someone else is doing it, note who, and when to follow up.",
+  "@guideDecide4Body": {
+    "description": "Guide point text."
+  },
+  "guideTodayTitle": "Today and must-dos",
+  "@guideTodayTitle": {
+    "description": "Guide title."
+  },
+  "guideTodayLead": "Today shows what you planned for today, and keeps it small.",
+  "@guideTodayLead": {
+    "description": "Guide lead sentence."
+  },
+  "guideToday1Title": "Must-dos",
+  "@guideToday1Title": {
+    "description": "Guide point heading."
+  },
+  "guideToday1Body": "Star up to three things that truly must happen. Everything else stays visible below.",
+  "@guideToday1Body": {
+    "description": "Guide point text."
+  },
+  "guideToday2Title": "Carried over",
+  "@guideToday2Title": {
+    "description": "Guide point heading."
+  },
+  "guideToday2Body": "Things from earlier days wait quietly at the bottom. Nothing turns red.",
+  "@guideToday2Body": {
+    "description": "Guide point text."
+  },
+  "guideToday3Title": "This week",
+  "@guideToday3Title": {
+    "description": "Guide point heading."
+  },
+  "guideToday3Body": "Things for this week, without a day, gather in one row.",
+  "@guideToday3Body": {
+    "description": "Guide point text."
+  },
+  "guideToday4Title": "Done, and undo",
+  "@guideToday4Title": {
+    "description": "Guide point heading."
+  },
+  "guideToday4Body": "Tap the ring when done. Changed your mind? Tap Undo, or untick it in Lists › Done.",
+  "@guideToday4Body": {
+    "description": "Guide point text."
+  },
+  "guideTimeTitle": "Dates, reminders and repeats",
+  "@guideTimeTitle": {
+    "description": "Guide title."
+  },
+  "guideTimeLead": "When you’ll do it, when it’s due, and when to be reminded are three separate things.",
+  "@guideTimeLead": {
+    "description": "Guide lead sentence."
+  },
+  "guideTime1Title": "Do on, deadline, remind me",
+  "@guideTime1Title": {
+    "description": "Guide point heading."
+  },
+  "guideTime1Body": "“When” is the day you plan to do it. A deadline is when it’s due. A reminder is a notification; you can have up to three.",
+  "@guideTime1Body": {
+    "description": "Guide point text."
+  },
+  "guideTime2Title": "Repeats",
+  "@guideTime2Title": {
+    "description": "Guide point heading."
+  },
+  "guideTime2Body": "Daily, weekly or monthly, or counted from when you finish (good for haircuts). Missed repeats never pile up.",
+  "@guideTime2Body": {
+    "description": "Guide point text."
+  },
+  "guideTime3Title": "Quiet hours",
+  "@guideTime3Title": {
+    "description": "Guide point heading."
+  },
+  "guideTime3Body": "Early reminders wait until morning; ones you timed exactly still arrive.",
+  "@guideTime3Body": {
+    "description": "Guide point text."
+  },
+  "guideTime4Title": "Morning summary",
+  "@guideTime4Title": {
+    "description": "Guide point heading."
+  },
+  "guideTime4Body": "Turn on one note each morning with today’s must-dos, in Settings › Reminders.",
+  "@guideTime4Body": {
+    "description": "Guide point text."
+  },
+  "guideReviewTitle": "Reviews and resets",
+  "@guideReviewTitle": {
+    "description": "Guide title."
+  },
+  "guideReviewLead": "Two short routines that keep your head clear.",
+  "@guideReviewLead": {
+    "description": "Guide lead sentence."
+  },
+  "guideReview1Title": "Weekly review",
+  "@guideReview1Title": {
+    "description": "Guide point heading."
+  },
+  "guideReview1Body": "About 15 minutes: empty your head, sort the Inbox, look back at last week and ahead at the next.",
+  "@guideReview1Body": {
+    "description": "Guide point text."
+  },
+  "guideReview2Title": "Overwhelm reset",
+  "@guideReview2Title": {
+    "description": "Guide point heading."
+  },
+  "guideReview2Body": "When it’s all too much, five quick steps narrow everything down to one thing.",
+  "@guideReview2Body": {
+    "description": "Guide point text."
+  },
+  "guideReview3Title": "Focus",
+  "@guideReview3Title": {
+    "description": "Guide point heading."
+  },
+  "guideReview3Body": "Shows a single item and nothing else, until it’s done.",
+  "@guideReview3Body": {
+    "description": "Guide point text."
+  },
+  "guideReview4Title": "Print a worksheet",
+  "@guideReview4Title": {
+    "description": "Guide point heading."
+  },
+  "guideReview4Body": "Print today or this week on one page, with room to write.",
+  "@guideReview4Body": {
+    "description": "Guide point text."
+  },
+  "guideOrganizeTitle": "Lists, blocks and templates",
+  "@guideOrganizeTitle": {
+    "description": "Guide title."
+  },
+  "guideOrganizeLead": "Group things by context, and reuse what you do often.",
+  "@guideOrganizeLead": {
+    "description": "Guide lead sentence."
+  },
+  "guideOrganize1Title": "Lists",
+  "@guideOrganize1Title": {
+    "description": "Guide point heading."
+  },
+  "guideOrganize1Body": "Life Admin, Errands, and your own lists. An item can be in a list and planned for a day.",
+  "@guideOrganize1Body": {
+    "description": "Guide point text."
+  },
+  "guideOrganize2Title": "Time blocks",
+  "@guideOrganize2Title": {
+    "description": "Guide point heading."
+  },
+  "guideOrganize2Body": "Block out time for a whole list, like Errands on Saturday morning, and it shows as one entry on Today.",
+  "@guideOrganize2Body": {
+    "description": "Guide point text."
+  },
+  "guideOrganize3Title": "Templates and routines",
+  "@guideOrganize3Title": {
+    "description": "Guide point heading."
+  },
+  "guideOrganize3Body": "Save checklists you use again and again. Make one a routine and it arrives on its own schedule.",
+  "@guideOrganize3Body": {
+    "description": "Guide point text."
+  },
+  "guideOrganize4Title": "Search",
+  "@guideOrganize4Title": {
+    "description": "Guide point heading."
+  },
+  "guideOrganize4Body": "Find anything, including done items, from the search icon.",
+  "@guideOrganize4Body": {
+    "description": "Guide point text."
+  },
+  "guideDataTitle": "Your data and privacy",
+  "@guideDataTitle": {
+    "description": "Guide title."
+  },
+  "guideDataLead": "Clearing keeps everything on this phone.",
+  "@guideDataLead": {
+    "description": "Guide lead sentence."
+  },
+  "guideData1Title": "No account, no internet",
+  "@guideData1Title": {
+    "description": "Guide point heading."
+  },
+  "guideData1Body": "There’s no server and no tracking; the app can’t reach the internet at all.",
+  "@guideData1Body": {
+    "description": "Guide point text."
+  },
+  "guideData2Title": "Backups",
+  "@guideData2Title": {
+    "description": "Guide point heading."
+  },
+  "guideData2Body": "Export a copy in Settings › Backup, and restore it on any phone.",
+  "@guideData2Body": {
+    "description": "Guide point text."
+  },
+  "guideData3Title": "Moving phones",
+  "@guideData3Title": {
+    "description": "Guide point heading."
+  },
+  "guideData3Body": "Android’s phone-to-phone transfer brings Clearing’s data along, or use a backup.",
+  "@guideData3Body": {
+    "description": "Guide point text."
+  },
+  "guideData4Title": "Trash and archive",
+  "@guideData4Title": {
+    "description": "Guide point heading."
+  },
+  "guideData4Body": "Deleted items stay in Trash for 30 days; done items move to the archive and stay searchable.",
+  "@guideData4Body": {
+    "description": "Guide point text."
   }
 }

@@ -15,6 +15,7 @@ import '../../domain/repeat_series.dart';
 import '../../l10n/l10n.dart';
 import '../format.dart';
 import '../item_commands.dart';
+import '../guidance/tip_card.dart';
 import '../widgets/choice_sheet.dart';
 import '../widgets/pebble.dart';
 import '../widgets/reminder_editor.dart';
@@ -429,6 +430,12 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
                 onChanged: _textChanged,
               ),
             ),
+            if (item.status == ItemStatus.active)
+              TipCard(
+                id: Tips.itemFocus,
+                text: context.l10n.tipItemFocus,
+                margin: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+              ),
             SectionHeader(context.l10n.itemPlanSection),
             Pebble(
               children: [

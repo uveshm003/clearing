@@ -10,6 +10,7 @@ import '../../l10n/l10n.dart';
 import '../widgets/search_button.dart';
 import '../../core/glade.dart';
 import '../widgets/glade_header.dart';
+import '../guidance/tip_card.dart';
 import '../widgets/pebble.dart';
 import '../widgets/section_header.dart';
 
@@ -69,6 +70,7 @@ class ListsScreen extends ConsumerWidget {
                 ),
               ],
             ),
+            TipCard(id: Tips.listsBlock, text: context.l10n.tipListsBlock),
             Pebble(
               children: [
                 for (final list in visible) tile(list),

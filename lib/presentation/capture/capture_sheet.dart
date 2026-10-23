@@ -8,6 +8,7 @@ import '../../core/providers.dart';
 import '../../domain/enums.dart';
 import '../../domain/starter_suggestion.dart';
 import '../../l10n/l10n.dart';
+import '../guidance/tip_card.dart';
 
 /// Opens quick capture (FR-01). [listId] files captures under a list, e.g.
 /// when opened from that list's screen.
@@ -157,6 +158,11 @@ class _CaptureSheetState extends ConsumerState<CaptureSheet> {
                 ),
               ],
             ),
+          ),
+          TipCard(
+            id: Tips.captureBurst,
+            text: context.l10n.tipCaptureBurst,
+            margin: const EdgeInsets.fromLTRB(16, 8, 16, 0),
           ),
           if (suggestions.isNotEmpty)
             // Tall enough for each chip's full 48 dp touch target (FR-20).

@@ -64,6 +64,8 @@ void main() {
     await tester.pumpAndSettle();
 
     // "Also today" collapses after 5; show all 500, then count built rows.
+    await tester.tap(find.text('Got it'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Show 495 more'));
     await tester.pumpAndSettle();
     final built = find.byType(ItemTile, skipOffstage: false).evaluate().length;

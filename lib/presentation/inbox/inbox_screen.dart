@@ -10,50 +10,94 @@ import '../../domain/item.dart';
 import '../../domain/starter_suggestion.dart';
 import '../item_commands.dart';
 import '../widgets/search_button.dart';
+import '../widgets/clearing_art.dart';
 import '../widgets/empty_state.dart';
+import '../widgets/glade_header.dart';
+import '../widgets/mist_list.dart';
+import '../widgets/pebble.dart';
 import '../widgets/item_tile.dart';
 import '../widgets/when_sheet.dart';
 
 /// The inbox gets a gentle time estimate once it's long enough to feel heavy.
 const _estimateThreshold = 10;
 
+/// The Inbox (FR-02) in Glade: each thought on one pebble, swipe shortcuts
+/// coloured from the theme, and a calm nudge to review when it grows long.
 class InboxScreen extends ConsumerWidget {
   const InboxScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final items = ref.watch(inboxItemsProvider);
+    final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Inbox'),
-        actions: const [SearchButton()],
-      ),
-      body: switch (items) {
-        AsyncData(value: final items) when items.isEmpty => const _EmptyInbox(),
-        AsyncData(value: final items) => SlidableAutoCloseBehavior(
-          child: ListView(
-            padding: const EdgeInsets.only(bottom: 96),
+      body: SafeArea(
+        bottom: false,
+        child: switch (items) {
+          AsyncData(value: final items) when items.isEmpty => const Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 4, 20, 8),
-                child: Text(
-                  items.length >= _estimateThreshold
-                      ? 'Inbox: ${items.length} — a review takes about '
-                            '15 minutes'
-                      : 'Tap to decide what each one means, or swipe for '
-                            'shortcuts.',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ),
-              for (final item in items) _InboxRow(item: item),
+              GladeHeader(title: 'Inbox', actions: [SearchButton()]),
+              Expanded(child: _EmptyInbox()),
             ],
           ),
-        ),
-        AsyncError(:final error) => Center(child: Text('$error')),
-        _ => const SizedBox.shrink(),
-      },
+          AsyncData(value: final items) => SlidableAutoCloseBehavior(
+            child: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: GladeHeader(
+                    title: 'Inbox',
+                    actions: const [SearchButton()],
+                    subtitle:
+                        '${items.length} to decide · tap one, or swipe for '
+                        'shortcuts',
+                  ),
+                ),
+                if (items.length >= _estimateThreshold)
+                  SliverToBoxAdapter(
+                    child: Pebble(
+                      highlight: true,
+                      margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      children: [
+                        ListTile(
+                          leading: const Icon(Icons.self_improvement_outlined),
+                          title: Text(
+                            'Inbox: ${items.length} — a review takes about '
+                            '15 minutes',
+                          ),
+                          subtitle: const Text('Every item gets a place'),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                          child: Align(
+                            alignment: AlignmentDirectional.centerEnd,
+                            child: FilledButton.tonal(
+                              onPressed: () => context.push(Routes.review),
+                              child: const Text('Start review'),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                SliverPebble(
+                  sliver: SliverMistList<Item>(
+                    items: items,
+                    keyOf: (item) => item.id,
+                    itemBuilder: (context, item, {leaving = false}) => leaving
+                        ? ItemTile(item: item, leaving: true)
+                        : _InboxRow(item: item),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: SizedBox(height: 96 + theme.visualDensity.vertical),
+                ),
+              ],
+            ),
+          ),
+          AsyncError(:final error) => Center(child: Text('$error')),
+          _ => const SizedBox.shrink(),
+        },
+      ),
     );
   }
 }
@@ -111,14 +155,14 @@ class _InboxRow extends ConsumerWidget {
             action(
               'Today',
               Icons.wb_sunny_outlined,
-              scheme.primaryContainer,
-              scheme.onPrimaryContainer,
+              scheme.primary,
+              scheme.onPrimary,
             ),
             action(
               'This week',
               Icons.view_week_outlined,
-              scheme.secondaryContainer,
-              scheme.onSecondaryContainer,
+              scheme.primaryContainer,
+              scheme.onPrimaryContainer,
             ),
           ],
         ),
@@ -128,20 +172,20 @@ class _InboxRow extends ConsumerWidget {
             action(
               'Pick date',
               Icons.event_outlined,
-              scheme.tertiaryContainer,
-              scheme.onTertiaryContainer,
+              scheme.primaryContainer,
+              scheme.onPrimaryContainer,
             ),
             action(
               'Someday',
               Icons.lightbulb_outline,
-              scheme.surfaceContainerHighest,
+              scheme.surfaceContainerHigh,
               scheme.onSurface,
             ),
             action(
               'Delete',
               Icons.delete_outline,
               scheme.surfaceContainerHighest,
-              scheme.onSurfaceVariant,
+              scheme.onSurface,
             ),
           ],
         ),
@@ -169,6 +213,7 @@ class _EmptyInbox extends ConsumerWidget {
 
     return EmptyState(
       icon: Icons.inbox_outlined,
+      scene: ClearingScene.nest,
       title: 'Inbox is empty',
       message:
           'Thoughts you capture land here until you decide what they mean.',

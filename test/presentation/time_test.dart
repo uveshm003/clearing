@@ -3,6 +3,7 @@ import 'package:clearing/application/item_actions.dart';
 import 'package:clearing/application/notification_scheduler.dart';
 import 'package:clearing/application/series_actions.dart';
 import 'package:clearing/core/providers.dart';
+import 'package:clearing/presentation/widgets/glade_header.dart';
 import 'package:clearing/data/db/database.dart';
 import 'package:clearing/data/item_repository.dart';
 import 'package:clearing/data/reminder_repository.dart';
@@ -165,7 +166,7 @@ void main() {
 
     await tester.tap(find.text('This and future'));
     await tester.pumpAndSettle();
-    expect(find.widgetWithText(AppBar, 'Today'), findsOneWidget);
+    expect(find.widgetWithText(GladeHeader, 'Today'), findsOneWidget);
     expect((await series.get('s1'))!.template.title, 'Pay rent and bills');
 
     await closeDatabase(tester, db);

@@ -7,6 +7,7 @@ import '../../core/router.dart';
 import '../../domain/local_date.dart';
 import '../../domain/template.dart';
 import '../format.dart';
+import '../widgets/clearing_art.dart';
 import '../widgets/empty_state.dart';
 import '../widgets/section_header.dart';
 
@@ -76,6 +77,7 @@ class TemplatesScreen extends ConsumerWidget {
       body: templates.isEmpty
           ? EmptyState(
               icon: Icons.checklist,
+              scene: ClearingScene.cairn,
               title: 'No templates yet',
               message:
                   'A template is a checklist you use again and again. Make '

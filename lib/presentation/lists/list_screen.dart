@@ -8,6 +8,7 @@ import '../../domain/local_date.dart';
 import '../capture/capture_sheet.dart';
 import '../format.dart';
 import '../widgets/block_tile.dart';
+import '../widgets/clearing_art.dart';
 import '../widgets/empty_state.dart';
 import '../widgets/item_tile.dart';
 import '../widgets/section_header.dart';
@@ -101,6 +102,7 @@ class ListScreen extends ConsumerWidget {
       body: items.isEmpty && blocks.isEmpty
           ? EmptyState(
               icon: Icons.list_alt_outlined,
+              scene: ClearingScene.nest,
               title: 'Nothing in ${list?.name ?? 'this list'}',
               message:
                   'Add things that belong together, like errands to '

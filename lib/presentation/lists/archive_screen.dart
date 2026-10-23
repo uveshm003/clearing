@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/providers.dart';
 import '../../domain/item.dart';
+import '../widgets/clearing_art.dart';
 import '../widgets/empty_state.dart';
 import '../widgets/item_tile.dart';
 import '../widgets/section_header.dart';
@@ -28,6 +29,7 @@ class ArchiveScreen extends ConsumerWidget {
       body: items.isEmpty
           ? const EmptyState(
               icon: Icons.inventory_2_outlined,
+              scene: ClearingScene.cairn,
               title: 'Nothing done yet',
               message:
                   'Finished items rest here, and search still finds '

@@ -1,5 +1,6 @@
 import 'package:clearing/app.dart';
 import 'package:clearing/core/providers.dart';
+import 'package:clearing/presentation/widgets/glade_header.dart';
 import 'package:clearing/data/db/database.dart';
 import 'package:clearing/domain/local_date.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ void main() {
   testWidgets('launches to an empty Today with four tabs', (tester) async {
     await pumpApp(tester);
 
-    expect(find.widgetWithText(AppBar, 'Today'), findsOneWidget);
+    expect(find.widgetWithText(GladeHeader, 'Today'), findsOneWidget);
     expect(find.text('A clear day'), findsOneWidget);
     for (final tab in ['Today', 'Inbox', 'Upcoming', 'Lists']) {
       expect(

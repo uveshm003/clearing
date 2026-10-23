@@ -7,6 +7,7 @@ import '../../domain/local_date.dart';
 import '../../domain/upcoming_rules.dart';
 import '../format.dart';
 import '../widgets/block_tile.dart';
+import '../widgets/clearing_art.dart';
 import '../widgets/empty_state.dart';
 import '../widgets/search_button.dart';
 import 'week_view.dart';
@@ -78,6 +79,7 @@ class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
           : days.isEmpty && view.waiting.isEmpty
           ? const EmptyState(
               icon: Icons.event_note_outlined,
+              scene: ClearingScene.path,
               title: 'Nothing scheduled',
               message: 'Items with a date in the next 30 days show up here.',
             )

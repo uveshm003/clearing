@@ -238,6 +238,15 @@ final todayViewProvider = Provider<AsyncValue<TodayView>>((ref) {
   };
 });
 
+/// Items finished today: how far the Today header's sky has cleared.
+final doneTodayProvider = StreamProvider<int>((ref) {
+  final today = ref.watch(todayProvider).value;
+  if (today == null) return Stream.value(0);
+  return ref
+      .watch(itemRepositoryProvider)
+      .watchCompletedSince(DateTime(today.year, today.month, today.day));
+});
+
 final itemProvider = StreamProvider.autoDispose.family<Item?, String>(
   (ref, id) => ref.watch(itemRepositoryProvider).watchItem(id),
 );

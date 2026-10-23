@@ -144,6 +144,18 @@ class ItemRepository {
     return items..sort((a, b) => order[a.id]!.compareTo(order[b.id]!));
   }
 
+  /// How many items were completed at or after [since].
+  Stream<int> watchCompletedSince(DateTime since) {
+    final count = _db.items.id.count();
+    final query = _db.selectOnly(_db.items)
+      ..addColumns([count])
+      ..where(
+        _db.items.status.equalsValue(ItemStatus.done) &
+            _db.items.completedAt.isBiggerOrEqualValue(since),
+      );
+    return query.map((row) => row.read(count) ?? 0).watchSingle();
+  }
+
   Stream<int> watchCount(ItemStatus status) {
     final count = _db.items.id.count();
     final query = _db.selectOnly(_db.items)

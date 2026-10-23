@@ -14,6 +14,7 @@ class GladeHeader extends StatelessWidget {
     this.subtitle,
     this.sky,
     this.trailing,
+    this.actions = const [],
   });
 
   final String title;
@@ -22,6 +23,9 @@ class GladeHeader extends StatelessWidget {
   /// The band's colour; none leaves the plain page.
   final Color? sky;
   final Widget? trailing;
+
+  /// Icon buttons at the top end, for screens without an app bar.
+  final List<Widget> actions;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +43,7 @@ class GladeHeader extends StatelessWidget {
         ),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             child: Column(
@@ -61,6 +65,7 @@ class GladeHeader extends StatelessWidget {
               ],
             ),
           ),
+          ...actions,
           ?trailing,
         ],
       ),

@@ -44,3 +44,34 @@ class Pebble extends StatelessWidget {
     );
   }
 }
+
+/// [Pebble] for slivers: wraps a lazily built list, so a long group stays
+/// smooth to scroll.
+class SliverPebble extends StatelessWidget {
+  const SliverPebble({super.key, required this.sliver, this.highlight = false});
+
+  final Widget sliver;
+  final bool highlight;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: GladeSpace.lg),
+      sliver: DecoratedSliver(
+        decoration: BoxDecoration(
+          color: highlight
+              ? scheme.primaryContainer.withValues(alpha: 0.55)
+              : scheme.surfaceContainer,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(GladeSpace.pebble),
+          ),
+        ),
+        sliver: SliverPadding(
+          padding: const EdgeInsets.symmetric(vertical: GladeSpace.xs),
+          sliver: sliver,
+        ),
+      ),
+    );
+  }
+}

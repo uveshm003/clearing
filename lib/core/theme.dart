@@ -180,6 +180,8 @@ abstract final class AppTheme {
       ),
       listTileTheme: ListTileThemeData(
         minVerticalPadding: 12,
+        minLeadingWidth: 40,
+        horizontalTitleGap: 8,
         iconColor: scheme.onSurfaceVariant,
         titleTextStyle: text.bodyMedium,
         subtitleTextStyle: text.bodySmall?.copyWith(

@@ -3,6 +3,7 @@ import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/glade.dart';
 import '../../core/providers.dart';
 import '../../domain/enums.dart';
 import '../../domain/starter_suggestion.dart';
@@ -103,7 +104,6 @@ class _CaptureSheetState extends ConsumerState<CaptureSheet> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
     final settings = ref.watch(settingsProvider).value;
     final suggestions = (settings?.starterSuggestions ?? false)
         ? (ref.watch(suggestionsProvider).value ?? const [])
@@ -125,6 +125,7 @@ class _CaptureSheetState extends ConsumerState<CaptureSheet> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          if (_saved.isNotEmpty) _SavedStack(saved: _saved),
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 0, 8, 0),
             child: Row(
@@ -179,18 +180,6 @@ class _CaptureSheetState extends ConsumerState<CaptureSheet> {
                 ],
               ),
             ),
-          if (_saved.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 4, 20, 0),
-              child: Text(
-                'Saved ${_saved.length} · latest: ${_saved.first}',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: scheme.onSurfaceVariant,
-                ),
-              ),
-            ),
           Align(
             alignment: Alignment.centerRight,
             child: Padding(
@@ -214,4 +203,73 @@ class _CaptureSheetState extends ConsumerState<CaptureSheet> {
     ListKind.errands => Icons.shopping_bag_outlined,
     _ => Icons.add,
   };
+}
+
+/// Glade's "Emptying your head": each thought saved in burst mode slides up
+/// into a small stack above the field, newest in front, the older ones
+/// fading back, with a count.
+class _SavedStack extends StatelessWidget {
+  const _SavedStack({required this.saved});
+
+  /// Newest first.
+  final List<String> saved;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final shown = saved.take(3).toList();
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Semantics(
+            liveRegion: true,
+            child: Text(
+              'Saved ${saved.length} to Inbox',
+              style: theme.textTheme.labelMedium?.copyWith(
+                color: scheme.onSurfaceVariant,
+              ),
+            ),
+          ),
+          const SizedBox(height: 6),
+          for (final (i, title) in shown.indexed.toList().reversed)
+            AnimatedSwitcher(
+              duration: GladeMotion.settle.of(context),
+              transitionBuilder: (child, animation) => SlideTransition(
+                position: Tween(
+                  begin: const Offset(0, 0.6),
+                  end: Offset.zero,
+                ).animate(animation),
+                child: FadeTransition(opacity: animation, child: child),
+              ),
+              child: Opacity(
+                key: ValueKey('${saved.length - i}:$title'),
+                opacity: const [1.0, 0.7, 0.45][i],
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: scheme.surfaceContainerHigh,
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(GladeSpace.md),
+                    ),
+                  ),
+                  child: Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.bodySmall,
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
 }

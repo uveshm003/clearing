@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/providers.dart';
 import '../../domain/today_rules.dart';
 import '../item_commands.dart';
+import '../widgets/clearing_art.dart';
 import '../widgets/empty_state.dart';
 import '../widgets/item_tile.dart';
 import '../widgets/when_sheet.dart';
@@ -30,6 +31,7 @@ class ThisWeekScreen extends ConsumerWidget {
       body: items.isEmpty
           ? const EmptyState(
               icon: Icons.view_week_outlined,
+              scene: ClearingScene.clearing,
               title: 'Nothing set for this week',
               message:
                   'Things you mean to do this week, without picking a day, '

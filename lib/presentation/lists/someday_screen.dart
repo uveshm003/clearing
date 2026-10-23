@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/providers.dart';
 import '../../domain/enums.dart';
 import '../item_commands.dart';
+import '../widgets/clearing_art.dart';
 import '../widgets/empty_state.dart';
 import '../widgets/item_tile.dart';
 import '../widgets/when_sheet.dart';
@@ -26,6 +27,7 @@ class SomedayScreen extends ConsumerWidget {
       body: items.isEmpty
           ? const EmptyState(
               icon: Icons.lightbulb_outline,
+              scene: ClearingScene.path,
               title: 'No ideas parked here',
               message: 'Things you might do one day, without the pressure.',
             )

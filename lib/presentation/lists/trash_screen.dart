@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/providers.dart';
 import '../../domain/item.dart';
 import '../../domain/lifecycle.dart';
+import '../widgets/clearing_art.dart';
 import '../widgets/empty_state.dart';
 
 final _trashProvider = StreamProvider(
@@ -67,6 +68,7 @@ class TrashScreen extends ConsumerWidget {
       body: items.isEmpty
           ? const EmptyState(
               icon: Icons.delete_outline,
+              scene: ClearingScene.leaf,
               title: 'Trash is empty',
               message:
                   'Deleted items stay here for 30 days, in case you '

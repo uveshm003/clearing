@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// A section's name above its group, with an optional quiet count.
 class SectionHeader extends StatelessWidget {
   const SectionHeader(this.title, {super.key, this.trailing});
 
@@ -12,7 +13,7 @@ class SectionHeader extends StatelessWidget {
     return Semantics(
       header: true,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 4),
+        padding: const EdgeInsets.fromLTRB(24, 24, 24, 8),
         child: Row(
           children: [
             Expanded(

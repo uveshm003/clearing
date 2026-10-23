@@ -2159,4 +2159,29 @@ class AppLocalizationsEn extends AppLocalizations {
   String stepTrailLabel(int current, int count) {
     return 'Step $current of $count';
   }
+
+  @override
+  String get settingsTodayHint => 'How much Today asks of you.';
+
+  @override
+  String get settingsInboxHint => 'Where new thoughts wait for a decision.';
+
+  @override
+  String get settingsRemindersHint => 'When and how Clearing may notify you.';
+
+  @override
+  String get settingsWeeklyReviewHint =>
+      'A gentle nudge to look over your week.';
+
+  @override
+  String get settingsDoneHint => 'Where finished things go.';
+
+  @override
+  String get settingsDataHint => 'It stays on this phone unless you export it.';
+
+  @override
+  String get settingsAppearanceHint => 'Light, dark, or follow the phone.';
+
+  @override
+  String get settingsHelpHint => 'Answers, and how Clearing works.';
 }

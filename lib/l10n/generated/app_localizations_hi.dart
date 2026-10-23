@@ -2167,4 +2167,31 @@ class AppLocalizationsHi extends AppLocalizations {
   String stepTrailLabel(int current, int count) {
     return '$count में से चरण $current';
   }
+
+  @override
+  String get settingsTodayHint => 'आज आपसे कितना माँगता है।';
+
+  @override
+  String get settingsInboxHint => 'जहाँ नए विचार फ़ैसले का इंतज़ार करते हैं।';
+
+  @override
+  String get settingsRemindersHint =>
+      'Clearing आपको कब और कैसे सूचना दे सकता है।';
+
+  @override
+  String get settingsWeeklyReviewHint =>
+      'अपने हफ़्ते पर एक नज़र डालने की हल्की-सी याद।';
+
+  @override
+  String get settingsDoneHint => 'पूरे हुए काम कहाँ जाते हैं।';
+
+  @override
+  String get settingsDataHint =>
+      'जब तक आप एक्सपोर्ट न करें, यह इसी फ़ोन पर रहता है।';
+
+  @override
+  String get settingsAppearanceHint => 'हल्का, गहरा, या फ़ोन के अनुसार।';
+
+  @override
+  String get settingsHelpHint => 'जवाब, और Clearing कैसे काम करता है।';
 }

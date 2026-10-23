@@ -2775,5 +2775,37 @@
         "type": "int"
       }
     }
+  },
+  "settingsTodayHint": "How much Today asks of you.",
+  "@settingsTodayHint": {
+    "description": "One-line explanation under a Settings section header."
+  },
+  "settingsInboxHint": "Where new thoughts wait for a decision.",
+  "@settingsInboxHint": {
+    "description": "One-line explanation under a Settings section header."
+  },
+  "settingsRemindersHint": "When and how Clearing may notify you.",
+  "@settingsRemindersHint": {
+    "description": "One-line explanation under a Settings section header."
+  },
+  "settingsWeeklyReviewHint": "A gentle nudge to look over your week.",
+  "@settingsWeeklyReviewHint": {
+    "description": "One-line explanation under a Settings section header."
+  },
+  "settingsDoneHint": "Where finished things go.",
+  "@settingsDoneHint": {
+    "description": "One-line explanation under a Settings section header."
+  },
+  "settingsDataHint": "It stays on this phone unless you export it.",
+  "@settingsDataHint": {
+    "description": "One-line explanation under a Settings section header."
+  },
+  "settingsAppearanceHint": "Light, dark, or follow the phone.",
+  "@settingsAppearanceHint": {
+    "description": "One-line explanation under a Settings section header."
+  },
+  "settingsHelpHint": "Answers, and how Clearing works.",
+  "@settingsHelpHint": {
+    "description": "One-line explanation under a Settings section header."
   }
 }

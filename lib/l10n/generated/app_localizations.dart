@@ -3655,6 +3655,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Step {current} of {count}'**
   String stepTrailLabel(int current, int count);
+
+  /// One-line explanation under a Settings section header.
+  ///
+  /// In en, this message translates to:
+  /// **'How much Today asks of you.'**
+  String get settingsTodayHint;
+
+  /// One-line explanation under a Settings section header.
+  ///
+  /// In en, this message translates to:
+  /// **'Where new thoughts wait for a decision.'**
+  String get settingsInboxHint;
+
+  /// One-line explanation under a Settings section header.
+  ///
+  /// In en, this message translates to:
+  /// **'When and how Clearing may notify you.'**
+  String get settingsRemindersHint;
+
+  /// One-line explanation under a Settings section header.
+  ///
+  /// In en, this message translates to:
+  /// **'A gentle nudge to look over your week.'**
+  String get settingsWeeklyReviewHint;
+
+  /// One-line explanation under a Settings section header.
+  ///
+  /// In en, this message translates to:
+  /// **'Where finished things go.'**
+  String get settingsDoneHint;
+
+  /// One-line explanation under a Settings section header.
+  ///
+  /// In en, this message translates to:
+  /// **'It stays on this phone unless you export it.'**
+  String get settingsDataHint;
+
+  /// One-line explanation under a Settings section header.
+  ///
+  /// In en, this message translates to:
+  /// **'Light, dark, or follow the phone.'**
+  String get settingsAppearanceHint;
+
+  /// One-line explanation under a Settings section header.
+  ///
+  /// In en, this message translates to:
+  /// **'Answers, and how Clearing works.'**
+  String get settingsHelpHint;
 }
 
 class _AppLocalizationsDelegate

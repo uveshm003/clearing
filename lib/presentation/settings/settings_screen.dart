@@ -30,7 +30,7 @@ class SettingsScreen extends ConsumerWidget {
       appBar: AppBar(title: Text(l10n.commonSettings)),
       body: ListView(
         children: pebbleSections([
-          SectionHeader(l10n.tabToday),
+          SectionHeader(l10n.tabToday, description: l10n.settingsTodayHint),
           ListTile(
             title: Text(l10n.settingsMustDoPerDay),
             subtitle: Text(l10n.settingsMustDoPerDayHint),
@@ -58,7 +58,7 @@ class SettingsScreen extends ConsumerWidget {
             ],
             onChanged: (day) => save(settings.copyWith(weekStart: day)),
           ),
-          SectionHeader(l10n.tabInbox),
+          SectionHeader(l10n.tabInbox, description: l10n.settingsInboxHint),
           SwitchListTile(
             title: Text(l10n.settingsInboxBadge),
             value: settings.inboxBadge,
@@ -76,7 +76,10 @@ class SettingsScreen extends ConsumerWidget {
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.push(Routes.suggestions),
           ),
-          SectionHeader(l10n.settingsRemindersSection),
+          SectionHeader(
+            l10n.settingsRemindersSection,
+            description: l10n.settingsRemindersHint,
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: SegmentedButton<NotificationIntensity>(
@@ -176,7 +179,10 @@ class SettingsScreen extends ConsumerWidget {
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.push(Routes.remindersHelp),
           ),
-          SectionHeader(l10n.settingsWeeklyReviewSection),
+          SectionHeader(
+            l10n.settingsWeeklyReviewSection,
+            description: l10n.settingsWeeklyReviewHint,
+          ),
           SwitchListTile(
             title: Text(l10n.settingsRemindReview),
             subtitle: Text(l10n.settingsRemindReviewHint),
@@ -207,7 +213,10 @@ class SettingsScreen extends ConsumerWidget {
               }
             },
           ),
-          SectionHeader(l10n.settingsDoneSection),
+          SectionHeader(
+            l10n.settingsDoneSection,
+            description: l10n.settingsDoneHint,
+          ),
           ChoiceTile<int>(
             title: l10n.settingsAutoArchive,
             hint: l10n.settingsAutoArchiveHint,
@@ -230,7 +239,10 @@ class SettingsScreen extends ConsumerWidget {
             ],
             onChanged: (days) => save(settings.copyWith(autoArchiveDays: days)),
           ),
-          SectionHeader(l10n.settingsDataSection),
+          SectionHeader(
+            l10n.settingsDataSection,
+            description: l10n.settingsDataHint,
+          ),
           ListTile(
             leading: const Icon(Icons.backup_outlined),
             title: Text(l10n.backupTitle),
@@ -238,7 +250,10 @@ class SettingsScreen extends ConsumerWidget {
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.push(Routes.backup),
           ),
-          SectionHeader(l10n.settingsAppearanceSection),
+          SectionHeader(
+            l10n.settingsAppearanceSection,
+            description: l10n.settingsAppearanceHint,
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: SegmentedButton<ThemePreference>(
@@ -261,7 +276,10 @@ class SettingsScreen extends ConsumerWidget {
                   save(settings.copyWith(theme: s.single)),
             ),
           ),
-          SectionHeader(l10n.settingsHelpSection),
+          SectionHeader(
+            l10n.settingsHelpSection,
+            description: l10n.settingsHelpHint,
+          ),
           ListTile(
             leading: const Icon(Icons.help_outline),
             title: Text(l10n.introTitle),

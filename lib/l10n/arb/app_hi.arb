@@ -592,5 +592,13 @@
   "commandsMustDoKeep": "जैसा है वैसा रहने दें",
   "shellInboxTooltip": "{count, plural, =1{इनबॉक्स, 1 काम} other{इनबॉक्स, {count} काम}}",
   "shellCapture": "लिखें",
-  "stepTrailLabel": "{count} में से चरण {current}"
+  "stepTrailLabel": "{count} में से चरण {current}",
+  "settingsTodayHint": "आज आपसे कितना माँगता है।",
+  "settingsInboxHint": "जहाँ नए विचार फ़ैसले का इंतज़ार करते हैं।",
+  "settingsRemindersHint": "Clearing आपको कब और कैसे सूचना दे सकता है।",
+  "settingsWeeklyReviewHint": "अपने हफ़्ते पर एक नज़र डालने की हल्की-सी याद।",
+  "settingsDoneHint": "पूरे हुए काम कहाँ जाते हैं।",
+  "settingsDataHint": "जब तक आप एक्सपोर्ट न करें, यह इसी फ़ोन पर रहता है।",
+  "settingsAppearanceHint": "हल्का, गहरा, या फ़ोन के अनुसार।",
+  "settingsHelpHint": "जवाब, और Clearing कैसे काम करता है।"
 }

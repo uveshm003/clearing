@@ -9,6 +9,8 @@ import '../../domain/enums.dart';
 import '../../domain/lifecycle.dart';
 import '../../domain/local_date.dart';
 import '../format.dart';
+import '../widgets/choice_sheet.dart';
+import '../widgets/pebble.dart';
 import '../widgets/section_header.dart';
 
 /// The settings needed so far (FR-21). Review and backup settings arrive with
@@ -25,7 +27,7 @@ class SettingsScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Settings')),
       body: ListView(
-        children: [
+        children: pebbleSections([
           const SectionHeader('Today'),
           ListTile(
             title: const Text('Must-do items per day'),
@@ -40,22 +42,19 @@ class SettingsScreen extends ConsumerWidget {
             label: '${settings.mustDoCap}',
             onChanged: (v) => save(settings.copyWith(mustDoCap: v.round())),
           ),
-          ListTile(
-            title: const Text('Week starts on'),
-            subtitle: const Text('For “This week” and weekday choices'),
-            trailing: DropdownButton<int>(
-              value: settings.weekStart,
-              underline: const SizedBox.shrink(),
-              items: [
-                for (final day in const [
-                  DateTime.monday,
-                  DateTime.saturday,
-                  DateTime.sunday,
-                ])
-                  DropdownMenuItem(value: day, child: Text(weekdayLong(day))),
-              ],
-              onChanged: (day) => save(settings.copyWith(weekStart: day)),
-            ),
+          ChoiceTile<int>(
+            title: 'Week starts on',
+            hint: 'for “This week” and weekday choices',
+            value: settings.weekStart,
+            options: [
+              for (final day in const [
+                DateTime.monday,
+                DateTime.saturday,
+                DateTime.sunday,
+              ])
+                (day, weekdayLong(day)),
+            ],
+            onChanged: (day) => save(settings.copyWith(weekStart: day)),
           ),
           const SectionHeader('Inbox'),
           SwitchListTile(
@@ -185,20 +184,15 @@ class SettingsScreen extends ConsumerWidget {
             value: settings.reviewReminder,
             onChanged: (v) => save(settings.copyWith(reviewReminder: v)),
           ),
-          ListTile(
+          ChoiceTile<int>(
             enabled: settings.reviewReminder,
-            title: const Text('Review day'),
-            trailing: DropdownButton<int>(
-              value: settings.reviewWeekday,
-              underline: const SizedBox.shrink(),
-              items: [
-                for (final day in weekdaysFrom(settings.weekStart))
-                  DropdownMenuItem(value: day, child: Text(weekdayLong(day))),
-              ],
-              onChanged: settings.reviewReminder
-                  ? (day) => save(settings.copyWith(reviewWeekday: day))
-                  : null,
-            ),
+            title: 'Review day',
+            value: settings.reviewWeekday,
+            options: [
+              for (final day in weekdaysFrom(settings.weekStart))
+                (day, weekdayLong(day)),
+            ],
+            onChanged: (day) => save(settings.copyWith(reviewWeekday: day)),
           ),
           ListTile(
             enabled: settings.reviewReminder,
@@ -215,34 +209,27 @@ class SettingsScreen extends ConsumerWidget {
             },
           ),
           const SectionHeader('Done items'),
-          ListTile(
-            title: const Text('Move done items to the archive'),
-            subtitle: const Text('They stay searchable there'),
-            trailing: DropdownButton<int>(
-              value: settings.autoArchiveDays,
-              underline: const SizedBox.shrink(),
-              items: [
-                for (final (days, label) in const [
-                  (1, 'After a day'),
-                  (7, 'After a week'),
-                  (30, 'After a month'),
-                  (archiveNever, 'Never'),
-                ])
-                  DropdownMenuItem(value: days, child: Text(label)),
-                if (!const [
-                  1,
-                  7,
-                  30,
-                  archiveNever,
-                ].contains(settings.autoArchiveDays))
-                  DropdownMenuItem(
-                    value: settings.autoArchiveDays,
-                    child: Text('After ${settings.autoArchiveDays} days'),
-                  ),
-              ],
-              onChanged: (days) =>
-                  save(settings.copyWith(autoArchiveDays: days)),
-            ),
+          ChoiceTile<int>(
+            title: 'Move done items to the archive',
+            hint: 'still searchable there',
+            value: settings.autoArchiveDays,
+            options: [
+              (1, 'After a day'),
+              (7, 'After a week'),
+              (30, 'After a month'),
+              (archiveNever, 'Never'),
+              if (!const [
+                1,
+                7,
+                30,
+                archiveNever,
+              ].contains(settings.autoArchiveDays))
+                (
+                  settings.autoArchiveDays,
+                  'After ${settings.autoArchiveDays} days',
+                ),
+            ],
+            onChanged: (days) => save(settings.copyWith(autoArchiveDays: days)),
           ),
           const SectionHeader('Your data'),
           ListTile(
@@ -285,7 +272,7 @@ class SettingsScreen extends ConsumerWidget {
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.push(Routes.about),
           ),
-        ],
+        ]),
       ),
     );
   }

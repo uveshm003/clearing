@@ -28,6 +28,9 @@ void main() {
 
   /// A realistic day: must-dos, other items, one carried over, a few in the
   /// Inbox and one done already.
+  late String rentId;
+  late String inboxId;
+
   Future<AppDatabase> seeded() async {
     final db = memoryDatabase(now: () => now);
     final actions = ItemActions(
@@ -53,6 +56,22 @@ void main() {
     await actions.planOnDate(photo, today.addDays(-2));
     await actions.complete(await actions.planToday(done));
     expect(inbox, hasLength(3));
+    rentId = rent.id;
+    inboxId = inbox.first.id;
+    await actions.planOnDate(
+      (await actions.capture('Gym'))[0],
+      today.addDays(1),
+      time: 7 * 60,
+    );
+    await actions.planOnDate(
+      (await actions.capture('Dinner with Priya'))[0],
+      today.addDays(3),
+      time: 19 * 60 + 30,
+    );
+    await actions.waitFor(
+      (await actions.capture('Quote from builder'))[0],
+      'Ana',
+    );
     return db;
   }
 
@@ -128,6 +147,26 @@ void main() {
       final db = memoryDatabase(now: () => now);
       await pump(tester, db, theme: theme);
       await shoot(tester, 'today_empty_$mode');
+      await closeDatabase(tester, db);
+    });
+  }
+
+  final screens = <(String, ThemePreference, String Function())>[
+    ('item', ThemePreference.light, () => Routes.item(rentId)),
+    ('clarify', ThemePreference.dark, () => Routes.clarify(inboxId)),
+    ('upcoming', ThemePreference.light, () => Routes.upcoming),
+    ('lists', ThemePreference.dark, () => Routes.lists),
+    ('settings', ThemePreference.light, () => Routes.settings),
+    ('focus', ThemePreference.light, () => Routes.focus(rentId)),
+    ('review', ThemePreference.dark, () => Routes.review),
+  ];
+  for (final (name, theme, route) in screens) {
+    testWidgets('$name screen', (tester) async {
+      final db = await seeded();
+      await pump(tester, db, theme: theme);
+      GoRouter.of(tester.element(find.byType(Scaffold).first)).push(route());
+      await tester.pumpAndSettle();
+      await shoot(tester, name);
       await closeDatabase(tester, db);
     });
   }

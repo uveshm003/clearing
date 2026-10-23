@@ -15,7 +15,9 @@ import '../../domain/repeat_series.dart';
 import '../format.dart';
 import '../item_commands.dart';
 import '../widgets/choice_sheet.dart';
+import '../widgets/pebble.dart';
 import '../widgets/reminder_editor.dart';
+import '../widgets/section_header.dart';
 import '../widgets/subtask_editor.dart';
 import '../widgets/when_sheet.dart';
 import 'repeat_editor.dart';
@@ -341,8 +343,31 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
             ),
           ],
         ),
+        // Done is always in reach, whatever the scroll (Glade: one filled
+        // button, full width, pinned to the bottom).
+        bottomNavigationBar: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+            child: done
+                ? OutlinedButton.icon(
+                    icon: const Icon(Icons.undo),
+                    label: const Text('Not done yet'),
+                    onPressed: () => _actions.reopen(item),
+                  )
+                : FilledButton.icon(
+                    icon: const Icon(Icons.check),
+                    label: const Text('Done'),
+                    onPressed: () async {
+                      final latest = await _saveText();
+                      if (!context.mounted) return;
+                      await ref.complete(context, latest);
+                      if (context.mounted) Navigator.pop(context);
+                    },
+                  ),
+          ),
+        ),
         body: ListView(
-          padding: const EdgeInsets.fromLTRB(8, 0, 8, 32),
+          padding: const EdgeInsets.only(bottom: 32),
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -357,149 +382,141 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
                 onChanged: _textChanged,
               ),
             ),
-            const SizedBox(height: 8),
-            ListTile(
-              leading: const Icon(Icons.event_outlined),
-              title: const Text('When'),
-              subtitle: Text(_whenText()),
-              onTap: _editWhen,
-            ),
-            if (item.status == ItemStatus.waiting) ...[
-              ListTile(
-                leading: const Icon(Icons.person_outline),
-                title: const Text('Waiting on'),
-                subtitle: Text(item.waitingOn ?? 'Someone'),
-                onTap: _editWaiting,
-              ),
-              ListTile(
-                leading: const Icon(Icons.event_repeat_outlined),
-                title: const Text('Follow up'),
-                subtitle: Text(
-                  item.followUpDate == null
-                      ? 'No date'
-                      : dateLabel(item.followUpDate!, today),
+            const SectionHeader('Plan'),
+            Pebble(
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.event_outlined),
+                  title: const Text('When'),
+                  subtitle: Text(_whenText()),
+                  onTap: _editWhen,
                 ),
-                onTap: _editFollowUp,
-              ),
-            ],
-            if (item.status == ItemStatus.active || series != null)
-              ListTile(
-                leading: const Icon(Icons.repeat),
-                title: const Text('Repeat'),
-                subtitle: Text(switch (series) {
-                  null => 'Doesn’t repeat',
-                  RepeatSeries(paused: true) =>
-                    '${describeRepeat(series, today)} · paused',
-                  _ => describeRepeat(series, today),
-                }),
-                onTap: done ? null : () => _editRepeat(series),
-                trailing: series == null
-                    ? null
-                    : IconButton(
-                        icon: const Icon(Icons.calendar_month_outlined),
-                        tooltip: 'See all dates',
-                        onPressed: () => Navigator.of(context).push(
-                          MaterialPageRoute<void>(
-                            builder: (_) =>
-                                SeriesCalendarScreen(seriesId: series.id),
+                if (item.status == ItemStatus.waiting) ...[
+                  ListTile(
+                    leading: const Icon(Icons.person_outline),
+                    title: const Text('Waiting on'),
+                    subtitle: Text(item.waitingOn ?? 'Someone'),
+                    onTap: _editWaiting,
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.event_repeat_outlined),
+                    title: const Text('Follow up'),
+                    subtitle: Text(
+                      item.followUpDate == null
+                          ? 'No date'
+                          : dateLabel(item.followUpDate!, today),
+                    ),
+                    onTap: _editFollowUp,
+                  ),
+                ],
+                if (item.status == ItemStatus.active || series != null)
+                  ListTile(
+                    leading: const Icon(Icons.repeat),
+                    title: const Text('Repeat'),
+                    subtitle: Text(switch (series) {
+                      null => 'Doesn’t repeat',
+                      RepeatSeries(paused: true) =>
+                        '${describeRepeat(series, today)} · paused',
+                      _ => describeRepeat(series, today),
+                    }),
+                    onTap: done ? null : () => _editRepeat(series),
+                    trailing: series == null
+                        ? null
+                        : IconButton(
+                            icon: const Icon(Icons.calendar_month_outlined),
+                            tooltip: 'See all dates',
+                            onPressed: () => Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (_) =>
+                                    SeriesCalendarScreen(seriesId: series.id),
+                              ),
+                            ),
+                          ),
+                  ),
+                ListTile(
+                  leading: const Icon(Icons.flag_outlined),
+                  title: const Text('Deadline'),
+                  subtitle: Text(
+                    item.deadline == null
+                        ? 'None — “do on” is when you plan to do it'
+                        : dateLabel(item.deadline!, today),
+                  ),
+                  trailing: item.deadline == null
+                      ? null
+                      : IconButton(
+                          icon: const Icon(Icons.close),
+                          tooltip: 'Remove deadline',
+                          onPressed: () => _actions.save(
+                            item.copyWith(deadline: () => null),
                           ),
                         ),
-                      ),
-              ),
-            ListTile(
-              leading: const Icon(Icons.flag_outlined),
-              title: const Text('Deadline'),
-              subtitle: Text(
-                item.deadline == null
-                    ? 'None — “do on” is when you plan to do it'
-                    : dateLabel(item.deadline!, today),
-              ),
-              trailing: item.deadline == null
-                  ? null
-                  : IconButton(
-                      icon: const Icon(Icons.close),
-                      tooltip: 'Remove deadline',
-                      onPressed: () =>
-                          _actions.save(item.copyWith(deadline: () => null)),
-                    ),
-              onTap: _editDeadline,
-            ),
-            if (!done) ReminderSection(item: item),
-            ListTile(
-              leading: const Icon(Icons.list_alt_outlined),
-              title: const Text('List'),
-              subtitle: Text(
-                lists.where((l) => l.id == item.listId).firstOrNull?.name ??
-                    'None',
-              ),
-              onTap: () async {
-                final picked = await showChoiceSheet<String?>(
-                  context,
-                  title: 'List',
-                  selected: item.listId,
-                  options: [
-                    (null, 'None'),
-                    for (final list in lists) (list.id, list.name),
-                  ],
-                );
-                if (picked != null) {
-                  await _actions.save(
-                    item.copyWith(listId: () => picked.value),
-                  );
-                }
-              },
-            ),
-            const Divider(),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-              child: TextField(
-                controller: _doneMeans,
-                maxLines: null,
-                textCapitalization: TextCapitalization.sentences,
-                decoration: const InputDecoration(
-                  labelText: 'Done means…',
-                  hintText: 'What does finished look like?',
-                  border: OutlineInputBorder(),
+                  onTap: _editDeadline,
                 ),
-                onChanged: _textChanged,
-              ),
+                if (!done) ReminderSection(item: item),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-              child: TextField(
-                controller: _notes,
-                maxLines: null,
-                minLines: 2,
-                textCapitalization: TextCapitalization.sentences,
-                decoration: const InputDecoration(
-                  labelText: 'Notes',
-                  border: OutlineInputBorder(),
+            const SectionHeader('Details'),
+            Pebble(
+              padding: const EdgeInsets.only(bottom: 16),
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.list_alt_outlined),
+                  title: const Text('List'),
+                  subtitle: Text(
+                    lists.where((l) => l.id == item.listId).firstOrNull?.name ??
+                        'None',
+                  ),
+                  onTap: () async {
+                    final picked = await showChoiceSheet<String?>(
+                      context,
+                      title: 'List',
+                      selected: item.listId,
+                      options: [
+                        (null, 'None'),
+                        for (final list in lists) (list.id, list.name),
+                      ],
+                    );
+                    if (picked != null) {
+                      await _actions.save(
+                        item.copyWith(listId: () => picked.value),
+                      );
+                    }
+                  },
                 ),
-                onChanged: _textChanged,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(8, 24, 16, 0),
-              child: SubtaskEditor(itemId: item.id),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 32, 16, 0),
-              child: done
-                  ? OutlinedButton.icon(
-                      icon: const Icon(Icons.undo),
-                      label: const Text('Not done yet'),
-                      onPressed: () => _actions.reopen(item),
-                    )
-                  : FilledButton.icon(
-                      icon: const Icon(Icons.check),
-                      label: const Text('Done'),
-                      onPressed: () async {
-                        final latest = await _saveText();
-                        if (!context.mounted) return;
-                        await ref.complete(context, latest);
-                        if (context.mounted) Navigator.pop(context);
-                      },
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                  child: TextField(
+                    controller: _doneMeans,
+                    maxLines: null,
+                    textCapitalization: TextCapitalization.sentences,
+                    decoration: const InputDecoration(
+                      labelText: 'Done means…',
+                      hintText: 'What does finished look like?',
+                      border: OutlineInputBorder(),
                     ),
+                    onChanged: _textChanged,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                  child: TextField(
+                    controller: _notes,
+                    maxLines: null,
+                    minLines: 2,
+                    textCapitalization: TextCapitalization.sentences,
+                    decoration: const InputDecoration(
+                      labelText: 'Notes',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: _textChanged,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Pebble(
+              padding: const EdgeInsets.fromLTRB(4, 8, 12, 8),
+              children: [SubtaskEditor(itemId: item.id)],
             ),
           ],
         ),

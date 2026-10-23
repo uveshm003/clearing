@@ -12,6 +12,8 @@ import '../../domain/review_session.dart';
 import '../format.dart';
 import '../item_commands.dart';
 import '../widgets/flow_step.dart';
+import '../widgets/step_trail.dart';
+import '../widgets/clearing_art.dart';
 import '../widgets/when_sheet.dart';
 
 /// Tally keys saved with the session. A summary, never a score.
@@ -96,8 +98,15 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: const CloseButton(),
-        title: Text(
-          'Weekly review · ${step.index + 1} of ${ReviewStep.values.length}',
+        title: const Text('Weekly review'),
+        // "The path": a stone per step, filled as the review goes.
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(30),
+          child: StepTrail(
+            count: ReviewStep.values.length,
+            current: step.index,
+            stones: true,
+          ),
         ),
       ),
       body: session == null
@@ -458,14 +467,21 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
       hint: 'Your head should feel a little lighter.',
       actions: [FilledButton(onPressed: _finish, child: const Text('Finish'))],
       children: [
+        const Center(child: ClearingArt(ClearingScene.clearing)),
+        const SizedBox(height: 24),
+        // A summary on open space: no score, streak or comparison.
         Text(
           '${session.count(_cleared)} cleared · '
           '${session.count(_planned)} planned',
-          style: theme.textTheme.titleLarge,
+          style: theme.textTheme.displaySmall,
+          textAlign: TextAlign.center,
         ),
         if (skipped > 0) ...[
           const SizedBox(height: 8),
-          Text('$skipped skipped for another time.'),
+          Text(
+            '$skipped skipped for another time.',
+            textAlign: TextAlign.center,
+          ),
         ],
       ],
     );

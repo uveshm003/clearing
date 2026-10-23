@@ -36,3 +36,48 @@ Future<({T value})?> showChoiceSheet<T>(
     ),
   ),
 );
+
+/// A settings row showing the current choice; tapping opens
+/// [showChoiceSheet]. Replaces a trailing dropdown, which runs out of room
+/// at large text sizes (FR-20).
+class ChoiceTile<T> extends StatelessWidget {
+  const ChoiceTile({
+    super.key,
+    required this.title,
+    required this.value,
+    required this.options,
+    required this.onChanged,
+    this.hint,
+    this.enabled = true,
+  });
+
+  final String title;
+  final T value;
+  final List<(T, String)> options;
+  final ValueChanged<T> onChanged;
+
+  /// A line under the current choice explaining the setting.
+  final String? hint;
+  final bool enabled;
+
+  @override
+  Widget build(BuildContext context) {
+    final current =
+        options.where((o) => o.$1 == value).firstOrNull?.$2 ?? '$value';
+    return ListTile(
+      enabled: enabled,
+      title: Text(title),
+      subtitle: Text([current, ?hint].join(' · ')),
+      trailing: const Icon(Icons.unfold_more),
+      onTap: () async {
+        final picked = await showChoiceSheet<T>(
+          context,
+          title: title,
+          options: options,
+          selected: value,
+        );
+        if (picked != null) onChanged(picked.value);
+      },
+    );
+  }
+}

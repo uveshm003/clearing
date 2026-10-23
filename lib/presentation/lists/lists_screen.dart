@@ -7,6 +7,9 @@ import '../../core/router.dart';
 import '../../domain/enums.dart';
 import '../../domain/item_list.dart';
 import '../widgets/search_button.dart';
+import '../../core/glade.dart';
+import '../widgets/glade_header.dart';
+import '../widgets/pebble.dart';
 import '../widgets/section_header.dart';
 
 /// Open-item counts per list id, and the number of Someday items.
@@ -43,65 +46,96 @@ class ListsScreen extends ConsumerWidget {
     Widget tile(ItemList list) => ListTile(
       leading: Icon(listIcon(list)),
       title: Text(list.name),
-      trailing: Text('${counts.byList[list.id] ?? 0}'),
+      // Only a count worth reading: an empty list shows none.
+      trailing: switch (counts.byList[list.id]) {
+        final n? when n > 0 => Text('$n'),
+        _ => null,
+      },
       onTap: () => context.push(Routes.list(list.id)),
       onLongPress: () => _showListMenu(context, ref, list),
     );
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Lists'),
-        actions: [
-          const SearchButton(),
-          IconButton(
-            icon: const Icon(Icons.settings_outlined),
-            tooltip: 'Settings',
-            onPressed: () => context.push(Routes.settings),
-          ),
-        ],
-      ),
-      body: ListView(
-        padding: const EdgeInsets.only(bottom: 96),
-        children: [
-          for (final list in visible) tile(list),
-          ListTile(
-            leading: const Icon(Icons.add),
-            title: const Text('New list'),
-            onTap: () => _createList(context, ref),
-          ),
-          ListTile(
-            leading: const Icon(Icons.checklist),
-            title: const Text('Routines & templates'),
-            subtitle: const Text('Checklists you use again and again'),
-            onTap: () => context.push(Routes.templates),
-          ),
-          const SectionHeader('Not now'),
-          ListTile(
-            leading: const Icon(Icons.lightbulb_outline),
-            title: const Text('Someday'),
-            subtitle: const Text('Ideas, not commitments'),
-            trailing: Text('${counts.someday}'),
-            onTap: () => context.push(Routes.someday),
-          ),
-          ListTile(
-            leading: const Icon(Icons.inventory_2_outlined),
-            title: const Text('Done'),
-            subtitle: const Text('Recently done and the archive'),
-            onTap: () => context.push(Routes.archive),
-          ),
-          ListTile(
-            leading: const Icon(Icons.delete_outline),
-            title: const Text('Trash'),
-            subtitle: const Text('Kept for 30 days'),
-            onTap: () => context.push(Routes.trash),
-          ),
-          if (hidden.isNotEmpty)
-            ExpansionTile(
-              leading: const Icon(Icons.visibility_off_outlined),
-              title: Text('Hidden lists (${hidden.length})'),
-              children: [for (final list in hidden) tile(list)],
+      body: SafeArea(
+        bottom: false,
+        child: ListView(
+          padding: const EdgeInsets.only(bottom: 96),
+          children: [
+            GladeHeader(
+              title: 'Lists',
+              subtitle: 'Contexts, ideas, and what’s done',
+              actions: [
+                const SearchButton(),
+                IconButton(
+                  icon: const Icon(Icons.settings_outlined),
+                  tooltip: 'Settings',
+                  onPressed: () => context.push(Routes.settings),
+                ),
+              ],
             ),
-        ],
+            Pebble(
+              children: [
+                for (final list in visible) tile(list),
+                ListTile(
+                  leading: const Icon(Icons.add),
+                  title: const Text('New list'),
+                  onTap: () => _createList(context, ref),
+                ),
+              ],
+            ),
+            const SizedBox(height: GladeSpace.lg),
+            Pebble(
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.checklist),
+                  title: const Text('Routines & templates'),
+                  subtitle: const Text('Checklists you use again and again'),
+                  onTap: () => context.push(Routes.templates),
+                ),
+              ],
+            ),
+            const SectionHeader('Not now'),
+            Pebble(
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.lightbulb_outline),
+                  title: const Text('Someday'),
+                  subtitle: const Text('Ideas, not commitments'),
+                  trailing: counts.someday > 0
+                      ? Text('${counts.someday}')
+                      : null,
+                  onTap: () => context.push(Routes.someday),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.inventory_2_outlined),
+                  title: const Text('Done'),
+                  subtitle: const Text('Recently done and the archive'),
+                  onTap: () => context.push(Routes.archive),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.delete_outline),
+                  title: const Text('Trash'),
+                  subtitle: const Text('Kept for 30 days'),
+                  onTap: () => context.push(Routes.trash),
+                ),
+              ],
+            ),
+            if (hidden.isNotEmpty) ...[
+              const SizedBox(height: GladeSpace.lg),
+              Pebble(
+                children: [
+                  ExpansionTile(
+                    leading: const Icon(Icons.visibility_off_outlined),
+                    title: Text('Hidden lists (${hidden.length})'),
+                    shape: const Border(),
+                    collapsedShape: const Border(),
+                    children: [for (final list in hidden) tile(list)],
+                  ),
+                ],
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }

@@ -4,6 +4,7 @@ import '../../domain/enums.dart';
 import '../../domain/local_date.dart';
 import '../../domain/repeat_series.dart';
 import '../format.dart';
+import '../widgets/choice_sheet.dart';
 import '../widgets/section_header.dart';
 import '../widgets/when_sheet.dart';
 
@@ -205,19 +206,14 @@ class _RepeatEditorState extends State<RepeatEditor> {
             ),
           if (series.freq == RepeatFrequency.monthly &&
               !series.isAfterCompletion)
-            ListTile(
-              title: const Text('On day'),
-              subtitle: const Text('Short months use their last day'),
-              trailing: DropdownButton<int>(
-                value: series.monthDay ?? series.startDate.day,
-                underline: const SizedBox.shrink(),
-                items: [
-                  for (var day = 1; day <= 31; day++)
-                    DropdownMenuItem(value: day, child: Text(ordinal(day))),
-                ],
-                onChanged: (day) =>
-                    _update(series.copyWith(monthDay: () => day)),
-              ),
+            ChoiceTile<int>(
+              title: 'On day',
+              hint: 'short months use their last day',
+              value: series.monthDay ?? series.startDate.day,
+              options: [
+                for (var day = 1; day <= 31; day++) (day, ordinal(day)),
+              ],
+              onChanged: (day) => _update(series.copyWith(monthDay: () => day)),
             ),
           ListTile(
             title: const Text('Starts'),

@@ -5,6 +5,8 @@ import '../../core/providers.dart';
 import '../../data/backup.dart';
 import '../../domain/local_date.dart';
 import '../format.dart';
+import '../widgets/choice_sheet.dart';
+import '../widgets/pebble.dart';
 import '../widgets/section_header.dart';
 
 /// Backup and restore (FR-17). Nothing leaves the phone unless the user
@@ -42,7 +44,7 @@ class BackupScreen extends ConsumerWidget {
       appBar: AppBar(title: const Text('Backup')),
       body: ListView(
         padding: const EdgeInsets.only(bottom: 32),
-        children: [
+        children: pebbleSections([
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
             child: Text(
@@ -74,28 +76,22 @@ class BackupScreen extends ConsumerWidget {
             title: const Text('Save to a folder'),
             onTap: () => export(toFolder: true),
           ),
-          ListTile(
-            title: const Text('Remind me to export'),
-            trailing: DropdownButton<int?>(
-              value: settings.exportReminderDays,
-              underline: const SizedBox.shrink(),
-              items: [
-                for (final (days, label) in const [
-                  (14, 'Every 2 weeks'),
-                  (30, 'Monthly'),
-                  (null, 'Never'),
-                ])
-                  DropdownMenuItem(value: days, child: Text(label)),
-                if (!const [14, 30, null].contains(settings.exportReminderDays))
-                  DropdownMenuItem(
-                    value: settings.exportReminderDays,
-                    child: Text('Every ${settings.exportReminderDays} days'),
-                  ),
-              ],
-              onChanged: (days) => ref
-                  .read(settingsRepositoryProvider)
-                  .save(settings.copyWith(exportReminderDays: () => days)),
-            ),
+          ChoiceTile<int?>(
+            title: 'Remind me to export',
+            value: settings.exportReminderDays,
+            options: [
+              (14, 'Every 2 weeks'),
+              (30, 'Monthly'),
+              (null, 'Never'),
+              if (!const [14, 30, null].contains(settings.exportReminderDays))
+                (
+                  settings.exportReminderDays,
+                  'Every ${settings.exportReminderDays} days',
+                ),
+            ],
+            onChanged: (days) => ref
+                .read(settingsRepositoryProvider)
+                .save(settings.copyWith(exportReminderDays: () => days)),
           ),
           const SectionHeader('Restore'),
           ListTile(
@@ -107,7 +103,7 @@ class BackupScreen extends ConsumerWidget {
             ),
             onTap: () => _restore(context, ref, today),
           ),
-        ],
+        ]),
       ),
     );
   }

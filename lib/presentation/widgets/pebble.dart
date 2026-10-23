@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/glade.dart';
+import 'section_header.dart';
 
 /// Glade's grouped card: a soft, rounded patch of bark paper that holds
 /// related rows, such as Today's must-dos or an item's "When" settings.
@@ -74,4 +75,31 @@ class SliverPebble extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Groups a settings-style column into pebbles: everything between two
+/// [SectionHeader]s goes on one pebble under its header. Widgets before the
+/// first header stay as they are.
+List<Widget> pebbleSections(List<Widget> children) {
+  final out = <Widget>[];
+  var group = <Widget>[];
+  var grouping = false;
+  void close() {
+    if (group.isNotEmpty) out.add(Pebble(children: group));
+    group = <Widget>[];
+  }
+
+  for (final child in children) {
+    if (child is SectionHeader) {
+      close();
+      out.add(child);
+      grouping = true;
+    } else if (grouping) {
+      group.add(child);
+    } else {
+      out.add(child);
+    }
+  }
+  close();
+  return out;
 }

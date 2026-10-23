@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/pebble.dart';
 import '../widgets/section_header.dart';
 
 /// "Reminders not arriving?" (PRD §7): what the system can do to reminders
@@ -49,7 +50,7 @@ class RemindersHelpScreen extends StatelessWidget {
       appBar: AppBar(title: const Text('Reminders not arriving?')),
       body: ListView(
         padding: const EdgeInsets.only(bottom: 32),
-        children: [
+        children: pebbleSections([
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
             child: Text(
@@ -89,7 +90,7 @@ class RemindersHelpScreen extends StatelessWidget {
               style: theme.textTheme.bodySmall,
             ),
           ),
-        ],
+        ]),
       ),
     );
   }

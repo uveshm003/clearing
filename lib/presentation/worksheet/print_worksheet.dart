@@ -26,7 +26,7 @@ const _systemFallbacks = [
 Future<WorksheetFonts> loadWorksheetFonts() async {
   Future<pw.Font> asset(String name) async =>
       pw.Font.ttf(await rootBundle.load('assets/fonts/$name'));
-  final fallback = <pw.Font>[];
+  final fallback = <pw.Font>[await asset('Roboto-Regular.ttf')];
   if (!kIsWeb && Platform.isAndroid) {
     for (final path in _systemFallbacks) {
       try {
@@ -38,8 +38,9 @@ Future<WorksheetFonts> loadWorksheetFonts() async {
     }
   }
   return WorksheetFonts(
-    regular: await asset('Roboto-Regular.ttf'),
-    bold: await asset('Roboto-Bold.ttf'),
+    regular: await asset('AtkinsonHyperlegibleNext-Regular.ttf'),
+    bold: await asset('AtkinsonHyperlegibleNext-Bold.ttf'),
+    display: await asset('Fraunces-SemiBold.ttf'),
     fallback: fallback,
   );
 }

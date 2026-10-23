@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Home-screen widget colours, from the app's sage palette (lib/core/theme.dart).
+<!-- Home-screen widget colours: Glade's birch and bark by day, forest night
+     after dark (lib/core/glade.dart).
      Text pairs meet WCAG AA on the widget surface (FR-20). -->
 <resources>
-    <color name="widget_surface">#F6FAF7</color>
-    <color name="widget_on_surface">#171D1B</color>
-    <color name="widget_on_surface_variant">#404945</color>
-    <color name="widget_primary">#3F6A5C</color>
-    <color name="widget_pill">#DCE5E0</color>
+    <color name="widget_surface">#F6F3EC</color>
+    <color name="widget_on_surface">#23241F</color>
+    <color name="widget_on_surface_variant">#5B5F55</color>
+    <color name="widget_primary">#2F5D48</color>
+    <color name="widget_pill">#EDE9DF</color>
     <!-- Launcher icon background: the app's sage seed colour. -->
     <color name="ic_launcher_background">#5B7F72</color>
 </resources>

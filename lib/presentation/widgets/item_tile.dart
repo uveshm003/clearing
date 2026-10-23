@@ -84,7 +84,11 @@ class _ItemTileState extends ConsumerState<ItemTile> {
     final quiet = widget.quiet;
 
     final details = <String>[
-      if (widget.showDate && today != null) ?_whenDetail(context, today),
+      if (widget.showDate && today != null)
+        ?_whenDetail(context, today)
+      // Without the date (the day is shown around it), the time still counts.
+      else if (item.doTime case final minutes?)
+        timeLabel(context, minutes),
       if (item.seriesId != null) 'Repeats',
       if (item.status == ItemStatus.waiting && item.waitingOn != null)
         'Waiting on ${item.waitingOn}',

@@ -6,6 +6,8 @@ import '../../core/providers.dart';
 import '../../domain/calendar_rules.dart';
 import '../format.dart';
 import '../widgets/block_tile.dart';
+import '../widgets/day_rail.dart';
+import '../widgets/pebble.dart';
 import '../widgets/item_tile.dart';
 import '../widgets/section_header.dart';
 
@@ -68,29 +70,22 @@ class _WeekViewState extends ConsumerState<WeekView> {
         ),
         if (week.anyDay.isNotEmpty) ...[
           const SectionHeader('Any day this week'),
-          for (final item in week.anyDay) ItemTile(item: item),
-        ],
-        for (final (:day, items: dayItems) in week.days) ...[
-          SectionHeader(
-            dateLabel(day, today) == DateFormat.EEEE().format(dateTimeOf(day))
-                ? dateLabel(day, today)
-                : '${dateLabel(day, today)} · '
-                      '${DateFormat('EEE d MMM').format(dateTimeOf(day))}',
+          Pebble(
+            children: [for (final item in week.anyDay) ItemTile(item: item)],
           ),
-          for (final block in blocks)
-            if (block.occursOn(day)) BlockTile(block: block),
-          for (final item in dayItems) ItemTile(item: item, showDate: false),
-          if (dayItems.isEmpty && !blocks.any((b) => b.occursOn(day)))
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
-              child: Text(
-                day.isBefore(today) ? 'Nothing left' : 'Free',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-              ),
-            ),
         ],
+        for (final (:day, items: dayItems) in week.days)
+          DaySection(
+            day: day,
+            today: today,
+            emptyText: day.isBefore(today) ? 'Nothing left' : 'Free',
+            children: [
+              for (final block in blocks)
+                if (block.occursOn(day)) BlockTile(block: block),
+              for (final item in dayItems)
+                ItemTile(item: item, showDate: false),
+            ],
+          ),
       ],
     );
   }

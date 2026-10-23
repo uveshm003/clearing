@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/glade.dart';
 import '../../core/ids.dart';
 import '../../core/providers.dart';
 import '../../domain/enums.dart';
@@ -12,6 +13,7 @@ import '../format.dart';
 import '../item/repeat_editor.dart';
 import '../item_commands.dart';
 import '../widgets/reminder_editor.dart';
+import '../widgets/step_trail.dart';
 import '../widgets/subtask_editor.dart';
 import '../widgets/when_sheet.dart';
 
@@ -171,11 +173,15 @@ class _ClarifyFlowState extends ConsumerState<_ClarifyFlow> {
     return Scaffold(
       appBar: AppBar(
         leading: const CloseButton(),
-        title: Text('Clarify · ${step.index + 1} of ${_Step.values.length}'),
+        title: const Text('Clarify'),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(22),
+          child: StepTrail(count: _Step.values.length, current: step.index),
+        ),
       ),
       body: SafeArea(
         child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 180),
+          duration: GladeMotion.step.of(context),
           child: KeyedSubtree(
             key: ValueKey(step),
             child: switch (step) {
@@ -239,19 +245,23 @@ class _ClarifyFlowState extends ConsumerState<_ClarifyFlow> {
     context,
     'Is this actionable?',
     children: [
-      FilledButton(
-        onPressed: () => _go(_Step.nextAction),
-        child: const Text('Yes, there’s something to do'),
+      ChoiceCard(
+        icon: Icons.check_circle_outline,
+        title: 'Yes, there’s something to do',
+        primary: true,
+        onTap: () => _go(_Step.nextAction),
       ),
-      const SizedBox(height: 12),
-      OutlinedButton(
-        onPressed: () => _finish(() => ref.someday(context, widget.item)),
-        child: const Text('No, keep it as an idea'),
+      ChoiceCard(
+        icon: Icons.lightbulb_outline,
+        title: 'No, keep it as an idea',
+        subtitle: 'It waits in Someday, out of Today’s way',
+        onTap: () => _finish(() => ref.someday(context, widget.item)),
       ),
-      const SizedBox(height: 12),
-      TextButton(
-        onPressed: () => _finish(() => ref.trash(context, widget.item)),
-        child: const Text('No, let it go'),
+      ChoiceCard(
+        icon: Icons.delete_outline,
+        title: 'No, let it go',
+        subtitle: 'Into Trash for 30 days',
+        onTap: () => _finish(() => ref.trash(context, widget.item)),
       ),
     ],
   );
@@ -315,14 +325,17 @@ class _ClarifyFlowState extends ConsumerState<_ClarifyFlow> {
             ),
           ]
         : [
-            FilledButton(
-              onPressed: () => _go(_Step.when),
-              child: const Text('No, I’ll do it'),
+            ChoiceCard(
+              icon: Icons.front_hand_outlined,
+              title: 'No, I’ll do it',
+              primary: true,
+              onTap: () => _go(_Step.when),
             ),
-            const SizedBox(height: 12),
-            OutlinedButton(
-              onPressed: () => setState(() => _delegating = true),
-              child: const Text('Yes, I’m waiting on someone'),
+            ChoiceCard(
+              icon: Icons.person_outline,
+              title: 'Yes, I’m waiting on someone',
+              subtitle: 'Track who, and when to follow up',
+              onTap: () => setState(() => _delegating = true),
             ),
           ],
     actions: _delegating
@@ -349,28 +362,29 @@ class _ClarifyFlowState extends ConsumerState<_ClarifyFlow> {
       context,
       'When?',
       children: [
-        ListTile(
-          leading: const Icon(Icons.wb_sunny_outlined),
-          title: const Text('Today'),
+        ChoiceCard(
+          icon: Icons.wb_sunny_outlined,
+          title: 'Today',
           onTap: () => choose(const WhenToday()),
         ),
-        ListTile(
-          leading: const Icon(Icons.view_week_outlined),
-          title: const Text('This week'),
+        ChoiceCard(
+          icon: Icons.view_week_outlined,
+          title: 'This week',
+          subtitle: 'One quiet row on Today until you pick a day',
           onTap: () => choose(const WhenThisWeek()),
         ),
-        ListTile(
-          leading: const Icon(Icons.event_outlined),
-          title: const Text('Pick a date'),
+        ChoiceCard(
+          icon: Icons.event_outlined,
+          title: 'Pick a date',
           onTap: () async {
             final picked = await pickDate(context, today: _today);
             if (picked != null) choose(picked);
           },
         ),
-        ListTile(
-          leading: const Icon(Icons.all_inclusive),
-          title: const Text('Anytime'),
-          subtitle: const Text('No particular day'),
+        ChoiceCard(
+          icon: Icons.all_inclusive,
+          title: 'Anytime',
+          subtitle: 'No particular day',
           onTap: () => choose(const WhenAnytime()),
         ),
       ],

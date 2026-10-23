@@ -14,17 +14,22 @@ import '../domain/today_rules.dart';
 /// The two printable worksheets (FR-19).
 enum WorksheetKind { day, week }
 
-/// Fonts embedded in the PDF. The base fonts cover Latin, Greek and
-/// Cyrillic; [fallback] adds whatever other scripts the phone has fonts for.
+/// Fonts embedded in the PDF, matching the app: Glade's Atkinson
+/// Hyperlegible for text and Fraunces for titles. [fallback] covers other
+/// scripts (Roboto for Greek and Cyrillic, then whatever the phone has).
 class WorksheetFonts {
   const WorksheetFonts({
     required this.regular,
     required this.bold,
+    this.display,
     this.fallback = const [],
   });
 
   final pw.Font regular;
   final pw.Font bold;
+
+  /// Titles; [bold] when absent.
+  final pw.Font? display;
   final List<pw.Font> fallback;
 }
 
@@ -74,14 +79,14 @@ Future<Uint8List> buildWorksheet(
     pw.Page(
       pageFormat: page,
       build: (context) => kind == WorksheetKind.day
-          ? _day(data, page.availableHeight)
-          : _week(data, page.availableHeight),
+          ? _day(data, page.availableHeight, fonts.display)
+          : _week(data, page.availableHeight, fonts.display),
     ),
   );
   return doc.save();
 }
 
-pw.Widget _day(WorksheetData data, double height) {
+pw.Widget _day(WorksheetData data, double height, pw.Font? display) {
   final today = data.today;
   final view = buildTodayView(data.items, today);
   final week = data.items.where(isThisWeek).toList();
@@ -122,7 +127,7 @@ pw.Widget _day(WorksheetData data, double height) {
   return pw.Column(
     crossAxisAlignment: pw.CrossAxisAlignment.start,
     children: [
-      _title('Today', DateFormat('EEEE d MMMM y').format(_dt(today))),
+      _title('Today', DateFormat('EEEE d MMMM y').format(_dt(today)), display),
       ...sections,
       _heading('On your mind'),
       for (var i = 0; i < capture - 1; i++) _blankLine(),
@@ -130,7 +135,7 @@ pw.Widget _day(WorksheetData data, double height) {
   );
 }
 
-pw.Widget _week(WorksheetData data, double height) {
+pw.Widget _week(WorksheetData data, double height, pw.Font? display) {
   final start = data.today.startOfWeek(data.weekStart);
   final week = weekTimeline(data.items, weekStart: start, today: data.today);
   // Two columns of four boxes: seven days and "Any day / on your mind".
@@ -182,6 +187,7 @@ pw.Widget _week(WorksheetData data, double height) {
       _title(
         'This week',
         'Week of ${DateFormat('d MMMM y').format(_dt(start))}',
+        display,
       ),
       for (var r = 0; r < 4; r++)
         pw.Row(
@@ -204,19 +210,27 @@ String _time(int minutes) =>
 
 DateTime _dt(LocalDate d) => DateTime(d.year, d.month, d.day);
 
-pw.Widget _title(String title, String subtitle) => pw.SizedBox(
-  height: 3 * _rowHeight,
-  child: pw.Column(
-    crossAxisAlignment: pw.CrossAxisAlignment.start,
-    children: [
-      pw.Text(
-        title,
-        style: pw.TextStyle(fontSize: 22, fontWeight: pw.FontWeight.bold),
+pw.Widget _title(String title, String subtitle, pw.Font? display) =>
+    pw.SizedBox(
+      height: 3 * _rowHeight,
+      child: pw.Column(
+        crossAxisAlignment: pw.CrossAxisAlignment.start,
+        children: [
+          pw.Text(
+            title,
+            style: pw.TextStyle(
+              font: display,
+              fontSize: 24,
+              fontWeight: pw.FontWeight.bold,
+            ),
+          ),
+          pw.Text(
+            subtitle,
+            style: const pw.TextStyle(color: PdfColors.grey700),
+          ),
+        ],
       ),
-      pw.Text(subtitle, style: const pw.TextStyle(color: PdfColors.grey700)),
-    ],
-  ),
-);
+    );
 
 pw.Widget _heading(String text) => pw.Container(
   height: _rowHeight,

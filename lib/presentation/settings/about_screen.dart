@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../widgets/pebble.dart';
 import '../widgets/section_header.dart';
 
 /// The installed version, or null where the platform can't tell (tests).
@@ -30,7 +31,7 @@ class AboutScreen extends ConsumerWidget {
       appBar: AppBar(title: const Text('About')),
       body: ListView(
         padding: const EdgeInsets.only(bottom: 32),
-        children: [
+        children: pebbleSections([
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
             child: Text('Clearing', style: theme.textTheme.headlineSmall),
@@ -84,7 +85,7 @@ class AboutScreen extends ConsumerWidget {
               applicationVersion: version,
             ),
           ),
-        ],
+        ]),
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/providers.dart';
 import '../../core/router.dart';
+import '../../core/glade.dart';
 import '../../domain/enums.dart';
 import '../../domain/item.dart';
 import '../../domain/local_date.dart';
@@ -11,6 +12,7 @@ import '../../domain/reset_rules.dart';
 import '../../domain/review_session.dart';
 import '../../domain/today_rules.dart';
 import '../widgets/flow_step.dart';
+import '../widgets/step_trail.dart';
 
 enum _Step { mind, today, week, letGo, smallest }
 
@@ -147,7 +149,11 @@ class _ResetScreenState extends ConsumerState<ResetScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: const CloseButton(),
-        title: Text('Reset · ${step.index + 1} of ${_Step.values.length}'),
+        title: const Text('Reset'),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(22),
+          child: StepTrail(count: _Step.values.length, current: step.index),
+        ),
       ),
       body: SafeArea(
         child: AnimatedSwitcher(
@@ -206,7 +212,16 @@ class _ResetScreenState extends ConsumerState<ResetScreen> {
             CheckboxListTile(
               contentPadding: EdgeInsets.zero,
               controlAffinity: ListTileControlAffinity.leading,
-              title: Text(item.title),
+              // What isn't chosen fades back, so the screen literally clears.
+              title: AnimatedDefaultTextStyle(
+                duration: GladeMotion.settle.of(context),
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: chosen.contains(item.id)
+                      ? Theme.of(context).colorScheme.onSurface
+                      : Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+                child: Text(item.title),
+              ),
               value: chosen.contains(item.id),
               onChanged:
                   !chosen.contains(item.id) &&

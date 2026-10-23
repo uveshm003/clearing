@@ -5,10 +5,12 @@ import '../../core/providers.dart';
 import '../../domain/item.dart';
 import '../../domain/local_date.dart';
 import '../../domain/upcoming_rules.dart';
-import '../format.dart';
 import '../widgets/block_tile.dart';
 import '../widgets/clearing_art.dart';
+import '../widgets/day_rail.dart';
 import '../widgets/empty_state.dart';
+import '../widgets/glade_header.dart';
+import '../widgets/pebble.dart';
 import '../widgets/search_button.dart';
 import 'week_view.dart';
 import '../widgets/item_tile.dart';
@@ -58,52 +60,74 @@ class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
       }
     }
     final sortedDays = days.keys.toList()..sort();
+    final rows = <Widget Function()>[
+      for (final day in sortedDays)
+        () => DaySection(
+          day: day,
+          today: today!,
+          children: [
+            for (final block in allBlocks)
+              if (block.occursOn(day)) BlockTile(block: block),
+            for (final item in days[day]!)
+              ItemTile(item: item, showDate: false),
+          ],
+        ),
+      if (view != null && view.waiting.isNotEmpty) ...[
+        () => const SectionHeader('Waiting on'),
+        () => Pebble(
+          children: [
+            for (final item in view.waiting)
+              ItemTile(item: item, showDate: false, key: ValueKey(item.id)),
+          ],
+        ),
+      ],
+    ];
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Upcoming'),
-        actions: [
-          IconButton(
-            icon: Icon(
-              _week ? Icons.view_agenda_outlined : Icons.view_week_outlined,
-            ),
-            tooltip: _week ? 'Agenda' : 'Week view',
-            onPressed: () => setState(() => _week = !_week),
-          ),
-          const SearchButton(),
-        ],
-      ),
-      body: _week
-          ? const WeekView()
-          : view == null || today == null
-          ? const SizedBox.shrink()
-          : days.isEmpty && view.waiting.isEmpty
-          ? const EmptyState(
-              icon: Icons.event_note_outlined,
-              scene: ClearingScene.path,
-              title: 'Nothing scheduled',
-              message: 'Items with a date in the next 30 days show up here.',
-            )
-          : ListView(
-              padding: const EdgeInsets.only(bottom: 96),
-              children: [
-                for (final day in sortedDays) ...[
-                  SectionHeader(dateLabel(day, today)),
-                  for (final block in allBlocks)
-                    if (block.occursOn(day)) BlockTile(block: block),
-                  for (final item in days[day]!)
-                    ItemTile(item: item, showDate: false),
-                ],
-                if (view.waiting.isNotEmpty) ...[
-                  const SectionHeader('Waiting on'),
-                  for (final item in view.waiting)
-                    ItemTile(
-                      item: item,
-                      showDate: false,
-                      key: ValueKey(item.id),
-                    ),
-                ],
+      body: SafeArea(
+        bottom: false,
+        child: Column(
+          children: [
+            GladeHeader(
+              title: 'Upcoming',
+              subtitle: _week ? 'A week at a time' : 'The next 30 days',
+              actions: [
+                IconButton(
+                  icon: Icon(
+                    _week
+                        ? Icons.view_agenda_outlined
+                        : Icons.view_week_outlined,
+                  ),
+                  tooltip: _week ? 'Agenda' : 'Week view',
+                  onPressed: () => setState(() => _week = !_week),
+                ),
+                const SearchButton(),
               ],
             ),
+            Expanded(
+              child: _week
+                  ? const WeekView()
+                  : view == null || today == null
+                  ? const SizedBox.shrink()
+                  : rows.isEmpty
+                  ? const EmptyState(
+                      icon: Icons.event_note_outlined,
+                      scene: ClearingScene.path,
+                      title: 'Nothing scheduled',
+                      message:
+                          'Items with a date in the next 30 days show up '
+                          'here.',
+                    )
+                  // Built lazily: only the days on screen exist.
+                  : ListView.builder(
+                      padding: const EdgeInsets.only(bottom: 96),
+                      itemCount: rows.length,
+                      itemBuilder: (context, i) => rows[i](),
+                    ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

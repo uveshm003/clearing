@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/glade.dart';
 import '../../core/providers.dart';
 import '../../domain/enums.dart';
 import '../../domain/item.dart';
@@ -46,17 +47,21 @@ class _Focus extends ConsumerWidget {
               child: ListView(
                 padding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
                 children: [
+                  // Almost empty: the one thing, large, in the middle third.
+                  SizedBox(height: MediaQuery.sizeOf(context).height * 0.12),
                   Semantics(
                     header: true,
                     child: Text(
                       item.title,
-                      style: theme.textTheme.headlineMedium,
+                      style: theme.textTheme.displaySmall,
+                      textAlign: TextAlign.center,
                     ),
                   ),
                   if (item.doneMeans case final doneMeans?) ...[
                     const SizedBox(height: 16),
                     Text(
                       'Done means: $doneMeans',
+                      textAlign: TextAlign.center,
                       style: theme.textTheme.titleMedium?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
@@ -72,7 +77,7 @@ class _Focus extends ConsumerWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: OutlinedButton(
+                    child: TextButton(
                       onPressed: () => Navigator.pop(context),
                       child: const Text('Not now'),
                     ),
@@ -112,13 +117,29 @@ class _Finished extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
-                Icons.check_circle_outline,
-                size: 56,
-                color: theme.colorScheme.primary,
+              // The dawn glow: a ring that blooms once around the check.
+              TweenAnimationBuilder<double>(
+                tween: Tween(begin: 0, end: 1),
+                duration: GladeMotion.glow.of(context),
+                curve: GladeMotion.glow.curve,
+                builder: (context, t, child) => Container(
+                  padding: EdgeInsets.all(8 + 10 * t),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: GladeTokens.of(
+                      context,
+                    ).dawn.withValues(alpha: 0.25 * (1 - t) + 0.12),
+                  ),
+                  child: child,
+                ),
+                child: Icon(
+                  Icons.check_circle,
+                  size: 56,
+                  color: theme.colorScheme.primary,
+                ),
               ),
               const SizedBox(height: 16),
-              Text('One less thing', style: theme.textTheme.headlineSmall),
+              Text('One less thing', style: theme.textTheme.displaySmall),
               const SizedBox(height: 8),
               Text(title, textAlign: TextAlign.center),
               const SizedBox(height: 32),

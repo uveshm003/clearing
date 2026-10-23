@@ -11,6 +11,7 @@ import '../../domain/local_date.dart';
 import '../../domain/reset_rules.dart';
 import '../../domain/review_session.dart';
 import '../../domain/today_rules.dart';
+import '../../l10n/l10n.dart';
 import '../widgets/flow_step.dart';
 import '../widgets/step_trail.dart';
 
@@ -149,7 +150,7 @@ class _ResetScreenState extends ConsumerState<ResetScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: const CloseButton(),
-        title: const Text('Reset'),
+        title: Text(context.l10n.resetTitle),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(22),
           child: StepTrail(count: _Step.values.length, current: step.index),
@@ -173,22 +174,24 @@ class _ResetScreenState extends ConsumerState<ResetScreen> {
     );
   }
 
-  Widget _nextButton({String label = 'Next'}) =>
-      FilledButton(onPressed: _next, child: Text(label));
+  Widget _nextButton() =>
+      FilledButton(onPressed: _next, child: Text(context.l10n.commonNext));
 
   Widget _mind() {
     final open = _candidates;
     final theme = Theme.of(context);
     return FlowStep(
-      question: 'Everything on your mind',
-      hint:
-          'Get it all out, one thought at a time. Nothing needs deciding yet.',
+      question: context.l10n.resetMindTitle,
+      hint: context.l10n.resetMindHint,
       actions: [_nextButton()],
       children: [
         BurstCapture(onSaved: (n) => _tally('captured', n)),
         if (open.isNotEmpty) ...[
           const SizedBox(height: 24),
-          Text('Already on your plate', style: theme.textTheme.titleSmall),
+          Text(
+            context.l10n.resetOnYourPlate,
+            style: theme.textTheme.titleSmall,
+          ),
           const SizedBox(height: 8),
           for (final item in open)
             Padding(
@@ -239,11 +242,11 @@ class _ResetScreenState extends ConsumerState<ResetScreen> {
     final cap = ref.read(settingsProvider).value?.mustDoCap ?? 3;
     final items = _candidates;
     return FlowStep(
-      question: 'What must happen today?',
-      hint: 'Up to $cap. Only what truly can’t wait.',
+      question: context.l10n.resetTodayTitle,
+      hint: context.l10n.resetTodayHint(cap),
       actions: [_nextButton()],
       children: [
-        if (items.isEmpty) const Text('Nothing open right now.'),
+        if (items.isEmpty) Text(context.l10n.resetTodayEmpty),
         _checklist(items, _today, limit: cap),
       ],
     );
@@ -255,11 +258,11 @@ class _ResetScreenState extends ConsumerState<ResetScreen> {
         if (!_today.contains(item.id)) item,
     ];
     return FlowStep(
-      question: 'What belongs to this week?',
-      hint: 'It stays visible as one quiet row on Today.',
+      question: context.l10n.resetWeekTitle,
+      hint: context.l10n.resetWeekHint,
       actions: [_nextButton()],
       children: [
-        if (items.isEmpty) const Text('Nothing else is open.'),
+        if (items.isEmpty) Text(context.l10n.resetWeekEmpty),
         _checklist(items, _week),
       ],
     );
@@ -268,21 +271,20 @@ class _ResetScreenState extends ConsumerState<ResetScreen> {
   Widget _chooseLetGo() {
     final items = _rest;
     return FlowStep(
-      question: 'Let go of the rest?',
+      question: context.l10n.resetLetGoTitle,
       hint: items.isEmpty
-          ? 'Nothing left over.'
-          : 'Ticked items go to Someday, or to Trash for 30 days. Untick '
-                'anything you want to keep as it is.',
+          ? context.l10n.resetLetGoEmpty
+          : context.l10n.resetLetGoHint,
       actions: [
-        TextButton(onPressed: _next, child: const Text('Keep them all')),
+        TextButton(onPressed: _next, child: Text(context.l10n.resetKeepAll)),
         if (_letGo.isNotEmpty) ...[
           OutlinedButton(
             onPressed: () => _applyLetGo(delete: true),
-            child: const Text('Delete'),
+            child: Text(context.l10n.commonDelete),
           ),
           FilledButton(
             onPressed: () => _applyLetGo(delete: false),
-            child: const Text('Move to Someday'),
+            child: Text(context.l10n.resetMoveToSomeday),
           ),
         ],
       ],
@@ -297,14 +299,18 @@ class _ResetScreenState extends ConsumerState<ResetScreen> {
     ];
     _focusId ??= chosen.firstOrNull?.id;
     return FlowStep(
-      question: 'Smallest next action',
+      question: context.l10n.resetSmallestTitle,
       hint: chosen.isEmpty
-          ? 'Nothing was picked, and that’s fine. You’ve cleared some space.'
-          : 'Pick one. Optionally, name a first step so small it’s easy.',
+          ? context.l10n.resetSmallestEmpty
+          : context.l10n.resetSmallestHint,
       actions: [
         FilledButton(
           onPressed: _finish,
-          child: Text(chosen.isEmpty ? 'Finish' : 'Focus on it'),
+          child: Text(
+            chosen.isEmpty
+                ? context.l10n.commonFinish
+                : context.l10n.resetFocusOnIt,
+          ),
         ),
       ],
       children: [
@@ -327,10 +333,10 @@ class _ResetScreenState extends ConsumerState<ResetScreen> {
           TextField(
             controller: _firstStep,
             textCapitalization: TextCapitalization.sentences,
-            decoration: const InputDecoration(
-              labelText: 'Tiny first step (optional)',
-              hintText: 'e.g. “open the letter”',
-              border: OutlineInputBorder(),
+            decoration: InputDecoration(
+              labelText: context.l10n.resetFirstStepLabel,
+              hintText: context.l10n.resetFirstStepHint,
+              border: const OutlineInputBorder(),
             ),
           ),
         ],

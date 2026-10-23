@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/providers.dart';
 import '../../domain/item.dart';
+import '../../l10n/l10n.dart';
 import '../widgets/clearing_art.dart';
 import '../widgets/empty_state.dart';
 import '../widgets/item_tile.dart';
@@ -25,28 +26,28 @@ class ArchiveScreen extends ConsumerWidget {
     final archived = items.where((i) => i.archived).toList();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Done')),
+      appBar: AppBar(title: Text(context.l10n.archiveTitle)),
       body: items.isEmpty
-          ? const EmptyState(
+          ? EmptyState(
               icon: Icons.inventory_2_outlined,
               scene: ClearingScene.cairn,
-              title: 'Nothing done yet',
-              message:
-                  'Finished items rest here, and search still finds '
-                  'them.',
+              title: context.l10n.archiveEmptyTitle,
+              message: context.l10n.archiveEmptyMessage,
             )
           : ListView(
               padding: const EdgeInsets.only(bottom: 32),
               children: [
                 if (recent.isNotEmpty) ...[
                   SectionHeader(
-                    'Recently done',
-                    trailing: days > 0 ? 'archived after $days days' : null,
+                    context.l10n.archiveRecentlyDone,
+                    trailing: days > 0
+                        ? context.l10n.archiveArchivedAfter(days)
+                        : null,
                   ),
                   for (final item in recent) ItemTile(item: item),
                 ],
                 if (archived.isNotEmpty) ...[
-                  const SectionHeader('Archive'),
+                  SectionHeader(context.l10n.archiveSection),
                   for (final item in archived) ItemTile(item: item),
                 ],
               ],

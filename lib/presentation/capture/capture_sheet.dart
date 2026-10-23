@@ -7,6 +7,7 @@ import '../../core/glade.dart';
 import '../../core/providers.dart';
 import '../../domain/enums.dart';
 import '../../domain/starter_suggestion.dart';
+import '../../l10n/l10n.dart';
 
 /// Opens quick capture (FR-01). [listId] files captures under a list, e.g.
 /// when opened from that list's screen.
@@ -79,7 +80,7 @@ class _CaptureSheetState extends ConsumerState<CaptureSheet> {
     _focus.requestFocus();
     SemanticsService.sendAnnouncement(
       View.of(context),
-      items.length == 1 ? 'Saved' : 'Saved ${items.length} items',
+      context.l10n.captureSavedAnnouncement(items.length),
       Directionality.of(context),
     );
   }
@@ -141,17 +142,17 @@ class _CaptureSheetState extends ConsumerState<CaptureSheet> {
                     textInputAction: TextInputAction.done,
                     style: theme.textTheme.titleMedium,
                     decoration: InputDecoration(
-                      hintText: 'What’s on your mind?',
+                      hintText: context.l10n.captureHint,
                       helperText: listName == null
-                          ? 'Saved to Inbox. Decide what it means later.'
-                          : 'Saved to Inbox, in $listName.',
+                          ? context.l10n.captureHelper
+                          : context.l10n.captureHelperInList(listName),
                     ),
                     onSubmitted: (_) => _save(),
                   ),
                 ),
                 IconButton.filledTonal(
                   icon: const Icon(Icons.arrow_upward),
-                  tooltip: 'Save',
+                  tooltip: context.l10n.commonSave,
                   onPressed: _save,
                 ),
               ],
@@ -189,7 +190,7 @@ class _CaptureSheetState extends ConsumerState<CaptureSheet> {
                   await _save();
                   if (context.mounted) Navigator.pop(context);
                 },
-                child: const Text('Done'),
+                child: Text(context.l10n.commonDone),
               ),
             ),
           ),
@@ -227,7 +228,7 @@ class _SavedStack extends StatelessWidget {
           Semantics(
             liveRegion: true,
             child: Text(
-              'Saved ${saved.length} to Inbox',
+              context.l10n.captureSavedCount(saved.length),
               style: theme.textTheme.labelMedium?.copyWith(
                 color: scheme.onSurfaceVariant,
               ),

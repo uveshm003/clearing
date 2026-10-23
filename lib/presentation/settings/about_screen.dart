@@ -4,6 +4,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../core/providers.dart';
+import '../../l10n/l10n.dart';
 import '../widgets/pebble.dart';
 import '../widgets/section_header.dart';
 
@@ -27,9 +28,10 @@ class AboutScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final version = ref.watch(appVersionProvider).value;
+    final l10n = context.l10n;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('About')),
+      appBar: AppBar(title: Text(l10n.aboutTitle)),
       body: ListView(
         padding: const EdgeInsets.only(bottom: 32),
         children: pebbleSections([
@@ -41,33 +43,27 @@ class AboutScreen extends ConsumerWidget {
             padding: const EdgeInsets.fromLTRB(20, 4, 20, 0),
             child: Text(
               [
-                'Close your mental tabs.',
-                if (version != null) 'Version $version',
+                l10n.aboutTagline,
+                if (version != null) l10n.aboutVersion(version),
               ].join('\n'),
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),
             ),
           ),
-          const SectionHeader('Your privacy'),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(20, 0, 20, 8),
-            child: Text(
-              'No account, no server, no analytics, no ads. Clearing can’t '
-              'reach the internet at all: everything you write stays on this '
-              'phone unless you export it yourself.',
-            ),
+          SectionHeader(l10n.aboutPrivacySection),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
+            child: Text(l10n.aboutPrivacy),
           ),
-          const SectionHeader('Beta'),
+          SectionHeader(l10n.aboutBetaSection),
           ListTile(
             leading: const Icon(Icons.feedback_outlined),
-            title: const Text('Send feedback'),
-            subtitle: const Text(
-              'Opens your email or messaging app with a short template',
-            ),
+            title: Text(l10n.aboutSendFeedback),
+            subtitle: Text(l10n.aboutSendFeedbackHint),
             onTap: () => SharePlus.instance.share(
               ShareParams(
-                subject: 'Clearing feedback',
+                subject: l10n.aboutFeedbackSubject,
                 text: feedbackTemplate(version),
               ),
             ),
@@ -75,12 +71,12 @@ class AboutScreen extends ConsumerWidget {
           const _ErrorLogTiles(),
           ListTile(
             leading: const Icon(Icons.code),
-            title: const Text('Source code'),
-            subtitle: const Text('$sourceUrl · MIT licence'),
+            title: Text(l10n.aboutSourceCode),
+            subtitle: Text(l10n.aboutSourceSubtitle(sourceUrl)),
           ),
           ListTile(
             leading: const Icon(Icons.description_outlined),
-            title: const Text('Open-source licences'),
+            title: Text(l10n.aboutLicences),
             onTap: () => showLicensePage(
               context: context,
               applicationName: 'Clearing',
@@ -98,11 +94,11 @@ class AboutScreen extends ConsumerWidget {
 String feedbackTemplate(String? version) => [
   'Clearing ${version ?? ''}'.trim(),
   '',
-  'What happened:',
+  l10n.aboutFeedbackWhatHappened,
   '',
-  'What I expected:',
+  l10n.aboutFeedbackExpected,
   '',
-  'Anything else:',
+  l10n.aboutFeedbackElse,
 ].join('\n');
 
 final _errorCountProvider = FutureProvider.autoDispose<int>(
@@ -120,28 +116,28 @@ class _ErrorLogTiles extends ConsumerWidget {
     if (count == 0) return const SizedBox.shrink();
     final log = ref.read(errorLogProvider);
     final version = ref.watch(appVersionProvider).value;
+    final l10n = context.l10n;
     return Column(
       children: [
         ListTile(
           leading: const Icon(Icons.bug_report_outlined),
-          title: Text('Send feedback with the error log ($count)'),
-          subtitle: const Text(
-            'Error types and where they happened; you see it all first',
-          ),
+          title: Text(l10n.aboutSendWithErrorLog(count)),
+          subtitle: Text(l10n.aboutErrorLogHint),
           onTap: () async {
             final text = await log.asText();
             await SharePlus.instance.share(
               ShareParams(
-                subject: 'Clearing feedback',
+                subject: l10n.aboutFeedbackSubject,
                 text:
-                    '${feedbackTemplate(version)}\n\n--- Error log ---\n$text',
+                    '${feedbackTemplate(version)}\n\n'
+                    '${l10n.aboutErrorLogHeader}\n$text',
               ),
             );
           },
         ),
         ListTile(
           leading: const Icon(Icons.delete_sweep_outlined),
-          title: const Text('Clear the error log'),
+          title: Text(l10n.aboutClearErrorLog),
           onTap: () async {
             await log.clear();
             ref.invalidate(_errorCountProvider);

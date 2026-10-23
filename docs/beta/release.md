@@ -68,7 +68,25 @@ and the wake lock, network state and foreground service that WorkManager
    Google Group, upload the `.aab`, add release notes, roll out.
 6. Share the opt-in link with testers, along with `tester-guide.md`.
 
-## 4. Each later build
+## 4. Releasing to everyone: staged rollout
+
+Once the beta is done, move to the Production track and release in stages,
+watching Android vitals (Play Console › Quality › Android vitals) at each:
+
+| Stage | Share of users | Wait | Go on if |
+| --- | --- | --- | --- |
+| 1 | 5% | 2–3 days | No new crash cluster; crash and ANR rates flat |
+| 2 | 20% | 2–3 days | Same, and no reminder or data-loss reports |
+| 3 | 50% | 2–3 days | Same |
+| 4 | 100% | — | |
+
+If a stage goes wrong, **halt the rollout** (it stops new installs of the
+release; people who have it keep it) and ship a fix as the next build.
+Keep user-perceived crash and ANR rates well under Play's bad-behaviour
+thresholds (confirm the current numbers in Play Console). Errors also reach
+you when people choose "Send feedback with the error log" in About.
+
+## 5. Each later build
 
 1. Bump `version` in `pubspec.yaml` (build number always; name when it
    matters to testers).

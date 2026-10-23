@@ -9,6 +9,7 @@ import '../../domain/item.dart';
 import '../../domain/local_date.dart';
 import '../../domain/reminder.dart';
 import '../../domain/repeat_series.dart';
+import '../../l10n/l10n.dart';
 import '../format.dart';
 import '../item/repeat_editor.dart';
 import '../item_commands.dart';
@@ -33,7 +34,7 @@ class ClarifyScreen extends ConsumerWidget {
       AsyncData(value: final item?) => _ClarifyFlow(item: item),
       AsyncData() => Scaffold(
         appBar: AppBar(),
-        body: const Center(child: Text('This item no longer exists.')),
+        body: Center(child: Text(context.l10n.flowItemGone)),
       ),
       _ => const Scaffold(),
     };
@@ -173,7 +174,7 @@ class _ClarifyFlowState extends ConsumerState<_ClarifyFlow> {
     return Scaffold(
       appBar: AppBar(
         leading: const CloseButton(),
-        title: const Text('Clarify'),
+        title: Text(context.l10n.clarifyTitle),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(22),
           child: StepTrail(count: _Step.values.length, current: step.index),
@@ -238,29 +239,31 @@ class _ClarifyFlowState extends ConsumerState<_ClarifyFlow> {
     );
   }
 
-  Widget _skip(_Step next) =>
-      TextButton(onPressed: () => _go(next), child: const Text('Skip'));
+  Widget _skip(_Step next) => TextButton(
+    onPressed: () => _go(next),
+    child: Text(context.l10n.commonSkip),
+  );
 
   Widget _actionable(BuildContext context) => _question(
     context,
-    'Is this actionable?',
+    context.l10n.clarifyActionableTitle,
     children: [
       ChoiceCard(
         icon: Icons.check_circle_outline,
-        title: 'Yes, there’s something to do',
+        title: context.l10n.clarifyActionableYes,
         primary: true,
         onTap: () => _go(_Step.nextAction),
       ),
       ChoiceCard(
         icon: Icons.lightbulb_outline,
-        title: 'No, keep it as an idea',
-        subtitle: 'It waits in Someday, out of Today’s way',
+        title: context.l10n.clarifyKeepIdea,
+        subtitle: context.l10n.clarifyKeepIdeaHint,
         onTap: () => _finish(() => ref.someday(context, widget.item)),
       ),
       ChoiceCard(
         icon: Icons.delete_outline,
-        title: 'No, let it go',
-        subtitle: 'Into Trash for 30 days',
+        title: context.l10n.clarifyLetGo,
+        subtitle: context.l10n.clarifyLetGoHint,
         onTap: () => _finish(() => ref.trash(context, widget.item)),
       ),
     ],
@@ -268,8 +271,8 @@ class _ClarifyFlowState extends ConsumerState<_ClarifyFlow> {
 
   Widget _nextAction(BuildContext context) => _question(
     context,
-    'What’s the next action?',
-    hint: 'A concrete step, starting with a verb: call, buy, email, book…',
+    context.l10n.clarifyNextActionTitle,
+    hint: context.l10n.clarifyNextActionHint,
     children: [
       TextField(
         controller: _title,
@@ -285,23 +288,23 @@ class _ClarifyFlowState extends ConsumerState<_ClarifyFlow> {
       _skip(_Step.delegate),
       FilledButton(
         onPressed: () => _go(_Step.delegate),
-        child: const Text('Next'),
+        child: Text(context.l10n.commonNext),
       ),
     ],
   );
 
   Widget _delegate(BuildContext context) => _question(
     context,
-    'Is someone else doing it?',
+    context.l10n.clarifyDelegateTitle,
     children: _delegating
         ? [
             TextField(
               controller: _person,
               autofocus: true,
               textCapitalization: TextCapitalization.words,
-              decoration: const InputDecoration(
-                labelText: 'Who?',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: context.l10n.clarifyWho,
+                border: const OutlineInputBorder(),
               ),
               onChanged: (_) => setState(() {}),
             ),
@@ -311,8 +314,10 @@ class _ClarifyFlowState extends ConsumerState<_ClarifyFlow> {
               leading: const Icon(Icons.event_repeat_outlined),
               title: Text(
                 _followUp == null
-                    ? 'Follow up on… (optional)'
-                    : 'Follow up ${dateLabel(_followUp!, _today)}',
+                    ? context.l10n.clarifyFollowUpOptional
+                    : context.l10n.clarifyFollowUpOn(
+                        dateLabel(_followUp!, _today),
+                      ),
               ),
               onTap: () async {
                 final picked = await pickDate(
@@ -327,14 +332,14 @@ class _ClarifyFlowState extends ConsumerState<_ClarifyFlow> {
         : [
             ChoiceCard(
               icon: Icons.front_hand_outlined,
-              title: 'No, I’ll do it',
+              title: context.l10n.clarifyDoItMyself,
               primary: true,
               onTap: () => _go(_Step.when),
             ),
             ChoiceCard(
               icon: Icons.person_outline,
-              title: 'Yes, I’m waiting on someone',
-              subtitle: 'Track who, and when to follow up',
+              title: context.l10n.clarifyWaitingYes,
+              subtitle: context.l10n.clarifyWaitingYesHint,
               onTap: () => setState(() => _delegating = true),
             ),
           ],
@@ -342,11 +347,11 @@ class _ClarifyFlowState extends ConsumerState<_ClarifyFlow> {
         ? [
             TextButton(
               onPressed: () => setState(() => _delegating = false),
-              child: const Text('Back'),
+              child: Text(context.l10n.commonBack),
             ),
             FilledButton(
               onPressed: _person.text.trim().isEmpty ? null : _saveWaiting,
-              child: const Text('Save as Waiting'),
+              child: Text(context.l10n.clarifySaveWaiting),
             ),
           ]
         : [_skip(_Step.when)],
@@ -360,22 +365,22 @@ class _ClarifyFlowState extends ConsumerState<_ClarifyFlow> {
 
     return _question(
       context,
-      'When?',
+      context.l10n.whenQuestion,
       children: [
         ChoiceCard(
           icon: Icons.wb_sunny_outlined,
-          title: 'Today',
+          title: context.l10n.whenToday,
           onTap: () => choose(const WhenToday()),
         ),
         ChoiceCard(
           icon: Icons.view_week_outlined,
-          title: 'This week',
-          subtitle: 'One quiet row on Today until you pick a day',
+          title: context.l10n.whenThisWeek,
+          subtitle: context.l10n.clarifyThisWeekHint,
           onTap: () => choose(const WhenThisWeek()),
         ),
         ChoiceCard(
           icon: Icons.event_outlined,
-          title: 'Pick a date',
+          title: context.l10n.whenPickDate,
           onTap: () async {
             final picked = await pickDate(context, today: _today);
             if (picked != null) choose(picked);
@@ -383,8 +388,8 @@ class _ClarifyFlowState extends ConsumerState<_ClarifyFlow> {
         ),
         ChoiceCard(
           icon: Icons.all_inclusive,
-          title: 'Anytime',
-          subtitle: 'No particular day',
+          title: context.l10n.whenAnytime,
+          subtitle: context.l10n.whenAnytimeHint,
           onTap: () => choose(const WhenAnytime()),
         ),
       ],
@@ -399,8 +404,8 @@ class _ClarifyFlowState extends ConsumerState<_ClarifyFlow> {
     final mustDoAvailable = _whenIsToday;
     return _question(
       context,
-      'Anything else?',
-      hint: 'All optional.',
+      context.l10n.clarifyDetailsTitle,
+      hint: context.l10n.clarifyDetailsHint,
       children: [
         Wrap(
           spacing: 8,
@@ -418,17 +423,17 @@ class _ClarifyFlowState extends ConsumerState<_ClarifyFlow> {
         if (mustDoAvailable)
           SwitchListTile(
             contentPadding: EdgeInsets.zero,
-            title: const Text('Must-do today'),
+            title: Text(context.l10n.clarifyMustDoToday),
             value: _mustDo,
             onChanged: (value) => setState(() => _mustDo = value),
           ),
         ListTile(
           contentPadding: EdgeInsets.zero,
           leading: const Icon(Icons.notifications_none),
-          title: const Text('Remind me'),
+          title: Text(context.l10n.clarifyRemindMe),
           subtitle: Text(
             _reminders.isEmpty
-                ? 'No reminder'
+                ? context.l10n.clarifyNoReminder
                 : [
                     for (final r in _reminders)
                       reminderLabel(
@@ -443,7 +448,7 @@ class _ClarifyFlowState extends ConsumerState<_ClarifyFlow> {
               ? null
               : IconButton(
                   icon: const Icon(Icons.close),
-                  tooltip: 'Remove reminders',
+                  tooltip: context.l10n.clarifyRemoveReminders,
                   onPressed: () => setState(_reminders.clear),
                 ),
           onTap: _reminders.length < maxRemindersPerItem ? _addReminder : null,
@@ -451,17 +456,17 @@ class _ClarifyFlowState extends ConsumerState<_ClarifyFlow> {
         ListTile(
           contentPadding: EdgeInsets.zero,
           leading: const Icon(Icons.repeat),
-          title: const Text('Repeat'),
+          title: Text(context.l10n.clarifyRepeat),
           subtitle: Text(
             _repeat == null
-                ? 'Doesn’t repeat'
+                ? context.l10n.clarifyNoRepeat
                 : describeRepeat(_repeat!, _today),
           ),
           trailing: _repeat == null
               ? null
               : IconButton(
                   icon: const Icon(Icons.close),
-                  tooltip: 'Don’t repeat',
+                  tooltip: context.l10n.clarifyDontRepeat,
                   onPressed: () => setState(() => _repeat = null),
                 ),
           onTap: _editRepeat,
@@ -471,17 +476,20 @@ class _ClarifyFlowState extends ConsumerState<_ClarifyFlow> {
           controller: _doneMeans,
           maxLines: null,
           textCapitalization: TextCapitalization.sentences,
-          decoration: const InputDecoration(
-            labelText: 'Done means…',
-            hintText: 'e.g. “form posted”, not “sort out taxes”',
-            border: OutlineInputBorder(),
+          decoration: InputDecoration(
+            labelText: context.l10n.clarifyDoneMeans,
+            hintText: context.l10n.clarifyDoneMeansHint,
+            border: const OutlineInputBorder(),
           ),
         ),
         const SizedBox(height: 16),
         SubtaskEditor(itemId: widget.item.id),
       ],
       actions: [
-        FilledButton(onPressed: _savePlanned, child: const Text('Done')),
+        FilledButton(
+          onPressed: _savePlanned,
+          child: Text(context.l10n.commonDone),
+        ),
       ],
     );
   }

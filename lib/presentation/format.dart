@@ -4,14 +4,15 @@ import 'package:intl/intl.dart';
 import '../domain/enums.dart';
 import '../domain/local_date.dart';
 import '../domain/repeat_series.dart';
+import '../l10n/l10n.dart';
 
 /// "Today", "Tomorrow", "Yesterday", a weekday within the coming week,
 /// otherwise "Fri 23 Oct" (with the year when it differs).
 String dateLabel(LocalDate date, LocalDate today) {
   final days = today.daysUntil(date);
-  if (days == 0) return 'Today';
-  if (days == 1) return 'Tomorrow';
-  if (days == -1) return 'Yesterday';
+  if (days == 0) return l10n.whenToday;
+  if (days == 1) return l10n.dateTomorrow;
+  if (days == -1) return l10n.dateYesterday;
   final dt = DateTime(date.year, date.month, date.day);
   if (days > 1 && days < 7) return DateFormat.EEEE().format(dt);
   if (date.year != today.year) return DateFormat('EEE d MMM y').format(dt);
@@ -41,8 +42,10 @@ String weekdayShort(int weekday) =>
 String weekdayLong(int weekday) =>
     DateFormat.EEEE().format(DateTime(2024, 1, weekday));
 
-/// "1st", "2nd", "23rd"…
+/// "1st", "2nd", "23rd"… in English; other languages say the number and
+/// put the word for "day" in the sentence around it.
 String ordinal(int n) {
+  if (!l10n.localeName.startsWith('en')) return '$n';
   if (n % 100 >= 11 && n % 100 <= 13) return '${n}th';
   return switch (n % 10) {
     1 => '${n}st',
@@ -56,27 +59,26 @@ String ordinal(int n) {
 /// until Fri 30 Oct".
 String describeRepeat(RepeatSeries series, LocalDate today) {
   final n = series.interval;
-  final unit = switch (series.freq) {
-    RepeatFrequency.daily => 'day',
-    RepeatFrequency.weekly => 'week',
-    RepeatFrequency.monthly => 'month',
-  };
   final weekdays = series.weekdays.isEmpty
       ? [series.startDate.weekday]
       : (series.weekdays.toList()..sort());
   final rule = [
-    n == 1 ? 'Every $unit' : 'Every $n ${unit}s',
+    switch (series.freq) {
+      RepeatFrequency.daily => l10n.repeatEveryDay(n),
+      RepeatFrequency.weekly => l10n.repeatEveryWeek(n),
+      RepeatFrequency.monthly => l10n.repeatEveryMonth(n),
+    },
     if (series.isAfterCompletion)
-      'after it’s done'
+      l10n.repeatAfterDone
     else if (series.freq == RepeatFrequency.weekly)
-      'on ${weekdays.map(weekdayShort).join(', ')}'
+      l10n.repeatOnDays(weekdays.map(weekdayShort).join(', '))
     else if (series.freq == RepeatFrequency.monthly)
-      'on the ${ordinal(series.monthDay ?? series.startDate.day)}',
+      l10n.repeatOnMonthDay(ordinal(series.monthDay ?? series.startDate.day)),
   ];
   return [
     rule.join(' '),
-    if (series.endDate case final end?) 'until ${dateLabel(end, today)}',
-    if (series.maxCount case final count?) '$count times',
+    if (series.endDate case final end?) l10n.repeatUntil(dateLabel(end, today)),
+    if (series.maxCount case final count?) l10n.repeatTimes(count),
   ].join(', ');
 }
 
@@ -94,10 +96,8 @@ String reminderLabel(
 }
 
 String offsetLabel(int minutes) => switch (minutes) {
-  0 => 'At the time',
-  < 60 => '$minutes min before',
-  _ when minutes % (24 * 60) == 0 =>
-    minutes == 24 * 60 ? '1 day before' : '${minutes ~/ (24 * 60)} days before',
-  _ when minutes % 60 == 0 => '${minutes ~/ 60} h before',
-  _ => '$minutes min before',
+  0 => l10n.offsetAtTime,
+  _ when minutes % (24 * 60) == 0 => l10n.offsetDays(minutes ~/ (24 * 60)),
+  _ when minutes >= 60 && minutes % 60 == 0 => l10n.offsetHours(minutes ~/ 60),
+  _ => l10n.offsetMinutes(minutes),
 };

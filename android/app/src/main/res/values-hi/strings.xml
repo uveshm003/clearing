@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Home-screen widgets in Hindi (the app's other strings are in lib/l10n). -->
+<resources>
+    <string name="widget_today_label">आज</string>
+    <string name="widget_today_description">आपके ज़रूरी काम, एक टैप में पूरे</string>
+    <string name="widget_capture_label">झटपट लिखें</string>
+    <string name="widget_capture_description">सीधे लिखने के लिए खुलता है</string>
+    <string name="widget_today_title">आज</string>
+    <string name="widget_today_empty">आज कुछ नहीं है। इस खाली समय का आनंद लें।</string>
+    <string name="widget_capture_hint">मन में क्या है?</string>
+    <plurals name="widget_today_more">
+        <item quantity="one">आज +%d और</item>
+        <item quantity="other">आज +%d और</item>
+    </plurals>
+    <string name="widget_mark_done">पूरा करें: %s</string>
+</resources>

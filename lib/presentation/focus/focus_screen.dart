@@ -5,6 +5,7 @@ import '../../core/glade.dart';
 import '../../core/providers.dart';
 import '../../domain/enums.dart';
 import '../../domain/item.dart';
+import '../../l10n/l10n.dart';
 import '../item_commands.dart';
 import '../widgets/subtask_editor.dart';
 
@@ -23,7 +24,7 @@ class FocusScreen extends ConsumerWidget {
       AsyncData(value: final item?) => _Finished(title: item.title),
       AsyncData() => Scaffold(
         appBar: AppBar(),
-        body: const Center(child: Text('This item no longer exists.')),
+        body: Center(child: Text(context.l10n.flowItemGone)),
       ),
       _ => const Scaffold(),
     };
@@ -39,7 +40,10 @@ class _Focus extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(leading: const CloseButton(), title: const Text('Focus')),
+      appBar: AppBar(
+        leading: const CloseButton(),
+        title: Text(context.l10n.focusTitle),
+      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -60,7 +64,7 @@ class _Focus extends ConsumerWidget {
                   if (item.doneMeans case final doneMeans?) ...[
                     const SizedBox(height: 16),
                     Text(
-                      'Done means: $doneMeans',
+                      context.l10n.focusDoneMeans(doneMeans),
                       textAlign: TextAlign.center,
                       style: theme.textTheme.titleMedium?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
@@ -79,14 +83,14 @@ class _Focus extends ConsumerWidget {
                   Expanded(
                     child: TextButton(
                       onPressed: () => Navigator.pop(context),
-                      child: const Text('Not now'),
+                      child: Text(context.l10n.focusNotNow),
                     ),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
                     child: FilledButton.icon(
                       icon: const Icon(Icons.check),
-                      label: const Text('Done'),
+                      label: Text(context.l10n.commonDone),
                       onPressed: () => ref.complete(context, item),
                     ),
                   ),
@@ -139,13 +143,16 @@ class _Finished extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              Text('One less thing', style: theme.textTheme.displaySmall),
+              Text(
+                context.l10n.focusFinishedTitle,
+                style: theme.textTheme.displaySmall,
+              ),
               const SizedBox(height: 8),
               Text(title, textAlign: TextAlign.center),
               const SizedBox(height: 32),
               FilledButton.tonal(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Back'),
+                child: Text(context.l10n.commonBack),
               ),
             ],
           ),

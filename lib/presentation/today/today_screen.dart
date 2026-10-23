@@ -9,6 +9,7 @@ import '../../core/router.dart';
 import '../../domain/batch_block.dart';
 import '../../domain/item.dart';
 import '../../domain/today_rules.dart';
+import '../../l10n/l10n.dart';
 import '../format.dart';
 import '../widgets/block_tile.dart';
 import '../widgets/clearing_art.dart';
@@ -63,13 +64,22 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
   List<Widget> get _actions => [
     const SearchButton(),
     PopupMenuButton<String>(
-      tooltip: 'More',
+      tooltip: context.l10n.commonMore,
       onSelected: (route) =>
           route == _print ? printWorksheet(context, ref) : context.push(route),
-      itemBuilder: (context) => const [
-        PopupMenuItem(value: Routes.review, child: Text('Weekly review')),
-        PopupMenuItem(value: Routes.reset, child: Text('Overwhelm reset')),
-        PopupMenuItem(value: _print, child: Text('Print a worksheet')),
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          value: Routes.review,
+          child: Text(context.l10n.todayMenuWeeklyReview),
+        ),
+        PopupMenuItem(
+          value: Routes.reset,
+          child: Text(context.l10n.todayMenuOverwhelmReset),
+        ),
+        PopupMenuItem(
+          value: _print,
+          child: Text(context.l10n.todayMenuPrintWorksheet),
+        ),
       ],
     ),
   ];
@@ -90,11 +100,11 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
         ? null
         : DateFormat('EEEE d MMMM').format(dateTimeOf(today));
     final header = GladeHeader(
-      title: 'Today',
+      title: context.l10n.whenToday,
       subtitle: [
         ?date,
-        if (left > 0) '$left left',
-        if (left == 0 && doneToday > 0) 'all clear',
+        if (left > 0) context.l10n.todayLeft(left),
+        if (left == 0 && doneToday > 0) context.l10n.todayAllClear,
       ].join(' · '),
       sky: glade.sky(remaining: left, total: left + doneToday),
       actions: _actions,
@@ -109,13 +119,11 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
             child: EmptyState(
               icon: Icons.wb_sunny_outlined,
               scene: ClearingScene.clearing,
-              title: 'A clear day',
-              message:
-                  'Capture anything on your mind. You can decide what it '
-                  'means later.',
+              title: context.l10n.todayEmptyTitle,
+              message: context.l10n.todayEmptyMessage,
               action: TextButton(
                 onPressed: () => context.push(Routes.intro),
-                child: const Text('How Clearing works'),
+                child: Text(context.l10n.todayHowClearingWorks),
               ),
             ),
           ),
@@ -144,10 +152,8 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
             child: ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 24),
               leading: const Icon(Icons.self_improvement_outlined),
-              title: const Text('Feeling like a lot?'),
-              subtitle: const Text(
-                'A five-minute reset narrows it to one thing',
-              ),
+              title: Text(context.l10n.todayResetOfferTitle),
+              subtitle: Text(context.l10n.todayResetOfferSubtitle),
               trailing: const Icon(Icons.chevron_right),
               onTap: () => context.push(Routes.reset),
             ),
@@ -155,14 +161,14 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
         if (view.mustDo.isNotEmpty) ...[
           SliverToBoxAdapter(
             child: SectionHeader(
-              'Must-do',
-              trailing: '${view.mustDo.length} of $cap',
+              context.l10n.mustDo,
+              trailing: context.l10n.todayMustDoCount(view.mustDo.length, cap),
             ),
           ),
           SliverPebble(highlight: true, sliver: items(view.mustDo)),
         ],
         if (blocks.isNotEmpty) ...[
-          const SliverToBoxAdapter(child: SectionHeader('Blocks')),
+          SliverToBoxAdapter(child: SectionHeader(context.l10n.todayBlocks)),
           SliverPebble(
             sliver: SliverList.list(
               children: [for (final block in blocks) BlockTile(block: block)],
@@ -171,7 +177,11 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
         ],
         if (also.isNotEmpty) ...[
           SliverToBoxAdapter(
-            child: SectionHeader(view.mustDo.isEmpty ? 'Today' : 'Also today'),
+            child: SectionHeader(
+              view.mustDo.isEmpty
+                  ? context.l10n.whenToday
+                  : context.l10n.todayAlsoToday,
+            ),
           ),
           SliverPebble(sliver: items(visibleAlso)),
           if (collapsed)
@@ -179,7 +189,9 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
               child: Center(
                 child: TextButton(
                   onPressed: () => setState(() => _showAllAlso = true),
-                  child: Text('Show ${also.length - _alsoTodayVisible} more'),
+                  child: Text(
+                    context.l10n.todayShowMore(also.length - _alsoTodayVisible),
+                  ),
                 ),
               ),
             ),
@@ -190,11 +202,15 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
           SliverToBoxAdapter(
             child: ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 24),
-              title: Text('Carried over (${view.carriedOver.length})'),
-              subtitle: const Text('Picking up where you left off'),
+              title: Text(
+                context.l10n.todayCarriedOver(view.carriedOver.length),
+              ),
+              subtitle: Text(context.l10n.todayCarriedOverSubtitle),
               trailing: Icon(
                 _showCarried ? Icons.expand_less : Icons.expand_more,
-                semanticLabel: _showCarried ? 'Hide' : 'Show',
+                semanticLabel: _showCarried
+                    ? context.l10n.todayHide
+                    : context.l10n.todayShow,
               ),
               onTap: () => setState(() => _showCarried = !_showCarried),
             ),
@@ -218,7 +234,7 @@ class _ThisWeekRow extends StatelessWidget {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 24),
       leading: const Icon(Icons.view_week_outlined),
-      title: Text('This week ($count)'),
+      title: Text(context.l10n.todayThisWeekCount(count)),
       trailing: const Icon(Icons.chevron_right),
       onTap: () => context.push(Routes.thisWeek),
     );

@@ -9,6 +9,7 @@ import '../../domain/item.dart';
 import '../../domain/local_date.dart';
 import '../../domain/review_rules.dart';
 import '../../domain/review_session.dart';
+import '../../l10n/l10n.dart';
 import '../format.dart';
 import '../item_commands.dart';
 import '../widgets/flow_step.dart';
@@ -98,7 +99,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: const CloseButton(),
-        title: const Text('Weekly review'),
+        title: Text(context.l10n.reviewTitle),
         // "The path": a stone per step, filled as the review goes.
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(30),
@@ -116,11 +117,11 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
                 children: [
                   if (_resumed)
                     MaterialBanner(
-                      content: const Text('Picking up where you left off.'),
+                      content: Text(context.l10n.reviewResumed),
                       actions: [
                         TextButton(
                           onPressed: () => _go(ReviewStep.emptyHead),
-                          child: const Text('Start over'),
+                          child: Text(context.l10n.reviewStartOver),
                         ),
                       ],
                     ),
@@ -147,16 +148,14 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     );
   }
 
-  Widget _nextButton([String label = 'Next']) =>
-      FilledButton(onPressed: _next, child: Text(label));
+  Widget _nextButton() =>
+      FilledButton(onPressed: _next, child: Text(context.l10n.commonNext));
 
   List<Item> get _openItems => ref.watch(openItemsProvider).value ?? const [];
 
   Widget _emptyHead() => FlowStep(
-    question: 'Empty your head',
-    hint:
-        'Anything not written down yet: errands, worries, replies you owe. '
-        'One thought at a time.',
+    question: context.l10n.reviewEmptyHeadTitle,
+    hint: context.l10n.reviewEmptyHeadHint,
     actions: [_nextButton()],
     children: const [BurstCapture()],
   );
@@ -172,11 +171,10 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     final item = inbox.firstOrNull;
     if (item == null) {
       return FlowStep(
-        question: 'Inbox clear',
+        question: context.l10n.reviewInboxClearTitle,
         hint: _skippedIds.isEmpty
-            ? 'Every item has a place.'
-            : '${_skippedIds.length} skipped for now. They’ll be here next '
-                  'time.',
+            ? context.l10n.reviewInboxClearHint
+            : context.l10n.reviewInboxSkipped(_skippedIds.length),
         actions: [_nextButton()],
         children: const [],
       );
@@ -191,14 +189,14 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     final today = _today;
     return FlowStep(
       question: item.title,
-      hint: '${inbox.length} left in the inbox. Where does this one go?',
+      hint: context.l10n.reviewInboxLeft(inbox.length),
       actions: [
         TextButton(
           onPressed: () async {
             setState(() => _skippedIds.add(item.id));
             await _tally(_skipped);
           },
-          child: const Text('Skip for now'),
+          child: Text(context.l10n.reviewSkipForNow),
         ),
       ],
       children: [
@@ -208,15 +206,15 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
           children: [
             _choice(
               Icons.wb_sunny_outlined,
-              'Today',
+              context.l10n.whenToday,
               () => decide(_planned, () => actions.planToday(item)),
             ),
             _choice(
               Icons.view_week_outlined,
-              'This week',
+              context.l10n.whenThisWeek,
               () => decide(_planned, () => actions.planThisWeek(item)),
             ),
-            _choice(Icons.event_outlined, 'Pick a date', () async {
+            _choice(Icons.event_outlined, context.l10n.whenPickDate, () async {
               final picked = await pickDate(context, today: today);
               if (picked != null) {
                 await decide(
@@ -226,25 +224,29 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
                 );
               }
             }),
-            _choice(Icons.person_outline, 'Waiting on…', () async {
-              final person = await _askPerson();
-              if (person != null) {
-                await decide(_planned, () => actions.waitFor(item, person));
-              }
-            }),
+            _choice(
+              Icons.person_outline,
+              context.l10n.reviewWaitingOnChoice,
+              () async {
+                final person = await _askPerson();
+                if (person != null) {
+                  await decide(_planned, () => actions.waitFor(item, person));
+                }
+              },
+            ),
             _choice(
               Icons.lightbulb_outline,
-              'Someday',
+              context.l10n.someday,
               () => decide(_cleared, () => actions.moveToSomeday(item)),
             ),
             _choice(
               Icons.check,
-              'Already done',
+              context.l10n.reviewAlreadyDone,
               () => decide(_cleared, () => actions.complete(item)),
             ),
             _choice(
               Icons.delete_outline,
-              'Delete',
+              context.l10n.commonDelete,
               () => decide(_cleared, () => actions.trash(item)),
             ),
           ],
@@ -265,22 +267,22 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     final person = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Who are you waiting on?'),
+        title: Text(context.l10n.reviewWhoWaitingOn),
         content: TextField(
           controller: controller,
           autofocus: true,
           textCapitalization: TextCapitalization.words,
-          decoration: const InputDecoration(hintText: 'Name'),
+          decoration: InputDecoration(hintText: context.l10n.commonName),
           onSubmitted: (value) => Navigator.pop(context, value),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(context.l10n.commonCancel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, controller.text),
-            child: const Text('Save'),
+            child: Text(context.l10n.commonSave),
           ),
         ],
       ),
@@ -294,7 +296,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     contentPadding: EdgeInsets.zero,
     leading: IconButton(
       icon: const Icon(Icons.radio_button_unchecked),
-      tooltip: 'Mark done',
+      tooltip: context.l10n.reviewMarkDone,
       onPressed: () async {
         await ref.read(itemActionsProvider).complete(item);
         await _tally(_cleared);
@@ -307,7 +309,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
 
   Widget _replan(Item item) => IconButton(
     icon: const Icon(Icons.event_outlined),
-    tooltip: 'Re-plan',
+    tooltip: context.l10n.reviewReplan,
     onPressed: () async {
       final choice = await showWhenSheet(context, today: _today);
       if (choice == null) return;
@@ -318,7 +320,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
 
   Widget _letGo(Item item) => IconButton(
     icon: const Icon(Icons.lightbulb_outline),
-    tooltip: 'Let go to Someday',
+    tooltip: context.l10n.reviewLetGo,
     onPressed: () async {
       await ref.read(itemActionsProvider).moveToSomeday(item);
       await _tally(_cleared);
@@ -328,11 +330,10 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
   Widget _lastWeek() {
     final items = lastWeekOpen(_openItems, _today);
     return FlowStep(
-      question: 'Last week’s open items',
+      question: context.l10n.reviewLastWeekTitle,
       hint: items.isEmpty
-          ? 'Nothing left over from last week.'
-          : 'This week’s items and anything carried over. Re-plan them, or '
-                'let them go.',
+          ? context.l10n.reviewLastWeekEmpty
+          : context.l10n.reviewLastWeekHint,
       actions: [_nextButton()],
       children: [
         for (final item in items) _row(item, [_replan(item), _letGo(item)]),
@@ -348,24 +349,24 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
         if (item.status == ItemStatus.waiting) item,
     ];
     return FlowStep(
-      question: 'Waiting on',
+      question: context.l10n.waitingOn,
       hint: items.isEmpty
-          ? 'You’re not waiting on anyone.'
-          : 'Follow up, mark done, or take it back to do yourself.',
+          ? context.l10n.reviewWaitingEmpty
+          : context.l10n.reviewWaitingHint,
       actions: [_nextButton()],
       children: [
         for (final item in items)
           _row(
             item,
             subtitle: [
-              item.waitingOn ?? 'Someone',
+              item.waitingOn ?? context.l10n.reviewSomeone,
               if (item.followUpDate case final date?)
-                'follow up ${dateLabel(date, today)}',
+                context.l10n.reviewFollowUpOn(dateLabel(date, today)),
             ].join(' · '),
             [
               IconButton(
                 icon: const Icon(Icons.event_repeat_outlined),
-                tooltip: 'Follow up on…',
+                tooltip: context.l10n.reviewFollowUpTooltip,
                 onPressed: () async {
                   final picked = await pickDate(
                     context,
@@ -381,7 +382,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
               ),
               IconButton(
                 icon: const Icon(Icons.undo),
-                tooltip: 'Take it back',
+                tooltip: context.l10n.reviewTakeBack,
                 onPressed: () async {
                   await actions.planToday(item);
                   await _tally(_planned);
@@ -397,10 +398,10 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     final today = _today;
     final items = nextSevenDays(_openItems, today);
     return FlowStep(
-      question: 'The next 7 days',
+      question: context.l10n.reviewNextWeekTitle,
       hint: items.isEmpty
-          ? 'Nothing dated this coming week.'
-          : 'A glance at what’s coming. Tap one to adjust it.',
+          ? context.l10n.reviewNextWeekEmpty
+          : context.l10n.reviewNextWeekHint,
       actions: [_nextButton()],
       children: [
         for (final item in items)
@@ -426,13 +427,13 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
         if (item.status == ItemStatus.someday) item,
     ];
     return FlowStep(
-      question: 'Someday',
+      question: context.l10n.someday,
       hint: items.isEmpty
-          ? 'No ideas parked.'
-          : 'Optional. Anything here ready to become a plan?',
+          ? context.l10n.reviewSomedayEmpty
+          : context.l10n.reviewSomedayHint,
       actions: [
         if (items.isNotEmpty)
-          TextButton(onPressed: _next, child: const Text('Skip')),
+          TextButton(onPressed: _next, child: Text(context.l10n.commonSkip)),
         _nextButton(),
       ],
       children: [
@@ -442,12 +443,12 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
             title: Text(item.title),
             trailing: IconButton(
               icon: const Icon(Icons.arrow_upward),
-              tooltip: 'Make it a plan',
+              tooltip: context.l10n.reviewMakePlan,
               onPressed: () async {
                 final choice = await showWhenSheet(
                   context,
                   today: _today,
-                  title: 'When will you do it?',
+                  title: context.l10n.reviewWhenWillYou,
                 );
                 if (choice == null) return;
                 await ref.plan(item, choice);
@@ -463,23 +464,30 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     final theme = Theme.of(context);
     final skipped = session.count(_skipped);
     return FlowStep(
-      question: 'That’s the week',
-      hint: 'Your head should feel a little lighter.',
-      actions: [FilledButton(onPressed: _finish, child: const Text('Finish'))],
+      question: context.l10n.reviewCloseTitle,
+      hint: context.l10n.reviewCloseHint,
+      actions: [
+        FilledButton(
+          onPressed: _finish,
+          child: Text(context.l10n.commonFinish),
+        ),
+      ],
       children: [
         const Center(child: ClearingArt(ClearingScene.clearing)),
         const SizedBox(height: 24),
         // A summary on open space: no score, streak or comparison.
         Text(
-          '${session.count(_cleared)} cleared · '
-          '${session.count(_planned)} planned',
+          context.l10n.reviewCloseSummary(
+            session.count(_cleared),
+            session.count(_planned),
+          ),
           style: theme.textTheme.displaySmall,
           textAlign: TextAlign.center,
         ),
         if (skipped > 0) ...[
           const SizedBox(height: 8),
           Text(
-            '$skipped skipped for another time.',
+            context.l10n.reviewCloseSkipped(skipped),
             textAlign: TextAlign.center,
           ),
         ],

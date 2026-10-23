@@ -5,6 +5,7 @@ import '../../core/providers.dart';
 import '../../domain/item.dart';
 import '../../domain/local_date.dart';
 import '../../domain/upcoming_rules.dart';
+import '../../l10n/l10n.dart';
 import '../widgets/block_tile.dart';
 import '../widgets/clearing_art.dart';
 import '../widgets/day_rail.dart';
@@ -73,7 +74,7 @@ class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
           ],
         ),
       if (view != null && view.waiting.isNotEmpty) ...[
-        () => const SectionHeader('Waiting on'),
+        () => SectionHeader(context.l10n.waitingOn),
         () => Pebble(
           children: [
             for (final item in view.waiting)
@@ -89,8 +90,10 @@ class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
         child: Column(
           children: [
             GladeHeader(
-              title: 'Upcoming',
-              subtitle: _week ? 'A week at a time' : 'The next 30 days',
+              title: context.l10n.tabUpcoming,
+              subtitle: _week
+                  ? context.l10n.upcomingSubtitleWeek
+                  : context.l10n.upcomingSubtitleAgenda,
               actions: [
                 IconButton(
                   icon: Icon(
@@ -98,7 +101,9 @@ class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
                         ? Icons.view_agenda_outlined
                         : Icons.view_week_outlined,
                   ),
-                  tooltip: _week ? 'Agenda' : 'Week view',
+                  tooltip: _week
+                      ? context.l10n.upcomingAgenda
+                      : context.l10n.upcomingWeekView,
                   onPressed: () => setState(() => _week = !_week),
                 ),
                 const SearchButton(),
@@ -110,13 +115,11 @@ class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
                   : view == null || today == null
                   ? const SizedBox.shrink()
                   : rows.isEmpty
-                  ? const EmptyState(
+                  ? EmptyState(
                       icon: Icons.event_note_outlined,
                       scene: ClearingScene.path,
-                      title: 'Nothing scheduled',
-                      message:
-                          'Items with a date in the next 30 days show up '
-                          'here.',
+                      title: context.l10n.upcomingEmptyTitle,
+                      message: context.l10n.upcomingEmptyMessage,
                     )
                   // Built lazily: only the days on screen exist.
                   : ListView.builder(

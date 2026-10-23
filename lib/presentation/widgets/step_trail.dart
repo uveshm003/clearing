@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/glade.dart';
+import '../../l10n/l10n.dart';
 
 /// Progress through a guided flow: short pills for clarify and the reset,
 /// round stones along a path for the weekly review ("The path"). Steps done
@@ -24,7 +25,7 @@ class StepTrail extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     final duration = GladeMotion.settle.of(context);
     return Semantics(
-      label: 'Step ${current + 1} of $count',
+      label: context.l10n.stepTrailLabel(current + 1, count),
       excludeSemantics: true,
       child: Padding(
         padding: const EdgeInsets.symmetric(

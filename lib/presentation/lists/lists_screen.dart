@@ -6,6 +6,7 @@ import '../../core/providers.dart';
 import '../../core/router.dart';
 import '../../domain/enums.dart';
 import '../../domain/item_list.dart';
+import '../../l10n/l10n.dart';
 import '../widgets/search_button.dart';
 import '../../core/glade.dart';
 import '../widgets/glade_header.dart';
@@ -57,13 +58,13 @@ class ListsScreen extends ConsumerWidget {
           padding: const EdgeInsets.only(bottom: 96),
           children: [
             GladeHeader(
-              title: 'Lists',
-              subtitle: 'Contexts, ideas, and what’s done',
+              title: context.l10n.tabLists,
+              subtitle: context.l10n.listsSubtitle,
               actions: [
                 const SearchButton(),
                 IconButton(
                   icon: const Icon(Icons.settings_outlined),
-                  tooltip: 'Settings',
+                  tooltip: context.l10n.commonSettings,
                   onPressed: () => context.push(Routes.settings),
                 ),
               ],
@@ -73,7 +74,7 @@ class ListsScreen extends ConsumerWidget {
                 for (final list in visible) tile(list),
                 ListTile(
                   leading: const Icon(Icons.add),
-                  title: const Text('New list'),
+                  title: Text(context.l10n.listsNewList),
                   onTap: () => _createList(context, ref),
                 ),
               ],
@@ -83,19 +84,19 @@ class ListsScreen extends ConsumerWidget {
               children: [
                 ListTile(
                   leading: const Icon(Icons.checklist),
-                  title: const Text('Routines & templates'),
-                  subtitle: const Text('Checklists you use again and again'),
+                  title: Text(context.l10n.listsRoutinesTitle),
+                  subtitle: Text(context.l10n.listsRoutinesSubtitle),
                   onTap: () => context.push(Routes.templates),
                 ),
               ],
             ),
-            const SectionHeader('Not now'),
+            SectionHeader(context.l10n.listsNotNow),
             Pebble(
               children: [
                 ListTile(
                   leading: const Icon(Icons.lightbulb_outline),
-                  title: const Text('Someday'),
-                  subtitle: const Text('Ideas, not commitments'),
+                  title: Text(context.l10n.someday),
+                  subtitle: Text(context.l10n.listsSomedaySubtitle),
                   trailing: counts.someday > 0
                       ? Text('${counts.someday}')
                       : null,
@@ -103,14 +104,14 @@ class ListsScreen extends ConsumerWidget {
                 ),
                 ListTile(
                   leading: const Icon(Icons.inventory_2_outlined),
-                  title: const Text('Done'),
-                  subtitle: const Text('Recently done and the archive'),
+                  title: Text(context.l10n.listsDoneTitle),
+                  subtitle: Text(context.l10n.listsDoneSubtitle),
                   onTap: () => context.push(Routes.archive),
                 ),
                 ListTile(
                   leading: const Icon(Icons.delete_outline),
-                  title: const Text('Trash'),
-                  subtitle: const Text('Kept for 30 days'),
+                  title: Text(context.l10n.listsTrashTitle),
+                  subtitle: Text(context.l10n.listsTrashSubtitle),
                   onTap: () => context.push(Routes.trash),
                 ),
               ],
@@ -121,7 +122,7 @@ class ListsScreen extends ConsumerWidget {
                 children: [
                   ExpansionTile(
                     leading: const Icon(Icons.visibility_off_outlined),
-                    title: Text('Hidden lists (${hidden.length})'),
+                    title: Text(context.l10n.listsHiddenLists(hidden.length)),
                     shape: const Border(),
                     collapsedShape: const Border(),
                     children: [for (final list in hidden) tile(list)],
@@ -150,17 +151,17 @@ Future<String?> _askName(
         controller: controller,
         autofocus: true,
         textCapitalization: TextCapitalization.sentences,
-        decoration: const InputDecoration(hintText: 'Name'),
+        decoration: InputDecoration(hintText: context.l10n.commonName),
         onSubmitted: (value) => Navigator.pop(context, value),
       ),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
+          child: Text(context.l10n.commonCancel),
         ),
         FilledButton(
           onPressed: () => Navigator.pop(context, controller.text),
-          child: const Text('Save'),
+          child: Text(context.l10n.commonSave),
         ),
       ],
     ),
@@ -170,7 +171,7 @@ Future<String?> _askName(
 }
 
 Future<void> _createList(BuildContext context, WidgetRef ref) async {
-  final name = await _askName(context, title: 'New list');
+  final name = await _askName(context, title: context.l10n.listsNewList);
   if (name != null) await ref.read(listRepositoryProvider).create(name);
 }
 
@@ -184,12 +185,12 @@ Future<void> _showListMenu(BuildContext context, WidgetRef ref, ItemList list) {
         children: [
           ListTile(
             leading: const Icon(Icons.edit_outlined),
-            title: const Text('Rename'),
+            title: Text(sheetContext.l10n.listsRename),
             onTap: () async {
               Navigator.pop(sheetContext);
               final name = await _askName(
                 context,
-                title: 'Rename list',
+                title: context.l10n.listsRenameList,
                 initial: list.name,
               );
               if (name != null) await repo.save(list.copyWith(name: name));
@@ -201,7 +202,11 @@ Future<void> _showListMenu(BuildContext context, WidgetRef ref, ItemList list) {
                   ? Icons.visibility_outlined
                   : Icons.visibility_off_outlined,
             ),
-            title: Text(list.archived ? 'Show' : 'Hide'),
+            title: Text(
+              list.archived
+                  ? sheetContext.l10n.listsShow
+                  : sheetContext.l10n.listsHide,
+            ),
             onTap: () {
               Navigator.pop(sheetContext);
               repo.save(list.copyWith(archived: !list.archived));
@@ -210,8 +215,8 @@ Future<void> _showListMenu(BuildContext context, WidgetRef ref, ItemList list) {
           if (!list.isSystem)
             ListTile(
               leading: const Icon(Icons.delete_outline),
-              title: const Text('Delete list'),
-              subtitle: const Text('Its items are kept, just unfiled'),
+              title: Text(sheetContext.l10n.listsDeleteList),
+              subtitle: Text(sheetContext.l10n.listsDeleteListSubtitle),
               onTap: () {
                 Navigator.pop(sheetContext);
                 repo.delete(list);

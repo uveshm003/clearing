@@ -8,6 +8,7 @@ import '../../core/providers.dart';
 import '../../core/router.dart';
 import '../../domain/item.dart';
 import '../../domain/starter_suggestion.dart';
+import '../../l10n/l10n.dart';
 import '../item_commands.dart';
 import '../widgets/search_button.dart';
 import '../widgets/clearing_art.dart';
@@ -34,10 +35,13 @@ class InboxScreen extends ConsumerWidget {
       body: SafeArea(
         bottom: false,
         child: switch (items) {
-          AsyncData(value: final items) when items.isEmpty => const Column(
+          AsyncData(value: final items) when items.isEmpty => Column(
             children: [
-              GladeHeader(title: 'Inbox', actions: [SearchButton()]),
-              Expanded(child: _EmptyInbox()),
+              GladeHeader(
+                title: context.l10n.tabInbox,
+                actions: const [SearchButton()],
+              ),
+              const Expanded(child: _EmptyInbox()),
             ],
           ),
           AsyncData(value: final items) => SlidableAutoCloseBehavior(
@@ -45,11 +49,9 @@ class InboxScreen extends ConsumerWidget {
               slivers: [
                 SliverToBoxAdapter(
                   child: GladeHeader(
-                    title: 'Inbox',
+                    title: context.l10n.tabInbox,
                     actions: const [SearchButton()],
-                    subtitle:
-                        '${items.length} to decide · tap one, or swipe for '
-                        'shortcuts',
+                    subtitle: context.l10n.inboxToDecide(items.length),
                   ),
                 ),
                 if (items.length >= _estimateThreshold)
@@ -61,10 +63,9 @@ class InboxScreen extends ConsumerWidget {
                         ListTile(
                           leading: const Icon(Icons.self_improvement_outlined),
                           title: Text(
-                            'Inbox: ${items.length} — a review takes about '
-                            '15 minutes',
+                            context.l10n.inboxReviewEstimate(items.length),
                           ),
-                          subtitle: const Text('Every item gets a place'),
+                          subtitle: Text(context.l10n.inboxReviewSubtitle),
                         ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
@@ -72,7 +73,7 @@ class InboxScreen extends ConsumerWidget {
                             alignment: AlignmentDirectional.centerEnd,
                             child: FilledButton.tonal(
                               onPressed: () => context.push(Routes.review),
-                              child: const Text('Start review'),
+                              child: Text(context.l10n.inboxStartReview),
                             ),
                           ),
                         ),
@@ -102,6 +103,9 @@ class InboxScreen extends ConsumerWidget {
   }
 }
 
+/// The inbox swipe shortcuts, so their labels can be translated.
+enum _Swipe { today, thisWeek, pickDate, someday, delete }
+
 /// An inbox item with the swipe shortcuts from PRD §4.2: Today and This week
 /// to the right; Pick date, Someday and Delete to the left. The same actions
 /// are exposed to TalkBack as custom semantics actions.
@@ -121,23 +125,31 @@ class _InboxRow extends ConsumerWidget {
       if (choice != null) await ref.plan(item, choice);
     }
 
-    final actions = <String, VoidCallback>{
-      'Today': () => ref.plan(item, const WhenToday()),
-      'This week': () => ref.plan(item, const WhenThisWeek()),
-      'Pick date': chooseDate,
-      'Someday': () => ref.someday(context, item),
-      'Delete': () => ref.trash(context, item),
+    final l10n = context.l10n;
+    final labels = <_Swipe, String>{
+      _Swipe.today: l10n.whenToday,
+      _Swipe.thisWeek: l10n.whenThisWeek,
+      _Swipe.pickDate: l10n.inboxSwipePickDate,
+      _Swipe.someday: l10n.someday,
+      _Swipe.delete: l10n.commonDelete,
+    };
+    final actions = <_Swipe, VoidCallback>{
+      _Swipe.today: () => ref.plan(item, const WhenToday()),
+      _Swipe.thisWeek: () => ref.plan(item, const WhenThisWeek()),
+      _Swipe.pickDate: chooseDate,
+      _Swipe.someday: () => ref.someday(context, item),
+      _Swipe.delete: () => ref.trash(context, item),
     };
 
     SlidableAction action(
-      String label,
+      _Swipe swipe,
       IconData icon,
       Color background,
       Color foreground,
     ) => SlidableAction(
-      onPressed: (_) => actions[label]!(),
+      onPressed: (_) => actions[swipe]!(),
       icon: icon,
-      label: label,
+      label: labels[swipe],
       backgroundColor: background,
       foregroundColor: foreground,
     );
@@ -145,7 +157,7 @@ class _InboxRow extends ConsumerWidget {
     return Semantics(
       customSemanticsActions: {
         for (final MapEntry(:key, :value) in actions.entries)
-          CustomSemanticsAction(label: key): value,
+          CustomSemanticsAction(label: labels[key]!): value,
       },
       child: Slidable(
         key: ValueKey(item.id),
@@ -153,13 +165,13 @@ class _InboxRow extends ConsumerWidget {
           motion: const DrawerMotion(),
           children: [
             action(
-              'Today',
+              _Swipe.today,
               Icons.wb_sunny_outlined,
               scheme.primary,
               scheme.onPrimary,
             ),
             action(
-              'This week',
+              _Swipe.thisWeek,
               Icons.view_week_outlined,
               scheme.primaryContainer,
               scheme.onPrimaryContainer,
@@ -170,19 +182,19 @@ class _InboxRow extends ConsumerWidget {
           motion: const DrawerMotion(),
           children: [
             action(
-              'Pick date',
+              _Swipe.pickDate,
               Icons.event_outlined,
               scheme.primaryContainer,
               scheme.onPrimaryContainer,
             ),
             action(
-              'Someday',
+              _Swipe.someday,
               Icons.lightbulb_outline,
               scheme.surfaceContainerHigh,
               scheme.onSurface,
             ),
             action(
-              'Delete',
+              _Swipe.delete,
               Icons.delete_outline,
               scheme.surfaceContainerHighest,
               scheme.onSurface,
@@ -214,9 +226,8 @@ class _EmptyInbox extends ConsumerWidget {
     return EmptyState(
       icon: Icons.inbox_outlined,
       scene: ClearingScene.nest,
-      title: 'Inbox is empty',
-      message:
-          'Thoughts you capture land here until you decide what they mean.',
+      title: context.l10n.inboxEmptyTitle,
+      message: context.l10n.inboxEmptyMessage,
       action: suggestions.isEmpty
           ? null
           : Wrap(

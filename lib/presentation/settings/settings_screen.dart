@@ -8,6 +8,7 @@ import '../../domain/app_settings.dart';
 import '../../domain/enums.dart';
 import '../../domain/lifecycle.dart';
 import '../../domain/local_date.dart';
+import '../../l10n/l10n.dart';
 import '../format.dart';
 import '../widgets/choice_sheet.dart';
 import '../widgets/pebble.dart';
@@ -23,15 +24,16 @@ class SettingsScreen extends ConsumerWidget {
     final settings = ref.watch(settingsProvider).value;
     if (settings == null) return const Scaffold();
     void save(AppSettings s) => ref.read(settingsRepositoryProvider).save(s);
+    final l10n = context.l10n;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Settings')),
+      appBar: AppBar(title: Text(l10n.commonSettings)),
       body: ListView(
         children: pebbleSections([
-          const SectionHeader('Today'),
+          SectionHeader(l10n.tabToday),
           ListTile(
-            title: const Text('Must-do items per day'),
-            subtitle: const Text('Keeping this small keeps Today doable'),
+            title: Text(l10n.settingsMustDoPerDay),
+            subtitle: Text(l10n.settingsMustDoPerDayHint),
             trailing: Text('${settings.mustDoCap}'),
           ),
           Slider(
@@ -43,8 +45,8 @@ class SettingsScreen extends ConsumerWidget {
             onChanged: (v) => save(settings.copyWith(mustDoCap: v.round())),
           ),
           ChoiceTile<int>(
-            title: 'Week starts on',
-            hint: 'for “This week” and weekday choices',
+            title: l10n.settingsWeekStartsOn,
+            hint: l10n.settingsWeekStartsOnHint,
             value: settings.weekStart,
             options: [
               for (final day in const [
@@ -56,42 +58,40 @@ class SettingsScreen extends ConsumerWidget {
             ],
             onChanged: (day) => save(settings.copyWith(weekStart: day)),
           ),
-          const SectionHeader('Inbox'),
+          SectionHeader(l10n.tabInbox),
           SwitchListTile(
-            title: const Text('Show count on the Inbox tab'),
+            title: Text(l10n.settingsInboxBadge),
             value: settings.inboxBadge,
             onChanged: (v) => save(settings.copyWith(inboxBadge: v)),
           ),
           SwitchListTile(
-            title: const Text('Starter suggestions'),
-            subtitle: const Text(
-              'Quick-add ideas in capture and an empty inbox',
-            ),
+            title: Text(l10n.suggestionsTitle),
+            subtitle: Text(l10n.settingsStarterSuggestionsHint),
             value: settings.starterSuggestions,
             onChanged: (v) => save(settings.copyWith(starterSuggestions: v)),
           ),
           ListTile(
             enabled: settings.starterSuggestions,
-            title: const Text('Edit suggestions'),
+            title: Text(l10n.settingsEditSuggestions),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.push(Routes.suggestions),
           ),
-          const SectionHeader('Reminders'),
+          SectionHeader(l10n.settingsRemindersSection),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: SegmentedButton<NotificationIntensity>(
-              segments: const [
+              segments: [
                 ButtonSegment(
                   value: NotificationIntensity.off,
-                  label: Text('Off'),
+                  label: Text(l10n.settingsIntensityOff),
                 ),
                 ButtonSegment(
                   value: NotificationIntensity.gentle,
-                  label: Text('Gentle'),
+                  label: Text(l10n.settingsIntensityGentle),
                 ),
                 ButtonSegment(
                   value: NotificationIntensity.standard,
-                  label: Text('Standard'),
+                  label: Text(l10n.settingsIntensityStandard),
                 ),
               ],
               selected: {settings.notificationIntensity},
@@ -102,36 +102,35 @@ class SettingsScreen extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
             child: Text(switch (settings.notificationIntensity) {
-              NotificationIntensity.off => 'No notifications at all.',
-              NotificationIntensity.gentle =>
-                'Only reminders you set, without sound or vibration.',
+              NotificationIntensity.off => l10n.settingsIntensityOffHint,
+              NotificationIntensity.gentle => l10n.settingsIntensityGentleHint,
               NotificationIntensity.standard =>
-                'Only reminders you set, with sound.',
+                l10n.settingsIntensityStandardHint,
             }, style: Theme.of(context).textTheme.bodySmall),
           ),
           ListTile(
             enabled:
                 settings.notificationIntensity != NotificationIntensity.off,
-            title: const Text('Quiet hours'),
+            title: Text(l10n.settingsQuietHours),
             subtitle: Text(
               settings.quietHoursStart == settings.quietHoursEnd
-                  ? 'None'
-                  : '${timeLabel(context, settings.quietHoursStart)} – '
-                        '${timeLabel(context, settings.quietHoursEnd)}. '
-                        'Early reminders wait until morning; ones you timed '
-                        'exactly still arrive.',
+                  ? l10n.commonNone
+                  : l10n.settingsQuietHoursRange(
+                      timeLabel(context, settings.quietHoursStart),
+                      timeLabel(context, settings.quietHoursEnd),
+                    ),
             ),
             onTap: () async {
               final start = await showTimePicker(
                 context: context,
                 initialTime: timeOfDay(settings.quietHoursStart),
-                helpText: 'Quiet from',
+                helpText: l10n.settingsQuietFrom,
               );
               if (start == null || !context.mounted) return;
               final end = await showTimePicker(
                 context: context,
                 initialTime: timeOfDay(settings.quietHoursEnd),
-                helpText: 'Quiet until',
+                helpText: l10n.settingsQuietUntil,
               );
               if (end == null) return;
               save(
@@ -143,13 +142,13 @@ class SettingsScreen extends ConsumerWidget {
             },
           ),
           SwitchListTile(
-            title: const Text('Morning summary'),
+            title: Text(l10n.settingsMorningSummary),
             subtitle: Text(
               settings.morningDigest
-                  ? 'Today’s must-dos at '
-                        '${timeLabel(context, settings.morningDigestTime)}. '
-                        'Nothing on a clear day.'
-                  : 'One note each morning with today’s must-dos',
+                  ? l10n.settingsMorningSummaryOn(
+                      timeLabel(context, settings.morningDigestTime),
+                    )
+                  : l10n.settingsMorningSummaryOff,
             ),
             value: settings.morningDigest,
             onChanged:
@@ -159,7 +158,7 @@ class SettingsScreen extends ConsumerWidget {
           ),
           if (settings.morningDigest)
             ListTile(
-              title: const Text('Summary time'),
+              title: Text(l10n.settingsSummaryTime),
               trailing: Text(timeLabel(context, settings.morningDigestTime)),
               onTap: () async {
                 final time = await showTimePicker(
@@ -173,20 +172,20 @@ class SettingsScreen extends ConsumerWidget {
             ),
           const _ReminderAccess(),
           ListTile(
-            title: const Text('Reminders not arriving?'),
+            title: Text(l10n.settingsRemindersNotArriving),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.push(Routes.remindersHelp),
           ),
-          const SectionHeader('Weekly review'),
+          SectionHeader(l10n.settingsWeeklyReviewSection),
           SwitchListTile(
-            title: const Text('Remind me to review'),
-            subtitle: const Text('About 15 minutes, once a week'),
+            title: Text(l10n.settingsRemindReview),
+            subtitle: Text(l10n.settingsRemindReviewHint),
             value: settings.reviewReminder,
             onChanged: (v) => save(settings.copyWith(reviewReminder: v)),
           ),
           ChoiceTile<int>(
             enabled: settings.reviewReminder,
-            title: 'Review day',
+            title: l10n.settingsReviewDay,
             value: settings.reviewWeekday,
             options: [
               for (final day in weekdaysFrom(settings.weekStart))
@@ -196,7 +195,7 @@ class SettingsScreen extends ConsumerWidget {
           ),
           ListTile(
             enabled: settings.reviewReminder,
-            title: const Text('Review time'),
+            title: Text(l10n.settingsReviewTime),
             trailing: Text(timeLabel(context, settings.reviewTime)),
             onTap: () async {
               final time = await showTimePicker(
@@ -208,16 +207,16 @@ class SettingsScreen extends ConsumerWidget {
               }
             },
           ),
-          const SectionHeader('Done items'),
+          SectionHeader(l10n.settingsDoneSection),
           ChoiceTile<int>(
-            title: 'Move done items to the archive',
-            hint: 'still searchable there',
+            title: l10n.settingsAutoArchive,
+            hint: l10n.settingsAutoArchiveHint,
             value: settings.autoArchiveDays,
             options: [
-              (1, 'After a day'),
-              (7, 'After a week'),
-              (30, 'After a month'),
-              (archiveNever, 'Never'),
+              (1, l10n.settingsArchiveAfterDay),
+              (7, l10n.settingsArchiveAfterWeek),
+              (30, l10n.settingsArchiveAfterMonth),
+              (archiveNever, l10n.settingsArchiveNever),
               if (!const [
                 1,
                 7,
@@ -226,56 +225,59 @@ class SettingsScreen extends ConsumerWidget {
               ].contains(settings.autoArchiveDays))
                 (
                   settings.autoArchiveDays,
-                  'After ${settings.autoArchiveDays} days',
+                  l10n.settingsArchiveAfterDays(settings.autoArchiveDays),
                 ),
             ],
             onChanged: (days) => save(settings.copyWith(autoArchiveDays: days)),
           ),
-          const SectionHeader('Your data'),
+          SectionHeader(l10n.settingsDataSection),
           ListTile(
             leading: const Icon(Icons.backup_outlined),
-            title: const Text('Backup'),
-            subtitle: const Text('Export a copy, or restore one'),
+            title: Text(l10n.backupTitle),
+            subtitle: Text(l10n.settingsBackupHint),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.push(Routes.backup),
           ),
-          const SectionHeader('Appearance'),
+          SectionHeader(l10n.settingsAppearanceSection),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: SegmentedButton<ThemePreference>(
-              segments: const [
+              segments: [
                 ButtonSegment(
                   value: ThemePreference.system,
-                  label: Text('System'),
+                  label: Text(l10n.settingsThemeSystem),
                 ),
                 ButtonSegment(
                   value: ThemePreference.light,
-                  label: Text('Light'),
+                  label: Text(l10n.settingsThemeLight),
                 ),
-                ButtonSegment(value: ThemePreference.dark, label: Text('Dark')),
+                ButtonSegment(
+                  value: ThemePreference.dark,
+                  label: Text(l10n.settingsThemeDark),
+                ),
               ],
               selected: {settings.theme},
               onSelectionChanged: (s) =>
                   save(settings.copyWith(theme: s.single)),
             ),
           ),
-          const SectionHeader('Help'),
+          SectionHeader(l10n.settingsHelpSection),
           ListTile(
             leading: const Icon(Icons.help_outline),
-            title: const Text('How Clearing works'),
+            title: Text(l10n.introTitle),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.push(Routes.intro),
           ),
           ListTile(
             leading: const Icon(Icons.quiz_outlined),
-            title: const Text('Questions and answers'),
-            subtitle: const Text('Backups, new phones, undo and more'),
+            title: Text(l10n.settingsFaq),
+            subtitle: Text(l10n.settingsFaqHint),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.push(Routes.faq),
           ),
           ListTile(
             leading: const Icon(Icons.info_outline),
-            title: const Text('About and feedback'),
+            title: Text(l10n.settingsAbout),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.push(Routes.about),
           ),
@@ -334,20 +336,19 @@ class _ReminderAccessState extends ConsumerState<_ReminderAccess>
             if (!enabled)
               ListTile(
                 leading: const Icon(Icons.notifications_off_outlined),
-                title: const Text('Notifications are blocked'),
-                subtitle: const Text('Tap to allow them for Clearing'),
+                title: Text(context.l10n.settingsNotificationsBlocked),
+                subtitle: Text(context.l10n.settingsNotificationsBlockedHint),
                 onTap: () async {
                   await gateway.requestPermission();
                   setState(() => _access = _check());
                 },
               ),
             ListTile(
-              title: const Text('Exact timing'),
+              title: Text(context.l10n.settingsExactTiming),
               subtitle: Text(
                 exact
-                    ? 'Reminders arrive on the minute'
-                    : 'Off: reminders may arrive a few minutes late. '
-                          'Tap to allow exact timing.',
+                    ? context.l10n.settingsExactTimingOn
+                    : context.l10n.settingsExactTimingOff,
               ),
               onTap: exact ? null : gateway.requestExact,
             ),

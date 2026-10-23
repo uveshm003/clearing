@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../domain/local_date.dart';
+import '../../l10n/l10n.dart';
 import '../format.dart';
 
 /// The answer to "When?" in clarify, reschedule and the inbox shortcuts.
@@ -41,7 +42,7 @@ Future<WhenOnDate?> pickDate(
     ),
     firstDate: dateTimeOf(today),
     lastDate: dateTimeOf(today.addDays(365 * 5)),
-    helpText: 'Do on',
+    helpText: context.l10n.whenSheetDoOn,
   );
   if (picked == null || !context.mounted) return null;
   final date = LocalDate.fromDateTime(picked);
@@ -51,15 +52,15 @@ Future<WhenOnDate?> pickDate(
     context: context,
     builder: (context) => AlertDialog(
       title: Text(dateLabel(date, today)),
-      content: const Text('Add a time? Most things don’t need one.'),
+      content: Text(context.l10n.whenSheetAddTimeQuestion),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context, false),
-          child: const Text('No time'),
+          child: Text(context.l10n.whenSheetNoTime),
         ),
         FilledButton.tonal(
           onPressed: () => Navigator.pop(context, true),
-          child: const Text('Add time'),
+          child: Text(context.l10n.whenSheetAddTime),
         ),
       ],
     ),
@@ -72,11 +73,12 @@ Future<WhenOnDate?> pickDate(
   return WhenOnDate(date, time: time == null ? null : minutesOf(time));
 }
 
-/// A bottom sheet offering Today, This week, Pick a date and Anytime.
+/// A bottom sheet offering Today, This week, Pick a date and Anytime, under
+/// [title] ("When?" by default).
 Future<WhenChoice?> showWhenSheet(
   BuildContext context, {
   required LocalDate today,
-  String title = 'When?',
+  String? title,
 }) {
   return showModalBottomSheet<WhenChoice>(
     context: context,
@@ -90,7 +92,7 @@ Future<WhenChoice?> showWhenSheet(
             Padding(
               padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
               child: Text(
-                title,
+                title ?? sheetContext.l10n.whenQuestion,
                 style: Theme.of(sheetContext).textTheme.titleMedium,
               ),
             ),
@@ -107,17 +109,17 @@ Future<WhenChoice?> showWhenSheet(
 List<Widget> whenOptions(BuildContext context, {required LocalDate today}) => [
   ListTile(
     leading: const Icon(Icons.wb_sunny_outlined),
-    title: const Text('Today'),
+    title: Text(context.l10n.whenToday),
     onTap: () => Navigator.pop(context, const WhenToday()),
   ),
   ListTile(
     leading: const Icon(Icons.view_week_outlined),
-    title: const Text('This week'),
+    title: Text(context.l10n.whenThisWeek),
     onTap: () => Navigator.pop(context, const WhenThisWeek()),
   ),
   ListTile(
     leading: const Icon(Icons.event_outlined),
-    title: const Text('Pick a date'),
+    title: Text(context.l10n.whenPickDate),
     onTap: () async {
       final picked = await pickDate(context, today: today);
       if (picked != null && context.mounted) Navigator.pop(context, picked);
@@ -125,8 +127,8 @@ List<Widget> whenOptions(BuildContext context, {required LocalDate today}) => [
   ),
   ListTile(
     leading: const Icon(Icons.all_inclusive),
-    title: const Text('Anytime'),
-    subtitle: const Text('No particular day'),
+    title: Text(context.l10n.whenAnytime),
+    subtitle: Text(context.l10n.whenAnytimeHint),
     onTap: () => Navigator.pop(context, const WhenAnytime()),
   ),
 ];

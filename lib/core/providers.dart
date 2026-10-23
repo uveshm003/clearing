@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../application/backup_actions.dart';
+import '../l10n/notification_texts.dart';
 import 'error_log.dart';
 import '../application/item_actions.dart';
 import '../application/lifecycle_actions.dart';
@@ -201,6 +202,7 @@ final notificationSchedulerProvider = Provider(
     now: ref.watch(clockProvider),
     blocks: ref.watch(blockRepositoryProvider),
     lists: ref.watch(listRepositoryProvider),
+    texts: notificationTexts,
   ),
 );
 

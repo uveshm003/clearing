@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/providers.dart';
 import '../../domain/enums.dart';
 import '../../domain/subtask.dart';
+import '../../l10n/l10n.dart';
 import '../item_commands.dart';
 
 /// Steps for an item (FR-07). Completing the last one offers to complete the
@@ -50,9 +51,9 @@ class _SubtaskEditorState extends ConsumerState<SubtaskEditor> {
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
-          content: const Text('All steps done'),
+          content: Text(context.l10n.subtaskAllDone),
           action: SnackBarAction(
-            label: 'Complete item',
+            label: context.l10n.subtaskCompleteItem,
             onPressed: () => ref.complete(context, item),
           ),
         ),
@@ -71,10 +72,15 @@ class _SubtaskEditorState extends ConsumerState<SubtaskEditor> {
       children: [
         Row(
           children: [
-            Expanded(child: Text('Steps', style: theme.textTheme.titleSmall)),
+            Expanded(
+              child: Text(
+                context.l10n.subtaskSteps,
+                style: theme.textTheme.titleSmall,
+              ),
+            ),
             if (!progress.isEmpty)
               Text(
-                '$progress',
+                context.l10n.subtaskProgress(progress.done, progress.total),
                 style: theme.textTheme.labelMedium?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
@@ -102,7 +108,7 @@ class _SubtaskEditorState extends ConsumerState<SubtaskEditor> {
               ),
               IconButton(
                 icon: const Icon(Icons.close, size: 20),
-                tooltip: 'Remove step ${subtask.title}',
+                tooltip: context.l10n.subtaskRemoveStep(subtask.title),
                 onPressed: () =>
                     ref.read(itemRepositoryProvider).deleteSubtask(subtask.id),
               ),
@@ -119,7 +125,9 @@ class _SubtaskEditorState extends ConsumerState<SubtaskEditor> {
                 focusNode: _focus,
                 textCapitalization: TextCapitalization.sentences,
                 textInputAction: TextInputAction.done,
-                decoration: const InputDecoration(hintText: 'Add a step'),
+                decoration: InputDecoration(
+                  hintText: context.l10n.subtaskAddHint,
+                ),
                 onSubmitted: (_) => _add(),
               ),
             ),

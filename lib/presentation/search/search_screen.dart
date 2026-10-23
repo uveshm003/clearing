@@ -9,15 +9,19 @@ import '../../domain/enums.dart';
 import '../../domain/item.dart';
 import '../../domain/local_date.dart';
 import '../../domain/search_filter.dart';
+import '../../l10n/l10n.dart';
 import '../format.dart';
 import '../widgets/empty_state.dart';
 import '../widgets/item_tile.dart';
 
 /// The status chips, each standing for a group of statuses.
-const _statusGroups = <(String, Set<ItemStatus>)>[
-  ('Open', {ItemStatus.inbox, ItemStatus.active, ItemStatus.waiting}),
-  ('Someday', {ItemStatus.someday}),
-  ('Done', {ItemStatus.done}),
+List<(String, Set<ItemStatus>)> _statusGroups(AppLocalizations strings) => [
+  (
+    strings.searchStatusOpen,
+    const {ItemStatus.inbox, ItemStatus.active, ItemStatus.waiting},
+  ),
+  (strings.someday, const {ItemStatus.someday}),
+  (strings.commonDone, const {ItemStatus.done}),
 ];
 
 /// Search and filters across every item but Trash (FR-16).
@@ -98,7 +102,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               end: dateTimeOf(_filter.to ?? today),
             )
           : null,
-      helpText: 'Planned between',
+      helpText: context.l10n.searchPlannedBetween,
     );
     if (range == null) return;
     _setFilter(
@@ -128,8 +132,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           controller: _text,
           autofocus: true,
           textInputAction: TextInputAction.search,
-          decoration: const InputDecoration(
-            hintText: 'Search titles, notes and steps',
+          decoration: InputDecoration(
+            hintText: context.l10n.searchHint,
             border: InputBorder.none,
           ),
           onChanged: _textChanged,
@@ -138,7 +142,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           if (_text.text.isNotEmpty)
             IconButton(
               icon: const Icon(Icons.close),
-              tooltip: 'Clear',
+              tooltip: context.l10n.searchClear,
               onPressed: () {
                 _text.clear();
                 _textChanged('');
@@ -155,7 +159,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               children: [
-                for (final (label, group) in _statusGroups)
+                for (final (label, group) in _statusGroups(context.l10n))
                   Padding(
                     padding: const EdgeInsets.only(right: 8),
                     child: FilterChip(
@@ -168,7 +172,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   padding: const EdgeInsets.only(right: 8),
                   child: MenuAnchor(
                     builder: (context, menu, _) => FilterChip(
-                      label: Text(listName ?? 'Any list'),
+                      label: Text(listName ?? context.l10n.searchAnyList),
                       selected: listName != null,
                       onSelected: (_) =>
                           menu.isOpen ? menu.close() : menu.open(),
@@ -177,7 +181,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                       MenuItemButton(
                         onPressed: () =>
                             _setFilter(_filter.copyWith(listId: () => null)),
-                        child: const Text('Any list'),
+                        child: Text(context.l10n.searchAnyList),
                       ),
                       for (final list in lists)
                         MenuItemButton(
@@ -194,23 +198,26 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   child: _filter.hasDateRange
                       ? InputChip(
                           label: Text(
-                            '${dateLabel(_filter.from!, today)} – '
-                            '${dateLabel(_filter.to!, today)}',
+                            context.l10n.searchDateRange(
+                              dateLabel(_filter.from!, today),
+                              dateLabel(_filter.to!, today),
+                            ),
                           ),
                           selected: true,
                           onPressed: () => _pickDates(today),
                           onDeleted: () => _setFilter(
                             _filter.copyWith(from: () => null, to: () => null),
                           ),
-                          deleteButtonTooltipMessage: 'Any date',
+                          deleteButtonTooltipMessage:
+                              context.l10n.searchAnyDate,
                         )
                       : FilterChip(
-                          label: const Text('Any date'),
+                          label: Text(context.l10n.searchAnyDate),
                           onSelected: (_) => _pickDates(today),
                         ),
                 ),
                 FilterChip(
-                  label: const Text('Repeating'),
+                  label: Text(context.l10n.searchRepeating),
                   selected: _filter.repeating ?? false,
                   onSelected: (on) => _setFilter(
                     _filter.copyWith(repeating: () => on ? true : null),
@@ -226,10 +233,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 final results = snapshot.data;
                 if (results == null) return const SizedBox.shrink();
                 if (results.isEmpty) {
-                  return const EmptyState(
+                  return EmptyState(
                     icon: Icons.search_off,
-                    title: 'No matches',
-                    message: 'Try fewer words, or loosen the filters.',
+                    title: context.l10n.searchNoMatchesTitle,
+                    message: context.l10n.searchNoMatchesMessage,
                   );
                 }
                 return ListView(

@@ -10,6 +10,7 @@ import 'package:printing/printing.dart';
 import '../../core/providers.dart';
 import '../../data/worksheet.dart';
 import '../../domain/local_date.dart';
+import '../../l10n/l10n.dart';
 
 /// Fonts for other scripts that Android phones usually carry. TrueType only:
 /// the PDF library can't embed CFF fonts, so any that fail to load are
@@ -72,23 +73,20 @@ Future<void> printWorksheet(BuildContext context, WidgetRef ref) async {
             Padding(
               padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
               child: Text(
-                'Print a worksheet',
+                context.l10n.worksheetPrintTitle,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
             ),
             ListTile(
               leading: const Icon(Icons.today_outlined),
-              title: const Text('Today'),
-              subtitle: const Text(
-                'Must-dos, today, this week, and room to '
-                'jot things down',
-              ),
+              title: Text(context.l10n.whenToday),
+              subtitle: Text(context.l10n.worksheetDaySubtitle),
               onTap: () => Navigator.pop(context, WorksheetKind.day),
             ),
             ListTile(
               leading: const Icon(Icons.view_week_outlined),
-              title: const Text('This week'),
-              subtitle: const Text('A box for each day'),
+              title: Text(context.l10n.whenThisWeek),
+              subtitle: Text(context.l10n.worksheetWeekSubtitle),
               onTap: () => Navigator.pop(context, WorksheetKind.week),
             ),
           ],
@@ -100,7 +98,9 @@ Future<void> printWorksheet(BuildContext context, WidgetRef ref) async {
   final data = worksheetData(ref);
   final fonts = await loadWorksheetFonts();
   await Printing.layoutPdf(
-    name: kind == WorksheetKind.day ? 'Clearing – today' : 'Clearing – week',
+    name: kind == WorksheetKind.day
+        ? l10n.worksheetJobNameDay
+        : l10n.worksheetJobNameWeek,
     onLayout: (format) =>
         buildWorksheet(kind, data, format: format, fonts: fonts),
   );

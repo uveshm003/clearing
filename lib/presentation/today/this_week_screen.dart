@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/providers.dart';
 import '../../domain/today_rules.dart';
+import '../../l10n/l10n.dart';
 import '../item_commands.dart';
 import '../widgets/clearing_art.dart';
 import '../widgets/empty_state.dart';
@@ -27,15 +28,13 @@ class ThisWeekScreen extends ConsumerWidget {
     final weekStart =
         ref.watch(settingsProvider).value?.weekStart ?? DateTime.monday;
     return Scaffold(
-      appBar: AppBar(title: const Text('This week')),
+      appBar: AppBar(title: Text(context.l10n.whenThisWeek)),
       body: items.isEmpty
-          ? const EmptyState(
+          ? EmptyState(
               icon: Icons.view_week_outlined,
               scene: ClearingScene.clearing,
-              title: 'Nothing set for this week',
-              message:
-                  'Things you mean to do this week, without picking a day, '
-                  'gather here and show as one quiet row on Today.',
+              title: context.l10n.thisWeekEmptyTitle,
+              message: context.l10n.thisWeekEmptyMessage,
             )
           : ListView(
               children: [
@@ -52,7 +51,7 @@ class ThisWeekScreen extends ConsumerWidget {
                       ),
                       IconButton(
                         icon: const Icon(Icons.wb_sunny_outlined),
-                        tooltip: 'Do today',
+                        tooltip: context.l10n.thisWeekDoToday,
                         onPressed: () => ref.plan(item, const WhenToday()),
                       ),
                       const SizedBox(width: 8),

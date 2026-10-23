@@ -5,6 +5,7 @@ import '../application/item_actions.dart';
 import '../core/providers.dart';
 import '../domain/item.dart';
 import '../domain/today_rules.dart';
+import '../l10n/l10n.dart';
 import 'widgets/when_sheet.dart';
 
 /// UI-side wrappers around [ItemActions] that add undo snackbars and dialogs,
@@ -27,6 +28,7 @@ extension ItemCommands on WidgetRef {
     Future<Object?> Function() change,
   ) async {
     final messenger = ScaffoldMessenger.of(context);
+    final undoLabel = context.l10n.commonUndo;
     final actions = _actions;
     await change();
     messenger
@@ -35,30 +37,38 @@ extension ItemCommands on WidgetRef {
         SnackBar(
           content: Text(message),
           action: SnackBarAction(
-            label: 'Undo',
+            label: undoLabel,
             onPressed: () => actions.undo(item),
           ),
         ),
       );
   }
 
-  Future<void> complete(BuildContext context, Item item) =>
-      withUndo(context, item, 'Done', () => _actions.complete(item));
+  Future<void> complete(BuildContext context, Item item) => withUndo(
+    context,
+    item,
+    context.l10n.commonDone,
+    () => _actions.complete(item),
+  );
 
-  Future<void> trash(BuildContext context, Item item) =>
-      withUndo(context, item, 'Moved to Trash', () => _actions.trash(item));
+  Future<void> trash(BuildContext context, Item item) => withUndo(
+    context,
+    item,
+    context.l10n.commandsTrashed,
+    () => _actions.trash(item),
+  );
 
   Future<void> someday(BuildContext context, Item item) => withUndo(
     context,
     item,
-    'Kept as an idea in Someday',
+    context.l10n.commandsSomeday,
     () => _actions.moveToSomeday(item),
   );
 
   Future<void> snooze(BuildContext context, Item item) => withUndo(
     context,
     item,
-    'Moved to tomorrow',
+    context.l10n.commandsSnoozed,
     () => _actions.snoozeToTomorrow(item),
   );
 
@@ -71,7 +81,7 @@ extension ItemCommands on WidgetRef {
     await withUndo(
       context,
       item,
-      'Rescheduled',
+      context.l10n.commandsRescheduled,
       () => _plan(actions, item, choice),
     );
   }
@@ -93,11 +103,11 @@ extension ItemCommands on WidgetRef {
     final out = await showDialog<Item>(
       context: context,
       builder: (context) => SimpleDialog(
-        title: Text('You already have $cap must-dos'),
+        title: Text(context.l10n.commandsMustDoCapTitle(cap)),
         children: [
-          const Padding(
-            padding: EdgeInsets.fromLTRB(24, 0, 24, 8),
-            child: Text('Swap one out to make room?'),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
+            child: Text(context.l10n.commandsMustDoSwapPrompt),
           ),
           for (final current in result.current)
             SimpleDialogOption(
@@ -106,7 +116,7 @@ extension ItemCommands on WidgetRef {
             ),
           SimpleDialogOption(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Keep things as they are'),
+            child: Text(context.l10n.commandsMustDoKeep),
           ),
         ],
       ),

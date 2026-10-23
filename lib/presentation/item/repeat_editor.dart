@@ -3,6 +3,7 @@ import 'package:flutter/material.dart' hide RepeatMode;
 import '../../domain/enums.dart';
 import '../../domain/local_date.dart';
 import '../../domain/repeat_series.dart';
+import '../../l10n/l10n.dart';
 import '../format.dart';
 import '../widgets/choice_sheet.dart';
 import '../widgets/section_header.dart';
@@ -57,10 +58,10 @@ class _RepeatEditorState extends State<RepeatEditor> {
 
   void _update(RepeatSeries series) => setState(() => _series = series);
 
-  String get _unit => switch (_series.freq) {
-    RepeatFrequency.daily => _series.interval == 1 ? 'day' : 'days',
-    RepeatFrequency.weekly => _series.interval == 1 ? 'week' : 'weeks',
-    RepeatFrequency.monthly => _series.interval == 1 ? 'month' : 'months',
+  String get _every => switch (_series.freq) {
+    RepeatFrequency.daily => context.l10n.repeatEveryDays(_series.interval),
+    RepeatFrequency.weekly => context.l10n.repeatEveryWeeks(_series.interval),
+    RepeatFrequency.monthly => context.l10n.repeatEveryMonths(_series.interval),
   };
 
   Future<void> _setEnds(_Ends ends) async {
@@ -96,11 +97,11 @@ class _RepeatEditorState extends State<RepeatEditor> {
     return Scaffold(
       appBar: AppBar(
         leading: const CloseButton(),
-        title: const Text('Repeat'),
+        title: Text(context.l10n.repeatTitle),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, series),
-            child: const Text('Save'),
+            child: Text(context.l10n.commonSave),
           ),
         ],
       ),
@@ -118,18 +119,18 @@ class _RepeatEditorState extends State<RepeatEditor> {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
             child: SegmentedButton<RepeatFrequency>(
-              segments: const [
+              segments: [
                 ButtonSegment(
                   value: RepeatFrequency.daily,
-                  label: Text('Daily'),
+                  label: Text(context.l10n.repeatDaily),
                 ),
                 ButtonSegment(
                   value: RepeatFrequency.weekly,
-                  label: Text('Weekly'),
+                  label: Text(context.l10n.repeatWeekly),
                 ),
                 ButtonSegment(
                   value: RepeatFrequency.monthly,
-                  label: Text('Monthly'),
+                  label: Text(context.l10n.repeatMonthly),
                 ),
               ],
               selected: {series.freq},
@@ -138,13 +139,13 @@ class _RepeatEditorState extends State<RepeatEditor> {
             ),
           ),
           ListTile(
-            title: Text('Every ${series.interval} $_unit'),
+            title: Text(_every),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
                   icon: const Icon(Icons.remove),
-                  tooltip: 'Less often',
+                  tooltip: context.l10n.repeatLessOften,
                   onPressed: series.interval > 1
                       ? () => _update(
                           series.copyWith(interval: series.interval - 1),
@@ -153,7 +154,7 @@ class _RepeatEditorState extends State<RepeatEditor> {
                 ),
                 IconButton(
                   icon: const Icon(Icons.add),
-                  tooltip: 'More spread out',
+                  tooltip: context.l10n.repeatMoreSpreadOut,
                   onPressed: series.interval < 99
                       ? () => _update(
                           series.copyWith(interval: series.interval + 1),
@@ -164,11 +165,8 @@ class _RepeatEditorState extends State<RepeatEditor> {
             ),
           ),
           SwitchListTile(
-            title: const Text('Count from when it’s done'),
-            subtitle: const Text(
-              'For things like haircuts: the next one is set when you finish '
-              'this one',
-            ),
+            title: Text(context.l10n.repeatAfterCompletionTitle),
+            subtitle: Text(context.l10n.repeatAfterCompletionSubtitle),
             value: series.isAfterCompletion,
             onChanged: (on) => _update(
               series.copyWith(
@@ -207,8 +205,8 @@ class _RepeatEditorState extends State<RepeatEditor> {
           if (series.freq == RepeatFrequency.monthly &&
               !series.isAfterCompletion)
             ChoiceTile<int>(
-              title: 'On day',
-              hint: 'short months use their last day',
+              title: context.l10n.repeatOnDay,
+              hint: context.l10n.repeatOnDayHint,
               value: series.monthDay ?? series.startDate.day,
               options: [
                 for (var day = 1; day <= 31; day++) (day, ordinal(day)),
@@ -216,17 +214,26 @@ class _RepeatEditorState extends State<RepeatEditor> {
               onChanged: (day) => _update(series.copyWith(monthDay: () => day)),
             ),
           ListTile(
-            title: const Text('Starts'),
+            title: Text(context.l10n.repeatStarts),
             trailing: Text(dateLabel(series.startDate, widget.today)),
           ),
-          const SectionHeader('Ends'),
+          SectionHeader(context.l10n.repeatEnds),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: SegmentedButton<_Ends>(
-              segments: const [
-                ButtonSegment(value: _Ends.never, label: Text('Never')),
-                ButtonSegment(value: _Ends.onDate, label: Text('On a date')),
-                ButtonSegment(value: _Ends.afterCount, label: Text('After')),
+              segments: [
+                ButtonSegment(
+                  value: _Ends.never,
+                  label: Text(context.l10n.repeatEndsNever),
+                ),
+                ButtonSegment(
+                  value: _Ends.onDate,
+                  label: Text(context.l10n.repeatEndsOnDate),
+                ),
+                ButtonSegment(
+                  value: _Ends.afterCount,
+                  label: Text(context.l10n.repeatEndsAfter),
+                ),
               ],
               selected: {_ends},
               onSelectionChanged: (s) => _setEnds(s.single),
@@ -234,19 +241,21 @@ class _RepeatEditorState extends State<RepeatEditor> {
           ),
           if (series.endDate case final end?)
             ListTile(
-              title: Text('Last time on ${dateLabel(end, widget.today)}'),
+              title: Text(
+                context.l10n.repeatLastTimeOn(dateLabel(end, widget.today)),
+              ),
               trailing: const Icon(Icons.edit_calendar_outlined),
               onTap: () => _setEnds(_Ends.onDate),
             ),
           if (series.maxCount case final count?)
             ListTile(
-              title: Text('$count times in all'),
+              title: Text(context.l10n.repeatTimesInAll(count)),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
                     icon: const Icon(Icons.remove),
-                    tooltip: 'Fewer times',
+                    tooltip: context.l10n.repeatFewerTimes,
                     onPressed: count > 1
                         ? () => _update(
                             series.copyWith(maxCount: () => count - 1),
@@ -255,7 +264,7 @@ class _RepeatEditorState extends State<RepeatEditor> {
                   ),
                   IconButton(
                     icon: const Icon(Icons.add),
-                    tooltip: 'More times',
+                    tooltip: context.l10n.repeatMoreTimes,
                     onPressed: () =>
                         _update(series.copyWith(maxCount: () => count + 1)),
                   ),
@@ -263,25 +272,21 @@ class _RepeatEditorState extends State<RepeatEditor> {
               ),
             ),
           if (!series.isAfterCompletion) ...[
-            const SectionHeader('If one is missed'),
+            SectionHeader(context.l10n.repeatIfMissed),
             RadioGroup<OnMissed>(
               groupValue: series.onMissed,
               onChanged: (v) => _update(series.copyWith(onMissed: v)),
-              child: const Column(
+              child: Column(
                 children: [
                   RadioListTile(
                     value: OnMissed.carryOver,
-                    title: Text('Carry it over'),
-                    subtitle: Text(
-                      'It stays on Today until done; the next one waits',
-                    ),
+                    title: Text(context.l10n.repeatCarryOver),
+                    subtitle: Text(context.l10n.repeatCarryOverSubtitle),
                   ),
                   RadioListTile(
                     value: OnMissed.skip,
-                    title: Text('Skip it quietly'),
-                    subtitle: Text(
-                      'Good for routines: tomorrow is a fresh start',
-                    ),
+                    title: Text(context.l10n.repeatSkipQuietly),
+                    subtitle: Text(context.l10n.repeatSkipQuietlySubtitle),
                   ),
                 ],
               ),

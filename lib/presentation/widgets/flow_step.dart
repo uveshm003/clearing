@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/providers.dart';
+import '../../l10n/l10n.dart';
 
 /// One screen of a guided flow (weekly review, overwhelm reset): a question,
 /// optional hint, content, and actions pinned to the bottom so they never
@@ -107,11 +108,11 @@ class _BurstCaptureState extends ConsumerState<BurstCapture> {
           textCapitalization: TextCapitalization.sentences,
           textInputAction: TextInputAction.done,
           decoration: InputDecoration(
-            hintText: 'What’s on your mind?',
+            hintText: context.l10n.flowCaptureHint,
             border: const OutlineInputBorder(),
             suffixIcon: IconButton(
               icon: const Icon(Icons.arrow_upward),
-              tooltip: 'Save',
+              tooltip: context.l10n.commonSave,
               onPressed: _save,
             ),
           ),
@@ -121,7 +122,7 @@ class _BurstCaptureState extends ConsumerState<BurstCapture> {
           Padding(
             padding: const EdgeInsets.only(top: 8),
             child: Text(
-              'Saved ${_saved.length} to Inbox · latest: ${_saved.first}',
+              context.l10n.flowSavedToInbox(_saved.length, _saved.first),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: theme.textTheme.bodySmall?.copyWith(

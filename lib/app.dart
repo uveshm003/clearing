@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart' show Intl;
 
 import 'core/providers.dart';
 import 'core/router.dart';
@@ -47,6 +48,7 @@ class ClearingApp extends ConsumerWidget {
       builder: (context, child) {
         // Formatting helpers and notifications read the current language.
         setCurrentL10n(context.l10n);
+        Intl.defaultLocale = context.l10n.localeName;
         final app = SchedulerSync(
           child: WidgetIntake(child: ShareIntake(child: child!)),
         );

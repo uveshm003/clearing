@@ -6,6 +6,7 @@ import '../../core/providers.dart';
 import '../../domain/calendar_rules.dart';
 import '../../domain/item.dart';
 import '../../domain/local_date.dart';
+import '../../l10n/l10n.dart';
 import '../format.dart';
 
 final _occurrencesProvider = StreamProvider.autoDispose
@@ -30,11 +31,23 @@ class SeriesCalendarScreen extends ConsumerStatefulWidget {
 class _SeriesCalendarScreenState extends ConsumerState<SeriesCalendarScreen> {
   LocalDate? _month;
 
-  static (IconData, String) _look(OccurrenceMark mark) => switch (mark) {
-    OccurrenceMark.done => (Icons.check_circle, 'done'),
-    OccurrenceMark.skipped => (Icons.remove_circle_outline, 'skipped'),
-    OccurrenceMark.open => (Icons.radio_button_unchecked, 'open now'),
-    OccurrenceMark.planned => (Icons.circle, 'coming up'),
+  (IconData, String) _look(OccurrenceMark mark) => switch (mark) {
+    OccurrenceMark.done => (
+      Icons.check_circle,
+      context.l10n.seriesCalendarDone,
+    ),
+    OccurrenceMark.skipped => (
+      Icons.remove_circle_outline,
+      context.l10n.seriesCalendarSkipped,
+    ),
+    OccurrenceMark.open => (
+      Icons.radio_button_unchecked,
+      context.l10n.seriesCalendarOpenNow,
+    ),
+    OccurrenceMark.planned => (
+      Icons.circle,
+      context.l10n.seriesCalendarComingUp,
+    ),
   };
 
   @override
@@ -89,7 +102,7 @@ class _SeriesCalendarScreenState extends ConsumerState<SeriesCalendarScreen> {
             children: [
               IconButton(
                 icon: const Icon(Icons.chevron_left),
-                tooltip: 'Previous month',
+                tooltip: context.l10n.seriesCalendarPreviousMonth,
                 onPressed: () => setState(() => _month = month.addMonths(-1)),
               ),
               Expanded(
@@ -101,7 +114,7 @@ class _SeriesCalendarScreenState extends ConsumerState<SeriesCalendarScreen> {
               ),
               IconButton(
                 icon: const Icon(Icons.chevron_right),
-                tooltip: 'Next month',
+                tooltip: context.l10n.seriesCalendarNextMonth,
                 onPressed: () => setState(() => _month = month.addMonths(1)),
               ),
             ],
@@ -135,7 +148,7 @@ class _SeriesCalendarScreenState extends ConsumerState<SeriesCalendarScreen> {
                     label: [
                       DateFormat('d MMMM').format(dateTimeOf(day)),
                       if (marks[day] case final mark?) _look(mark).$2,
-                      if (day == today) 'today',
+                      if (day == today) context.l10n.seriesCalendarToday,
                     ].join(', '),
                     excludeSemantics: true,
                     child: Column(

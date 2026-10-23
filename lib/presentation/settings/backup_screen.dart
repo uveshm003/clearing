@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/providers.dart';
 import '../../data/backup.dart';
 import '../../domain/local_date.dart';
+import '../../l10n/l10n.dart';
 import '../format.dart';
 import '../widgets/choice_sheet.dart';
 import '../widgets/pebble.dart';
@@ -25,82 +26,77 @@ class BackupScreen extends ConsumerWidget {
     final last = settings.lastExportAt;
     final actions = ref.read(backupActionsProvider);
     final messenger = ScaffoldMessenger.of(context);
+    final l10n = context.l10n;
 
     Future<void> export({required bool toFolder}) async {
       try {
         if (await actions.export(toFolder: toFolder)) {
           messenger
             ..hideCurrentSnackBar()
-            ..showSnackBar(const SnackBar(content: Text('Backup saved')));
+            ..showSnackBar(SnackBar(content: Text(l10n.backupSaved)));
         }
       } on Exception catch (error) {
         messenger
           ..hideCurrentSnackBar()
-          ..showSnackBar(SnackBar(content: Text('Couldn’t export: $error')));
+          ..showSnackBar(
+            SnackBar(content: Text(l10n.backupExportFailed('$error'))),
+          );
       }
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Backup')),
+      appBar: AppBar(title: Text(l10n.backupTitle)),
       body: ListView(
         padding: const EdgeInsets.only(bottom: 32),
         children: pebbleSections([
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
-            child: Text(
-              'Everything stays on this phone, with no account and no cloud. '
-              'Uninstalling Clearing or losing the phone deletes your data '
-              'unless you’ve exported a copy.',
-              style: theme.textTheme.bodyMedium,
-            ),
+            child: Text(l10n.backupIntro, style: theme.textTheme.bodyMedium),
           ),
           ListTile(
             leading: const Icon(Icons.history),
-            title: const Text('Last backup'),
+            title: Text(l10n.backupLast),
             subtitle: Text(
               last == null
-                  ? 'Never'
+                  ? l10n.backupNever
                   : '${dateLabel(LocalDate.fromDateTime(last), today)}, '
                         '${timeLabel(context, last.hour * 60 + last.minute)}',
             ),
           ),
-          const SectionHeader('Export'),
+          SectionHeader(l10n.backupExportSection),
           ListTile(
             leading: const Icon(Icons.share_outlined),
-            title: const Text('Share a backup'),
-            subtitle: const Text('Send it to email, Drive, or another app'),
+            title: Text(l10n.backupShare),
+            subtitle: Text(l10n.backupShareHint),
             onTap: () => export(toFolder: false),
           ),
           ListTile(
             leading: const Icon(Icons.save_alt),
-            title: const Text('Save to a folder'),
+            title: Text(l10n.backupSaveToFolder),
             onTap: () => export(toFolder: true),
           ),
           ChoiceTile<int?>(
-            title: 'Remind me to export',
+            title: l10n.backupRemindExport,
             value: settings.exportReminderDays,
             options: [
-              (14, 'Every 2 weeks'),
-              (30, 'Monthly'),
-              (null, 'Never'),
+              (14, l10n.backupEveryTwoWeeks),
+              (30, l10n.backupMonthly),
+              (null, l10n.backupNever),
               if (!const [14, 30, null].contains(settings.exportReminderDays))
                 (
                   settings.exportReminderDays,
-                  'Every ${settings.exportReminderDays} days',
+                  l10n.backupEveryDays(settings.exportReminderDays!),
                 ),
             ],
             onChanged: (days) => ref
                 .read(settingsRepositoryProvider)
                 .save(settings.copyWith(exportReminderDays: () => days)),
           ),
-          const SectionHeader('Restore'),
+          SectionHeader(l10n.backupRestoreSection),
           ListTile(
             leading: const Icon(Icons.restore_page_outlined),
-            title: const Text('Restore from a backup'),
-            subtitle: const Text(
-              'You’ll see what’s in it before anything '
-              'changes',
-            ),
+            title: Text(l10n.backupRestoreFrom),
+            subtitle: Text(l10n.backupRestoreFromHint),
             onTap: () => _restore(context, ref, today),
           ),
         ]),
@@ -115,6 +111,7 @@ class BackupScreen extends ConsumerWidget {
   ) async {
     final actions = ref.read(backupActionsProvider);
     final messenger = ScaffoldMessenger.of(context);
+    final l10n = context.l10n;
     final Backup? backup;
     try {
       backup = await actions.pick();
@@ -123,12 +120,12 @@ class BackupScreen extends ConsumerWidget {
         await showDialog<void>(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('Can’t restore this file'),
+            title: Text(context.l10n.backupCantRestore),
             content: Text(error.message),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('OK'),
+                child: Text(context.l10n.commonOk),
               ),
             ],
           ),
@@ -147,19 +144,16 @@ class BackupScreen extends ConsumerWidget {
       final sure = await showDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('Replace everything?'),
-          content: const Text(
-            'Everything now in Clearing on this phone will be replaced by '
-            'the backup. This can’t be undone.',
-          ),
+          title: Text(context.l10n.backupReplaceAllTitle),
+          content: Text(context.l10n.backupReplaceAllBody),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel'),
+              child: Text(context.l10n.commonCancel),
             ),
             FilledButton(
               onPressed: () => Navigator.pop(context, true),
-              child: const Text('Replace'),
+              child: Text(context.l10n.backupReplace),
             ),
           ],
         ),
@@ -169,7 +163,7 @@ class BackupScreen extends ConsumerWidget {
     await actions.restore(backup, mode);
     messenger
       ..hideCurrentSnackBar()
-      ..showSnackBar(const SnackBar(content: Text('Backup restored')));
+      ..showSnackBar(SnackBar(content: Text(l10n.backupRestored)));
   }
 }
 
@@ -188,13 +182,15 @@ class _PreviewDialog extends StatelessWidget {
         (byStatus['active'] ?? 0) +
         (byStatus['waiting'] ?? 0);
     final exported = backup.exportedAt;
-    String n(int count, String one) => '$count $one${count == 1 ? '' : 's'}';
+    final l10n = context.l10n;
 
     return AlertDialog(
       title: Text(
         exported == null
-            ? 'Restore this backup?'
-            : 'Backup from ${dateLabel(LocalDate.fromDateTime(exported), today)}',
+            ? l10n.backupRestoreThis
+            : l10n.backupFromDate(
+                dateLabel(LocalDate.fromDateTime(exported), today),
+              ),
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -202,32 +198,32 @@ class _PreviewDialog extends StatelessWidget {
         children: [
           Text(
             [
-              '${n(backup.count('items'), 'item')}: $open open, '
-                  '${byStatus['someday'] ?? 0} someday, '
-                  '${byStatus['done'] ?? 0} done',
-              n(backup.count('lists'), 'list'),
-              n(backup.count('series'), 'repeating item'),
+              l10n.backupPreviewItems(
+                backup.count('items'),
+                open,
+                byStatus['someday'] ?? 0,
+                byStatus['done'] ?? 0,
+              ),
+              l10n.backupPreviewLists(backup.count('lists')),
+              l10n.backupPreviewRepeating(backup.count('series')),
             ].join('\n'),
           ),
           const SizedBox(height: 16),
-          const Text(
-            'Merge adds what’s missing and keeps the newer copy of anything '
-            'on both. Replace makes this phone match the backup exactly.',
-          ),
+          Text(l10n.backupMergeExplain),
         ],
       ),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
+          child: Text(l10n.commonCancel),
         ),
         TextButton(
           onPressed: () => Navigator.pop(context, ImportMode.replace),
-          child: const Text('Replace'),
+          child: Text(l10n.backupReplace),
         ),
         FilledButton(
           onPressed: () => Navigator.pop(context, ImportMode.merge),
-          child: const Text('Merge'),
+          child: Text(l10n.backupMerge),
         ),
       ],
     );

@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../core/providers.dart';
 import '../../domain/calendar_rules.dart';
+import '../../l10n/l10n.dart';
 import '../format.dart';
 import '../widgets/block_tile.dart';
 import '../widgets/day_rail.dart';
@@ -45,17 +46,18 @@ class _WeekViewState extends ConsumerState<WeekView> {
           children: [
             IconButton(
               icon: const Icon(Icons.chevron_left),
-              tooltip: 'Previous week',
+              tooltip: context.l10n.weekPrevious,
               onPressed: _offset > 0 ? () => setState(() => _offset--) : null,
             ),
             Expanded(
               child: Text(
                 switch (_offset) {
-                  0 => 'This week',
-                  1 => 'Next week',
-                  _ =>
-                    '${range.format(dateTimeOf(start))} – '
-                        '${range.format(dateTimeOf(end))}',
+                  0 => context.l10n.whenThisWeek,
+                  1 => context.l10n.weekNext,
+                  _ => context.l10n.weekRange(
+                    range.format(dateTimeOf(start)),
+                    range.format(dateTimeOf(end)),
+                  ),
                 },
                 textAlign: TextAlign.center,
                 style: theme.textTheme.titleMedium,
@@ -63,13 +65,13 @@ class _WeekViewState extends ConsumerState<WeekView> {
             ),
             IconButton(
               icon: const Icon(Icons.chevron_right),
-              tooltip: 'Next week',
+              tooltip: context.l10n.weekNext,
               onPressed: () => setState(() => _offset++),
             ),
           ],
         ),
         if (week.anyDay.isNotEmpty) ...[
-          const SectionHeader('Any day this week'),
+          SectionHeader(context.l10n.weekAnyDay),
           Pebble(
             children: [for (final item in week.anyDay) ItemTile(item: item)],
           ),
@@ -78,7 +80,9 @@ class _WeekViewState extends ConsumerState<WeekView> {
           DaySection(
             day: day,
             today: today,
-            emptyText: day.isBefore(today) ? 'Nothing left' : 'Free',
+            emptyText: day.isBefore(today)
+                ? context.l10n.weekNothingLeft
+                : context.l10n.weekFree,
             children: [
               for (final block in blocks)
                 if (block.occursOn(day)) BlockTile(block: block),

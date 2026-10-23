@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/providers.dart';
 import '../../core/router.dart';
 import '../../domain/batch_block.dart';
+import '../../l10n/l10n.dart';
 import '../format.dart';
 
 /// A batch block as one entry, e.g. "Errands · 10:00 · 4 to do" (FR-05).
@@ -25,8 +26,12 @@ class BlockTile extends ConsumerWidget {
     if (list == null) return const SizedBox.shrink();
     return ListTile(
       leading: const Icon(Icons.event_available_outlined),
-      title: Text('${list.name} · ${timeLabel(context, block.time)}'),
-      subtitle: Text(toDo == 0 ? 'All done' : '$toDo to do, in one go'),
+      title: Text(
+        context.l10n.blockTileTitle(list.name, timeLabel(context, block.time)),
+      ),
+      subtitle: Text(
+        toDo == 0 ? context.l10n.blockAllDone : context.l10n.blockToDo(toDo),
+      ),
       trailing: const Icon(Icons.chevron_right),
       onTap: () => context.push(Routes.list(block.listId)),
     );
@@ -68,17 +73,20 @@ class _BlockDialogState extends State<_BlockDialog> {
       for (var i = 0; i < 7; i++) (widget.weekStart - 1 + i) % 7 + 1,
     ];
     return AlertDialog(
-      title: const Text('Block out time'),
+      title: Text(context.l10n.blockDialogTitle),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text('Work through the whole list in one go.'),
+          Text(context.l10n.blockDialogMessage),
           const SizedBox(height: 16),
           SegmentedButton<bool>(
-            segments: const [
-              ButtonSegment(value: true, label: Text('Every week')),
-              ButtonSegment(value: false, label: Text('Once')),
+            segments: [
+              ButtonSegment(
+                value: true,
+                label: Text(context.l10n.blockEveryWeek),
+              ),
+              ButtonSegment(value: false, label: Text(context.l10n.blockOnce)),
             ],
             selected: {_weekly},
             onSelectionChanged: (s) => setState(() => _weekly = s.single),
@@ -117,7 +125,7 @@ class _BlockDialogState extends State<_BlockDialog> {
             ),
           ListTile(
             contentPadding: EdgeInsets.zero,
-            title: Text('At ${timeLabel(context, _time)}'),
+            title: Text(context.l10n.blockAtTime(timeLabel(context, _time))),
             trailing: const Icon(Icons.schedule),
             onTap: () async {
               final picked = await showTimePicker(
@@ -132,7 +140,7 @@ class _BlockDialogState extends State<_BlockDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
+          child: Text(context.l10n.commonCancel),
         ),
         FilledButton(
           onPressed: () => Navigator.pop(context, (
@@ -142,7 +150,7 @@ class _BlockDialogState extends State<_BlockDialog> {
             ),
             time: _time,
           )),
-          child: const Text('Save'),
+          child: Text(context.l10n.commonSave),
         ),
       ],
     );

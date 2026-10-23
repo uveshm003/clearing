@@ -5,6 +5,7 @@ import '../../core/providers.dart';
 import '../../domain/enums.dart';
 import '../../domain/item.dart';
 import '../../domain/local_date.dart';
+import '../../l10n/l10n.dart';
 import '../capture/capture_sheet.dart';
 import '../format.dart';
 import '../widgets/block_tile.dart';
@@ -24,11 +25,11 @@ class ListScreen extends ConsumerWidget {
 
   final String listId;
 
-  static const _sections = [
-    (ItemStatus.active, 'To do'),
-    (ItemStatus.inbox, 'Not decided yet'),
-    (ItemStatus.waiting, 'Waiting on'),
-    (ItemStatus.someday, 'Someday'),
+  static List<(ItemStatus, String)> _sections(AppLocalizations l10n) => [
+    (ItemStatus.active, l10n.listSectionToDo),
+    (ItemStatus.inbox, l10n.listSectionNotDecided),
+    (ItemStatus.waiting, l10n.waitingOn),
+    (ItemStatus.someday, l10n.someday),
   ];
 
   @override
@@ -69,15 +70,21 @@ class ListScreen extends ConsumerWidget {
           leading: const Icon(Icons.event_available_outlined),
           title: Text(
             block.repeats
-                ? 'Every ${weekdayLong(block.weekday!)} at '
-                      '${timeLabel(context, block.time)}'
-                : '${today == null ? block.date : dateLabel(block.date!, today)} '
-                      'at ${timeLabel(context, block.time)}',
+                ? context.l10n.listBlockEvery(
+                    weekdayLong(block.weekday!),
+                    timeLabel(context, block.time),
+                  )
+                : context.l10n.listBlockOn(
+                    today == null
+                        ? '${block.date}'
+                        : dateLabel(block.date!, today),
+                    timeLabel(context, block.time),
+                  ),
           ),
-          subtitle: const Text('Shows as one entry on Today'),
+          subtitle: Text(context.l10n.listBlockSubtitle),
           trailing: IconButton(
             icon: const Icon(Icons.close),
-            tooltip: 'Remove time block',
+            tooltip: context.l10n.listRemoveBlock,
             onPressed: () => ref.read(blockRepositoryProvider).delete(block.id),
           ),
         ),
@@ -89,12 +96,14 @@ class ListScreen extends ConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.event_available_outlined),
-            tooltip: 'Block out time',
+            tooltip: context.l10n.listBlockOutTime,
             onPressed: schedule,
           ),
           IconButton(
             icon: const Icon(Icons.add),
-            tooltip: 'Add to ${list?.name ?? 'list'}',
+            tooltip: list == null
+                ? context.l10n.listAddToList
+                : context.l10n.listAddTo(list.name),
             onPressed: () => showCaptureSheet(context, listId: listId),
           ),
         ],
@@ -103,16 +112,16 @@ class ListScreen extends ConsumerWidget {
           ? EmptyState(
               icon: Icons.list_alt_outlined,
               scene: ClearingScene.nest,
-              title: 'Nothing in ${list?.name ?? 'this list'}',
-              message:
-                  'Add things that belong together, like errands to '
-                  'run in one trip.',
+              title: list == null
+                  ? context.l10n.listEmptyTitleThisList
+                  : context.l10n.listEmptyTitle(list.name),
+              message: context.l10n.listEmptyMessage,
             )
           : ListView(
               padding: const EdgeInsets.only(bottom: 96),
               children: [
                 ...blockTiles,
-                for (final (status, label) in _sections)
+                for (final (status, label) in _sections(context.l10n))
                   if (items.where((i) => i.status == status).toList()
                       case final group when group.isNotEmpty) ...[
                     SectionHeader(label),

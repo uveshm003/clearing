@@ -34,5 +34,2746 @@
   "tabLists": "Lists",
   "someday": "Someday",
   "waitingOn": "Waiting on",
-  "mustDo": "Must-do"
+  "mustDo": "Must-do",
+  "dateTomorrow": "Tomorrow",
+  "@dateTomorrow": {
+    "description": "Relative date label."
+  },
+  "dateYesterday": "Yesterday",
+  "@dateYesterday": {
+    "description": "Relative date label."
+  },
+  "repeatEveryDay": "{count, plural, =1{Every day} other{Every {count} days}}",
+  "@repeatEveryDay": {
+    "description": "Start of a repeat rule.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "repeatEveryWeek": "{count, plural, =1{Every week} other{Every {count} weeks}}",
+  "@repeatEveryWeek": {
+    "description": "Start of a repeat rule.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "repeatEveryMonth": "{count, plural, =1{Every month} other{Every {count} months}}",
+  "@repeatEveryMonth": {
+    "description": "Start of a repeat rule.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "repeatAfterDone": "after it’s done",
+  "@repeatAfterDone": {
+    "description": "Repeat rule counted from completion, e.g. 'Every 6 weeks after it’s done'."
+  },
+  "repeatOnDays": "on {days}",
+  "@repeatOnDays": {
+    "description": "Weekdays of a weekly repeat, e.g. 'on Mon, Thu'.",
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "repeatOnMonthDay": "on the {day}",
+  "@repeatOnMonthDay": {
+    "description": "Day of a monthly repeat; in English day is '5th'.",
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "repeatUntil": "until {date}",
+  "@repeatUntil": {
+    "description": "End date of a repeat.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "repeatTimes": "{count, plural, =1{once} other{{count} times}}",
+  "@repeatTimes": {
+    "description": "Maximum count of a repeat.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "offsetAtTime": "At the time",
+  "@offsetAtTime": {
+    "description": "A reminder at the item's own time."
+  },
+  "offsetMinutes": "{count} min before",
+  "@offsetMinutes": {
+    "description": "Reminder offset.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "offsetHours": "{count} h before",
+  "@offsetHours": {
+    "description": "Reminder offset.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "offsetDays": "{count, plural, =1{1 day before} other{{count} days before}}",
+  "@offsetDays": {
+    "description": "Reminder offset.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifReviewTitle": "Time for your weekly review",
+  "@notifReviewTitle": {
+    "description": "Weekly review reminder title."
+  },
+  "notifReviewBody": "About 15 minutes to clear your head and plan the week.",
+  "@notifReviewBody": {
+    "description": "Weekly review reminder body."
+  },
+  "notifBackupTitle": "Time to back up",
+  "@notifBackupTitle": {
+    "description": "Export reminder title."
+  },
+  "notifBackupBody": "Export a copy, so a lost phone doesn’t mean lost plans.",
+  "@notifBackupBody": {
+    "description": "Export reminder body."
+  },
+  "notifDigestTitle": "Today",
+  "@notifDigestTitle": {
+    "description": "Morning summary title."
+  },
+  "notifDoneMeans": "Done means: {text}",
+  "@notifDoneMeans": {
+    "description": "Reminder body showing the item's definition of done.",
+    "placeholders": {
+      "text": {
+        "type": "String"
+      }
+    }
+  },
+  "notifBlockTitle": "{list} time",
+  "@notifBlockTitle": {
+    "description": "Batch block notification title, e.g. 'Errands time'.",
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "notifBlockBody": "Work through {list} in one go.",
+  "@notifBlockBody": {
+    "description": "Batch block notification body.",
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "notifDigestMustDos": "{count, plural, =1{1 must-do: {titles}} other{{count} must-dos: {titles}}}",
+  "@notifDigestMustDos": {
+    "description": "Morning summary: today's must-dos by name.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "titles": {
+        "type": "String"
+      }
+    }
+  },
+  "notifDigestMoreToday": "{count} more today",
+  "@notifDigestMoreToday": {
+    "description": "Morning summary: other items today.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifDigestOnToday": "{count} on Today",
+  "@notifDigestOnToday": {
+    "description": "Morning summary when there are no must-dos.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifActionDone": "Done",
+  "@notifActionDone": {
+    "description": "Notification button."
+  },
+  "notifActionSnoozeHour": "Snooze 1 h",
+  "@notifActionSnoozeHour": {
+    "description": "Notification button."
+  },
+  "notifActionTomorrow": "Tomorrow",
+  "@notifActionTomorrow": {
+    "description": "Notification button: remind again tomorrow morning."
+  },
+  "worksheetDocToday": "Clearing: today",
+  "@worksheetDocToday": {
+    "description": "PDF document title."
+  },
+  "worksheetDocWeek": "Clearing: week",
+  "@worksheetDocWeek": {
+    "description": "PDF document title."
+  },
+  "worksheetMoreInApp": "+{count} more in the app",
+  "@worksheetMoreInApp": {
+    "description": "Worksheet: items that didn't fit.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "worksheetMore": "+{count} more",
+  "@worksheetMore": {
+    "description": "Worksheet: items that didn't fit in a day box.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "worksheetBlocks": "Blocks",
+  "@worksheetBlocks": {
+    "description": "Worksheet section: batch blocks."
+  },
+  "worksheetAlsoToday": "Also today",
+  "@worksheetAlsoToday": {
+    "description": "Worksheet section."
+  },
+  "worksheetOnYourMind": "On your mind",
+  "@worksheetOnYourMind": {
+    "description": "Worksheet: blank lines to write on."
+  },
+  "worksheetAnyDay": "Any day · on your mind",
+  "@worksheetAnyDay": {
+    "description": "Worksheet: the box for this week's undated items and notes."
+  },
+  "worksheetWeekOf": "Week of {date}",
+  "@worksheetWeekOf": {
+    "description": "Worksheet subtitle.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "worksheetList": "List",
+  "@worksheetList": {
+    "description": "Fallback name for a list."
+  },
+  "worksheetCarriedOver": "{item} (carried over)",
+  "@worksheetCarriedOver": {
+    "description": "Worksheet: an item carried over from an earlier day.",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "flowCaptureHint": "What’s on your mind?",
+  "@flowCaptureHint": {
+    "description": "Hint in the quick-capture field inside the weekly review and reset."
+  },
+  "flowSavedToInbox": "Saved {count} to Inbox · latest: {title}",
+  "@flowSavedToInbox": {
+    "description": "Shown under the capture field after saving; count saved so far and the latest title.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "flowItemGone": "This item no longer exists.",
+  "@flowItemGone": {
+    "description": "Shown when Focus or Clarify opens an item that was deleted."
+  },
+  "focusTitle": "Focus",
+  "@focusTitle": {
+    "description": "Focus screen title."
+  },
+  "focusDoneMeans": "Done means: {doneMeans}",
+  "@focusDoneMeans": {
+    "description": "Under the item title in Focus; the user’s own definition of done.",
+    "placeholders": {
+      "doneMeans": {
+        "type": "String"
+      }
+    }
+  },
+  "focusNotNow": "Not now",
+  "@focusNotNow": {
+    "description": "Button leaving Focus without finishing the item."
+  },
+  "focusFinishedTitle": "One less thing",
+  "@focusFinishedTitle": {
+    "description": "Large heading shown after finishing the item in Focus."
+  },
+  "reviewTitle": "Weekly review",
+  "@reviewTitle": {
+    "description": "Weekly review screen title."
+  },
+  "reviewResumed": "Picking up where you left off.",
+  "@reviewResumed": {
+    "description": "Banner when a half-finished weekly review resumes."
+  },
+  "reviewStartOver": "Start over",
+  "@reviewStartOver": {
+    "description": "Banner button restarting the weekly review from step one."
+  },
+  "reviewEmptyHeadTitle": "Empty your head",
+  "@reviewEmptyHeadTitle": {
+    "description": "Weekly review step 1 question."
+  },
+  "reviewEmptyHeadHint": "Anything not written down yet: errands, worries, replies you owe. One thought at a time.",
+  "@reviewEmptyHeadHint": {
+    "description": "Weekly review step 1 hint."
+  },
+  "reviewInboxClearTitle": "Inbox clear",
+  "@reviewInboxClearTitle": {
+    "description": "Weekly review inbox step when every item has been decided."
+  },
+  "reviewInboxClearHint": "Every item has a place.",
+  "@reviewInboxClearHint": {
+    "description": "Hint when the inbox is clear and nothing was skipped."
+  },
+  "reviewInboxSkipped": "{count} skipped for now. They’ll be here next time.",
+  "@reviewInboxSkipped": {
+    "description": "Hint when the inbox is clear but some items were skipped.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewInboxLeft": "{count} left in the inbox. Where does this one go?",
+  "@reviewInboxLeft": {
+    "description": "Hint under an inbox item during the weekly review.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewSkipForNow": "Skip for now",
+  "@reviewSkipForNow": {
+    "description": "Button passing over an inbox item during the review."
+  },
+  "reviewWaitingOnChoice": "Waiting on…",
+  "@reviewWaitingOnChoice": {
+    "description": "Chip marking an inbox item as waiting on someone; asks for a name next."
+  },
+  "reviewAlreadyDone": "Already done",
+  "@reviewAlreadyDone": {
+    "description": "Chip marking an inbox item as already done."
+  },
+  "reviewWhoWaitingOn": "Who are you waiting on?",
+  "@reviewWhoWaitingOn": {
+    "description": "Dialog title asking for the person an item waits on."
+  },
+  "reviewMarkDone": "Mark done",
+  "@reviewMarkDone": {
+    "description": "Tooltip on the done circle beside an item in the review."
+  },
+  "reviewReplan": "Re-plan",
+  "@reviewReplan": {
+    "description": "Tooltip on the button that picks a new day for an item."
+  },
+  "reviewLetGo": "Let go to Someday",
+  "@reviewLetGo": {
+    "description": "Tooltip on the button moving an item to Someday."
+  },
+  "reviewLastWeekTitle": "Last week’s open items",
+  "@reviewLastWeekTitle": {
+    "description": "Weekly review step 3 question."
+  },
+  "reviewLastWeekEmpty": "Nothing left over from last week.",
+  "@reviewLastWeekEmpty": {
+    "description": "Step 3 hint when nothing is left over."
+  },
+  "reviewLastWeekHint": "This week’s items and anything carried over. Re-plan them, or let them go.",
+  "@reviewLastWeekHint": {
+    "description": "Step 3 hint when there are open items."
+  },
+  "reviewWaitingEmpty": "You’re not waiting on anyone.",
+  "@reviewWaitingEmpty": {
+    "description": "Waiting-on step hint when nothing waits."
+  },
+  "reviewWaitingHint": "Follow up, mark done, or take it back to do yourself.",
+  "@reviewWaitingHint": {
+    "description": "Waiting-on step hint when items wait on others."
+  },
+  "reviewSomeone": "Someone",
+  "@reviewSomeone": {
+    "description": "Stands in for the person when a waiting item has no name."
+  },
+  "reviewFollowUpOn": "follow up {date}",
+  "@reviewFollowUpOn": {
+    "description": "Part of a waiting item’s subtitle; date is a formatted day such as “tomorrow” or “Fri 12 Jan”.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewFollowUpTooltip": "Follow up on…",
+  "@reviewFollowUpTooltip": {
+    "description": "Tooltip on the button picking a follow-up date."
+  },
+  "reviewTakeBack": "Take it back",
+  "@reviewTakeBack": {
+    "description": "Tooltip: stop waiting and plan the item for today yourself."
+  },
+  "reviewNextWeekTitle": "The next 7 days",
+  "@reviewNextWeekTitle": {
+    "description": "Weekly review step 5 question."
+  },
+  "reviewNextWeekEmpty": "Nothing dated this coming week.",
+  "@reviewNextWeekEmpty": {
+    "description": "Step 5 hint when nothing is dated."
+  },
+  "reviewNextWeekHint": "A glance at what’s coming. Tap one to adjust it.",
+  "@reviewNextWeekHint": {
+    "description": "Step 5 hint when items are dated."
+  },
+  "reviewSomedayEmpty": "No ideas parked.",
+  "@reviewSomedayEmpty": {
+    "description": "Someday step hint when the list is empty."
+  },
+  "reviewSomedayHint": "Optional. Anything here ready to become a plan?",
+  "@reviewSomedayHint": {
+    "description": "Someday step hint when there are ideas."
+  },
+  "reviewMakePlan": "Make it a plan",
+  "@reviewMakePlan": {
+    "description": "Tooltip turning a Someday idea into a planned item."
+  },
+  "reviewWhenWillYou": "When will you do it?",
+  "@reviewWhenWillYou": {
+    "description": "Title of the when-sheet opened from a Someday idea."
+  },
+  "reviewCloseTitle": "That’s the week",
+  "@reviewCloseTitle": {
+    "description": "Final weekly review step heading."
+  },
+  "reviewCloseHint": "Your head should feel a little lighter.",
+  "@reviewCloseHint": {
+    "description": "Final weekly review step hint."
+  },
+  "reviewCloseSummary": "{cleared} cleared · {planned} planned",
+  "@reviewCloseSummary": {
+    "description": "Summary at the end of the review; a tally, never a score.",
+    "placeholders": {
+      "cleared": {
+        "type": "int"
+      },
+      "planned": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewCloseSkipped": "{skipped} skipped for another time.",
+  "@reviewCloseSkipped": {
+    "description": "Shown under the summary when some inbox items were skipped.",
+    "placeholders": {
+      "skipped": {
+        "type": "int"
+      }
+    }
+  },
+  "resetTitle": "Reset",
+  "@resetTitle": {
+    "description": "Overwhelm reset screen title."
+  },
+  "resetMindTitle": "Everything on your mind",
+  "@resetMindTitle": {
+    "description": "Reset step 1 question."
+  },
+  "resetMindHint": "Get it all out, one thought at a time. Nothing needs deciding yet.",
+  "@resetMindHint": {
+    "description": "Reset step 1 hint."
+  },
+  "resetOnYourPlate": "Already on your plate",
+  "@resetOnYourPlate": {
+    "description": "Heading over the list of open items in reset step 1."
+  },
+  "resetTodayTitle": "What must happen today?",
+  "@resetTodayTitle": {
+    "description": "Reset step 2 question."
+  },
+  "resetTodayHint": "Up to {cap}. Only what truly can’t wait.",
+  "@resetTodayHint": {
+    "description": "Reset step 2 hint; cap is the must-do limit.",
+    "placeholders": {
+      "cap": {
+        "type": "int"
+      }
+    }
+  },
+  "resetTodayEmpty": "Nothing open right now.",
+  "@resetTodayEmpty": {
+    "description": "Reset step 2 when there are no open items."
+  },
+  "resetWeekTitle": "What belongs to this week?",
+  "@resetWeekTitle": {
+    "description": "Reset step 3 question."
+  },
+  "resetWeekHint": "It stays visible as one quiet row on Today.",
+  "@resetWeekHint": {
+    "description": "Reset step 3 hint."
+  },
+  "resetWeekEmpty": "Nothing else is open.",
+  "@resetWeekEmpty": {
+    "description": "Reset step 3 when nothing else is open."
+  },
+  "resetLetGoTitle": "Let go of the rest?",
+  "@resetLetGoTitle": {
+    "description": "Reset step 4 question."
+  },
+  "resetLetGoEmpty": "Nothing left over.",
+  "@resetLetGoEmpty": {
+    "description": "Reset step 4 hint when nothing is left."
+  },
+  "resetLetGoHint": "Ticked items go to Someday, or to Trash for 30 days. Untick anything you want to keep as it is.",
+  "@resetLetGoHint": {
+    "description": "Reset step 4 hint."
+  },
+  "resetKeepAll": "Keep them all",
+  "@resetKeepAll": {
+    "description": "Reset step 4 button keeping every item."
+  },
+  "resetMoveToSomeday": "Move to Someday",
+  "@resetMoveToSomeday": {
+    "description": "Reset step 4 button moving ticked items to Someday."
+  },
+  "resetSmallestTitle": "Smallest next action",
+  "@resetSmallestTitle": {
+    "description": "Reset step 5 question."
+  },
+  "resetSmallestEmpty": "Nothing was picked, and that’s fine. You’ve cleared some space.",
+  "@resetSmallestEmpty": {
+    "description": "Reset step 5 hint when nothing was chosen."
+  },
+  "resetSmallestHint": "Pick one. Optionally, name a first step so small it’s easy.",
+  "@resetSmallestHint": {
+    "description": "Reset step 5 hint."
+  },
+  "resetFocusOnIt": "Focus on it",
+  "@resetFocusOnIt": {
+    "description": "Reset final button opening Focus on the chosen item."
+  },
+  "resetFirstStepLabel": "Tiny first step (optional)",
+  "@resetFirstStepLabel": {
+    "description": "Label of the first-step field."
+  },
+  "resetFirstStepHint": "e.g. “open the letter”",
+  "@resetFirstStepHint": {
+    "description": "Example in the first-step field."
+  },
+  "clarifyTitle": "Clarify",
+  "@clarifyTitle": {
+    "description": "Clarify screen title."
+  },
+  "clarifyActionableTitle": "Is this actionable?",
+  "@clarifyActionableTitle": {
+    "description": "Clarify step 1 question."
+  },
+  "clarifyActionableYes": "Yes, there’s something to do",
+  "@clarifyActionableYes": {
+    "description": "Clarify step 1 choice."
+  },
+  "clarifyKeepIdea": "No, keep it as an idea",
+  "@clarifyKeepIdea": {
+    "description": "Clarify step 1 choice moving the item to Someday."
+  },
+  "clarifyKeepIdeaHint": "It waits in Someday, out of Today’s way",
+  "@clarifyKeepIdeaHint": {
+    "description": "Subtitle of the keep-as-idea choice."
+  },
+  "clarifyLetGo": "No, let it go",
+  "@clarifyLetGo": {
+    "description": "Clarify step 1 choice moving the item to Trash."
+  },
+  "clarifyLetGoHint": "Into Trash for 30 days",
+  "@clarifyLetGoHint": {
+    "description": "Subtitle of the let-it-go choice."
+  },
+  "clarifyNextActionTitle": "What’s the next action?",
+  "@clarifyNextActionTitle": {
+    "description": "Clarify step 2 question."
+  },
+  "clarifyNextActionHint": "A concrete step, starting with a verb: call, buy, email, book…",
+  "@clarifyNextActionHint": {
+    "description": "Clarify step 2 hint."
+  },
+  "clarifyDelegateTitle": "Is someone else doing it?",
+  "@clarifyDelegateTitle": {
+    "description": "Clarify step 3 question."
+  },
+  "clarifyWho": "Who?",
+  "@clarifyWho": {
+    "description": "Label of the person field when delegating."
+  },
+  "clarifyFollowUpOptional": "Follow up on… (optional)",
+  "@clarifyFollowUpOptional": {
+    "description": "Row for picking a follow-up date, none chosen yet."
+  },
+  "clarifyFollowUpOn": "Follow up {date}",
+  "@clarifyFollowUpOn": {
+    "description": "Row showing the chosen follow-up date; date is a formatted day such as “tomorrow”.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "clarifyDoItMyself": "No, I’ll do it",
+  "@clarifyDoItMyself": {
+    "description": "Clarify step 3 choice."
+  },
+  "clarifyWaitingYes": "Yes, I’m waiting on someone",
+  "@clarifyWaitingYes": {
+    "description": "Clarify step 3 choice."
+  },
+  "clarifyWaitingYesHint": "Track who, and when to follow up",
+  "@clarifyWaitingYesHint": {
+    "description": "Subtitle of the waiting-on choice."
+  },
+  "clarifySaveWaiting": "Save as Waiting",
+  "@clarifySaveWaiting": {
+    "description": "Button saving the item as waiting on someone."
+  },
+  "clarifyThisWeekHint": "One quiet row on Today until you pick a day",
+  "@clarifyThisWeekHint": {
+    "description": "Subtitle of the This week choice."
+  },
+  "clarifyDetailsTitle": "Anything else?",
+  "@clarifyDetailsTitle": {
+    "description": "Clarify last step question."
+  },
+  "clarifyDetailsHint": "All optional.",
+  "@clarifyDetailsHint": {
+    "description": "Clarify last step hint."
+  },
+  "clarifyMustDoToday": "Must-do today",
+  "@clarifyMustDoToday": {
+    "description": "Switch marking the item as a must-do for today."
+  },
+  "clarifyRemindMe": "Remind me",
+  "@clarifyRemindMe": {
+    "description": "Row for adding reminders."
+  },
+  "clarifyNoReminder": "No reminder",
+  "@clarifyNoReminder": {
+    "description": "Subtitle when no reminder is set."
+  },
+  "clarifyRemoveReminders": "Remove reminders",
+  "@clarifyRemoveReminders": {
+    "description": "Tooltip clearing all chosen reminders."
+  },
+  "clarifyRepeat": "Repeat",
+  "@clarifyRepeat": {
+    "description": "Row for setting a repeat."
+  },
+  "clarifyNoRepeat": "Doesn’t repeat",
+  "@clarifyNoRepeat": {
+    "description": "Subtitle when no repeat is set."
+  },
+  "clarifyDontRepeat": "Don’t repeat",
+  "@clarifyDontRepeat": {
+    "description": "Tooltip removing the repeat."
+  },
+  "clarifyDoneMeans": "Done means…",
+  "@clarifyDoneMeans": {
+    "description": "Label of the done-means field."
+  },
+  "clarifyDoneMeansHint": "e.g. “form posted”, not “sort out taxes”",
+  "@clarifyDoneMeansHint": {
+    "description": "Example in the done-means field."
+  },
+  "faqTitle": "Questions and answers",
+  "@faqTitle": {
+    "description": "FAQ screen title."
+  },
+  "faqSectionData": "Your data",
+  "@faqSectionData": {
+    "description": "FAQ section header."
+  },
+  "faqSectionUsing": "Using Clearing",
+  "@faqSectionUsing": {
+    "description": "FAQ section header."
+  },
+  "faqSectionReminders": "Reminders",
+  "@faqSectionReminders": {
+    "description": "FAQ section header."
+  },
+  "faqRemindersHelpSubtitle": "Battery settings to check on your phone",
+  "@faqRemindersHelpSubtitle": {
+    "description": "FAQ row subtitle linking to the reminders help screen."
+  },
+  "faqWhereKeptQ": "Where are my things kept?",
+  "@faqWhereKeptQ": {
+    "description": "FAQ question."
+  },
+  "faqWhereKeptA": "Only on this phone. Clearing has no account, no server and no internet access, so nothing you write leaves the phone unless you export it.",
+  "@faqWhereKeptA": {
+    "description": "FAQ answer."
+  },
+  "faqNewPhoneQ": "How do I move to a new phone?",
+  "@faqNewPhoneQ": {
+    "description": "FAQ question."
+  },
+  "faqNewPhoneA": "Use Settings › Backup › Share a backup, and send the file somewhere you can reach from the new phone (email it to yourself, or save it to Drive). On the new phone, install Clearing and choose Restore from a backup. Android’s phone-to-phone transfer also moves Clearing’s data when you set up a new phone.",
+  "@faqNewPhoneA": {
+    "description": "FAQ answer. Mentions in-app menu path Settings › Backup."
+  },
+  "faqUninstallQ": "What happens if I uninstall Clearing?",
+  "@faqUninstallQ": {
+    "description": "FAQ question."
+  },
+  "faqUninstallA": "Everything in it is deleted with the app. Export a backup first if you might want it back. Clearing reminds you to export once a month, and you can change how often in Backup.",
+  "@faqUninstallA": {
+    "description": "FAQ answer."
+  },
+  "faqTwoDevicesQ": "Can I use Clearing on two devices?",
+  "@faqTwoDevicesQ": {
+    "description": "FAQ question."
+  },
+  "faqTwoDevicesA": "Not in sync: each phone keeps its own copy. You can move things across with a backup: Restore › Merge adds what’s missing and keeps the newer copy of anything on both.",
+  "@faqTwoDevicesA": {
+    "description": "FAQ answer."
+  },
+  "faqUndoQ": "I did something by mistake. Can I undo it?",
+  "@faqUndoQ": {
+    "description": "FAQ question."
+  },
+  "faqUndoA": "Right after completing, deleting or moving an item, tap Undo on the note at the bottom of the screen. Deleted items stay in Lists › Trash for 30 days. Done items are in Lists › Done; untick one to bring it back.",
+  "@faqUndoA": {
+    "description": "FAQ answer. 'Undo' refers to the snackbar button."
+  },
+  "faqCarriedOverQ": "What does “carried over” mean?",
+  "@faqCarriedOverQ": {
+    "description": "FAQ question."
+  },
+  "faqCarriedOverA": "Something planned for an earlier day that isn’t done yet. It stays on Today, quietly, until you do it or move it. Nothing turns red and nothing is counted against you.",
+  "@faqCarriedOverA": {
+    "description": "FAQ answer."
+  },
+  "faqMissedRepeatQ": "What happens when I miss a repeating item?",
+  "@faqMissedRepeatQ": {
+    "description": "FAQ question."
+  },
+  "faqMissedRepeatA": "You choose per item. “Carry it over” keeps the missed one on Today until done, and the next one waits. “Skip it quietly” lets it go and starts fresh. Either way, missed days never pile up.",
+  "@faqMissedRepeatA": {
+    "description": "FAQ answer. Quoted option names refer to the repeat editor's missed-item choices."
+  },
+  "faqMustDoLimitQ": "Why is Today limited to a few must-dos?",
+  "@faqMustDoLimitQ": {
+    "description": "FAQ question."
+  },
+  "faqMustDoLimitA": "A short list gets done; a long one turns into guilt. Everything else stays visible below. You can change the limit (1 to 5) in Settings.",
+  "@faqMustDoLimitA": {
+    "description": "FAQ answer."
+  },
+  "faqNoStreaksQ": "Why are there no streaks or scores?",
+  "@faqNoStreaksQ": {
+    "description": "FAQ question."
+  },
+  "faqNoStreaksA": "They make a missed day feel like failure. Clearing counts what you cleared and planned, and nothing else.",
+  "@faqNoStreaksA": {
+    "description": "FAQ answer."
+  },
+  "remindersHelpTitle": "Reminders not arriving?",
+  "@remindersHelpTitle": {
+    "description": "Reminders help screen title; also the FAQ row linking to it."
+  },
+  "remindersHelpIntro": "Clearing schedules every reminder on your phone; nothing goes through a server. Some phones stop apps in the background to save battery, which can delay or drop reminders.",
+  "@remindersHelpIntro": {
+    "description": "Reminders help intro paragraph."
+  },
+  "remindersHelpFirstCheck": "First, check",
+  "@remindersHelpFirstCheck": {
+    "description": "Section header."
+  },
+  "remindersHelpNotificationsTitle": "Notifications are allowed",
+  "@remindersHelpNotificationsTitle": {
+    "description": "Checklist row title."
+  },
+  "remindersHelpNotificationsPath": "Settings › Apps › Clearing › Notifications",
+  "@remindersHelpNotificationsPath": {
+    "description": "Android system menu path. Use the names Android shows in this language, or keep English."
+  },
+  "remindersHelpExactTitle": "Exact timing is on",
+  "@remindersHelpExactTitle": {
+    "description": "Checklist row title."
+  },
+  "remindersHelpExactBody": "Without it, Android may deliver reminders a few minutes late. See Exact timing in Clearing’s settings.",
+  "@remindersHelpExactBody": {
+    "description": "Checklist row subtitle. 'Exact timing' is a Clearing setting."
+  },
+  "remindersHelpDndTitle": "Do Not Disturb is off",
+  "@remindersHelpDndTitle": {
+    "description": "Checklist row title. Do Not Disturb is the Android feature name."
+  },
+  "remindersHelpDndBody": "It silences or hides reminders while it’s on.",
+  "@remindersHelpDndBody": {
+    "description": "Checklist row subtitle."
+  },
+  "remindersHelpForYourPhone": "Then, for your phone",
+  "@remindersHelpForYourPhone": {
+    "description": "Section header before per-brand steps."
+  },
+  "remindersHelpBrandXiaomi": "Xiaomi, Redmi and POCO",
+  "@remindersHelpBrandXiaomi": {
+    "description": "Phone brand group heading. Keep brand names."
+  },
+  "remindersHelpBrandOnePlus": "OnePlus, OPPO and realme",
+  "@remindersHelpBrandOnePlus": {
+    "description": "Phone brand group heading. Keep brand names."
+  },
+  "remindersHelpBrandVivo": "vivo and iQOO",
+  "@remindersHelpBrandVivo": {
+    "description": "Phone brand group heading. Keep brand names."
+  },
+  "remindersHelpBrandHuawei": "Huawei and Honor",
+  "@remindersHelpBrandHuawei": {
+    "description": "Phone brand group heading. Keep brand names."
+  },
+  "remindersHelpBrandPixel": "Pixel and other phones",
+  "@remindersHelpBrandPixel": {
+    "description": "Phone brand group heading. Keep brand names."
+  },
+  "remindersHelpSamsung": "Settings › Apps › Clearing › Battery › Unrestricted. Also check Settings › Battery › Background usage limits and remove Clearing from “Sleeping apps”.",
+  "@remindersHelpSamsung": {
+    "description": "Samsung steps. Menu names are the phone's own; keep them as the phone shows them."
+  },
+  "remindersHelpXiaomi": "Settings › Apps › Manage apps › Clearing: turn on Autostart, and set Battery saver to “No restrictions”.",
+  "@remindersHelpXiaomi": {
+    "description": "Xiaomi steps. Menu names are the phone's own."
+  },
+  "remindersHelpOnePlus": "Settings › Apps › Clearing › Battery: allow background activity and turn off “Optimise battery use”. On some versions, also allow Auto launch.",
+  "@remindersHelpOnePlus": {
+    "description": "OnePlus/OPPO/realme steps. Menu names are the phone's own."
+  },
+  "remindersHelpVivo": "Settings › Battery › Background power consumption management: allow Clearing. Also turn on Autostart for Clearing in i Manager.",
+  "@remindersHelpVivo": {
+    "description": "vivo/iQOO steps. Menu names are the phone's own."
+  },
+  "remindersHelpHuawei": "Settings › Battery › App launch › Clearing: switch to “Manage manually” and allow Auto-launch, Secondary launch and Run in background.",
+  "@remindersHelpHuawei": {
+    "description": "Huawei/Honor steps. Menu names are the phone's own."
+  },
+  "remindersHelpPixel": "Settings › Apps › Clearing › App battery usage: Unrestricted.",
+  "@remindersHelpPixel": {
+    "description": "Pixel/other phones steps. Menu names are the phone's own."
+  },
+  "remindersHelpFooter": "Menu names vary between versions. dontkillmyapp.com has up-to-date steps for many more phones.",
+  "@remindersHelpFooter": {
+    "description": "Footer note on the reminders help screen."
+  },
+  "templateGone": "This template no longer exists.",
+  "@templateGone": {
+    "description": "Shown when an opened template was deleted."
+  },
+  "templateWhenStart": "When will you do it?",
+  "@templateWhenStart": {
+    "description": "When-sheet title after starting a template."
+  },
+  "templateAddedToInbox": "Added to the Inbox",
+  "@templateAddedToInbox": {
+    "description": "Snackbar after starting a template without choosing a day."
+  },
+  "templateAdded": "“{title}” added",
+  "@templateAdded": {
+    "description": "Snackbar after starting a template and planning it.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "templateRoutine": "Routine",
+  "@templateRoutine": {
+    "description": "Template screen title for a routine; also the routine row title."
+  },
+  "templateTemplate": "Template",
+  "@templateTemplate": {
+    "description": "Template screen title."
+  },
+  "templateStopRoutine": "Stop the routine",
+  "@templateStopRoutine": {
+    "description": "Overflow menu item."
+  },
+  "templateDelete": "Delete template",
+  "@templateDelete": {
+    "description": "Overflow menu item."
+  },
+  "templateSteps": "Steps",
+  "@templateSteps": {
+    "description": "Section header for a template's steps."
+  },
+  "templateDragToReorder": "Drag to reorder",
+  "@templateDragToReorder": {
+    "description": "Semantic label for a step's drag handle."
+  },
+  "templateRemoveStep": "Remove step",
+  "@templateRemoveStep": {
+    "description": "Tooltip on a step's remove button."
+  },
+  "templateAddStepHint": "Add a step",
+  "@templateAddStepHint": {
+    "description": "Hint in the new-step field."
+  },
+  "templateAddStep": "Add step",
+  "@templateAddStep": {
+    "description": "Tooltip on the add-step button."
+  },
+  "templateDoneMeans": "Done means…",
+  "@templateDoneMeans": {
+    "description": "Label of the done-means field."
+  },
+  "templateList": "List",
+  "@templateList": {
+    "description": "Row title and picker title for the template's list."
+  },
+  "templateUseIt": "Use it",
+  "@templateUseIt": {
+    "description": "Section header."
+  },
+  "templateMakeRoutine": "Make it a routine",
+  "@templateMakeRoutine": {
+    "description": "Row title when the template isn't a routine yet."
+  },
+  "templateMakeRoutineHint": "Arrives as a fresh checklist on the days you choose",
+  "@templateMakeRoutineHint": {
+    "description": "Subtitle of the make-routine row."
+  },
+  "templateStartNow": "Start now",
+  "@templateStartNow": {
+    "description": "Button that starts a template."
+  },
+  "templateStartNote": "Starting makes a copy. Changing the template later won’t change items already made from it.",
+  "@templateStartNote": {
+    "description": "Note below the start button."
+  },
+  "templatesTitle": "Routines & templates",
+  "@templatesTitle": {
+    "description": "Templates screen title."
+  },
+  "templatesNew": "New template",
+  "@templatesNew": {
+    "description": "Dialog title and FAB tooltip."
+  },
+  "templatesNameHint": "e.g. Packing list",
+  "@templatesNameHint": {
+    "description": "Hint in the new-template name field."
+  },
+  "templatesEmptyTitle": "No templates yet",
+  "@templatesEmptyTitle": {
+    "description": "Empty state title."
+  },
+  "templatesEmptyMessage": "A template is a checklist you use again and again. Make it a routine and it arrives on its own schedule.",
+  "@templatesEmptyMessage": {
+    "description": "Empty state message."
+  },
+  "templatesStartFromScratch": "Start from scratch",
+  "@templatesStartFromScratch": {
+    "description": "Empty state button."
+  },
+  "templatesRoutines": "Routines",
+  "@templatesRoutines": {
+    "description": "Section header."
+  },
+  "templatesTemplates": "Templates",
+  "@templatesTemplates": {
+    "description": "Section header."
+  },
+  "templatesStepCount": "{count, plural, =1{1 step} other{{count} steps}}",
+  "@templatesStepCount": {
+    "description": "Number of steps in a template.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "worksheetPrintTitle": "Print a worksheet",
+  "@worksheetPrintTitle": {
+    "description": "Bottom sheet title."
+  },
+  "worksheetDaySubtitle": "Must-dos, today, this week, and room to jot things down",
+  "@worksheetDaySubtitle": {
+    "description": "Subtitle of the Today worksheet option."
+  },
+  "worksheetWeekSubtitle": "A box for each day",
+  "@worksheetWeekSubtitle": {
+    "description": "Subtitle of the week worksheet option."
+  },
+  "worksheetJobNameDay": "Clearing – today",
+  "@worksheetJobNameDay": {
+    "description": "Print job / PDF name for the day worksheet."
+  },
+  "worksheetJobNameWeek": "Clearing – week",
+  "@worksheetJobNameWeek": {
+    "description": "Print job / PDF name for the week worksheet."
+  },
+  "itemNoLongerExists": "This item no longer exists.",
+  "@itemNoLongerExists": {
+    "description": "Shown when an opened item has been deleted."
+  },
+  "itemWhenNotDecided": "Not decided yet",
+  "@itemWhenNotDecided": {
+    "description": "Item 'When' subtitle for an inbox item."
+  },
+  "itemWhenWaitingOn": "Waiting on {name}",
+  "@itemWhenWaitingOn": {
+    "description": "Item 'When' subtitle for a waiting item.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "itemWhenWaitingOnSomeone": "Waiting on someone",
+  "@itemWhenWaitingOnSomeone": {
+    "description": "Item 'When' subtitle for a waiting item with no name."
+  },
+  "itemWhenInTrash": "In Trash",
+  "@itemWhenInTrash": {
+    "description": "Item 'When' subtitle for a trashed item."
+  },
+  "itemWhenDateAtTime": "{date}, {time}",
+  "@itemWhenDateAtTime": {
+    "description": "Item 'When' subtitle: a planned date and time.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "itemFutureRepeatsTitle": "Change future repeats too?",
+  "@itemFutureRepeatsTitle": {
+    "description": "Dialog title when leaving an edited repeating item."
+  },
+  "itemFutureRepeatsBody": "You edited this one. Future repeats can stay as they were, or start from this version.",
+  "@itemFutureRepeatsBody": {
+    "description": "Dialog body when leaving an edited repeating item."
+  },
+  "itemJustThisOne": "Just this one",
+  "@itemJustThisOne": {
+    "description": "Dialog button: apply the edit only to this occurrence."
+  },
+  "itemThisAndFuture": "This and future",
+  "@itemThisAndFuture": {
+    "description": "Dialog button: apply the edit to future occurrences too."
+  },
+  "itemFocusOnThis": "Focus on this",
+  "@itemFocusOnThis": {
+    "description": "Tooltip: open focus mode for the item."
+  },
+  "itemNotMustDo": "Not a must-do",
+  "@itemNotMustDo": {
+    "description": "Tooltip: unmark the item as must-do."
+  },
+  "itemMakeMustDo": "Make it a must-do",
+  "@itemMakeMustDo": {
+    "description": "Tooltip: mark the item as must-do."
+  },
+  "itemMoveToSomeday": "Move to Someday",
+  "@itemMoveToSomeday": {
+    "description": "Item menu entry."
+  },
+  "itemSomeoneElseDoingIt": "Someone else is doing it",
+  "@itemSomeoneElseDoingIt": {
+    "description": "Item menu entry: mark as waiting on someone."
+  },
+  "itemUseForFutureRepeats": "Use for future repeats",
+  "@itemUseForFutureRepeats": {
+    "description": "Item menu entry for a repeating item."
+  },
+  "itemResumeRepeating": "Resume repeating",
+  "@itemResumeRepeating": {
+    "description": "Item menu entry for a paused repeating item."
+  },
+  "itemPauseRepeating": "Pause repeating",
+  "@itemPauseRepeating": {
+    "description": "Item menu entry for a repeating item."
+  },
+  "itemStopRepeating": "Stop repeating",
+  "@itemStopRepeating": {
+    "description": "Item menu entry for a repeating item."
+  },
+  "itemNotDoneYet": "Not done yet",
+  "@itemNotDoneYet": {
+    "description": "Button to reopen a finished item."
+  },
+  "itemTitleHint": "Title",
+  "@itemTitleHint": {
+    "description": "Hint in the item title field."
+  },
+  "itemPlanSection": "Plan",
+  "@itemPlanSection": {
+    "description": "Section header on the item screen."
+  },
+  "itemWhen": "When",
+  "@itemWhen": {
+    "description": "Item screen row title for the do-date."
+  },
+  "itemSomeone": "Someone",
+  "@itemSomeone": {
+    "description": "Waiting-on subtitle when no name was given."
+  },
+  "itemFollowUp": "Follow up",
+  "@itemFollowUp": {
+    "description": "Item screen row title for the follow-up date."
+  },
+  "itemNoDate": "No date",
+  "@itemNoDate": {
+    "description": "Follow-up subtitle when no date is set."
+  },
+  "itemDoesntRepeat": "Doesn’t repeat",
+  "@itemDoesntRepeat": {
+    "description": "Repeat row subtitle for a one-off item."
+  },
+  "itemRepeatPaused": "{rule} · paused",
+  "@itemRepeatPaused": {
+    "description": "Repeat row subtitle for a paused series; rule is the repeat described in words.",
+    "placeholders": {
+      "rule": {
+        "type": "String"
+      }
+    }
+  },
+  "itemSeeAllDates": "See all dates",
+  "@itemSeeAllDates": {
+    "description": "Tooltip: open the repeat calendar."
+  },
+  "itemDeadline": "Deadline",
+  "@itemDeadline": {
+    "description": "Item screen row title."
+  },
+  "itemDeadlineNone": "None — “do on” is when you plan to do it",
+  "@itemDeadlineNone": {
+    "description": "Deadline subtitle when no deadline is set."
+  },
+  "itemRemoveDeadline": "Remove deadline",
+  "@itemRemoveDeadline": {
+    "description": "Tooltip."
+  },
+  "itemDetailsSection": "Details",
+  "@itemDetailsSection": {
+    "description": "Section header on the item screen."
+  },
+  "itemList": "List",
+  "@itemList": {
+    "description": "Item screen row title and list picker title."
+  },
+  "itemDoneMeansLabel": "Done means…",
+  "@itemDoneMeansLabel": {
+    "description": "Label of the 'done means' field."
+  },
+  "itemDoneMeansHint": "What does finished look like?",
+  "@itemDoneMeansHint": {
+    "description": "Hint of the 'done means' field."
+  },
+  "itemNotes": "Notes",
+  "@itemNotes": {
+    "description": "Label of the notes field."
+  },
+  "repeatTitle": "Repeat",
+  "@repeatTitle": {
+    "description": "Repeat editor title and item screen row title."
+  },
+  "repeatDaily": "Daily",
+  "@repeatDaily": {
+    "description": "Repeat frequency option."
+  },
+  "repeatWeekly": "Weekly",
+  "@repeatWeekly": {
+    "description": "Repeat frequency option."
+  },
+  "repeatMonthly": "Monthly",
+  "@repeatMonthly": {
+    "description": "Repeat frequency option."
+  },
+  "repeatEveryDays": "{count, plural, =1{Every 1 day} other{Every {count} days}}",
+  "@repeatEveryDays": {
+    "description": "Repeat interval for a daily rule.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "repeatEveryWeeks": "{count, plural, =1{Every 1 week} other{Every {count} weeks}}",
+  "@repeatEveryWeeks": {
+    "description": "Repeat interval for a weekly rule.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "repeatEveryMonths": "{count, plural, =1{Every 1 month} other{Every {count} months}}",
+  "@repeatEveryMonths": {
+    "description": "Repeat interval for a monthly rule.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "repeatLessOften": "Less often",
+  "@repeatLessOften": {
+    "description": "Tooltip: decrease the repeat interval."
+  },
+  "repeatMoreSpreadOut": "More spread out",
+  "@repeatMoreSpreadOut": {
+    "description": "Tooltip: increase the repeat interval."
+  },
+  "repeatAfterCompletionTitle": "Count from when it’s done",
+  "@repeatAfterCompletionTitle": {
+    "description": "Switch: repeat relative to completion."
+  },
+  "repeatAfterCompletionSubtitle": "For things like haircuts: the next one is set when you finish this one",
+  "@repeatAfterCompletionSubtitle": {
+    "description": "Subtitle of the after-completion switch."
+  },
+  "repeatOnDay": "On day",
+  "@repeatOnDay": {
+    "description": "Monthly repeat: day-of-month picker title."
+  },
+  "repeatOnDayHint": "short months use their last day",
+  "@repeatOnDayHint": {
+    "description": "Hint under the day-of-month picker."
+  },
+  "repeatStarts": "Starts",
+  "@repeatStarts": {
+    "description": "Repeat start date row."
+  },
+  "repeatEnds": "Ends",
+  "@repeatEnds": {
+    "description": "Section header: when the repeat ends."
+  },
+  "repeatEndsNever": "Never",
+  "@repeatEndsNever": {
+    "description": "Repeat end option."
+  },
+  "repeatEndsOnDate": "On a date",
+  "@repeatEndsOnDate": {
+    "description": "Repeat end option."
+  },
+  "repeatEndsAfter": "After",
+  "@repeatEndsAfter": {
+    "description": "Repeat end option: after a number of times."
+  },
+  "repeatLastTimeOn": "Last time on {date}",
+  "@repeatLastTimeOn": {
+    "description": "Repeat end date row.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "repeatTimesInAll": "{count} times in all",
+  "@repeatTimesInAll": {
+    "description": "Repeat end count row.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "repeatFewerTimes": "Fewer times",
+  "@repeatFewerTimes": {
+    "description": "Tooltip: decrease the repeat count."
+  },
+  "repeatMoreTimes": "More times",
+  "@repeatMoreTimes": {
+    "description": "Tooltip: increase the repeat count."
+  },
+  "repeatIfMissed": "If one is missed",
+  "@repeatIfMissed": {
+    "description": "Section header in the repeat editor."
+  },
+  "repeatCarryOver": "Carry it over",
+  "@repeatCarryOver": {
+    "description": "Missed-repeat option."
+  },
+  "repeatCarryOverSubtitle": "It stays on Today until done; the next one waits",
+  "@repeatCarryOverSubtitle": {
+    "description": "Subtitle of the carry-over option."
+  },
+  "repeatSkipQuietly": "Skip it quietly",
+  "@repeatSkipQuietly": {
+    "description": "Missed-repeat option."
+  },
+  "repeatSkipQuietlySubtitle": "Good for routines: tomorrow is a fresh start",
+  "@repeatSkipQuietlySubtitle": {
+    "description": "Subtitle of the skip option."
+  },
+  "seriesCalendarDone": "done",
+  "@seriesCalendarDone": {
+    "description": "Repeat calendar mark (lowercase legend and screen-reader label)."
+  },
+  "seriesCalendarSkipped": "skipped",
+  "@seriesCalendarSkipped": {
+    "description": "Repeat calendar mark."
+  },
+  "seriesCalendarOpenNow": "open now",
+  "@seriesCalendarOpenNow": {
+    "description": "Repeat calendar mark."
+  },
+  "seriesCalendarComingUp": "coming up",
+  "@seriesCalendarComingUp": {
+    "description": "Repeat calendar mark."
+  },
+  "seriesCalendarPreviousMonth": "Previous month",
+  "@seriesCalendarPreviousMonth": {
+    "description": "Tooltip."
+  },
+  "seriesCalendarNextMonth": "Next month",
+  "@seriesCalendarNextMonth": {
+    "description": "Tooltip."
+  },
+  "seriesCalendarToday": "today",
+  "@seriesCalendarToday": {
+    "description": "Screen-reader label part for today's cell (lowercase)."
+  },
+  "reminderWaitingForDate": "Waiting for a date",
+  "@reminderWaitingForDate": {
+    "description": "Subtitle of a relative reminder on an item with no date."
+  },
+  "reminderRemove": "Remove reminder",
+  "@reminderRemove": {
+    "description": "Tooltip."
+  },
+  "reminderRemindMe": "Remind me",
+  "@reminderRemindMe": {
+    "description": "Reminder row title and reminder sheet title."
+  },
+  "reminderAdd": "Add a reminder",
+  "@reminderAdd": {
+    "description": "Reminder row title when one already exists."
+  },
+  "reminderSeparateHint": "Separate from when you plan to do it",
+  "@reminderSeparateHint": {
+    "description": "Subtitle of the first 'Remind me' row."
+  },
+  "reminderCountedFromNine": "{offset} (counted from 9:00)",
+  "@reminderCountedFromNine": {
+    "description": "Reminder preset when the item has a date but no time; offset is e.g. '1 hour before'.",
+    "placeholders": {
+      "offset": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderAtTimeIChoose": "At a time I choose",
+  "@reminderAtTimeIChoose": {
+    "description": "Reminder sheet option."
+  },
+  "reminderRemindMeOn": "Remind me on",
+  "@reminderRemindMeOn": {
+    "description": "Date picker heading for a custom reminder."
+  },
+  "reminderRemindMeAt": "Remind me at",
+  "@reminderRemindMeAt": {
+    "description": "Time picker heading for a custom reminder."
+  },
+  "reminderOffInSettings": "Reminders are off in Settings",
+  "@reminderOffInSettings": {
+    "description": "Snackbar after adding a reminder while reminders are off."
+  },
+  "reminderNotificationsOff": "Notifications are off for Clearing, so this reminder can’t appear. You can allow them in system settings.",
+  "@reminderNotificationsOff": {
+    "description": "Snackbar when notification permission is denied."
+  },
+  "reminderMayBeLate": "Reminders may arrive a few minutes late",
+  "@reminderMayBeLate": {
+    "description": "Snackbar when exact alarms are not allowed."
+  },
+  "reminderMakeExact": "Make exact",
+  "@reminderMakeExact": {
+    "description": "Snackbar action: ask for exact alarms."
+  },
+  "subtaskAllDone": "All steps done",
+  "@subtaskAllDone": {
+    "description": "Snackbar when the last step is checked."
+  },
+  "subtaskCompleteItem": "Complete item",
+  "@subtaskCompleteItem": {
+    "description": "Snackbar action: complete the item."
+  },
+  "subtaskSteps": "Steps",
+  "@subtaskSteps": {
+    "description": "Steps section title."
+  },
+  "subtaskProgress": "{done} of {total}",
+  "@subtaskProgress": {
+    "description": "Steps progress.",
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "subtaskRemoveStep": "Remove step {title}",
+  "@subtaskRemoveStep": {
+    "description": "Tooltip on a step's remove button.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "subtaskAddHint": "Add a step",
+  "@subtaskAddHint": {
+    "description": "Hint in the new-step field."
+  },
+  "whenSheetDoOn": "Do on",
+  "@whenSheetDoOn": {
+    "description": "Date picker heading when picking a do-date."
+  },
+  "whenSheetAddTimeQuestion": "Add a time? Most things don’t need one.",
+  "@whenSheetAddTimeQuestion": {
+    "description": "Dialog after picking a date."
+  },
+  "whenSheetNoTime": "No time",
+  "@whenSheetNoTime": {
+    "description": "Dialog button."
+  },
+  "whenSheetAddTime": "Add time",
+  "@whenSheetAddTime": {
+    "description": "Dialog button."
+  },
+  "todayMenuWeeklyReview": "Weekly review",
+  "@todayMenuWeeklyReview": {
+    "description": "Today menu: open the weekly review."
+  },
+  "todayMenuOverwhelmReset": "Overwhelm reset",
+  "@todayMenuOverwhelmReset": {
+    "description": "Today menu: open the overwhelm reset."
+  },
+  "todayMenuPrintWorksheet": "Print a worksheet",
+  "@todayMenuPrintWorksheet": {
+    "description": "Today menu: print a paper worksheet."
+  },
+  "todayLeft": "{count} left",
+  "@todayLeft": {
+    "description": "Today header subtitle: items still open today.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "todayAllClear": "all clear",
+  "@todayAllClear": {
+    "description": "Today header subtitle when everything is done."
+  },
+  "todayEmptyTitle": "A clear day",
+  "@todayEmptyTitle": {
+    "description": "Today empty state title."
+  },
+  "todayEmptyMessage": "Capture anything on your mind. You can decide what it means later.",
+  "@todayEmptyMessage": {
+    "description": "Today empty state message."
+  },
+  "todayHowClearingWorks": "How Clearing works",
+  "@todayHowClearingWorks": {
+    "description": "Button on empty Today opening the intro."
+  },
+  "todayResetOfferTitle": "Feeling like a lot?",
+  "@todayResetOfferTitle": {
+    "description": "Offer of the overwhelm reset when Today is full."
+  },
+  "todayResetOfferSubtitle": "A five-minute reset narrows it to one thing",
+  "@todayResetOfferSubtitle": {
+    "description": "Subtitle of the overwhelm reset offer."
+  },
+  "todayMustDoCount": "{count} of {cap}",
+  "@todayMustDoCount": {
+    "description": "Must-do section counter, e.g. 2 of 3.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "cap": {
+        "type": "int"
+      }
+    }
+  },
+  "todayBlocks": "Blocks",
+  "@todayBlocks": {
+    "description": "Today section header for batch blocks."
+  },
+  "todayAlsoToday": "Also today",
+  "@todayAlsoToday": {
+    "description": "Today section header for non-must-do items."
+  },
+  "todayShowMore": "Show {count} more",
+  "@todayShowMore": {
+    "description": "Button expanding the collapsed Also today list.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "todayCarriedOver": "Carried over ({count})",
+  "@todayCarriedOver": {
+    "description": "Row title for items carried over from earlier days.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "todayCarriedOverSubtitle": "Picking up where you left off",
+  "@todayCarriedOverSubtitle": {
+    "description": "Subtitle of the carried-over row."
+  },
+  "todayHide": "Hide",
+  "@todayHide": {
+    "description": "Screen-reader label: collapse the carried-over items."
+  },
+  "todayShow": "Show",
+  "@todayShow": {
+    "description": "Screen-reader label: expand the carried-over items."
+  },
+  "todayThisWeekCount": "This week ({count})",
+  "@todayThisWeekCount": {
+    "description": "Row on Today linking to This week items.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "thisWeekEmptyTitle": "Nothing set for this week",
+  "@thisWeekEmptyTitle": {
+    "description": "This week empty state title."
+  },
+  "thisWeekEmptyMessage": "Things you mean to do this week, without picking a day, gather here and show as one quiet row on Today.",
+  "@thisWeekEmptyMessage": {
+    "description": "This week empty state message."
+  },
+  "thisWeekDoToday": "Do today",
+  "@thisWeekDoToday": {
+    "description": "Tooltip: move this item to Today."
+  },
+  "inboxToDecide": "{count} to decide · tap one, or swipe for shortcuts",
+  "@inboxToDecide": {
+    "description": "Inbox header subtitle.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "inboxReviewEstimate": "Inbox: {count} — a review takes about 15 minutes",
+  "@inboxReviewEstimate": {
+    "description": "Nudge shown when the inbox is long.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "inboxReviewSubtitle": "Every item gets a place",
+  "@inboxReviewSubtitle": {
+    "description": "Subtitle of the inbox review nudge."
+  },
+  "inboxStartReview": "Start review",
+  "@inboxStartReview": {
+    "description": "Button starting the weekly review from the inbox."
+  },
+  "inboxSwipePickDate": "Pick date",
+  "@inboxSwipePickDate": {
+    "description": "Inbox swipe action: choose a date."
+  },
+  "inboxEmptyTitle": "Inbox is empty",
+  "@inboxEmptyTitle": {
+    "description": "Inbox empty state title."
+  },
+  "inboxEmptyMessage": "Thoughts you capture land here until you decide what they mean.",
+  "@inboxEmptyMessage": {
+    "description": "Inbox empty state message."
+  },
+  "itemTileRepeats": "Repeats",
+  "@itemTileRepeats": {
+    "description": "Item detail: the item is part of a repeating series."
+  },
+  "itemTileWaitingOn": "Waiting on {name}",
+  "@itemTileWaitingOn": {
+    "description": "Item detail: who or what the item waits on.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "itemTileFollowUp": "Follow up {date}",
+  "@itemTileFollowUp": {
+    "description": "Item detail: follow-up date; date is already formatted (e.g. Tomorrow, Mon 3 Jun).",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "itemTileDeadline": "Deadline {date}",
+  "@itemTileDeadline": {
+    "description": "Item detail: deadline; date is already formatted.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "itemTileProgress": "{done} of {total}",
+  "@itemTileProgress": {
+    "description": "Item detail: steps done out of total steps.",
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "itemTileMarkDone": "Mark done",
+  "@itemTileMarkDone": {
+    "description": "Screen-reader label of the item checkbox."
+  },
+  "itemTileMarkNotDone": "Mark not done",
+  "@itemTileMarkNotDone": {
+    "description": "Screen-reader label of a ticked item checkbox."
+  },
+  "itemTileFromLastWeek": "From last week",
+  "@itemTileFromLastWeek": {
+    "description": "Item detail: a This week item carried over from last week."
+  },
+  "itemTileFromDay": "From {day}",
+  "@itemTileFromDay": {
+    "description": "Item detail: carried over from this day; day is already formatted.",
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "itemTileDayTime": "{day}, {time}",
+  "@itemTileDayTime": {
+    "description": "Item detail: a date with a time; both already formatted.",
+    "placeholders": {
+      "day": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "itemTileNotMustDo": "Not a must-do",
+  "@itemTileNotMustDo": {
+    "description": "Item menu: remove the must-do mark."
+  },
+  "itemTileMakeMustDo": "Make it a must-do",
+  "@itemTileMakeMustDo": {
+    "description": "Item menu: mark the item as a must-do."
+  },
+  "itemTileTomorrow": "Tomorrow",
+  "@itemTileTomorrow": {
+    "description": "Item menu: snooze the item to tomorrow."
+  },
+  "itemTileFocusOnThis": "Focus on this",
+  "@itemTileFocusOnThis": {
+    "description": "Item menu: open focus mode for this item."
+  },
+  "itemTileReschedule": "Reschedule…",
+  "@itemTileReschedule": {
+    "description": "Item menu: pick a new date."
+  },
+  "itemTileBreakIntoSteps": "Break into steps",
+  "@itemTileBreakIntoSteps": {
+    "description": "Item menu: open the item to add steps."
+  },
+  "itemTileMoveToSomeday": "Move to Someday",
+  "@itemTileMoveToSomeday": {
+    "description": "Item menu: move the item to Someday."
+  },
+  "listsSubtitle": "Contexts, ideas, and what’s done",
+  "@listsSubtitle": {
+    "description": "Lists screen header subtitle."
+  },
+  "listsNewList": "New list",
+  "@listsNewList": {
+    "description": "Create a new list (row and dialog title)."
+  },
+  "listsRoutinesTitle": "Routines & templates",
+  "@listsRoutinesTitle": {
+    "description": "Row opening routines and templates."
+  },
+  "listsRoutinesSubtitle": "Checklists you use again and again",
+  "@listsRoutinesSubtitle": {
+    "description": "Subtitle of the routines row."
+  },
+  "listsNotNow": "Not now",
+  "@listsNotNow": {
+    "description": "Section header for Someday, Done and Trash."
+  },
+  "listsSomedaySubtitle": "Ideas, not commitments",
+  "@listsSomedaySubtitle": {
+    "description": "Subtitle of the Someday row."
+  },
+  "listsDoneTitle": "Done",
+  "@listsDoneTitle": {
+    "description": "Row opening the list of finished items."
+  },
+  "listsDoneSubtitle": "Recently done and the archive",
+  "@listsDoneSubtitle": {
+    "description": "Subtitle of the Done row."
+  },
+  "listsTrashTitle": "Trash",
+  "@listsTrashTitle": {
+    "description": "Row opening the trash."
+  },
+  "listsTrashSubtitle": "Kept for 30 days",
+  "@listsTrashSubtitle": {
+    "description": "Subtitle of the Trash row."
+  },
+  "listsHiddenLists": "Hidden lists ({count})",
+  "@listsHiddenLists": {
+    "description": "Expandable row of hidden lists.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "listsRename": "Rename",
+  "@listsRename": {
+    "description": "List menu: rename the list."
+  },
+  "listsRenameList": "Rename list",
+  "@listsRenameList": {
+    "description": "Dialog title for renaming a list."
+  },
+  "listsShow": "Show",
+  "@listsShow": {
+    "description": "List menu: show a hidden list again."
+  },
+  "listsHide": "Hide",
+  "@listsHide": {
+    "description": "List menu: hide the list."
+  },
+  "listsDeleteList": "Delete list",
+  "@listsDeleteList": {
+    "description": "List menu: delete the list."
+  },
+  "listsDeleteListSubtitle": "Its items are kept, just unfiled",
+  "@listsDeleteListSubtitle": {
+    "description": "Subtitle explaining deleting a list keeps its items."
+  },
+  "listSectionToDo": "To do",
+  "@listSectionToDo": {
+    "description": "List section: active items."
+  },
+  "listSectionNotDecided": "Not decided yet",
+  "@listSectionNotDecided": {
+    "description": "List section: items still in the inbox."
+  },
+  "listBlockEvery": "Every {weekday} at {time}",
+  "@listBlockEvery": {
+    "description": "Repeating time block; weekday and time already formatted.",
+    "placeholders": {
+      "weekday": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "listBlockOn": "{date} at {time}",
+  "@listBlockOn": {
+    "description": "One-off time block; date and time already formatted.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "listBlockSubtitle": "Shows as one entry on Today",
+  "@listBlockSubtitle": {
+    "description": "Subtitle of a time block row."
+  },
+  "listRemoveBlock": "Remove time block",
+  "@listRemoveBlock": {
+    "description": "Tooltip: delete a time block."
+  },
+  "listBlockOutTime": "Block out time",
+  "@listBlockOutTime": {
+    "description": "Tooltip: schedule a time block for this list."
+  },
+  "listAddTo": "Add to {name}",
+  "@listAddTo": {
+    "description": "Tooltip: add an item to the named list.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "listAddToList": "Add to list",
+  "@listAddToList": {
+    "description": "Tooltip: add an item to this list (name unknown)."
+  },
+  "listEmptyTitle": "Nothing in {name}",
+  "@listEmptyTitle": {
+    "description": "Empty list title with the list's name.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "listEmptyTitleThisList": "Nothing in this list",
+  "@listEmptyTitleThisList": {
+    "description": "Empty list title when the name is unknown."
+  },
+  "listEmptyMessage": "Add things that belong together, like errands to run in one trip.",
+  "@listEmptyMessage": {
+    "description": "Empty list message."
+  },
+  "trashTitle": "Trash",
+  "@trashTitle": {
+    "description": "Trash screen title."
+  },
+  "trashDeleteForever": "Delete forever",
+  "@trashDeleteForever": {
+    "description": "Button/tooltip: permanently delete."
+  },
+  "trashEmptyConfirmTitle": "Empty Trash?",
+  "@trashEmptyConfirmTitle": {
+    "description": "Confirm dialog title for emptying the trash."
+  },
+  "trashEmptyConfirmBody": "{count, plural, =1{1 item will be deleted for good. This can’t be undone.} other{{count} items will be deleted for good. This can’t be undone.}}",
+  "@trashEmptyConfirmBody": {
+    "description": "Confirm dialog body for emptying the trash.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "trashEmpty": "Empty",
+  "@trashEmpty": {
+    "description": "App bar button: empty the trash."
+  },
+  "trashEmptyTitle": "Trash is empty",
+  "@trashEmptyTitle": {
+    "description": "Trash empty state title."
+  },
+  "trashEmptyMessage": "Deleted items stay here for 30 days, in case you want them back.",
+  "@trashEmptyMessage": {
+    "description": "Trash empty state message."
+  },
+  "trashPurgeTomorrow": "Deleted for good tomorrow",
+  "@trashPurgeTomorrow": {
+    "description": "Trash item subtitle: purged tomorrow."
+  },
+  "trashPurgeInDays": "{days, plural, =1{Deleted for good in 1 day} other{Deleted for good in {days} days}}",
+  "@trashPurgeInDays": {
+    "description": "Trash item subtitle: days until purge.",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "trashRestore": "Restore",
+  "@trashRestore": {
+    "description": "Tooltip: restore an item from the trash."
+  },
+  "trashDeleteForeverConfirmTitle": "Delete forever?",
+  "@trashDeleteForeverConfirmTitle": {
+    "description": "Confirm dialog title for deleting one item permanently."
+  },
+  "trashDeleteForeverConfirmBody": "“{title}” will be gone for good.",
+  "@trashDeleteForeverConfirmBody": {
+    "description": "Confirm dialog body; title is the item's title.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "archiveTitle": "Done",
+  "@archiveTitle": {
+    "description": "Title of the screen of finished items."
+  },
+  "archiveEmptyTitle": "Nothing done yet",
+  "@archiveEmptyTitle": {
+    "description": "Done screen empty state title."
+  },
+  "archiveEmptyMessage": "Finished items rest here, and search still finds them.",
+  "@archiveEmptyMessage": {
+    "description": "Done screen empty state message."
+  },
+  "archiveRecentlyDone": "Recently done",
+  "@archiveRecentlyDone": {
+    "description": "Section header for recently finished items."
+  },
+  "archiveArchivedAfter": "{days, plural, =1{archived after 1 day} other{archived after {days} days}}",
+  "@archiveArchivedAfter": {
+    "description": "Section trailing note: when items move to the archive.",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "archiveSection": "Archive",
+  "@archiveSection": {
+    "description": "Section header for archived items."
+  },
+  "somedayEmptyTitle": "No ideas parked here",
+  "@somedayEmptyTitle": {
+    "description": "Someday empty state title."
+  },
+  "somedayEmptyMessage": "Things you might do one day, without the pressure.",
+  "@somedayEmptyMessage": {
+    "description": "Someday empty state message."
+  },
+  "somedayMakePlan": "Make it a plan",
+  "@somedayMakePlan": {
+    "description": "Tooltip: schedule a Someday item."
+  },
+  "somedayWhenTitle": "When will you do it?",
+  "@somedayWhenTitle": {
+    "description": "When sheet title for planning a Someday item."
+  },
+  "settingsMustDoPerDay": "Must-do items per day",
+  "@settingsMustDoPerDay": {
+    "description": "Settings: title of the daily must-do limit."
+  },
+  "settingsMustDoPerDayHint": "Keeping this small keeps Today doable",
+  "@settingsMustDoPerDayHint": {
+    "description": "Settings: subtitle under the must-do limit."
+  },
+  "settingsWeekStartsOn": "Week starts on",
+  "@settingsWeekStartsOn": {
+    "description": "Settings: choice of first weekday."
+  },
+  "settingsWeekStartsOnHint": "for “This week” and weekday choices",
+  "@settingsWeekStartsOnHint": {
+    "description": "Settings: hint under the week start choice."
+  },
+  "settingsInboxBadge": "Show count on the Inbox tab",
+  "@settingsInboxBadge": {
+    "description": "Settings: switch for the Inbox tab badge."
+  },
+  "settingsStarterSuggestionsHint": "Quick-add ideas in capture and an empty inbox",
+  "@settingsStarterSuggestionsHint": {
+    "description": "Settings: subtitle of the starter suggestions switch."
+  },
+  "settingsEditSuggestions": "Edit suggestions",
+  "@settingsEditSuggestions": {
+    "description": "Settings: opens the starter suggestions editor."
+  },
+  "settingsRemindersSection": "Reminders",
+  "@settingsRemindersSection": {
+    "description": "Settings: section header for reminders."
+  },
+  "settingsIntensityOff": "Off",
+  "@settingsIntensityOff": {
+    "description": "Settings: notification intensity segment, no notifications."
+  },
+  "settingsIntensityGentle": "Gentle",
+  "@settingsIntensityGentle": {
+    "description": "Settings: notification intensity segment, silent."
+  },
+  "settingsIntensityStandard": "Standard",
+  "@settingsIntensityStandard": {
+    "description": "Settings: notification intensity segment, with sound."
+  },
+  "settingsIntensityOffHint": "No notifications at all.",
+  "@settingsIntensityOffHint": {
+    "description": "Settings: explains the Off intensity."
+  },
+  "settingsIntensityGentleHint": "Only reminders you set, without sound or vibration.",
+  "@settingsIntensityGentleHint": {
+    "description": "Settings: explains the Gentle intensity."
+  },
+  "settingsIntensityStandardHint": "Only reminders you set, with sound.",
+  "@settingsIntensityStandardHint": {
+    "description": "Settings: explains the Standard intensity."
+  },
+  "settingsQuietHours": "Quiet hours",
+  "@settingsQuietHours": {
+    "description": "Settings: quiet hours tile title."
+  },
+  "settingsQuietHoursRange": "{start} – {end}. Early reminders wait until morning; ones you timed exactly still arrive.",
+  "@settingsQuietHoursRange": {
+    "description": "Settings: quiet hours subtitle with the start and end times.",
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsQuietFrom": "Quiet from",
+  "@settingsQuietFrom": {
+    "description": "Settings: time picker title for quiet hours start."
+  },
+  "settingsQuietUntil": "Quiet until",
+  "@settingsQuietUntil": {
+    "description": "Settings: time picker title for quiet hours end."
+  },
+  "settingsMorningSummary": "Morning summary",
+  "@settingsMorningSummary": {
+    "description": "Settings: morning digest switch title."
+  },
+  "settingsMorningSummaryOn": "Today’s must-dos at {time}. Nothing on a clear day.",
+  "@settingsMorningSummaryOn": {
+    "description": "Settings: morning digest subtitle when on, with its time.",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsMorningSummaryOff": "One note each morning with today’s must-dos",
+  "@settingsMorningSummaryOff": {
+    "description": "Settings: morning digest subtitle when off."
+  },
+  "settingsSummaryTime": "Summary time",
+  "@settingsSummaryTime": {
+    "description": "Settings: morning digest time tile."
+  },
+  "settingsRemindersNotArriving": "Reminders not arriving?",
+  "@settingsRemindersNotArriving": {
+    "description": "Settings: opens help for missing reminders."
+  },
+  "settingsWeeklyReviewSection": "Weekly review",
+  "@settingsWeeklyReviewSection": {
+    "description": "Settings: section header for the weekly review."
+  },
+  "settingsRemindReview": "Remind me to review",
+  "@settingsRemindReview": {
+    "description": "Settings: weekly review reminder switch."
+  },
+  "settingsRemindReviewHint": "About 15 minutes, once a week",
+  "@settingsRemindReviewHint": {
+    "description": "Settings: subtitle of the review reminder switch."
+  },
+  "settingsReviewDay": "Review day",
+  "@settingsReviewDay": {
+    "description": "Settings: weekly review weekday choice."
+  },
+  "settingsReviewTime": "Review time",
+  "@settingsReviewTime": {
+    "description": "Settings: weekly review time tile."
+  },
+  "settingsDoneSection": "Done items",
+  "@settingsDoneSection": {
+    "description": "Settings: section header for finished items."
+  },
+  "settingsAutoArchive": "Move done items to the archive",
+  "@settingsAutoArchive": {
+    "description": "Settings: auto-archive choice title."
+  },
+  "settingsAutoArchiveHint": "still searchable there",
+  "@settingsAutoArchiveHint": {
+    "description": "Settings: hint under the auto-archive choice."
+  },
+  "settingsArchiveAfterDay": "After a day",
+  "@settingsArchiveAfterDay": {
+    "description": "Settings: auto-archive option, 1 day."
+  },
+  "settingsArchiveAfterWeek": "After a week",
+  "@settingsArchiveAfterWeek": {
+    "description": "Settings: auto-archive option, 7 days."
+  },
+  "settingsArchiveAfterMonth": "After a month",
+  "@settingsArchiveAfterMonth": {
+    "description": "Settings: auto-archive option, 30 days."
+  },
+  "settingsArchiveNever": "Never",
+  "@settingsArchiveNever": {
+    "description": "Settings: auto-archive option, never."
+  },
+  "settingsArchiveAfterDays": "{count, plural, =1{After 1 day} other{After {count} days}}",
+  "@settingsArchiveAfterDays": {
+    "description": "Settings: auto-archive option for a custom number of days.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsDataSection": "Your data",
+  "@settingsDataSection": {
+    "description": "Settings: section header for backup."
+  },
+  "settingsBackupHint": "Export a copy, or restore one",
+  "@settingsBackupHint": {
+    "description": "Settings: subtitle of the Backup tile."
+  },
+  "settingsAppearanceSection": "Appearance",
+  "@settingsAppearanceSection": {
+    "description": "Settings: section header for theme."
+  },
+  "settingsThemeSystem": "System",
+  "@settingsThemeSystem": {
+    "description": "Settings: theme segment following the phone."
+  },
+  "settingsThemeLight": "Light",
+  "@settingsThemeLight": {
+    "description": "Settings: light theme segment."
+  },
+  "settingsThemeDark": "Dark",
+  "@settingsThemeDark": {
+    "description": "Settings: dark theme segment."
+  },
+  "settingsHelpSection": "Help",
+  "@settingsHelpSection": {
+    "description": "Settings: section header for help."
+  },
+  "settingsFaq": "Questions and answers",
+  "@settingsFaq": {
+    "description": "Settings: opens the FAQ."
+  },
+  "settingsFaqHint": "Backups, new phones, undo and more",
+  "@settingsFaqHint": {
+    "description": "Settings: subtitle of the FAQ tile."
+  },
+  "settingsAbout": "About and feedback",
+  "@settingsAbout": {
+    "description": "Settings: opens the About screen."
+  },
+  "settingsNotificationsBlocked": "Notifications are blocked",
+  "@settingsNotificationsBlocked": {
+    "description": "Settings: shown when the system blocks notifications."
+  },
+  "settingsNotificationsBlockedHint": "Tap to allow them for Clearing",
+  "@settingsNotificationsBlockedHint": {
+    "description": "Settings: subtitle of the blocked notifications tile."
+  },
+  "settingsExactTiming": "Exact timing",
+  "@settingsExactTiming": {
+    "description": "Settings: exact alarm permission tile."
+  },
+  "settingsExactTimingOn": "Reminders arrive on the minute",
+  "@settingsExactTimingOn": {
+    "description": "Settings: exact timing subtitle when allowed."
+  },
+  "settingsExactTimingOff": "Off: reminders may arrive a few minutes late. Tap to allow exact timing.",
+  "@settingsExactTimingOff": {
+    "description": "Settings: exact timing subtitle when not allowed."
+  },
+  "backupTitle": "Backup",
+  "@backupTitle": {
+    "description": "Backup screen title and its Settings tile."
+  },
+  "backupSaved": "Backup saved",
+  "@backupSaved": {
+    "description": "Backup: snackbar after exporting."
+  },
+  "backupExportFailed": "Couldn’t export: {error}",
+  "@backupExportFailed": {
+    "description": "Backup: snackbar when export fails, with the error.",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "backupIntro": "Everything stays on this phone, with no account and no cloud. Uninstalling Clearing or losing the phone deletes your data unless you’ve exported a copy.",
+  "@backupIntro": {
+    "description": "Backup: explanation at the top of the screen."
+  },
+  "backupLast": "Last backup",
+  "@backupLast": {
+    "description": "Backup: tile showing when the last export was."
+  },
+  "backupNever": "Never",
+  "@backupNever": {
+    "description": "Backup: no backup yet, or never remind to export."
+  },
+  "backupExportSection": "Export",
+  "@backupExportSection": {
+    "description": "Backup: section header for exporting."
+  },
+  "backupShare": "Share a backup",
+  "@backupShare": {
+    "description": "Backup: share the backup file."
+  },
+  "backupShareHint": "Send it to email, Drive, or another app",
+  "@backupShareHint": {
+    "description": "Backup: subtitle of the share tile."
+  },
+  "backupSaveToFolder": "Save to a folder",
+  "@backupSaveToFolder": {
+    "description": "Backup: save the backup file to a folder."
+  },
+  "backupRemindExport": "Remind me to export",
+  "@backupRemindExport": {
+    "description": "Backup: export reminder choice title."
+  },
+  "backupEveryTwoWeeks": "Every 2 weeks",
+  "@backupEveryTwoWeeks": {
+    "description": "Backup: export reminder option."
+  },
+  "backupMonthly": "Monthly",
+  "@backupMonthly": {
+    "description": "Backup: export reminder option."
+  },
+  "backupEveryDays": "{count, plural, =1{Every day} other{Every {count} days}}",
+  "@backupEveryDays": {
+    "description": "Backup: export reminder option for a custom number of days.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "backupRestoreSection": "Restore",
+  "@backupRestoreSection": {
+    "description": "Backup: section header for restoring."
+  },
+  "backupRestoreFrom": "Restore from a backup",
+  "@backupRestoreFrom": {
+    "description": "Backup: pick a file to restore."
+  },
+  "backupRestoreFromHint": "You’ll see what’s in it before anything changes",
+  "@backupRestoreFromHint": {
+    "description": "Backup: subtitle of the restore tile."
+  },
+  "backupCantRestore": "Can’t restore this file",
+  "@backupCantRestore": {
+    "description": "Backup: dialog title when the file is not a valid backup."
+  },
+  "backupReplaceAllTitle": "Replace everything?",
+  "@backupReplaceAllTitle": {
+    "description": "Backup: confirm dialog title before replacing."
+  },
+  "backupReplaceAllBody": "Everything now in Clearing on this phone will be replaced by the backup. This can’t be undone.",
+  "@backupReplaceAllBody": {
+    "description": "Backup: confirm dialog body before replacing."
+  },
+  "backupReplace": "Replace",
+  "@backupReplace": {
+    "description": "Backup: button to replace everything with the backup."
+  },
+  "backupRestored": "Backup restored",
+  "@backupRestored": {
+    "description": "Backup: snackbar after restoring."
+  },
+  "backupRestoreThis": "Restore this backup?",
+  "@backupRestoreThis": {
+    "description": "Backup: preview dialog title when the export date is unknown."
+  },
+  "backupFromDate": "Backup from {date}",
+  "@backupFromDate": {
+    "description": "Backup: preview dialog title with the export date.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "backupPreviewItems": "{count, plural, =1{1 item} other{{count} items}}: {open} open, {someday} someday, {done} done",
+  "@backupPreviewItems": {
+    "description": "Backup: preview line with item counts by state.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "open": {
+        "type": "int"
+      },
+      "someday": {
+        "type": "int"
+      },
+      "done": {
+        "type": "int"
+      }
+    }
+  },
+  "backupPreviewLists": "{count, plural, =1{1 list} other{{count} lists}}",
+  "@backupPreviewLists": {
+    "description": "Backup: preview line with the number of lists.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "backupPreviewRepeating": "{count, plural, =1{1 repeating item} other{{count} repeating items}}",
+  "@backupPreviewRepeating": {
+    "description": "Backup: preview line with the number of repeating items.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "backupMergeExplain": "Merge adds what’s missing and keeps the newer copy of anything on both. Replace makes this phone match the backup exactly.",
+  "@backupMergeExplain": {
+    "description": "Backup: explains Merge and Replace in the preview dialog."
+  },
+  "backupMerge": "Merge",
+  "@backupMerge": {
+    "description": "Backup: button to merge the backup in."
+  },
+  "aboutTitle": "About",
+  "@aboutTitle": {
+    "description": "About screen title."
+  },
+  "aboutTagline": "Close your mental tabs.",
+  "@aboutTagline": {
+    "description": "About: the app's tagline."
+  },
+  "aboutVersion": "Version {version}",
+  "@aboutVersion": {
+    "description": "About: installed version.",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPrivacySection": "Your privacy",
+  "@aboutPrivacySection": {
+    "description": "About: section header for privacy."
+  },
+  "aboutPrivacy": "No account, no server, no analytics, no ads. Clearing can’t reach the internet at all: everything you write stays on this phone unless you export it yourself.",
+  "@aboutPrivacy": {
+    "description": "About: the privacy promise."
+  },
+  "aboutBetaSection": "Beta",
+  "@aboutBetaSection": {
+    "description": "About: section header for beta feedback."
+  },
+  "aboutSendFeedback": "Send feedback",
+  "@aboutSendFeedback": {
+    "description": "About: opens the share sheet with a feedback template."
+  },
+  "aboutSendFeedbackHint": "Opens your email or messaging app with a short template",
+  "@aboutSendFeedbackHint": {
+    "description": "About: subtitle of the feedback tile."
+  },
+  "aboutFeedbackSubject": "Clearing feedback",
+  "@aboutFeedbackSubject": {
+    "description": "About: subject line of a feedback message."
+  },
+  "aboutFeedbackWhatHappened": "What happened:",
+  "@aboutFeedbackWhatHappened": {
+    "description": "Feedback template: first prompt."
+  },
+  "aboutFeedbackExpected": "What I expected:",
+  "@aboutFeedbackExpected": {
+    "description": "Feedback template: second prompt."
+  },
+  "aboutFeedbackElse": "Anything else:",
+  "@aboutFeedbackElse": {
+    "description": "Feedback template: last prompt."
+  },
+  "aboutSendWithErrorLog": "Send feedback with the error log ({count})",
+  "@aboutSendWithErrorLog": {
+    "description": "About: send feedback including the error log, with its entry count.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "aboutErrorLogHint": "Error types and where they happened; you see it all first",
+  "@aboutErrorLogHint": {
+    "description": "About: subtitle of the error log feedback tile."
+  },
+  "aboutErrorLogHeader": "--- Error log ---",
+  "@aboutErrorLogHeader": {
+    "description": "Feedback message: divider before the error log."
+  },
+  "aboutClearErrorLog": "Clear the error log",
+  "@aboutClearErrorLog": {
+    "description": "About: deletes the on-phone error log."
+  },
+  "aboutSourceCode": "Source code",
+  "@aboutSourceCode": {
+    "description": "About: source code tile title."
+  },
+  "aboutSourceSubtitle": "{url} · MIT licence",
+  "@aboutSourceSubtitle": {
+    "description": "About: source code location and licence.",
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutLicences": "Open-source licences",
+  "@aboutLicences": {
+    "description": "About: opens the licence page."
+  },
+  "suggestionsTitle": "Starter suggestions",
+  "@suggestionsTitle": {
+    "description": "Starter suggestions screen title and its Settings switch."
+  },
+  "suggestionsAdd": "Add",
+  "@suggestionsAdd": {
+    "description": "Suggestions: button to add a suggestion."
+  },
+  "suggestionsYours": "Yours",
+  "@suggestionsYours": {
+    "description": "Suggestions: marks a suggestion the user created."
+  },
+  "suggestionsEdit": "Edit",
+  "@suggestionsEdit": {
+    "description": "Suggestions: menu item to edit a suggestion."
+  },
+  "suggestionsNew": "New suggestion",
+  "@suggestionsNew": {
+    "description": "Suggestions: dialog title when adding."
+  },
+  "suggestionsEditTitle": "Edit suggestion",
+  "@suggestionsEditTitle": {
+    "description": "Suggestions: dialog title when editing."
+  },
+  "introTitle": "How Clearing works",
+  "@introTitle": {
+    "description": "Intro screen title and its Settings tile."
+  },
+  "introCaptureTitle": "Capture it",
+  "@introCaptureTitle": {
+    "description": "Intro card 1 title."
+  },
+  "introCaptureBody": "Get a thought out of your head the moment it appears. One line is enough: it waits in the Inbox until you have a minute.",
+  "@introCaptureBody": {
+    "description": "Intro card 1 body."
+  },
+  "introDecideTitle": "Decide what it means",
+  "@introDecideTitle": {
+    "description": "Intro card 2 title."
+  },
+  "introDecideBody": "Later, give each one a place: today, this week, a date, someone else, or Someday if it’s just an idea.",
+  "@introDecideBody": {
+    "description": "Intro card 2 body."
+  },
+  "introPlanTitle": "Plan small, close often",
+  "@introPlanTitle": {
+    "description": "Intro card 3 title."
+  },
+  "introPlanBody": "Keep Today to a few must-dos, and review once a week so nothing is forgotten. Missed things are carried over, never held against you.",
+  "@introPlanBody": {
+    "description": "Intro card 3 body."
+  },
+  "introCardPosition": "Card {index} of {total}",
+  "@introCardPosition": {
+    "description": "Intro: screen reader label for a card's position.",
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "introGetStarted": "Get started",
+  "@introGetStarted": {
+    "description": "Intro: button on the last card."
+  },
+  "searchStatusOpen": "Open",
+  "@searchStatusOpen": {
+    "description": "Search filter chip: items not yet done (inbox, active, waiting)."
+  },
+  "searchPlannedBetween": "Planned between",
+  "@searchPlannedBetween": {
+    "description": "Search date-range picker heading."
+  },
+  "searchHint": "Search titles, notes and steps",
+  "@searchHint": {
+    "description": "Search field hint."
+  },
+  "searchClear": "Clear",
+  "@searchClear": {
+    "description": "Tooltip: clears the search text."
+  },
+  "searchAnyList": "Any list",
+  "@searchAnyList": {
+    "description": "Search filter chip/menu item: no list filter."
+  },
+  "searchDateRange": "{from} – {to}",
+  "@searchDateRange": {
+    "description": "Search filter chip showing the chosen date range.",
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "searchAnyDate": "Any date",
+  "@searchAnyDate": {
+    "description": "Search filter chip: no date filter; also the tooltip to remove the date filter."
+  },
+  "searchRepeating": "Repeating",
+  "@searchRepeating": {
+    "description": "Search filter chip: only repeating items."
+  },
+  "searchNoMatchesTitle": "No matches",
+  "@searchNoMatchesTitle": {
+    "description": "Search empty state title."
+  },
+  "searchNoMatchesMessage": "Try fewer words, or loosen the filters.",
+  "@searchNoMatchesMessage": {
+    "description": "Search empty state message."
+  },
+  "upcomingSubtitleWeek": "A week at a time",
+  "@upcomingSubtitleWeek": {
+    "description": "Upcoming header subtitle in week view."
+  },
+  "upcomingSubtitleAgenda": "The next 30 days",
+  "@upcomingSubtitleAgenda": {
+    "description": "Upcoming header subtitle in agenda view."
+  },
+  "upcomingAgenda": "Agenda",
+  "@upcomingAgenda": {
+    "description": "Tooltip: switch Upcoming to the agenda view."
+  },
+  "upcomingWeekView": "Week view",
+  "@upcomingWeekView": {
+    "description": "Tooltip: switch Upcoming to the week view."
+  },
+  "upcomingEmptyTitle": "Nothing scheduled",
+  "@upcomingEmptyTitle": {
+    "description": "Upcoming empty state title."
+  },
+  "upcomingEmptyMessage": "Items with a date in the next 30 days show up here.",
+  "@upcomingEmptyMessage": {
+    "description": "Upcoming empty state message."
+  },
+  "weekPrevious": "Previous week",
+  "@weekPrevious": {
+    "description": "Tooltip: go to the previous week."
+  },
+  "weekNext": "Next week",
+  "@weekNext": {
+    "description": "Week view heading for next week; also the tooltip to go forward a week."
+  },
+  "weekRange": "{start} – {end}",
+  "@weekRange": {
+    "description": "Week view heading for a later week: its first and last dates.",
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "weekAnyDay": "Any day this week",
+  "@weekAnyDay": {
+    "description": "Week view section: items planned for this week with no set day."
+  },
+  "weekNothingLeft": "Nothing left",
+  "@weekNothingLeft": {
+    "description": "Week view: a past day with nothing open."
+  },
+  "weekFree": "Free",
+  "@weekFree": {
+    "description": "Week view: a coming day with nothing planned."
+  },
+  "blockTileTitle": "{list} · {time}",
+  "@blockTileTitle": {
+    "description": "Batch block row title: list name and start time.",
+    "placeholders": {
+      "list": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "blockAllDone": "All done",
+  "@blockAllDone": {
+    "description": "Batch block row subtitle when the list has nothing left."
+  },
+  "blockToDo": "{count} to do, in one go",
+  "@blockToDo": {
+    "description": "Batch block row subtitle: open items in the list.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "blockDialogTitle": "Block out time",
+  "@blockDialogTitle": {
+    "description": "Dialog title: schedule a batch block for a list."
+  },
+  "blockDialogMessage": "Work through the whole list in one go.",
+  "@blockDialogMessage": {
+    "description": "Batch block dialog explanation."
+  },
+  "blockEveryWeek": "Every week",
+  "@blockEveryWeek": {
+    "description": "Batch block dialog option: repeats weekly."
+  },
+  "blockOnce": "Once",
+  "@blockOnce": {
+    "description": "Batch block dialog option: one date only."
+  },
+  "blockAtTime": "At {time}",
+  "@blockAtTime": {
+    "description": "Batch block dialog: the chosen start time.",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "captureSavedAnnouncement": "{count, plural, =1{Saved} other{Saved {count} items}}",
+  "@captureSavedAnnouncement": {
+    "description": "Screen reader announcement after capturing one or more items.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "captureHint": "What’s on your mind?",
+  "@captureHint": {
+    "description": "Quick capture field hint."
+  },
+  "captureHelper": "Saved to Inbox. Decide what it means later.",
+  "@captureHelper": {
+    "description": "Quick capture helper text."
+  },
+  "captureHelperInList": "Saved to Inbox, in {list}.",
+  "@captureHelperInList": {
+    "description": "Quick capture helper text when opened from a list.",
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "captureSavedCount": "Saved {count} to Inbox",
+  "@captureSavedCount": {
+    "description": "Quick capture: how many thoughts were saved this time.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "commandsTrashed": "Moved to Trash",
+  "@commandsTrashed": {
+    "description": "Snackbar after moving an item to Trash."
+  },
+  "commandsSomeday": "Kept as an idea in Someday",
+  "@commandsSomeday": {
+    "description": "Snackbar after moving an item to Someday."
+  },
+  "commandsSnoozed": "Moved to tomorrow",
+  "@commandsSnoozed": {
+    "description": "Snackbar after snoozing an item to tomorrow."
+  },
+  "commandsRescheduled": "Rescheduled",
+  "@commandsRescheduled": {
+    "description": "Snackbar after picking a new date for an item."
+  },
+  "commandsMustDoCapTitle": "{count, plural, =1{You already have 1 must-do} other{You already have {count} must-dos}}",
+  "@commandsMustDoCapTitle": {
+    "description": "Dialog title when the must-do limit is reached.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "commandsMustDoSwapPrompt": "Swap one out to make room?",
+  "@commandsMustDoSwapPrompt": {
+    "description": "Must-do limit dialog: asks which one to replace."
+  },
+  "commandsMustDoKeep": "Keep things as they are",
+  "@commandsMustDoKeep": {
+    "description": "Must-do limit dialog: leave everything unchanged."
+  },
+  "shellInboxTooltip": "{count, plural, =1{Inbox, 1 item} other{Inbox, {count} items}}",
+  "@shellInboxTooltip": {
+    "description": "Inbox tab tooltip with the number of items waiting.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shellCapture": "Capture",
+  "@shellCapture": {
+    "description": "Tooltip on the add button that opens quick capture."
+  },
+  "stepTrailLabel": "Step {current} of {count}",
+  "@stepTrailLabel": {
+    "description": "Screen reader label for progress in a guided flow.",
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/providers.dart';
 import '../../domain/enums.dart';
+import '../../l10n/l10n.dart';
 import '../item_commands.dart';
 import '../widgets/clearing_art.dart';
 import '../widgets/empty_state.dart';
@@ -23,13 +24,13 @@ class SomedayScreen extends ConsumerWidget {
     final items = ref.watch(_somedayProvider).value ?? const [];
     final today = ref.watch(todayProvider).value;
     return Scaffold(
-      appBar: AppBar(title: const Text('Someday')),
+      appBar: AppBar(title: Text(context.l10n.someday)),
       body: items.isEmpty
-          ? const EmptyState(
+          ? EmptyState(
               icon: Icons.lightbulb_outline,
               scene: ClearingScene.path,
-              title: 'No ideas parked here',
-              message: 'Things you might do one day, without the pressure.',
+              title: context.l10n.somedayEmptyTitle,
+              message: context.l10n.somedayEmptyMessage,
             )
           : ListView(
               children: [
@@ -39,14 +40,14 @@ class SomedayScreen extends ConsumerWidget {
                       Expanded(child: ItemTile(item: item)),
                       IconButton(
                         icon: const Icon(Icons.arrow_upward),
-                        tooltip: 'Make it a plan',
+                        tooltip: context.l10n.somedayMakePlan,
                         onPressed: today == null
                             ? null
                             : () async {
                                 final choice = await showWhenSheet(
                                   context,
                                   today: today,
-                                  title: 'When will you do it?',
+                                  title: context.l10n.somedayWhenTitle,
                                 );
                                 if (choice != null) {
                                   await ref.plan(item, choice);

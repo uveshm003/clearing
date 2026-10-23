@@ -1,31 +1,21 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/l10n.dart';
+
 /// The optional three-card intro (PRD §9): never forced, offered on an empty
 /// Today and in Settings.
 class IntroScreen extends StatefulWidget {
   const IntroScreen({super.key});
 
-  static const cards = [
-    (
-      Icons.edit_note,
-      'Capture it',
-      'Get a thought out of your head the moment it appears. One line is '
-          'enough: it waits in the Inbox until you have a minute.',
-    ),
-    (
-      Icons.alt_route,
-      'Decide what it means',
-      'Later, give each one a place: today, this week, a date, someone '
-          'else, or Someday if it’s just an idea.',
-    ),
-    (
-      Icons.wb_sunny_outlined,
-      'Plan small, close often',
-      'Keep Today to a few must-dos, and review once a week so nothing is '
-          'forgotten. Missed things are carried over, never held against '
-          'you.',
-    ),
-  ];
+  /// The three cards: icon, title and body, in the current language.
+  static List<(IconData, String, String)> cards(BuildContext context) {
+    final l10n = context.l10n;
+    return [
+      (Icons.edit_note, l10n.introCaptureTitle, l10n.introCaptureBody),
+      (Icons.alt_route, l10n.introDecideTitle, l10n.introDecideBody),
+      (Icons.wb_sunny_outlined, l10n.introPlanTitle, l10n.introPlanBody),
+    ];
+  }
 
   @override
   State<IntroScreen> createState() => _IntroScreenState();
@@ -41,16 +31,17 @@ class _IntroScreenState extends State<IntroScreen> {
     super.dispose();
   }
 
-  bool get _last => _page == IntroScreen.cards.length - 1;
-
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final cards = IntroScreen.cards(context);
+    final last = _page == cards.length - 1;
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     return Scaffold(
       appBar: AppBar(
         leading: const CloseButton(),
-        title: const Text('How Clearing works'),
+        title: Text(l10n.introTitle),
       ),
       body: SafeArea(
         child: Column(
@@ -60,10 +51,9 @@ class _IntroScreenState extends State<IntroScreen> {
                 controller: _pages,
                 onPageChanged: (page) => setState(() => _page = page),
                 children: [
-                  for (final (i, (icon, title, body))
-                      in IntroScreen.cards.indexed)
+                  for (final (i, (icon, title, body)) in cards.indexed)
                     Semantics(
-                      label: 'Card ${i + 1} of ${IntroScreen.cards.length}',
+                      label: l10n.introCardPosition(i + 1, cards.length),
                       child: SingleChildScrollView(
                         padding: const EdgeInsets.all(32),
                         child: Column(
@@ -93,7 +83,7 @@ class _IntroScreenState extends State<IntroScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  for (var i = 0; i < IntroScreen.cards.length; i++)
+                  for (var i = 0; i < cards.length; i++)
                     Container(
                       width: i == _page ? 20 : 8,
                       height: 8,
@@ -110,20 +100,20 @@ class _IntroScreenState extends State<IntroScreen> {
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
               child: Row(
                 children: [
-                  if (!_last)
+                  if (!last)
                     TextButton(
                       onPressed: () => Navigator.pop(context),
-                      child: const Text('Skip'),
+                      child: Text(l10n.commonSkip),
                     ),
                   const Spacer(),
                   FilledButton(
-                    onPressed: _last
+                    onPressed: last
                         ? () => Navigator.pop(context)
                         : () => _pages.nextPage(
                             duration: const Duration(milliseconds: 250),
                             curve: Curves.easeOut,
                           ),
-                    child: Text(_last ? 'Get started' : 'Next'),
+                    child: Text(last ? l10n.introGetStarted : l10n.commonNext),
                   ),
                 ],
               ),

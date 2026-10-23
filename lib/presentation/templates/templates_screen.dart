@@ -6,6 +6,7 @@ import '../../core/providers.dart';
 import '../../core/router.dart';
 import '../../domain/local_date.dart';
 import '../../domain/template.dart';
+import '../../l10n/l10n.dart';
 import '../format.dart';
 import '../widgets/clearing_art.dart';
 import '../widgets/empty_state.dart';
@@ -35,22 +36,22 @@ class TemplatesScreen extends ConsumerWidget {
     final name = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('New template'),
+        title: Text(context.l10n.templatesNew),
         content: TextField(
           controller: controller,
           autofocus: true,
           textCapitalization: TextCapitalization.sentences,
-          decoration: const InputDecoration(hintText: 'e.g. Packing list'),
+          decoration: InputDecoration(hintText: context.l10n.templatesNameHint),
           onSubmitted: (value) => Navigator.pop(context, value),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(context.l10n.commonCancel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, controller.text),
-            child: const Text('Create'),
+            child: Text(context.l10n.commonCreate),
           ),
         ],
       ),
@@ -64,13 +65,14 @@ class TemplatesScreen extends ConsumerWidget {
     final templates = ref.watch(templatesProvider).value ?? const <Template>[];
     final routines = templates.where((t) => t.isRoutine).toList();
     final checklists = templates.where((t) => !t.isRoutine).toList();
+    final l10n = context.l10n;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Routines & templates')),
+      appBar: AppBar(title: Text(l10n.templatesTitle)),
       floatingActionButton: templates.isEmpty
           ? null
           : FloatingActionButton(
-              tooltip: 'New template',
+              tooltip: l10n.templatesNew,
               onPressed: () => _create(context, ref),
               child: const Icon(Icons.add),
             ),
@@ -78,10 +80,8 @@ class TemplatesScreen extends ConsumerWidget {
           ? EmptyState(
               icon: Icons.checklist,
               scene: ClearingScene.cairn,
-              title: 'No templates yet',
-              message:
-                  'A template is a checklist you use again and again. Make '
-                  'it a routine and it arrives on its own schedule.',
+              title: l10n.templatesEmptyTitle,
+              message: l10n.templatesEmptyMessage,
               action: Column(
                 children: [
                   Wrap(
@@ -105,7 +105,7 @@ class TemplatesScreen extends ConsumerWidget {
                   const SizedBox(height: 16),
                   FilledButton.tonal(
                     onPressed: () => _create(context, ref),
-                    child: const Text('Start from scratch'),
+                    child: Text(l10n.templatesStartFromScratch),
                   ),
                 ],
               ),
@@ -114,11 +114,11 @@ class TemplatesScreen extends ConsumerWidget {
               padding: const EdgeInsets.only(bottom: 96),
               children: [
                 if (routines.isNotEmpty) ...[
-                  const SectionHeader('Routines'),
+                  SectionHeader(l10n.templatesRoutines),
                   for (final t in routines) _TemplateTile(template: t),
                 ],
                 if (checklists.isNotEmpty) ...[
-                  const SectionHeader('Templates'),
+                  SectionHeader(l10n.templatesTemplates),
                   for (final t in checklists) _TemplateTile(template: t),
                 ],
               ],
@@ -147,7 +147,7 @@ class _TemplateTile extends ConsumerWidget {
       title: Text(template.name),
       subtitle: Text(
         [
-          '$steps ${steps == 1 ? 'step' : 'steps'}',
+          context.l10n.templatesStepCount(steps),
           if (series != null) describeRepeat(series, today),
         ].join(' · '),
       ),

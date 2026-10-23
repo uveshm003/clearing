@@ -10,6 +10,7 @@ import '../domain/calendar_rules.dart';
 import '../domain/item.dart';
 import '../domain/local_date.dart';
 import '../domain/today_rules.dart';
+import '../l10n/l10n.dart';
 
 /// The two printable worksheets (FR-19).
 enum WorksheetKind { day, week }
@@ -62,7 +63,9 @@ Future<Uint8List> buildWorksheet(
   required WorksheetFonts fonts,
 }) {
   final doc = pw.Document(
-    title: kind == WorksheetKind.day ? 'Clearing: today' : 'Clearing: week',
+    title: kind == WorksheetKind.day
+        ? l10n.worksheetDocToday
+        : l10n.worksheetDocWeek,
     theme: pw.ThemeData.withFont(
       base: fonts.regular,
       bold: fonts.bold,
@@ -107,29 +110,33 @@ pw.Widget _day(WorksheetData data, double height, pw.Font? display) {
       ..addAll(shown.map(_checkRow));
     budget -= shown.length;
     if (more > 0) {
-      sections.add(_note('+$more more in the app'));
+      sections.add(_note(l10n.worksheetMoreInApp(more)));
       budget -= 1;
     }
   }
 
-  section('Must-do', [for (final i in view.mustDo) _label(i)]);
-  section('Blocks', [
+  section(l10n.mustDo, [for (final i in view.mustDo) _label(i)]);
+  section(l10n.worksheetBlocks, [
     for (final b in blocks)
-      '${data.listNames[b.listId] ?? 'List'} · ${_time(b.time)}',
+      '${data.listNames[b.listId] ?? l10n.worksheetList} · ${_time(b.time)}',
   ]);
-  section('Also today', [
+  section(l10n.worksheetAlsoToday, [
     for (final i in view.alsoToday) _label(i),
-    for (final i in view.carriedOver) '${_label(i)} (carried over)',
+    for (final i in view.carriedOver) l10n.worksheetCarriedOver(_label(i)),
   ]);
-  section('This week', [for (final i in week) _label(i)]);
+  section(l10n.whenThisWeek, [for (final i in week) _label(i)]);
 
   final capture = minCaptureLines + max(0, budget - 1);
   return pw.Column(
     crossAxisAlignment: pw.CrossAxisAlignment.start,
     children: [
-      _title('Today', DateFormat('EEEE d MMMM y').format(_dt(today)), display),
+      _title(
+        l10n.whenToday,
+        DateFormat('EEEE d MMMM y').format(_dt(today)),
+        display,
+      ),
       ...sections,
-      _heading('On your mind'),
+      _heading(l10n.worksheetOnYourMind),
       for (var i = 0; i < capture - 1; i++) _blankLine(),
     ],
   );
@@ -162,7 +169,7 @@ pw.Widget _week(WorksheetData data, double height, pw.Font? display) {
             ),
           ),
           ...shown.map(_checkRow),
-          if (more > 0) _note('+$more more'),
+          if (more > 0) _note(l10n.worksheetMore(more)),
           for (var i = shown.length + (more > 0 ? 1 : 0); i < rows; i++)
             _blankLine(),
         ],
@@ -175,18 +182,18 @@ pw.Widget _week(WorksheetData data, double height, pw.Font? display) {
       box(DateFormat('EEEE d').format(_dt(day)), [
         for (final b in data.blocks)
           if (b.occursOn(day))
-            '${data.listNames[b.listId] ?? 'List'} · ${_time(b.time)}',
+            '${data.listNames[b.listId] ?? l10n.worksheetList} · ${_time(b.time)}',
         for (final i in items) _label(i),
       ]),
-    box('Any day · on your mind', [for (final i in week.anyDay) _label(i)]),
+    box(l10n.worksheetAnyDay, [for (final i in week.anyDay) _label(i)]),
   ];
 
   return pw.Column(
     crossAxisAlignment: pw.CrossAxisAlignment.start,
     children: [
       _title(
-        'This week',
-        'Week of ${DateFormat('d MMMM y').format(_dt(start))}',
+        l10n.whenThisWeek,
+        l10n.worksheetWeekOf(DateFormat('d MMMM y').format(_dt(start))),
         display,
       ),
       for (var r = 0; r < 4; r++)

@@ -43,6 +43,26 @@ lib/
 drift_schemas/   Schema snapshots used to test migrations.
 ```
 
+### Design: Glade
+
+The theme lives in `lib/core/glade.dart` (colours, type, spacing, motion)
+and `lib/core/theme.dart`. Every colour pair is checked for WCAG AA
+contrast; the shared widgets are in `lib/presentation/widgets/`. Screenshot
+tests (`test/goldens/`) run on macOS only:
+
+```sh
+flutter test --tags golden                   # compare
+flutter test --tags golden --update-goldens  # after an intended change
+```
+
+### Languages
+
+Strings live in `lib/l10n/arb/` (English is the template; Hindi is the first
+translation) and are generated on build. To add a language, copy
+`app_en.arb` to `app_<code>.arb`, translate the values, and run
+`flutter gen-l10n`; the home-screen widget's few strings are in
+`android/app/src/main/res/values-<code>/strings.xml`.
+
 ### Database migrations
 
 After changing a table, bump `schemaVersion` in

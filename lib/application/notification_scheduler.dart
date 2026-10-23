@@ -73,12 +73,16 @@ class NotificationScheduler {
     required this._now,
     this._blocks,
     this._lists,
-  });
+    NotificationTexts Function()? texts,
+  }) : _texts = texts ?? (() => NotificationTexts.english);
 
   final NotificationGateway _gateway;
   final ItemRepository _items;
   final BlockRepository? _blocks;
   final ListRepository? _lists;
+
+  /// Read on every run, so a language change shows in the next schedule.
+  final NotificationTexts Function() _texts;
   final ReminderRepository _reminders;
   final SettingsRepository _settings;
   final DateTime Function() _now;
@@ -127,6 +131,7 @@ class NotificationScheduler {
           now: now,
         ),
         blocks: await _blockNudges(),
+        texts: _texts(),
         openItems: settings.morningDigest
             ? await _items.watchOpen().first
             : const [],

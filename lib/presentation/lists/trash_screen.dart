@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/providers.dart';
 import '../../domain/item.dart';
 import '../../domain/lifecycle.dart';
+import '../../l10n/l10n.dart';
 import '../widgets/clearing_art.dart';
 import '../widgets/empty_state.dart';
 
@@ -29,11 +30,11 @@ class TrashScreen extends ConsumerWidget {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel'),
+              child: Text(context.l10n.commonCancel),
             ),
             FilledButton(
               onPressed: () => Navigator.pop(context, true),
-              child: const Text('Delete forever'),
+              child: Text(context.l10n.trashDeleteForever),
             ),
           ],
         ),
@@ -48,31 +49,28 @@ class TrashScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Trash'),
+        title: Text(context.l10n.trashTitle),
         actions: [
           if (items.isNotEmpty)
             TextButton(
               onPressed: () async {
                 final ok = await _confirm(
                   context,
-                  'Empty Trash?',
-                  '${items.length} items will be deleted for good. This '
-                      'can’t be undone.',
+                  context.l10n.trashEmptyConfirmTitle,
+                  context.l10n.trashEmptyConfirmBody(items.length),
                 );
                 if (ok) await actions.emptyTrash();
               },
-              child: const Text('Empty'),
+              child: Text(context.l10n.trashEmpty),
             ),
         ],
       ),
       body: items.isEmpty
-          ? const EmptyState(
+          ? EmptyState(
               icon: Icons.delete_outline,
               scene: ClearingScene.leaf,
-              title: 'Trash is empty',
-              message:
-                  'Deleted items stay here for 30 days, in case you '
-                  'want them back.',
+              title: context.l10n.trashEmptyTitle,
+              message: context.l10n.trashEmptyMessage,
             )
           : ListView(
               padding: const EdgeInsets.only(bottom: 32),
@@ -84,25 +82,27 @@ class TrashScreen extends ConsumerWidget {
                       item.trashedAt ?? now,
                       now,
                     )) {
-                      <= 1 => 'Deleted for good tomorrow',
-                      final days => 'Deleted for good in $days days',
+                      <= 1 => context.l10n.trashPurgeTomorrow,
+                      final days => context.l10n.trashPurgeInDays(days),
                     }),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
                           icon: const Icon(Icons.restore),
-                          tooltip: 'Restore',
+                          tooltip: context.l10n.trashRestore,
                           onPressed: () => actions.restore(item),
                         ),
                         IconButton(
                           icon: const Icon(Icons.delete_forever_outlined),
-                          tooltip: 'Delete forever',
+                          tooltip: context.l10n.trashDeleteForever,
                           onPressed: () async {
                             final ok = await _confirm(
                               context,
-                              'Delete forever?',
-                              '“${item.title}” will be gone for good.',
+                              context.l10n.trashDeleteForeverConfirmTitle,
+                              context.l10n.trashDeleteForeverConfirmBody(
+                                item.title,
+                              ),
                             );
                             if (ok) await actions.deleteForever(item);
                           },

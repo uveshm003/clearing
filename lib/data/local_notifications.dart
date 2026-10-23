@@ -5,6 +5,7 @@ import 'package:timezone/timezone.dart' as tz;
 
 import '../application/notification_scheduler.dart';
 import '../domain/notification_plan.dart';
+import '../l10n/l10n.dart';
 
 /// [NotificationGateway] backed by flutter_local_notifications (PRD §7).
 class LocalNotifications implements NotificationGateway {
@@ -125,12 +126,20 @@ class LocalNotifications implements NotificationGateway {
           actions: [
             if (notification.isReminder)
               for (final action in NotificationAction.values)
-                AndroidNotificationAction(action.name, action.label),
+                AndroidNotificationAction(action.name, _label(action)),
           ],
         ),
       ),
     );
   }
+
+  /// Button words in the current language (the background isolate falls
+  /// back to the phone's language).
+  static String _label(NotificationAction action) => switch (action) {
+    NotificationAction.done => l10n.notifActionDone,
+    NotificationAction.snoozeHour => l10n.notifActionSnoozeHour,
+    NotificationAction.snoozeTomorrow => l10n.notifActionTomorrow,
+  };
 
   static bool _timeZonesLoaded = false;
 

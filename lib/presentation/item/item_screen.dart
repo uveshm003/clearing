@@ -12,6 +12,7 @@ import '../../domain/enums.dart';
 import '../../domain/item.dart';
 import '../../domain/local_date.dart';
 import '../../domain/repeat_series.dart';
+import '../../l10n/l10n.dart';
 import '../format.dart';
 import '../item_commands.dart';
 import '../widgets/choice_sheet.dart';
@@ -46,11 +47,11 @@ class ItemScreen extends ConsumerWidget {
               ? null
               : IconButton(
                   icon: const Icon(Icons.close),
-                  tooltip: 'Close',
+                  tooltip: context.l10n.commonClose,
                   onPressed: onClose,
                 ),
         ),
-        body: const Center(child: Text('This item no longer exists.')),
+        body: Center(child: Text(context.l10n.itemNoLongerExists)),
       ),
       _ => const Scaffold(),
     };
@@ -126,20 +127,27 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
 
   String _whenText() {
     final today = _today;
+    final l10n = context.l10n;
     return switch (item.status) {
-      ItemStatus.inbox => 'Not decided yet',
-      ItemStatus.someday => 'Someday',
-      ItemStatus.waiting => 'Waiting on ${item.waitingOn ?? 'someone'}',
-      ItemStatus.done => 'Done',
-      ItemStatus.trashed => 'In Trash',
+      ItemStatus.inbox => l10n.itemWhenNotDecided,
+      ItemStatus.someday => l10n.someday,
+      ItemStatus.waiting => switch (item.waitingOn) {
+        final person? => l10n.itemWhenWaitingOn(person),
+        null => l10n.itemWhenWaitingOnSomeone,
+      },
+      ItemStatus.done => l10n.commonDone,
+      ItemStatus.trashed => l10n.itemWhenInTrash,
       ItemStatus.active => switch (item.when) {
-        When.today => 'Today',
-        When.thisWeek => 'This week',
-        When.anytime => 'Anytime',
-        When.onDate => [
-          dateLabel(item.doDate!, today),
-          if (item.doTime case final t?) timeLabel(context, t),
-        ].join(', '),
+        When.today => l10n.whenToday,
+        When.thisWeek => l10n.whenThisWeek,
+        When.anytime => l10n.whenAnytime,
+        When.onDate => switch (item.doTime) {
+          final t? => l10n.itemWhenDateAtTime(
+            dateLabel(item.doDate!, today),
+            timeLabel(context, t),
+          ),
+          null => dateLabel(item.doDate!, today),
+        },
       },
     };
   }
@@ -196,19 +204,16 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
     final choice = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Change future repeats too?'),
-        content: const Text(
-          'You edited this one. Future repeats can stay as they were, '
-          'or start from this version.',
-        ),
+        title: Text(context.l10n.itemFutureRepeatsTitle),
+        content: Text(context.l10n.itemFutureRepeatsBody),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Just this one'),
+            child: Text(context.l10n.itemJustThisOne),
           ),
           FilledButton.tonal(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('This and future'),
+            child: Text(context.l10n.itemThisAndFuture),
           ),
         ],
       ),
@@ -235,22 +240,22 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
     final person = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Waiting on'),
+        title: Text(context.l10n.waitingOn),
         content: TextField(
           controller: controller,
           autofocus: true,
           textCapitalization: TextCapitalization.words,
-          decoration: const InputDecoration(hintText: 'Name'),
+          decoration: InputDecoration(hintText: context.l10n.commonName),
           onSubmitted: (value) => Navigator.pop(context, value),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(context.l10n.commonCancel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, controller.text),
-            child: const Text('Save'),
+            child: Text(context.l10n.commonSave),
           ),
         ],
       ),
@@ -299,14 +304,14 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
               ? null
               : IconButton(
                   icon: const Icon(Icons.close),
-                  tooltip: 'Close',
+                  tooltip: context.l10n.commonClose,
                   onPressed: () => seriesId == null ? _close() : _leave(),
                 ),
           actions: [
             if (item.status == ItemStatus.active)
               IconButton(
                 icon: const Icon(Icons.center_focus_strong_outlined),
-                tooltip: 'Focus on this',
+                tooltip: context.l10n.itemFocusOnThis,
                 onPressed: () async {
                   await _saveText();
                   if (context.mounted) context.push(Routes.focus(item.id));
@@ -318,7 +323,9 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
                   item.mustDo ? Icons.star_rounded : Icons.star_outline_rounded,
                   color: item.mustDo ? scheme.primary : null,
                 ),
-                tooltip: item.mustDo ? 'Not a must-do' : 'Make it a must-do',
+                tooltip: item.mustDo
+                    ? context.l10n.itemNotMustDo
+                    : context.l10n.itemMakeMustDo,
                 onPressed: () => ref.toggleMustDo(context, item),
               ),
             PopupMenuButton<String>(
@@ -346,32 +353,37 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
               },
               itemBuilder: (context) => [
                 if (item.status != ItemStatus.someday)
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: 'someday',
-                    child: Text('Move to Someday'),
+                    child: Text(context.l10n.itemMoveToSomeday),
                   ),
                 if (item.status != ItemStatus.waiting)
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: 'waiting',
-                    child: Text('Someone else is doing it'),
+                    child: Text(context.l10n.itemSomeoneElseDoingIt),
                   ),
                 if (series != null) ...[
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: 'future',
-                    child: Text('Use for future repeats'),
+                    child: Text(context.l10n.itemUseForFutureRepeats),
                   ),
                   PopupMenuItem(
                     value: 'pause',
                     child: Text(
-                      series.paused ? 'Resume repeating' : 'Pause repeating',
+                      series.paused
+                          ? context.l10n.itemResumeRepeating
+                          : context.l10n.itemPauseRepeating,
                     ),
                   ),
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: 'stop',
-                    child: Text('Stop repeating'),
+                    child: Text(context.l10n.itemStopRepeating),
                   ),
                 ],
-                const PopupMenuItem(value: 'delete', child: Text('Delete')),
+                PopupMenuItem(
+                  value: 'delete',
+                  child: Text(context.l10n.commonDelete),
+                ),
               ],
             ),
           ],
@@ -384,12 +396,12 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
             child: done
                 ? OutlinedButton.icon(
                     icon: const Icon(Icons.undo),
-                    label: const Text('Not done yet'),
+                    label: Text(context.l10n.itemNotDoneYet),
                     onPressed: () => _actions.reopen(item),
                   )
                 : FilledButton.icon(
                     icon: const Icon(Icons.check),
-                    label: const Text('Done'),
+                    label: Text(context.l10n.commonDone),
                     onPressed: () async {
                       final latest = await _saveText();
                       if (!context.mounted) return;
@@ -411,32 +423,34 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
                 style: theme.textTheme.headlineSmall?.copyWith(
                   decoration: done ? TextDecoration.lineThrough : null,
                 ),
-                decoration: const InputDecoration(hintText: 'Title'),
+                decoration: InputDecoration(
+                  hintText: context.l10n.itemTitleHint,
+                ),
                 onChanged: _textChanged,
               ),
             ),
-            const SectionHeader('Plan'),
+            SectionHeader(context.l10n.itemPlanSection),
             Pebble(
               children: [
                 ListTile(
                   leading: const Icon(Icons.event_outlined),
-                  title: const Text('When'),
+                  title: Text(context.l10n.itemWhen),
                   subtitle: Text(_whenText()),
                   onTap: _editWhen,
                 ),
                 if (item.status == ItemStatus.waiting) ...[
                   ListTile(
                     leading: const Icon(Icons.person_outline),
-                    title: const Text('Waiting on'),
-                    subtitle: Text(item.waitingOn ?? 'Someone'),
+                    title: Text(context.l10n.waitingOn),
+                    subtitle: Text(item.waitingOn ?? context.l10n.itemSomeone),
                     onTap: _editWaiting,
                   ),
                   ListTile(
                     leading: const Icon(Icons.event_repeat_outlined),
-                    title: const Text('Follow up'),
+                    title: Text(context.l10n.itemFollowUp),
                     subtitle: Text(
                       item.followUpDate == null
-                          ? 'No date'
+                          ? context.l10n.itemNoDate
                           : dateLabel(item.followUpDate!, today),
                     ),
                     onTap: _editFollowUp,
@@ -445,11 +459,13 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
                 if (item.status == ItemStatus.active || series != null)
                   ListTile(
                     leading: const Icon(Icons.repeat),
-                    title: const Text('Repeat'),
+                    title: Text(context.l10n.repeatTitle),
                     subtitle: Text(switch (series) {
-                      null => 'Doesn’t repeat',
+                      null => context.l10n.itemDoesntRepeat,
                       RepeatSeries(paused: true) =>
-                        '${describeRepeat(series, today)} · paused',
+                        context.l10n.itemRepeatPaused(
+                          describeRepeat(series, today),
+                        ),
                       _ => describeRepeat(series, today),
                     }),
                     onTap: done ? null : () => _editRepeat(series),
@@ -457,7 +473,7 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
                         ? null
                         : IconButton(
                             icon: const Icon(Icons.calendar_month_outlined),
-                            tooltip: 'See all dates',
+                            tooltip: context.l10n.itemSeeAllDates,
                             onPressed: () => Navigator.of(context).push(
                               MaterialPageRoute<void>(
                                 builder: (_) =>
@@ -468,17 +484,17 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
                   ),
                 ListTile(
                   leading: const Icon(Icons.flag_outlined),
-                  title: const Text('Deadline'),
+                  title: Text(context.l10n.itemDeadline),
                   subtitle: Text(
                     item.deadline == null
-                        ? 'None — “do on” is when you plan to do it'
+                        ? context.l10n.itemDeadlineNone
                         : dateLabel(item.deadline!, today),
                   ),
                   trailing: item.deadline == null
                       ? null
                       : IconButton(
                           icon: const Icon(Icons.close),
-                          tooltip: 'Remove deadline',
+                          tooltip: context.l10n.itemRemoveDeadline,
                           onPressed: () => _actions.save(
                             item.copyWith(deadline: () => null),
                           ),
@@ -488,24 +504,24 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
                 if (!done) ReminderSection(item: item),
               ],
             ),
-            const SectionHeader('Details'),
+            SectionHeader(context.l10n.itemDetailsSection),
             Pebble(
               padding: const EdgeInsets.only(bottom: 16),
               children: [
                 ListTile(
                   leading: const Icon(Icons.list_alt_outlined),
-                  title: const Text('List'),
+                  title: Text(context.l10n.itemList),
                   subtitle: Text(
                     lists.where((l) => l.id == item.listId).firstOrNull?.name ??
-                        'None',
+                        context.l10n.commonNone,
                   ),
                   onTap: () async {
                     final picked = await showChoiceSheet<String?>(
                       context,
-                      title: 'List',
+                      title: context.l10n.itemList,
                       selected: item.listId,
                       options: [
-                        (null, 'None'),
+                        (null, context.l10n.commonNone),
                         for (final list in lists) (list.id, list.name),
                       ],
                     );
@@ -522,10 +538,10 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
                     controller: _doneMeans,
                     maxLines: null,
                     textCapitalization: TextCapitalization.sentences,
-                    decoration: const InputDecoration(
-                      labelText: 'Done means…',
-                      hintText: 'What does finished look like?',
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      labelText: context.l10n.itemDoneMeansLabel,
+                      hintText: context.l10n.itemDoneMeansHint,
+                      border: const OutlineInputBorder(),
                     ),
                     onChanged: _textChanged,
                   ),
@@ -537,9 +553,9 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
                     maxLines: null,
                     minLines: 2,
                     textCapitalization: TextCapitalization.sentences,
-                    decoration: const InputDecoration(
-                      labelText: 'Notes',
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      labelText: context.l10n.itemNotes,
+                      border: const OutlineInputBorder(),
                     ),
                     onChanged: _textChanged,
                   ),

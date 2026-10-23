@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/glade.dart';
 import '../../core/providers.dart';
 import '../../domain/enums.dart';
+import '../../l10n/l10n.dart';
 import '../capture/capture_sheet.dart';
 import '../item/item_screen.dart';
 import 'two_pane.dart';
@@ -21,11 +22,12 @@ class HomeShell extends ConsumerWidget {
 
   final StatefulNavigationShell navigationShell;
 
-  static const _tabs = [
-    (Icons.wb_sunny_outlined, Icons.wb_sunny, 'Today'),
-    (Icons.inbox_outlined, Icons.inbox, 'Inbox'),
-    (Icons.event_note_outlined, Icons.event_note, 'Upcoming'),
-    (Icons.list_alt_outlined, Icons.list_alt, 'Lists'),
+  /// Each tab's icon, its selected icon, and its label.
+  static List<(IconData, IconData, String)> _tabs(AppLocalizations strings) => [
+    (Icons.wb_sunny_outlined, Icons.wb_sunny, strings.tabToday),
+    (Icons.inbox_outlined, Icons.inbox, strings.tabInbox),
+    (Icons.event_note_outlined, Icons.event_note, strings.tabUpcoming),
+    (Icons.list_alt_outlined, Icons.list_alt, strings.tabLists),
   ];
 
   void _go(int index) => navigationShell.goBranch(
@@ -37,9 +39,10 @@ class HomeShell extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final inboxCount = ref.watch(inboxCountProvider).value ?? 0;
     final showBadge = ref.watch(settingsProvider).value?.inboxBadge ?? true;
+    final tabs = _tabs(context.l10n);
 
     Widget icon(int i, {required bool selected}) {
-      final glyph = Icon(selected ? _tabs[i].$2 : _tabs[i].$1);
+      final glyph = Icon(selected ? tabs[i].$2 : tabs[i].$1);
       if (i != 1) return glyph;
       return Badge(
         isLabelVisible: showBadge && inboxCount > 0,
@@ -48,11 +51,12 @@ class HomeShell extends ConsumerWidget {
       );
     }
 
-    String? tooltip(int i) =>
-        i == 1 && inboxCount > 0 ? 'Inbox, $inboxCount items' : null;
+    String? tooltip(int i) => i == 1 && inboxCount > 0
+        ? context.l10n.shellInboxTooltip(inboxCount)
+        : null;
 
     final capture = FloatingActionButton(
-      tooltip: 'Capture',
+      tooltip: context.l10n.shellCapture,
       onPressed: () => showCaptureSheet(context),
       child: const Icon(Icons.add),
     );
@@ -66,11 +70,11 @@ class HomeShell extends ConsumerWidget {
           selectedIndex: navigationShell.currentIndex,
           onDestinationSelected: _go,
           destinations: [
-            for (var i = 0; i < _tabs.length; i++)
+            for (var i = 0; i < tabs.length; i++)
               NavigationDestination(
                 icon: icon(i, selected: false),
                 selectedIcon: icon(i, selected: true),
-                label: _tabs[i].$3,
+                label: tabs[i].$3,
                 tooltip: tooltip(i),
               ),
           ],
@@ -91,14 +95,14 @@ class HomeShell extends ConsumerWidget {
               child: capture,
             ),
             destinations: [
-              for (var i = 0; i < _tabs.length; i++)
+              for (var i = 0; i < tabs.length; i++)
                 NavigationRailDestination(
                   icon: Tooltip(
-                    message: tooltip(i) ?? _tabs[i].$3,
+                    message: tooltip(i) ?? tabs[i].$3,
                     child: icon(i, selected: false),
                   ),
                   selectedIcon: icon(i, selected: true),
-                  label: Text(_tabs[i].$3),
+                  label: Text(tabs[i].$3),
                 ),
             ],
           ),

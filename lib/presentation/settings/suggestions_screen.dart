@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/providers.dart';
 import '../../domain/starter_suggestion.dart';
+import '../../l10n/l10n.dart';
 
 /// Add, edit and hide starter suggestions (FR-06).
 class SuggestionsScreen extends ConsumerWidget {
@@ -14,10 +15,10 @@ class SuggestionsScreen extends ConsumerWidget {
     final repo = ref.read(listRepositoryProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Starter suggestions')),
+      appBar: AppBar(title: Text(context.l10n.suggestionsTitle)),
       floatingActionButton: FloatingActionButton.extended(
         icon: const Icon(Icons.add),
-        label: const Text('Add'),
+        label: Text(context.l10n.suggestionsAdd),
         onPressed: () async {
           final title = await _askTitle(context);
           if (title != null) await repo.addSuggestion(title);
@@ -29,15 +30,23 @@ class SuggestionsScreen extends ConsumerWidget {
           for (final s in suggestions)
             SwitchListTile(
               title: Text(s.title),
-              subtitle: s.userCreated ? const Text('Yours') : null,
+              subtitle: s.userCreated
+                  ? Text(context.l10n.suggestionsYours)
+                  : null,
               value: s.enabled,
               onChanged: (v) => repo.saveSuggestion(s.copyWith(enabled: v)),
               secondary: PopupMenuButton<String>(
                 onSelected: (value) => _onMenu(context, ref, s, value),
                 itemBuilder: (context) => [
-                  const PopupMenuItem(value: 'edit', child: Text('Edit')),
+                  PopupMenuItem(
+                    value: 'edit',
+                    child: Text(context.l10n.suggestionsEdit),
+                  ),
                   if (s.userCreated)
-                    const PopupMenuItem(value: 'delete', child: Text('Delete')),
+                    PopupMenuItem(
+                      value: 'delete',
+                      child: Text(context.l10n.commonDelete),
+                    ),
                 ],
               ),
             ),
@@ -67,7 +76,11 @@ class SuggestionsScreen extends ConsumerWidget {
     final title = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(initial == null ? 'New suggestion' : 'Edit suggestion'),
+        title: Text(
+          initial == null
+              ? context.l10n.suggestionsNew
+              : context.l10n.suggestionsEditTitle,
+        ),
         content: TextField(
           controller: controller,
           autofocus: true,
@@ -77,11 +90,11 @@ class SuggestionsScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(context.l10n.commonCancel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, controller.text),
-            child: const Text('Save'),
+            child: Text(context.l10n.commonSave),
           ),
         ],
       ),

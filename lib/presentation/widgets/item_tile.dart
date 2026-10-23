@@ -9,6 +9,7 @@ import '../../core/router.dart';
 import '../../domain/enums.dart';
 import '../../domain/item.dart';
 import '../../domain/local_date.dart';
+import '../../l10n/l10n.dart';
 import '../format.dart';
 import '../item_commands.dart';
 import '../shell/two_pane.dart';
@@ -90,23 +91,26 @@ class _ItemTileState extends ConsumerState<ItemTile> {
       // Without the date (the day is shown around it), the time still counts.
       else if (item.doTime case final minutes?)
         timeLabel(context, minutes),
-      if (item.seriesId != null) 'Repeats',
+      if (item.seriesId != null) context.l10n.itemTileRepeats,
       if (item.status == ItemStatus.waiting && item.waitingOn != null)
-        'Waiting on ${item.waitingOn}',
+        context.l10n.itemTileWaitingOn(item.waitingOn!),
       if (item.followUpDate case final followUp?
           when item.status == ItemStatus.waiting && today != null)
-        'Follow up ${dateLabel(followUp, today)}',
+        context.l10n.itemTileFollowUp(dateLabel(followUp, today)),
       ?listName,
-      if (progress != null && !progress.isEmpty) '$progress',
+      if (progress != null && !progress.isEmpty)
+        context.l10n.itemTileProgress(progress.done, progress.total),
       if (item.deadline case final deadline? when today != null)
-        'Deadline ${dateLabel(deadline, today)}',
+        context.l10n.itemTileDeadline(dateLabel(deadline, today)),
     ];
 
     return ListTile(
       contentPadding: const EdgeInsetsDirectional.only(start: 8, end: 16),
       leading: Checkbox(
         value: done,
-        semanticLabel: done ? 'Mark not done' : 'Mark done',
+        semanticLabel: done
+            ? context.l10n.itemTileMarkNotDone
+            : context.l10n.itemTileMarkDone,
         onChanged: finishing ? null : (_) => _toggle(),
       ),
       title: AnimatedDefaultTextStyle(
@@ -131,7 +135,7 @@ class _ItemTileState extends ConsumerState<ItemTile> {
           ? Icon(
               Icons.star_rounded,
               color: glade.dawn,
-              semanticLabel: 'Must-do',
+              semanticLabel: context.l10n.mustDo,
             )
           : null,
       onTap: widget.onTap ?? () => openItem(context, ref, item.id),
@@ -143,7 +147,7 @@ class _ItemTileState extends ConsumerState<ItemTile> {
     final doDate = item.doDate;
     if (doDate == null) {
       return widget.quiet && item.horizon == WhenHorizon.thisWeek
-          ? 'From last week'
+          ? context.l10n.itemTileFromLastWeek
           : null;
     }
     final time = switch (item.doTime) {
@@ -152,8 +156,8 @@ class _ItemTileState extends ConsumerState<ItemTile> {
     };
     if (doDate == today) return time;
     final day = dateLabel(doDate, today);
-    if (widget.quiet) return 'From $day';
-    return time == null ? day : '$day, $time';
+    if (widget.quiet) return context.l10n.itemTileFromDay(day);
+    return time == null ? day : context.l10n.itemTileDayTime(day, time);
   }
 }
 
@@ -187,42 +191,44 @@ Future<void> showItemMenu(BuildContext context, WidgetRef ref, Item item) {
                     item.mustDo ? Icons.star_outline : Icons.star_rounded,
                   ),
                   title: Text(
-                    item.mustDo ? 'Not a must-do' : 'Make it a must-do',
+                    item.mustDo
+                        ? sheetContext.l10n.itemTileNotMustDo
+                        : sheetContext.l10n.itemTileMakeMustDo,
                   ),
                   onTap: () => run(() => ref.toggleMustDo(context, item)),
                 ),
                 ListTile(
                   leading: const Icon(Icons.redo),
-                  title: const Text('Tomorrow'),
+                  title: Text(sheetContext.l10n.itemTileTomorrow),
                   onTap: () => run(() => ref.snooze(context, item)),
                 ),
                 ListTile(
                   leading: const Icon(Icons.center_focus_strong_outlined),
-                  title: const Text('Focus on this'),
+                  title: Text(sheetContext.l10n.itemTileFocusOnThis),
                   onTap: () =>
                       run(() async => context.push(Routes.focus(item.id))),
                 ),
               ],
               ListTile(
                 leading: const Icon(Icons.event_outlined),
-                title: const Text('Reschedule…'),
+                title: Text(sheetContext.l10n.itemTileReschedule),
                 onTap: () => run(() => ref.reschedule(context, item)),
               ),
               ListTile(
                 leading: const Icon(Icons.checklist),
-                title: const Text('Break into steps'),
+                title: Text(sheetContext.l10n.itemTileBreakIntoSteps),
                 onTap: () =>
                     run(() async => context.push(Routes.item(item.id))),
               ),
               if (item.status != ItemStatus.someday)
                 ListTile(
                   leading: const Icon(Icons.lightbulb_outline),
-                  title: const Text('Move to Someday'),
+                  title: Text(sheetContext.l10n.itemTileMoveToSomeday),
                   onTap: () => run(() => ref.someday(context, item)),
                 ),
               ListTile(
                 leading: const Icon(Icons.delete_outline),
-                title: const Text('Delete'),
+                title: Text(sheetContext.l10n.commonDelete),
                 onTap: () => run(() => ref.trash(context, item)),
               ),
             ],

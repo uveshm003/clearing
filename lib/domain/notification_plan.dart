@@ -62,31 +62,35 @@ class PlannedNotification {
   const PlannedNotification.digest({
     required String this._key,
     required this.fireAt,
+    required this.title,
     required String this.body,
     required this.silent,
   }) : kind = NotificationKind.digest,
        itemId = null,
        reminderId = null,
+       listId = null;
+
+  const PlannedNotification.review({
+    required this.fireAt,
+    required this.silent,
+    this.title = 'Time for your weekly review',
+    this.body = 'About 15 minutes to clear your head and plan the week.',
+  }) : kind = NotificationKind.review,
+       itemId = null,
+       reminderId = null,
        listId = null,
-       title = 'Today';
+       _key = null;
 
-  const PlannedNotification.review({required this.fireAt, required this.silent})
-    : kind = NotificationKind.review,
-      itemId = null,
-      reminderId = null,
-      listId = null,
-      _key = null,
-      title = 'Time for your weekly review',
-      body = 'About 15 minutes to clear your head and plan the week.';
-
-  const PlannedNotification.backup({required this.fireAt, required this.silent})
-    : kind = NotificationKind.backup,
-      itemId = null,
-      reminderId = null,
-      listId = null,
-      _key = null,
-      title = 'Time to back up',
-      body = 'Export a copy, so a lost phone doesn’t mean lost plans.';
+  const PlannedNotification.backup({
+    required this.fireAt,
+    required this.silent,
+    this.title = 'Time to back up',
+    this.body = 'Export a copy, so a lost phone doesn’t mean lost plans.',
+  }) : kind = NotificationKind.backup,
+       itemId = null,
+       reminderId = null,
+       listId = null,
+       _key = null;
 
   final NotificationKind kind;
 
@@ -205,6 +209,7 @@ List<PlannedNotification> planNotifications(
   DateTime? backupDueAt,
   Iterable<({BatchBlock block, String listName})> blocks = const [],
   Iterable<Item> openItems = const [],
+  NotificationTexts texts = NotificationTexts.english,
 }) {
   if (settings.notificationIntensity == NotificationIntensity.off) return [];
   final silent = settings.notificationIntensity == NotificationIntensity.gentle;
@@ -235,7 +240,7 @@ List<PlannedNotification> planNotifications(
         reminderId: reminder.id,
         fireAt: fireAt,
         title: item.title,
-        body: item.doneMeans == null ? null : 'Done means: ${item.doneMeans}',
+        body: item.doneMeans == null ? null : texts.doneMeans(item.doneMeans!),
         silent: silent,
       ),
     );
@@ -243,6 +248,8 @@ List<PlannedNotification> planNotifications(
   if (settings.reviewReminder) {
     planned.add(
       PlannedNotification.review(
+        title: texts.reviewTitle,
+        body: texts.reviewBody,
         fireAt: nextReviewAt(settings, now),
         silent: silent,
       ),
@@ -258,8 +265,8 @@ List<PlannedNotification> planNotifications(
           listId: block.listId,
           key: 'block-${block.id}-${day.toIso()}',
           fireAt: fireAt,
-          title: '$listName time',
-          body: 'Work through $listName in one go.',
+          title: texts.blockTitle(listName),
+          body: texts.blockBody(listName),
           silent: silent,
         ),
       );
@@ -271,10 +278,11 @@ List<PlannedNotification> planNotifications(
     final day = LocalDate.fromDateTime(now);
     for (final date in [day, day.addDays(1)]) {
       final fireAt = date.atMinutes(settings.morningDigestTime);
-      final body = morningDigest(openItems, date);
+      final body = morningDigest(openItems, date, texts: texts);
       if (body == null || !fireAt.isAfter(now)) continue;
       planned.add(
         PlannedNotification.digest(
+          title: texts.digestTitle,
           key: 'digest-${date.toIso()}',
           fireAt: fireAt,
           body: body,
@@ -285,7 +293,12 @@ List<PlannedNotification> planNotifications(
   }
   if (backupDueAt != null && !backupDueAt.isAfter(until)) {
     planned.add(
-      PlannedNotification.backup(fireAt: backupDueAt, silent: silent),
+      PlannedNotification.backup(
+        fireAt: backupDueAt,
+        silent: silent,
+        title: texts.backupTitle,
+        body: texts.backupBody,
+      ),
     );
   }
   planned.sort((a, b) => a.fireAt.compareTo(b.fireAt));
@@ -344,16 +357,77 @@ DateTime? nextBackupReminder({
 
 /// The morning summary for [day], e.g. "2 must-dos: Pay rent, Call the
 /// dentist · 3 more today". Null on a clear day: no news needs no message.
-String? morningDigest(Iterable<Item> items, LocalDate day) {
+String? morningDigest(
+  Iterable<Item> items,
+  LocalDate day, {
+  NotificationTexts texts = NotificationTexts.english,
+}) {
   final view = buildTodayView(items, day);
   final others = view.alsoToday.length + view.carriedOver.length;
   if (view.mustDo.isEmpty && others == 0) return null;
   final parts = [
     if (view.mustDo.isNotEmpty)
-      '${view.mustDo.length} must-do${view.mustDo.length == 1 ? '' : 's'}: '
-          '${view.mustDo.map((i) => i.title).join(', ')}',
+      texts.digestMustDos(
+        view.mustDo.length,
+        view.mustDo.map((i) => i.title).join(', '),
+      ),
     if (others > 0)
-      view.mustDo.isEmpty ? '$others on Today' : '$others more today',
+      view.mustDo.isEmpty
+          ? texts.digestOnToday(others)
+          : texts.digestMoreToday(others),
   ];
   return parts.join(' · ');
 }
+
+/// The words notifications use, in the app's language. The domain stays
+/// free of Flutter, so the app passes these in; [english] is the default.
+@immutable
+class NotificationTexts {
+  const NotificationTexts({
+    required this.reviewTitle,
+    required this.reviewBody,
+    required this.backupTitle,
+    required this.backupBody,
+    required this.digestTitle,
+    required this.doneMeans,
+    required this.blockTitle,
+    required this.blockBody,
+    required this.digestMustDos,
+    required this.digestMoreToday,
+    required this.digestOnToday,
+  });
+
+  final String reviewTitle;
+  final String reviewBody;
+  final String backupTitle;
+  final String backupBody;
+  final String digestTitle;
+  final String Function(String doneMeans) doneMeans;
+  final String Function(String list) blockTitle;
+  final String Function(String list) blockBody;
+  final String Function(int count, String titles) digestMustDos;
+  final String Function(int count) digestMoreToday;
+  final String Function(int count) digestOnToday;
+
+  static const english = NotificationTexts(
+    reviewTitle: 'Time for your weekly review',
+    reviewBody: 'About 15 minutes to clear your head and plan the week.',
+    backupTitle: 'Time to back up',
+    backupBody: 'Export a copy, so a lost phone doesn’t mean lost plans.',
+    digestTitle: 'Today',
+    doneMeans: _doneMeans,
+    blockTitle: _blockTitle,
+    blockBody: _blockBody,
+    digestMustDos: _digestMustDos,
+    digestMoreToday: _digestMoreToday,
+    digestOnToday: _digestOnToday,
+  );
+}
+
+String _doneMeans(String text) => 'Done means: $text';
+String _blockTitle(String list) => '$list time';
+String _blockBody(String list) => 'Work through $list in one go.';
+String _digestMustDos(int count, String titles) =>
+    '$count must-do${count == 1 ? '' : 's'}: $titles';
+String _digestMoreToday(int count) => '$count more today';
+String _digestOnToday(int count) => '$count on Today';

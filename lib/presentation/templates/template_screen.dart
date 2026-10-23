@@ -10,6 +10,7 @@ import '../../domain/enums.dart';
 import '../../domain/local_date.dart';
 import '../../domain/repeat_series.dart';
 import '../../domain/template.dart';
+import '../../l10n/l10n.dart';
 import '../format.dart';
 import '../item/repeat_editor.dart';
 import '../item_commands.dart';
@@ -29,7 +30,7 @@ class TemplateScreen extends ConsumerWidget {
         AsyncData(value: final template?) => _Editor(template: template),
         AsyncData() => Scaffold(
           appBar: AppBar(),
-          body: const Center(child: Text('This template no longer exists.')),
+          body: Center(child: Text(context.l10n.templateGone)),
         ),
         _ => const Scaffold(),
       };
@@ -101,13 +102,14 @@ class _EditorState extends ConsumerState<_Editor> {
 
   Future<void> _start() async {
     final messenger = ScaffoldMessenger.of(context);
+    final l10n = context.l10n;
     await _saveText();
     final item = await ref.read(templateActionsProvider).start(widget.template);
     if (!mounted) return;
     final choice = await showWhenSheet(
       context,
       today: _today,
-      title: 'When will you do it?',
+      title: l10n.templateWhenStart,
     );
     // Without a choice it waits in the Inbox, like anything captured.
     if (choice != null) await ref.plan(item, choice);
@@ -116,7 +118,9 @@ class _EditorState extends ConsumerState<_Editor> {
       ..showSnackBar(
         SnackBar(
           content: Text(
-            choice == null ? 'Added to the Inbox' : '“${item.title}” added',
+            choice == null
+                ? l10n.templateAddedToInbox
+                : l10n.templateAdded(item.title),
           ),
         ),
       );
@@ -162,13 +166,16 @@ class _EditorState extends ConsumerState<_Editor> {
         .where((l) => !l.archived || l.id == template.listId)
         .toList();
     final actions = ref.read(templateActionsProvider);
+    final l10n = context.l10n;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(template.isRoutine ? 'Routine' : 'Template'),
+        title: Text(
+          template.isRoutine ? l10n.templateRoutine : l10n.templateTemplate,
+        ),
         actions: [
           PopupMenuButton<String>(
-            tooltip: 'More',
+            tooltip: l10n.commonMore,
             onSelected: (value) async {
               if (value == 'stop') {
                 await actions.stopRoutine(template);
@@ -179,14 +186,11 @@ class _EditorState extends ConsumerState<_Editor> {
             },
             itemBuilder: (context) => [
               if (template.isRoutine)
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: 'stop',
-                  child: Text('Stop the routine'),
+                  child: Text(l10n.templateStopRoutine),
                 ),
-              const PopupMenuItem(
-                value: 'delete',
-                child: Text('Delete template'),
-              ),
+              PopupMenuItem(value: 'delete', child: Text(l10n.templateDelete)),
             ],
           ),
         ],
@@ -200,11 +204,11 @@ class _EditorState extends ConsumerState<_Editor> {
               controller: _name,
               textCapitalization: TextCapitalization.sentences,
               style: theme.textTheme.headlineSmall,
-              decoration: const InputDecoration(hintText: 'Name'),
+              decoration: InputDecoration(hintText: l10n.commonName),
               onChanged: _textChanged,
             ),
           ),
-          const SectionHeader('Steps'),
+          SectionHeader(l10n.templateSteps),
           ReorderableListView(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -220,15 +224,15 @@ class _EditorState extends ConsumerState<_Editor> {
                   key: ValueKey('$i:$step'),
                   leading: ReorderableDragStartListener(
                     index: i,
-                    child: const Icon(
+                    child: Icon(
                       Icons.drag_indicator,
-                      semanticLabel: 'Drag to reorder',
+                      semanticLabel: l10n.templateDragToReorder,
                     ),
                   ),
                   title: Text(step),
                   trailing: IconButton(
                     icon: const Icon(Icons.close),
-                    tooltip: 'Remove step',
+                    tooltip: l10n.templateRemoveStep,
                     onPressed: () => _save(
                       template.copyWith(
                         steps: [...template.steps]..removeAt(i),
@@ -246,10 +250,10 @@ class _EditorState extends ConsumerState<_Editor> {
               textCapitalization: TextCapitalization.sentences,
               textInputAction: TextInputAction.done,
               decoration: InputDecoration(
-                hintText: 'Add a step',
+                hintText: l10n.templateAddStepHint,
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.add),
-                  tooltip: 'Add step',
+                  tooltip: l10n.templateAddStep,
                   onPressed: _addStep,
                 ),
               ),
@@ -261,8 +265,8 @@ class _EditorState extends ConsumerState<_Editor> {
             child: TextField(
               controller: _doneMeans,
               textCapitalization: TextCapitalization.sentences,
-              decoration: const InputDecoration(
-                labelText: 'Done means…',
+              decoration: InputDecoration(
+                labelText: l10n.templateDoneMeans,
                 border: OutlineInputBorder(),
               ),
               onChanged: _textChanged,
@@ -270,18 +274,18 @@ class _EditorState extends ConsumerState<_Editor> {
           ),
           ListTile(
             leading: const Icon(Icons.list_alt_outlined),
-            title: const Text('List'),
+            title: Text(l10n.templateList),
             subtitle: Text(
               lists.where((l) => l.id == template.listId).firstOrNull?.name ??
-                  'None',
+                  l10n.commonNone,
             ),
             onTap: () async {
               final picked = await showChoiceSheet<String?>(
                 context,
-                title: 'List',
+                title: l10n.templateList,
                 selected: template.listId,
                 options: [
-                  (null, 'None'),
+                  (null, l10n.commonNone),
                   for (final list in lists) (list.id, list.name),
                 ],
               );
@@ -290,13 +294,17 @@ class _EditorState extends ConsumerState<_Editor> {
               }
             },
           ),
-          const SectionHeader('Use it'),
+          SectionHeader(l10n.templateUseIt),
           ListTile(
             leading: const Icon(Icons.repeat),
-            title: Text(template.isRoutine ? 'Routine' : 'Make it a routine'),
+            title: Text(
+              template.isRoutine
+                  ? l10n.templateRoutine
+                  : l10n.templateMakeRoutine,
+            ),
             subtitle: Text(
               series == null
-                  ? 'Arrives as a fresh checklist on the days you choose'
+                  ? l10n.templateMakeRoutineHint
                   : describeRepeat(series, today),
             ),
             onTap: () => _editRoutine(series),
@@ -305,15 +313,14 @@ class _EditorState extends ConsumerState<_Editor> {
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
             child: FilledButton.icon(
               icon: const Icon(Icons.play_arrow),
-              label: const Text('Start now'),
+              label: Text(l10n.templateStartNow),
               onPressed: _start,
             ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
             child: Text(
-              'Starting makes a copy. Changing the template later won’t '
-              'change items already made from it.',
+              l10n.templateStartNote,
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),

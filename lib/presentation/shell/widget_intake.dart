@@ -10,6 +10,7 @@ import '../../app.dart';
 import '../../core/router.dart';
 import '../../data/home_widgets.dart';
 import '../capture/capture_sheet.dart';
+import '../guidance/field_notes_hooks.dart';
 
 /// Opens what a home-screen widget was tapped for (FR-14): quick capture,
 /// Today, or one item. Check marks are handled in the background instead,
@@ -52,10 +53,19 @@ class _WidgetIntakeState extends ConsumerState<WidgetIntake> {
   void _open(Uri? uri) {
     final router = ref.read(routerProvider);
     switch (WidgetLink.parse(uri)) {
-      case CaptureLink():
+      case CaptureLink(:final listen):
         router.go(Routes.today);
+        noteFieldNote(ref, FieldNote.fromTheDoorstep);
         final context = rootNavigatorKey.currentContext;
-        if (context != null) showCaptureSheet(context);
+        if (context != null) showCaptureSheet(context, listen: listen);
+      case ReviewLink():
+        router.push(Routes.review);
+      case ResetLink():
+        router.push(Routes.reset);
+      case InboxLink():
+        router.go(Routes.inbox);
+      case GroveLink():
+        router.push(Routes.grove);
       case TodayLink():
         router.go(Routes.today);
       case ItemLink(:final id):

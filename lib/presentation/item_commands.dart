@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -5,7 +7,11 @@ import '../application/item_actions.dart';
 import '../core/providers.dart';
 import '../domain/item.dart';
 import '../domain/today_rules.dart';
+import '../core/router.dart';
 import '../l10n/l10n.dart';
+import 'guidance/field_notes_hooks.dart';
+import 'lists/project_next_sheet.dart';
+import 'change_history.dart';
 import 'widgets/when_sheet.dart';
 
 /// UI-side wrappers around [ItemActions] that add undo snackbars and dialogs,
@@ -26,11 +32,22 @@ extension ItemCommands on WidgetRef {
     Item item,
     String message,
     Future<Object?> Function() change,
+  ) => withUndoAll(context, [item], message, change);
+
+  /// Runs [change], then offers to undo it by restoring every one of
+  /// [items] exactly. The change is also kept in the session's history.
+  Future<void> withUndoAll(
+    BuildContext context,
+    List<Item> items,
+    String message,
+    Future<Object?> Function() change,
   ) async {
     final messenger = ScaffoldMessenger.of(context);
     final undoLabel = context.l10n.commonUndo;
     final actions = _actions;
+    final history = read(changeHistoryProvider.notifier);
     await change();
+    final entry = history.record(message, items, read(clockProvider)());
     messenger
       ..hideCurrentSnackBar()
       ..showSnackBar(
@@ -38,18 +55,34 @@ extension ItemCommands on WidgetRef {
           content: Text(message),
           action: SnackBarAction(
             label: undoLabel,
-            onPressed: () => actions.undo(item),
+            onPressed: () => undoEntry(actions, history, entry),
           ),
         ),
       );
   }
 
-  Future<void> complete(BuildContext context, Item item) => withUndo(
-    context,
-    item,
-    context.l10n.commonDone,
-    () => _actions.complete(item),
-  );
+  /// Completes [item]. Closing something that had waited a month is noted
+  /// in the field notes; a project's step asks what's next.
+  Future<void> complete(BuildContext context, Item item) async {
+    final project = read(
+      listsProvider,
+    ).value?.where((l) => l.id == item.listId && l.isProject).firstOrNull;
+    final now = read(clockProvider)();
+    await withUndo(
+      context,
+      item,
+      context.l10n.commonDone,
+      () => _actions.complete(item),
+    );
+    if (now.difference(item.createdAt).inDays >= oldTabDays) {
+      unawaited(noteFieldNote(this, FieldNote.oldTab));
+    }
+    // The row that started this has often gone with the item.
+    final host = rootNavigatorKey.currentContext;
+    if (project != null && host != null && host.mounted) {
+      await askNextStep(host, this, project, item);
+    }
+  }
 
   Future<void> trash(BuildContext context, Item item) => withUndo(
     context,
@@ -123,6 +156,19 @@ extension ItemCommands on WidgetRef {
     );
     if (out != null) await actions.swapMustDo(out: out, into: item);
   }
+}
+
+/// Puts back every item in [entry] as it was.
+Future<void> undoEntry(
+  ItemActions actions,
+  ChangeHistory history,
+  ChangeEntry entry,
+) async {
+  if (entry.undone) return;
+  for (final item in entry.previous) {
+    await actions.undo(item);
+  }
+  history.markUndone(entry.id);
 }
 
 Future<Item> _plan(ItemActions actions, Item item, WhenChoice choice) =>

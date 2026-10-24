@@ -66,7 +66,14 @@ class _SchedulerSyncState extends ConsumerState<SchedulerSync>
   Future<void> _advance() async {
     await ref.read(seriesActionsProvider).advanceAll();
     await ref.read(lifecycleActionsProvider).tidy();
+    await ref.read(dayRecordActionsProvider).recordThrough();
     _reconcileSoon();
+    try {
+      await ref.read(backupScheduleProvider).runIfDue();
+    } on Exception catch (error, stack) {
+      // A backup that couldn't be written mustn't stop the app.
+      ref.read(errorLogProvider).record(error, stack);
+    }
   }
 
   /// Batches bursts of writes, such as a brain-dump capture, into one pass.

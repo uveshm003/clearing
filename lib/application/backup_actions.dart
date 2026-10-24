@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import '../data/backup.dart';
+import '../data/backup_crypto.dart';
 import '../data/settings_repository.dart';
 import 'series_actions.dart';
 
@@ -52,10 +53,21 @@ class BackupActions {
   }
 
   /// Picks and checks a file. Throws [BackupFormatException] if it can't be
-  /// imported; null if the user cancelled.
+  /// imported, [BackupNeedsPassphrase] if it's encrypted; null if the user
+  /// cancelled.
   Future<Backup?> pick() async {
     final text = await _files.pick();
-    return text == null ? null : _service.parse(text);
+    return text == null ? null : parse(text);
+  }
+
+  /// Checks a backup's text, decrypting it with [passphrase] if it's
+  /// encrypted. Throws [BackupPassphraseException] for a wrong passphrase.
+  Future<Backup> parse(String text, {String? passphrase}) async {
+    if (BackupCrypto.isEncrypted(text)) {
+      if (passphrase == null) throw BackupNeedsPassphrase(text);
+      return _service.parse(await BackupCrypto.decrypt(text, passphrase));
+    }
+    return _service.parse(text);
   }
 
   /// Imports [backup]. Series then advance, in case the backup is old and
@@ -64,4 +76,11 @@ class BackupActions {
     await _service.import(backup, mode);
     await _series.advanceAll();
   }
+}
+
+/// The backup is encrypted: ask for its passphrase, then [BackupActions.parse]
+/// [text] again with it.
+class BackupNeedsPassphrase implements Exception {
+  const BackupNeedsPassphrase(this.text);
+  final String text;
 }

@@ -18,12 +18,17 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../helpers.dart';
 
+/// Every backed-up row, without the settings that stay on the phone.
 Future<Map<String, List<Map<String, Object?>>>> dump(AppDatabase db) async => {
   for (final table in backupTables)
     table: [
       for (final row
           in await db.customSelect('SELECT * FROM $table ORDER BY rowid').get())
-        row.data,
+        if (!const {
+          'autoBackupFolder',
+          'lastAutoBackupAt',
+        }.contains(row.data['key']))
+          row.data,
     ],
 };
 
@@ -169,11 +174,21 @@ void main() {
       );
     });
 
-    test('rejects backups from a newer app', () {
+    test('accepts backups from a newer schema, flagged', () {
       final newer = jsonEncode({
         'format': backupFormat,
         'version': backupVersion,
         'schemaVersion': 99,
+        'tables': {'future_table': []},
+      });
+      expect(service().parse(newer).fromNewerVersion, isTrue);
+    });
+
+    test('rejects a newer backup format', () {
+      final newer = jsonEncode({
+        'format': backupFormat,
+        'version': backupVersion + 1,
+        'schemaVersion': 4,
         'tables': {},
       });
       expect(

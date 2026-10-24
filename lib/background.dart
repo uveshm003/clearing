@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'application/notification_scheduler.dart';
 import 'core/providers.dart';
 import 'data/db/database.dart';
+import 'data/backup_folder.dart';
 import 'data/home_widgets.dart';
 import 'data/local_notifications.dart';
 
@@ -21,6 +22,8 @@ Future<void> backgroundSync() async {
     await _withServices((container) async {
       await container.read(seriesActionsProvider).advanceAll();
       await container.read(lifecycleActionsProvider).tidy();
+      await container.read(dayRecordActionsProvider).recordThrough();
+      await container.read(backupScheduleProvider).runIfDue();
       await container.read(notificationSchedulerProvider).reconcile();
       await container.read(widgetSyncProvider).refresh();
     });
@@ -39,7 +42,7 @@ Future<void> onBackgroundNotificationAction(
   await _withServices(
     (container) => container
         .read(notificationActionsProvider)
-        .handle(action, response.payload),
+        .handle(action, response.payload, input: response.input),
   );
 }
 
@@ -73,6 +76,7 @@ Future<void> _withServices(
       databaseProvider.overrideWithValue(db),
       notificationGatewayProvider.overrideWithValue(notifications),
       homeWidgetGatewayProvider.overrideWithValue(const HomeWidgets()),
+      backupFolderProvider.overrideWithValue(const DeviceBackupFolder()),
     ],
   );
   try {

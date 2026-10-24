@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:drift/drift.dart';
 import 'package:meta/meta.dart';
 
+import 'attachment_repository.dart';
 import 'db/database.dart';
 
 /// The backup file format (FR-17). Versioned separately from the database
@@ -22,7 +23,17 @@ const backupTables = [
   'review_sessions',
   'settings',
   'batch_blocks',
+  'contexts',
+  'item_contexts',
+  'day_records',
+  'item_events',
+  'attachments',
+  'saved_searches',
+  'journal_entries',
 ];
+
+/// Settings that stay on this phone and never go into a backup.
+const _privateSettings = {'autoBackupFolder', 'lastAutoBackupAt'};
 
 /// `clearing-backup-YYYYMMDD.json`.
 String backupFileName(DateTime now) =>
@@ -55,6 +66,8 @@ class Backup {
     required this.exportedAt,
     required this.schemaVersion,
     required this.tables,
+    this.files = const {},
+    this.fromNewerVersion = false,
   });
 
   final DateTime? exportedAt;
@@ -62,6 +75,13 @@ class Backup {
   /// The database schema the rows were exported from.
   final int schemaVersion;
   final Map<String, List<Map<String, Object?>>> tables;
+
+  /// Attachment files by name, base64-encoded.
+  final Map<String, String> files;
+
+  /// Made by a newer Clearing: what this version knows is restored, and
+  /// anything newer is left out.
+  final bool fromNewerVersion;
 
   int count(String table) => tables[table]?.length ?? 0;
 
@@ -93,12 +113,11 @@ class Backup {
         'app, then try again.',
       );
     }
+    // A newer schema only adds tables and columns, which are ignored here,
+    // so its backups still restore what this version knows about.
     final schema = json['schemaVersion'];
-    if (schema is! int || schema > currentSchemaVersion) {
-      throw const BackupFormatException(
-        'This backup was made by a newer version of Clearing. Update the '
-        'app, then try again.',
-      );
+    if (schema is! int) {
+      throw const BackupFormatException('This backup is incomplete.');
     }
     final rawTables = json['tables'];
     if (rawTables is! Map) {
@@ -114,10 +133,17 @@ class Backup {
         for (final row in rows) Map<String, Object?>.from(row as Map),
       ];
     }
+    final rawFiles = json['files'];
     return Backup._(
       exportedAt: DateTime.tryParse('${json['exportedAt']}'),
       schemaVersion: schema,
       tables: tables,
+      files: {
+        if (rawFiles is Map)
+          for (final MapEntry(:key, :value) in rawFiles.entries)
+            if (key is String && value is String) key: value,
+      },
+      fromNewerVersion: schema > currentSchemaVersion,
     );
   }
 }
@@ -125,17 +151,34 @@ class Backup {
 /// Writes and reads backups as the database's own rows, so a round trip
 /// reproduces every value exactly.
 class BackupService {
-  BackupService(this._db, {DateTime Function()? now})
+  BackupService(this._db, {DateTime Function()? now, this._attachments})
     : _now = now ?? DateTime.now;
 
   final AppDatabase _db;
   final DateTime Function() _now;
 
+  /// Photos go into the backup with their items, when present.
+  final AttachmentRepository? _attachments;
+
   Future<String> export() async {
     final tables = <String, Object?>{};
     for (final table in backupTables) {
       final rows = await _db.customSelect('SELECT * FROM $table').get();
-      tables[table] = [for (final row in rows) row.data];
+      tables[table] = [
+        for (final row in rows)
+          if (table != 'settings' ||
+              !_privateSettings.contains(row.data['key']))
+            row.data,
+      ];
+    }
+    final files = <String, String>{};
+    if (_attachments case final attachments?) {
+      for (final attachment in await attachments.all()) {
+        final file = await attachments.fileOf(attachment);
+        if (file.existsSync()) {
+          files[attachment.fileName] = base64Encode(await file.readAsBytes());
+        }
+      }
     }
     return const JsonEncoder.withIndent(' ').convert({
       'format': backupFormat,
@@ -143,6 +186,7 @@ class BackupService {
       'schemaVersion': _db.schemaVersion,
       'exportedAt': _now().toIso8601String(),
       'tables': tables,
+      if (files.isNotEmpty) 'files': files,
     });
   }
 
@@ -162,7 +206,19 @@ class BackupService {
         for (final table in backupTables) {
           final columns = await _columns(table);
           for (final row in rows[table]!) {
+            if (table == 'settings' && _privateSettings.contains(row['key'])) {
+              continue;
+            }
             await _write(table, columns, row, merge: mode == ImportMode.merge);
+          }
+        }
+        if (_attachments case final attachments?) {
+          for (final MapEntry(:key, :value) in backup.files.entries) {
+            try {
+              await attachments.restoreFile(key, base64Decode(value));
+            } on FormatException {
+              // A damaged photo shouldn't stop the rest restoring.
+            }
           }
         }
         _db.notifyUpdates({
@@ -246,6 +302,28 @@ class BackupService {
     }
     String? remap(Object? id) => id == null ? null : listIds['$id'] ?? '$id';
 
+    final localContexts = {
+      for (final row
+          in await _db
+              .customSelect(
+                "SELECT id, kind FROM contexts WHERE kind != 'user'",
+              )
+              .get())
+        row.read<String>('kind'): row.read<String>('id'),
+    };
+    final contextIds = <String, String>{};
+    final contexts = <Map<String, Object?>>[];
+    for (final row in backup.tables['contexts']!) {
+      final local = localContexts[row['kind']];
+      if (local != null && local != row['id']) {
+        contextIds['${row['id']}'] = local;
+        contexts.add({...row, 'id': local});
+      } else {
+        contexts.add(row);
+      }
+    }
+    String remapContext(Object? id) => contextIds['$id'] ?? '$id';
+
     final localSuggestions = {
       for (final row
           in await _db
@@ -257,6 +335,15 @@ class BackupService {
     return {
       ...backup.tables,
       'lists': lists,
+      'contexts': contexts,
+      'item_contexts': [
+        for (final row in backup.tables['item_contexts']!)
+          {
+            ...row,
+            'context_id': remapContext(row['context_id']),
+            'id': '${row['item_id']}|${remapContext(row['context_id'])}',
+          },
+      ],
       'items': [
         for (final row in backup.tables['items']!)
           {...row, 'list_id': remap(row['list_id'])},

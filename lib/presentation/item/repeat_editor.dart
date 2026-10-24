@@ -134,48 +134,104 @@ class _RepeatEditorState extends State<RepeatEditor> {
                 ),
               ],
               selected: {series.freq},
-              onSelectionChanged: (s) =>
-                  _update(series.copyWith(freq: s.single)),
-            ),
-          ),
-          ListTile(
-            title: Text(_every),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.remove),
-                  tooltip: context.l10n.repeatLessOften,
-                  onPressed: series.interval > 1
-                      ? () => _update(
-                          series.copyWith(interval: series.interval - 1),
-                        )
-                      : null,
+              onSelectionChanged: (s) => _update(
+                series.copyWith(
+                  freq: s.single,
+                  // Only weekly routines can be flexible.
+                  weeklyTarget: s.single == RepeatFrequency.weekly
+                      ? null
+                      : () => null,
                 ),
-                IconButton(
-                  icon: const Icon(Icons.add),
-                  tooltip: context.l10n.repeatMoreSpreadOut,
-                  onPressed: series.interval < 99
-                      ? () => _update(
-                          series.copyWith(interval: series.interval + 1),
-                        )
-                      : null,
-                ),
-              ],
-            ),
-          ),
-          SwitchListTile(
-            title: Text(context.l10n.repeatAfterCompletionTitle),
-            subtitle: Text(context.l10n.repeatAfterCompletionSubtitle),
-            value: series.isAfterCompletion,
-            onChanged: (on) => _update(
-              series.copyWith(
-                mode: on ? RepeatMode.afterCompletion : RepeatMode.fixed,
               ),
             ),
           ),
+          if (!series.isFlexible)
+            ListTile(
+              title: Text(_every),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.remove),
+                    tooltip: context.l10n.repeatLessOften,
+                    onPressed: series.interval > 1
+                        ? () => _update(
+                            series.copyWith(interval: series.interval - 1),
+                          )
+                        : null,
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.add),
+                    tooltip: context.l10n.repeatMoreSpreadOut,
+                    onPressed: series.interval < 99
+                        ? () => _update(
+                            series.copyWith(interval: series.interval + 1),
+                          )
+                        : null,
+                  ),
+                ],
+              ),
+            ),
+          if (series.freq == RepeatFrequency.weekly) ...[
+            SwitchListTile(
+              title: Text(context.l10n.repeatFlexible),
+              subtitle: Text(context.l10n.repeatFlexibleHint),
+              value: series.isFlexible,
+              onChanged: (on) => _update(
+                series.copyWith(
+                  weeklyTarget: () => on ? 3 : null,
+                  mode: RepeatMode.fixed,
+                ),
+              ),
+            ),
+            if (series.isFlexible)
+              ListTile(
+                title: Text(
+                  context.l10n.repeatTimesAWeek(series.weeklyTarget!),
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.remove),
+                      tooltip: context.l10n.repeatFewer,
+                      onPressed: series.weeklyTarget! > 1
+                          ? () => _update(
+                              series.copyWith(
+                                weeklyTarget: () => series.weeklyTarget! - 1,
+                              ),
+                            )
+                          : null,
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.add),
+                      tooltip: context.l10n.repeatMore,
+                      onPressed: series.weeklyTarget! < 7
+                          ? () => _update(
+                              series.copyWith(
+                                weeklyTarget: () => series.weeklyTarget! + 1,
+                              ),
+                            )
+                          : null,
+                    ),
+                  ],
+                ),
+              ),
+          ],
+          if (!series.isFlexible)
+            SwitchListTile(
+              title: Text(context.l10n.repeatAfterCompletionTitle),
+              subtitle: Text(context.l10n.repeatAfterCompletionSubtitle),
+              value: series.isAfterCompletion,
+              onChanged: (on) => _update(
+                series.copyWith(
+                  mode: on ? RepeatMode.afterCompletion : RepeatMode.fixed,
+                ),
+              ),
+            ),
           if (series.freq == RepeatFrequency.weekly &&
-              !series.isAfterCompletion)
+              !series.isAfterCompletion &&
+              !series.isFlexible)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Wrap(

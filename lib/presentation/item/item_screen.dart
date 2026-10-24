@@ -18,12 +18,15 @@ import '../item_commands.dart';
 import '../guidance/tip_card.dart';
 import '../widgets/choice_sheet.dart';
 import '../widgets/pebble.dart';
-import '../widgets/reminder_editor.dart';
 import '../widgets/section_header.dart';
 import '../widgets/subtask_editor.dart';
 import '../widgets/when_sheet.dart';
+import 'attachments_section.dart';
+import 'item_activity.dart';
+import 'item_details.dart';
+import 'item_plan_section.dart';
+import 'item_summary.dart';
 import 'repeat_editor.dart';
-import 'series_calendar_screen.dart';
 
 /// Everything about one item (FR-03, FR-07). Text edits save automatically.
 ///
@@ -74,6 +77,7 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
   late final _title = TextEditingController(text: widget.item.title);
   late final _doneMeans = TextEditingController(text: widget.item.doneMeans);
   late final _notes = TextEditingController(text: widget.item.notes);
+  late final _firstStep = TextEditingController(text: widget.item.firstStep);
   Timer? _debounce;
 
   /// Leaves the item: closes the pane, or pops the page.
@@ -98,6 +102,7 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
     _title.dispose();
     _doneMeans.dispose();
     _notes.dispose();
+    _firstStep.dispose();
     super.dispose();
   }
 
@@ -119,6 +124,7 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
       title: _clean(_title),
       doneMeans: () => _clean(_doneMeans),
       notes: () => _clean(_notes),
+      firstStep: () => _clean(_firstStep),
     );
     return updated == item ? item : _actions.save(updated);
   }
@@ -236,6 +242,25 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
     }
   }
 
+  Future<void> _pickList() async {
+    final lists = (ref.read(listsProvider).value ?? const [])
+        .where((l) => !l.archived || l.id == item.listId)
+        .toList();
+    final picked = await showChoiceSheet<String?>(
+      context,
+      title: context.l10n.itemList,
+      selected: item.listId,
+      options: [
+        (null, context.l10n.commonNone),
+        for (final list in lists) (list.id, list.name),
+      ],
+    );
+    if (picked != null) {
+      final latest = await _saveText();
+      await _actions.save(latest.copyWith(listId: () => picked.value));
+    }
+  }
+
   Future<void> _editWaiting() async {
     final controller = TextEditingController(text: item.waitingOn);
     final person = await showDialog<String>(
@@ -350,6 +375,20 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
                         .changeRule(series.copyWith(paused: !series.paused));
                   case 'stop':
                     await ref.read(seriesActionsProvider).stopRepeating(latest);
+                  case 'project':
+                    final messenger = ScaffoldMessenger.of(context);
+                    final project = await ref
+                        .read(projectActionsProvider)
+                        .convert(latest);
+                    messenger.showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          context.mounted
+                              ? context.l10n.itemMadeProject(project.name)
+                              : project.name,
+                        ),
+                      ),
+                    );
                 }
               },
               itemBuilder: (context) => [
@@ -381,6 +420,16 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
                     child: Text(context.l10n.itemStopRepeating),
                   ),
                 ],
+                if (!done &&
+                    !(lists
+                            .where((l) => l.id == item.listId)
+                            .firstOrNull
+                            ?.isProject ??
+                        false))
+                  PopupMenuItem(
+                    value: 'project',
+                    child: Text(context.l10n.itemMakeProject),
+                  ),
                 PopupMenuItem(
                   value: 'delete',
                   child: Text(context.l10n.commonDelete),
@@ -430,6 +479,18 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
                 onChanged: _textChanged,
               ),
             ),
+            ItemSummaryChips(
+              item: item,
+              when: _whenText(),
+              today: today,
+              listName: lists
+                  .where((l) => l.id == item.listId)
+                  .firstOrNull
+                  ?.name,
+              onWhen: _editWhen,
+              onList: _pickList,
+              onEffort: () => pickEffort(context, ref, item),
+            ),
             if (item.status == ItemStatus.active)
               TipCard(
                 id: Tips.itemFocus,
@@ -437,79 +498,19 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
                 margin: const EdgeInsets.fromLTRB(16, 12, 16, 0),
               ),
             SectionHeader(context.l10n.itemPlanSection),
-            Pebble(
-              children: [
-                ListTile(
-                  leading: const Icon(Icons.event_outlined),
-                  title: Text(context.l10n.itemWhen),
-                  subtitle: Text(_whenText()),
-                  onTap: _editWhen,
-                ),
-                if (item.status == ItemStatus.waiting) ...[
-                  ListTile(
-                    leading: const Icon(Icons.person_outline),
-                    title: Text(context.l10n.waitingOn),
-                    subtitle: Text(item.waitingOn ?? context.l10n.itemSomeone),
-                    onTap: _editWaiting,
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.event_repeat_outlined),
-                    title: Text(context.l10n.itemFollowUp),
-                    subtitle: Text(
-                      item.followUpDate == null
-                          ? context.l10n.itemNoDate
-                          : dateLabel(item.followUpDate!, today),
-                    ),
-                    onTap: _editFollowUp,
-                  ),
-                ],
-                if (item.status == ItemStatus.active || series != null)
-                  ListTile(
-                    leading: const Icon(Icons.repeat),
-                    title: Text(context.l10n.repeatTitle),
-                    subtitle: Text(switch (series) {
-                      null => context.l10n.itemDoesntRepeat,
-                      RepeatSeries(paused: true) =>
-                        context.l10n.itemRepeatPaused(
-                          describeRepeat(series, today),
-                        ),
-                      _ => describeRepeat(series, today),
-                    }),
-                    onTap: done ? null : () => _editRepeat(series),
-                    trailing: series == null
-                        ? null
-                        : IconButton(
-                            icon: const Icon(Icons.calendar_month_outlined),
-                            tooltip: context.l10n.itemSeeAllDates,
-                            onPressed: () => Navigator.of(context).push(
-                              MaterialPageRoute<void>(
-                                builder: (_) =>
-                                    SeriesCalendarScreen(seriesId: series.id),
-                              ),
-                            ),
-                          ),
-                  ),
-                ListTile(
-                  leading: const Icon(Icons.flag_outlined),
-                  title: Text(context.l10n.itemDeadline),
-                  subtitle: Text(
-                    item.deadline == null
-                        ? context.l10n.itemDeadlineNone
-                        : dateLabel(item.deadline!, today),
-                  ),
-                  trailing: item.deadline == null
-                      ? null
-                      : IconButton(
-                          icon: const Icon(Icons.close),
-                          tooltip: context.l10n.itemRemoveDeadline,
-                          onPressed: () => _actions.save(
-                            item.copyWith(deadline: () => null),
-                          ),
-                        ),
-                  onTap: _editDeadline,
-                ),
-                if (!done) ReminderSection(item: item),
-              ],
+            ItemPlanSection(
+              item: item,
+              series: series,
+              today: today,
+              whenText: _whenText(),
+              done: done,
+              onWhen: _editWhen,
+              onWaiting: _editWaiting,
+              onFollowUp: _editFollowUp,
+              onRepeat: done ? null : () => _editRepeat(series),
+              onDeadline: _editDeadline,
+              onClearDeadline: () =>
+                  _actions.save(item.copyWith(deadline: () => null)),
             ),
             SectionHeader(context.l10n.itemDetailsSection),
             Pebble(
@@ -522,23 +523,23 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
                     lists.where((l) => l.id == item.listId).firstOrNull?.name ??
                         context.l10n.commonNone,
                   ),
-                  onTap: () async {
-                    final picked = await showChoiceSheet<String?>(
-                      context,
-                      title: context.l10n.itemList,
-                      selected: item.listId,
-                      options: [
-                        (null, context.l10n.commonNone),
-                        for (final list in lists) (list.id, list.name),
-                      ],
-                    );
-                    if (picked != null) {
-                      await _actions.save(
-                        item.copyWith(listId: () => picked.value),
-                      );
-                    }
-                  },
+                  onTap: _pickList,
                 ),
+                EffortAndContexts(item: item),
+                if (!done)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                    child: TextField(
+                      controller: _firstStep,
+                      textCapitalization: TextCapitalization.sentences,
+                      decoration: InputDecoration(
+                        labelText: context.l10n.itemFirstStep,
+                        hintText: context.l10n.itemFirstStepHint,
+                        border: const OutlineInputBorder(),
+                      ),
+                      onChanged: _textChanged,
+                    ),
+                  ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                   child: TextField(
@@ -567,13 +568,16 @@ class _ItemEditorState extends ConsumerState<_ItemEditor> {
                     onChanged: _textChanged,
                   ),
                 ),
+                NoteLinks(notes: item.notes),
               ],
             ),
             const SizedBox(height: 16),
             Pebble(
-              padding: const EdgeInsets.fromLTRB(4, 8, 12, 8),
+              padding: const EdgeInsetsDirectional.fromSTEB(4, 8, 12, 8),
               children: [SubtaskEditor(itemId: item.id)],
             ),
+            AttachmentsSection(itemId: item.id),
+            ItemActivity(item: item),
           ],
         ),
       ),

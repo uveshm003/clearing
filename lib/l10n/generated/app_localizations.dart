@@ -4417,6 +4417,2964 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Deleted items stay in Trash for 30 days; done items move to the archive and stay searchable.'**
   String get guideData4Body;
+
+  /// Rough effort of an item, in minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} min'**
+  String effortMinutes(int count);
+
+  /// Rough effort of an item: about an hour.
+  ///
+  /// In en, this message translates to:
+  /// **'1 hour'**
+  String get effortHour;
+
+  /// Rough effort of an item: more than an hour.
+  ///
+  /// In en, this message translates to:
+  /// **'Longer'**
+  String get effortLonger;
+
+  /// Heading for picking an item's rough effort.
+  ///
+  /// In en, this message translates to:
+  /// **'How long?'**
+  String get effortTitle;
+
+  /// Built-in context: can be done at home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get contextHome;
+
+  /// Built-in context: needs going out.
+  ///
+  /// In en, this message translates to:
+  /// **'Out'**
+  String get contextOut;
+
+  /// Built-in context: needs a computer.
+  ///
+  /// In en, this message translates to:
+  /// **'Computer'**
+  String get contextComputer;
+
+  /// Built-in context: a call or something on the phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get contextPhone;
+
+  /// Built-in context: fine to do when tired.
+  ///
+  /// In en, this message translates to:
+  /// **'Low energy'**
+  String get contextLowEnergy;
+
+  /// Heading for an item's contexts.
+  ///
+  /// In en, this message translates to:
+  /// **'Where or how'**
+  String get contextsTitle;
+
+  /// Opens the list of contexts to add or rename.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit contexts'**
+  String get contextsManage;
+
+  /// Button/dialog title to add a context.
+  ///
+  /// In en, this message translates to:
+  /// **'New context'**
+  String get contextsNew;
+
+  /// Explanation at the top of the contexts screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Contexts say where or how something can be done, so Today can show what fits right now.'**
+  String get contextsHint;
+
+  /// Capture destination toggle: save to the Inbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Inbox'**
+  String get captureToInbox;
+
+  /// Label for the capture destination toggles.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to'**
+  String get captureDestination;
+
+  /// Screen reader label for removing an understood part.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep “{label}” in the title'**
+  String captureChipRemove(String label);
+
+  /// Screen reader label for the row of understood parts.
+  ///
+  /// In en, this message translates to:
+  /// **'Understood'**
+  String get captureUnderstood;
+
+  /// Chip: the capture is a must-do.
+  ///
+  /// In en, this message translates to:
+  /// **'Must-do'**
+  String get captureChipMustDo;
+
+  /// Chip: the capture is waiting on someone.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting on {person}'**
+  String captureChipWaiting(String person);
+
+  /// Chip: the capture's deadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Due {date}'**
+  String captureChipDue(String date);
+
+  /// Shown when a captured must-do couldn't be flagged.
+  ///
+  /// In en, this message translates to:
+  /// **'Today’s must-dos are full, so it’s on Today instead.'**
+  String get captureMustDoFull;
+
+  /// Hint that a capture matches an open item.
+  ///
+  /// In en, this message translates to:
+  /// **'Looks like “{title}” is already here.'**
+  String captureDuplicate(String title);
+
+  /// Removes the new duplicate capture.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep just one'**
+  String get captureDuplicateMerge;
+
+  /// Keeps the duplicate capture.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep both'**
+  String get captureDuplicateKeep;
+
+  /// Confirmation after removing a duplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'Kept the one already there'**
+  String get captureDuplicateMerged;
+
+  /// Title of the dialog for editing a just-captured item.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit this thought'**
+  String get captureEditSaved;
+
+  /// Removes a just-captured item.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove it'**
+  String get captureRemoveSaved;
+
+  /// Label above template suggestions when typing /.
+  ///
+  /// In en, this message translates to:
+  /// **'Templates'**
+  String get captureTemplates;
+
+  /// Saved-stack line after starting a template from capture.
+  ///
+  /// In en, this message translates to:
+  /// **'Started “{name}”'**
+  String captureTemplateStarted(String name);
+
+  /// Tooltip for the microphone button in capture.
+  ///
+  /// In en, this message translates to:
+  /// **'Speak'**
+  String get captureVoice;
+
+  /// Shown while speech capture listens.
+  ///
+  /// In en, this message translates to:
+  /// **'Listening… pause to start a new line'**
+  String get captureVoiceListening;
+
+  /// Tooltip to stop speech capture.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop listening'**
+  String get captureVoiceStop;
+
+  /// Shown when on-device speech recognition fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn’t listen. Speech works offline once the language is downloaded in Android settings.'**
+  String get captureVoiceFailed;
+
+  /// Explanation before asking for microphone permission.
+  ///
+  /// In en, this message translates to:
+  /// **'Clearing listens only while you hold the button, on this phone. Nothing is recorded or sent anywhere.'**
+  String get captureVoicePermission;
+
+  /// Title before asking for microphone permission.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the microphone?'**
+  String get captureVoicePermissionTitle;
+
+  /// Button to go on to the microphone permission.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow'**
+  String get captureVoiceAllow;
+
+  /// Title of the bulk-action bar.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} selected'**
+  String selectCount(int count);
+
+  /// Tooltip to leave multi-select.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop selecting'**
+  String get selectClear;
+
+  /// Screen reader action to select an item for bulk actions.
+  ///
+  /// In en, this message translates to:
+  /// **'Select'**
+  String get selectThis;
+
+  /// Screen reader action to unselect an item.
+  ///
+  /// In en, this message translates to:
+  /// **'Deselect'**
+  String get selectDeselect;
+
+  /// Bulk action: file the selected items in a list.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to list'**
+  String get selectMoveToList;
+
+  /// Opens the menu of actions for one selected item.
+  ///
+  /// In en, this message translates to:
+  /// **'More actions'**
+  String get selectMoreActions;
+
+  /// Undo message after completing several items.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 done} other{{count} done}}'**
+  String selectDone(int count);
+
+  /// Undo message after planning several items.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 planned} other{{count} planned}}'**
+  String selectPlanned(int count);
+
+  /// Undo message after moving several items.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 moved} other{{count} moved}}'**
+  String selectMoved(int count);
+
+  /// Undo message after deleting several items.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 moved to Trash} other{{count} moved to Trash}}'**
+  String selectTrashed(int count);
+
+  /// Undo message after parking several items.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 moved to Someday} other{{count} moved to Someday}}'**
+  String selectSomeday(int count);
+
+  /// One-time tip about multi-select.
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: press and hold any item to select several at once.'**
+  String get selectHint;
+
+  /// Screen listing recent changes that can be undone.
+  ///
+  /// In en, this message translates to:
+  /// **'Recently changed'**
+  String get undoHistoryTitle;
+
+  /// Empty state of the recent changes screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing changed yet in this session.'**
+  String get undoHistoryEmpty;
+
+  /// Explanation on the recent changes screen.
+  ///
+  /// In en, this message translates to:
+  /// **'The last ten changes since you opened Clearing. Undo puts things back exactly as they were.'**
+  String get undoHistoryHint;
+
+  /// Label for a change that was already undone.
+  ///
+  /// In en, this message translates to:
+  /// **'Undone'**
+  String get undoHistoryUndone;
+
+  /// How long an inbox item has waited, shown softly.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{waiting 1 day} other{waiting {days} days}}'**
+  String itemTileAge(int days);
+
+  /// How long an inbox item has waited, in weeks.
+  ///
+  /// In en, this message translates to:
+  /// **'{weeks, plural, =1{waiting 1 week} other{waiting {weeks} weeks}}'**
+  String itemTileAgeWeeks(int weeks);
+
+  /// Label on the line marking the current time among timed items.
+  ///
+  /// In en, this message translates to:
+  /// **'Now'**
+  String get itemTileNow;
+
+  /// Settings section heading for swipe actions.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipes'**
+  String get settingsSwipeSection;
+
+  /// Settings section description for swipes.
+  ///
+  /// In en, this message translates to:
+  /// **'What a swipe on an item does outside the Inbox.'**
+  String get settingsSwipeHint;
+
+  /// Setting: action for swiping from the start edge.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe right'**
+  String get settingsSwipeStart;
+
+  /// Setting: action for swiping from the end edge.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe left'**
+  String get settingsSwipeEnd;
+
+  /// Swipe action choice: no action.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing'**
+  String get swipeNone;
+
+  /// Label on the small card shown when a field note is found.
+  ///
+  /// In en, this message translates to:
+  /// **'Field note'**
+  String get fieldNoteLabel;
+
+  /// Screen reader text for a found field note.
+  ///
+  /// In en, this message translates to:
+  /// **'Field note: {name}. {body}'**
+  String fieldNoteFound(String name, String body);
+
+  /// Title of the field notes notebook.
+  ///
+  /// In en, this message translates to:
+  /// **'Field notes'**
+  String get fieldNotesTitle;
+
+  /// Explanation at the top of the field notes notebook.
+  ///
+  /// In en, this message translates to:
+  /// **'Small discoveries, each found by trying something once. There’s no order and nothing to keep up.'**
+  String get fieldNotesHint;
+
+  /// A field note not found yet, with a hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Not found yet: {hint}'**
+  String fieldNoteLocked(String hint);
+
+  /// Field note name.
+  ///
+  /// In en, this message translates to:
+  /// **'First light'**
+  String get noteFirstLightName;
+
+  /// Field note text.
+  ///
+  /// In en, this message translates to:
+  /// **'You got a thought out of your head.'**
+  String get noteFirstLightBody;
+
+  /// Hint for a field note not yet found.
+  ///
+  /// In en, this message translates to:
+  /// **'capture a thought'**
+  String get noteFirstLightHint;
+
+  /// Field note name.
+  ///
+  /// In en, this message translates to:
+  /// **'A home for everything'**
+  String get noteHomeName;
+
+  /// Field note text.
+  ///
+  /// In en, this message translates to:
+  /// **'You gave a thought a list to live in.'**
+  String get noteHomeBody;
+
+  /// Hint for a field note not yet found.
+  ///
+  /// In en, this message translates to:
+  /// **'clarify something into a list'**
+  String get noteHomeHint;
+
+  /// Field note name.
+  ///
+  /// In en, this message translates to:
+  /// **'Out of your hands'**
+  String get noteHandsName;
+
+  /// Field note text.
+  ///
+  /// In en, this message translates to:
+  /// **'Someone else is doing it; Clearing will remember to check.'**
+  String get noteHandsBody;
+
+  /// Hint for a field note not yet found.
+  ///
+  /// In en, this message translates to:
+  /// **'mark something as waiting on someone'**
+  String get noteHandsHint;
+
+  /// Field note name.
+  ///
+  /// In en, this message translates to:
+  /// **'The long view'**
+  String get noteLongViewName;
+
+  /// Field note text.
+  ///
+  /// In en, this message translates to:
+  /// **'Something that comes back now looks after itself.'**
+  String get noteLongViewBody;
+
+  /// Hint for a field note not yet found.
+  ///
+  /// In en, this message translates to:
+  /// **'make something repeat'**
+  String get noteLongViewHint;
+
+  /// Field note name.
+  ///
+  /// In en, this message translates to:
+  /// **'Deep breath'**
+  String get noteBreathName;
+
+  /// Field note text.
+  ///
+  /// In en, this message translates to:
+  /// **'You found the overwhelm reset.'**
+  String get noteBreathBody;
+
+  /// Hint for a field note not yet found.
+  ///
+  /// In en, this message translates to:
+  /// **'try the overwhelm reset'**
+  String get noteBreathHint;
+
+  /// Field note name.
+  ///
+  /// In en, this message translates to:
+  /// **'The path'**
+  String get notePathName;
+
+  /// Field note text.
+  ///
+  /// In en, this message translates to:
+  /// **'Your first weekly review. Your clearing has its first tree.'**
+  String get notePathBody;
+
+  /// Hint for a field note not yet found.
+  ///
+  /// In en, this message translates to:
+  /// **'finish a weekly review'**
+  String get notePathHint;
+
+  /// Field note name.
+  ///
+  /// In en, this message translates to:
+  /// **'Just one thing'**
+  String get noteOneThingName;
+
+  /// Field note text.
+  ///
+  /// In en, this message translates to:
+  /// **'You finished something from the focus view.'**
+  String get noteOneThingBody;
+
+  /// Hint for a field note not yet found.
+  ///
+  /// In en, this message translates to:
+  /// **'finish something in Focus'**
+  String get noteOneThingHint;
+
+  /// Field note name.
+  ///
+  /// In en, this message translates to:
+  /// **'Safe keeping'**
+  String get noteKeepingName;
+
+  /// Field note text.
+  ///
+  /// In en, this message translates to:
+  /// **'There’s a copy of everything, kept by you.'**
+  String get noteKeepingBody;
+
+  /// Hint for a field note not yet found.
+  ///
+  /// In en, this message translates to:
+  /// **'make a backup'**
+  String get noteKeepingHint;
+
+  /// Field note name.
+  ///
+  /// In en, this message translates to:
+  /// **'From the doorstep'**
+  String get noteDoorstepName;
+
+  /// Field note text.
+  ///
+  /// In en, this message translates to:
+  /// **'You captured without opening the app first.'**
+  String get noteDoorstepBody;
+
+  /// Hint for a field note not yet found.
+  ///
+  /// In en, this message translates to:
+  /// **'capture from the widget, a share, a shortcut or your voice'**
+  String get noteDoorstepHint;
+
+  /// Field note name.
+  ///
+  /// In en, this message translates to:
+  /// **'Old tab'**
+  String get noteOldTabName;
+
+  /// Field note text.
+  ///
+  /// In en, this message translates to:
+  /// **'You closed something that had been open for a month or more.'**
+  String get noteOldTabBody;
+
+  /// Hint for a field note not yet found.
+  ///
+  /// In en, this message translates to:
+  /// **'close something that’s waited a month'**
+  String get noteOldTabHint;
+
+  /// Field note name.
+  ///
+  /// In en, this message translates to:
+  /// **'Open sky'**
+  String get noteOpenSkyName;
+
+  /// Field note text.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything on Today, done.'**
+  String get noteOpenSkyBody;
+
+  /// Hint for a field note not yet found.
+  ///
+  /// In en, this message translates to:
+  /// **'clear a whole Today'**
+  String get noteOpenSkyHint;
+
+  /// Field note name.
+  ///
+  /// In en, this message translates to:
+  /// **'Four seasons'**
+  String get noteSeasonsName;
+
+  /// Field note text.
+  ///
+  /// In en, this message translates to:
+  /// **'You reviewed in every season of a year.'**
+  String get noteSeasonsBody;
+
+  /// Hint for a field note not yet found.
+  ///
+  /// In en, this message translates to:
+  /// **'review at least once in each season, at any pace'**
+  String get noteSeasonsHint;
+
+  /// Title of the Grove screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Your clearing'**
+  String get groveTitle;
+
+  /// Menu item opening the Grove.
+  ///
+  /// In en, this message translates to:
+  /// **'Your clearing'**
+  String get groveMenu;
+
+  /// Grove caption with this season's counts.
+  ///
+  /// In en, this message translates to:
+  /// **'This {season}: {closed, plural, =0{nothing closed yet} =1{1 thing closed} other{{closed} things closed}}, {reviews, plural, =0{no reviews} =1{1 review} other{{reviews} reviews}}, {oldTabs, plural, =0{no old tabs} =1{1 old tab cleared} other{{oldTabs} old tabs cleared}}.'**
+  String groveCaption(String season, int closed, int reviews, int oldTabs);
+
+  /// Grove text before anything has grown.
+  ///
+  /// In en, this message translates to:
+  /// **'Your clearing is ready. Close a thought or finish a review, and something will grow here. Nothing here ever wilts.'**
+  String get groveEmpty;
+
+  /// Screen reader description of the Grove painting.
+  ///
+  /// In en, this message translates to:
+  /// **'Your clearing: {trees, plural, =0{no trees yet} =1{1 tree} other{{trees} trees}}, {flowers, plural, =0{no wildflowers} =1{1 wildflower} other{{flowers} wildflowers}}, {cairns, plural, =0{no cairns} =1{1 cairn} other{{cairns} cairns}}, {birds, plural, =0{no birds} =1{1 bird} other{{birds} birds}}{extras}.'**
+  String groveDescription(
+    int trees,
+    int flowers,
+    int cairns,
+    int birds,
+    String extras,
+  );
+
+  /// Added to the Grove description when there's a stream.
+  ///
+  /// In en, this message translates to:
+  /// **', a stream'**
+  String get groveHasStream;
+
+  /// Added to the Grove description when there's a bench.
+  ///
+  /// In en, this message translates to:
+  /// **', a bench'**
+  String get groveHasBench;
+
+  /// Added to the Grove description for lanterns.
+  ///
+  /// In en, this message translates to:
+  /// **', {count, plural, =1{1 lantern} other{{count} lanterns}}'**
+  String groveHasLanterns(int count);
+
+  /// Hint under the Grove painting.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap anything in your clearing to see what it was for.'**
+  String get groveTapHint;
+
+  /// Detail for a cairn in the Grove.
+  ///
+  /// In en, this message translates to:
+  /// **'Week of {date}: {count, plural, =1{1 thing closed} other{{count} things closed}}'**
+  String groveCairn(String date, int count);
+
+  /// Detail for a wildflower: an old tab closed.
+  ///
+  /// In en, this message translates to:
+  /// **'{title}, waited {days} days, closed {date}'**
+  String groveFlower(String title, int days, String date);
+
+  /// Detail for a tree in the Grove.
+  ///
+  /// In en, this message translates to:
+  /// **'A weekly review, {date}'**
+  String groveTree(String date);
+
+  /// Detail for an old tree in the Grove.
+  ///
+  /// In en, this message translates to:
+  /// **'A tree from an earlier season, from your review on {date}'**
+  String groveOldTree(String date);
+
+  /// Detail for the stream in the Grove.
+  ///
+  /// In en, this message translates to:
+  /// **'Your first overwhelm reset, {date}'**
+  String groveStream(String date);
+
+  /// Detail for a bird in the Grove.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything on Today done, {date}'**
+  String groveBird(String date);
+
+  /// Detail for the bench in the Grove.
+  ///
+  /// In en, this message translates to:
+  /// **'You keep a backup. A place to sit.'**
+  String get groveBench;
+
+  /// Detail for a lantern in the Grove.
+  ///
+  /// In en, this message translates to:
+  /// **'Something you were waiting for came back, {date}'**
+  String groveLantern(String date);
+
+  /// Detail for a stepping stone in the Grove.
+  ///
+  /// In en, this message translates to:
+  /// **'An invitation taken up, {date}'**
+  String groveStep(String date);
+
+  /// Season name, lowercase, used in sentences.
+  ///
+  /// In en, this message translates to:
+  /// **'spring'**
+  String get groveSeasonSpring;
+
+  /// Season name, lowercase, used in sentences.
+  ///
+  /// In en, this message translates to:
+  /// **'monsoon'**
+  String get groveSeasonMonsoon;
+
+  /// Season name, lowercase, used in sentences.
+  ///
+  /// In en, this message translates to:
+  /// **'summer'**
+  String get groveSeasonSummer;
+
+  /// Season name, lowercase, used in sentences.
+  ///
+  /// In en, this message translates to:
+  /// **'autumn'**
+  String get groveSeasonAutumn;
+
+  /// Season name, lowercase, used in sentences.
+  ///
+  /// In en, this message translates to:
+  /// **'winter'**
+  String get groveSeasonWinter;
+
+  /// Title of a pressed season card, e.g. 'Autumn 2026'.
+  ///
+  /// In en, this message translates to:
+  /// **'{season} {year}'**
+  String groveSeasonCard(String season, String year);
+
+  /// Title of the album of past seasons.
+  ///
+  /// In en, this message translates to:
+  /// **'Season cards'**
+  String get groveAlbum;
+
+  /// Explanation at the top of the season cards album.
+  ///
+  /// In en, this message translates to:
+  /// **'At each season’s turn, your clearing is pressed into a card and kept. The trees stay standing.'**
+  String get groveAlbumHint;
+
+  /// Empty state of the season cards album.
+  ///
+  /// In en, this message translates to:
+  /// **'Your first card is pressed when this season turns.'**
+  String get groveAlbumEmpty;
+
+  /// Title of the done log, drawn as stacked stones per week.
+  ///
+  /// In en, this message translates to:
+  /// **'The cairn'**
+  String get groveCairnTitle;
+
+  /// Explanation at the top of the cairn screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything you’ve closed, a stone each, a pile a week. Tap a week to see what was in it.'**
+  String get groveCairnHint;
+
+  /// Heading for one week in the cairn.
+  ///
+  /// In en, this message translates to:
+  /// **'Week of {date}'**
+  String groveCairnWeek(String date);
+
+  /// Empty state of the cairn.
+  ///
+  /// In en, this message translates to:
+  /// **'Things you finish will stack up here, one stone each.'**
+  String get groveCairnEmpty;
+
+  /// Filter in the cairn: only items that waited 14+ days.
+  ///
+  /// In en, this message translates to:
+  /// **'Only old tabs'**
+  String get groveCairnOldOnly;
+
+  /// Count for a week in the cairn.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 closed} other{{count} closed}}'**
+  String groveCairnCount(int count);
+
+  /// Heading for the list of things the user was glad they did.
+  ///
+  /// In en, this message translates to:
+  /// **'Glad you did'**
+  String get groveJournal;
+
+  /// Empty state of the journal.
+  ///
+  /// In en, this message translates to:
+  /// **'At the end of a weekly review you can note something you’re glad you did. It stays here, just for you.'**
+  String get groveJournalEmpty;
+
+  /// Section heading for links on the Grove screen.
+  ///
+  /// In en, this message translates to:
+  /// **'More in your clearing'**
+  String get groveMore;
+
+  /// Grove settings section.
+  ///
+  /// In en, this message translates to:
+  /// **'Seasons'**
+  String get groveSettings;
+
+  /// Setting: hemisphere for seasons.
+  ///
+  /// In en, this message translates to:
+  /// **'Where you are'**
+  String get groveHemisphere;
+
+  /// Hemisphere choice.
+  ///
+  /// In en, this message translates to:
+  /// **'Northern half of the world'**
+  String get groveNorth;
+
+  /// Hemisphere choice.
+  ///
+  /// In en, this message translates to:
+  /// **'Southern half of the world'**
+  String get groveSouth;
+
+  /// Setting: show the wet season as a monsoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Show monsoon instead of spring'**
+  String get groveWetSeason;
+
+  /// Settings section for the Grove.
+  ///
+  /// In en, this message translates to:
+  /// **'Your clearing'**
+  String get settingsGroveSection;
+
+  /// Settings section description for the Grove.
+  ///
+  /// In en, this message translates to:
+  /// **'Your progress as a calm, growing picture. Nothing in it ever wilts or resets.'**
+  String get settingsGroveHint;
+
+  /// Setting: turn the Grove on or off.
+  ///
+  /// In en, this message translates to:
+  /// **'Show your clearing'**
+  String get settingsGroveShow;
+
+  /// Setting: show one optional invitation a week.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly invitations'**
+  String get settingsInvitations;
+
+  /// Setting hint for invitations.
+  ///
+  /// In en, this message translates to:
+  /// **'One optional idea a week on Today. Ignoring it does nothing.'**
+  String get settingsInvitationsHint;
+
+  /// Welcome question about the Grove.
+  ///
+  /// In en, this message translates to:
+  /// **'See your progress as a growing clearing?'**
+  String get groveAskTitle;
+
+  /// Welcome explanation of the Grove.
+  ///
+  /// In en, this message translates to:
+  /// **'Each thing you close and each review you finish helps a small, private landscape grow. It never shrinks, and there are no streaks to keep. You can turn it off any time.'**
+  String get groveAskBody;
+
+  /// Welcome answer: turn the Grove on.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, show it'**
+  String get groveAskYes;
+
+  /// Welcome answer: keep the Grove off.
+  ///
+  /// In en, this message translates to:
+  /// **'No thanks'**
+  String get groveAskNo;
+
+  /// Label on the weekly invitation row.
+  ///
+  /// In en, this message translates to:
+  /// **'This week’s invitation'**
+  String get inviteLabel;
+
+  /// Weekly invitation.
+  ///
+  /// In en, this message translates to:
+  /// **'Give three inbox items a home.'**
+  String get inviteHomeForThree;
+
+  /// Weekly invitation.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a “Done means…” for one thing that’s been sitting.'**
+  String get inviteDoneMeans;
+
+  /// Weekly invitation.
+  ///
+  /// In en, this message translates to:
+  /// **'Close one thing that’s been on your mind for more than a month.'**
+  String get inviteOldThought;
+
+  /// Weekly invitation.
+  ///
+  /// In en, this message translates to:
+  /// **'Park one idea in Someday that you won’t do this month.'**
+  String get inviteParkAnIdea;
+
+  /// Weekly invitation.
+  ///
+  /// In en, this message translates to:
+  /// **'Try the focus view on your must-do.'**
+  String get inviteTryFocus;
+
+  /// Weekly invitation.
+  ///
+  /// In en, this message translates to:
+  /// **'When it feels like a lot, try the overwhelm reset.'**
+  String get inviteTryReset;
+
+  /// Weekly invitation.
+  ///
+  /// In en, this message translates to:
+  /// **'Add how long two things take, so Today can show what fits.'**
+  String get inviteAddEffort;
+
+  /// Weekly invitation.
+  ///
+  /// In en, this message translates to:
+  /// **'Make a backup, or turn on automatic ones.'**
+  String get inviteBackUp;
+
+  /// Button: mark the weekly invitation as taken up.
+  ///
+  /// In en, this message translates to:
+  /// **'Did it'**
+  String get inviteDidIt;
+
+  /// Button: set the weekly invitation aside.
+  ///
+  /// In en, this message translates to:
+  /// **'Not this week'**
+  String get inviteNotThisWeek;
+
+  /// Button: turn weekly invitations off.
+  ///
+  /// In en, this message translates to:
+  /// **'Don’t show invitations'**
+  String get inviteOff;
+
+  /// Shown after taking up an invitation.
+  ///
+  /// In en, this message translates to:
+  /// **'A stepping stone joins your clearing.'**
+  String get inviteThanks;
+
+  /// Button: go to where the invitation can be done.
+  ///
+  /// In en, this message translates to:
+  /// **'Go'**
+  String get inviteGo;
+
+  /// Title of the weekly review's closing summary.
+  ///
+  /// In en, this message translates to:
+  /// **'Look back'**
+  String get lookBackTitle;
+
+  /// Look back: how many things were closed this week.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{A quieter week.} =1{This week you closed 1 thing.} other{This week you closed {count} things.}}'**
+  String lookBackClosed(int count);
+
+  /// Look back after a light week.
+  ///
+  /// In en, this message translates to:
+  /// **'Clearing your inbox still counts.'**
+  String get lookBackQuiet;
+
+  /// Look back: a positive-only comparison.
+  ///
+  /// In en, this message translates to:
+  /// **'More than any week this season.'**
+  String get lookBackBest;
+
+  /// Look back: the oldest thing closed this week.
+  ///
+  /// In en, this message translates to:
+  /// **'The oldest was “{title}”, which had waited {days, plural, =1{1 day} other{{days} days}}.'**
+  String lookBackOldest(String title, int days);
+
+  /// Look back: things parked during the review.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 thing moved to Someday, so it’s out of your head.} other{{count} things moved to Someday, so they’re out of your head.}}'**
+  String lookBackParked(int count);
+
+  /// Look back: the review planted a tree.
+  ///
+  /// In en, this message translates to:
+  /// **'A new tree is growing in your clearing.'**
+  String get lookBackTree;
+
+  /// Optional prompt at the end of the review.
+  ///
+  /// In en, this message translates to:
+  /// **'Anything you’re glad you did this week?'**
+  String get lookBackWins;
+
+  /// Hint for the wins prompt field.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional, and only for you'**
+  String get lookBackWinsHint;
+
+  /// Title of the private insights page.
+  ///
+  /// In en, this message translates to:
+  /// **'Your rhythm'**
+  String get insightsTitle;
+
+  /// Explanation at the top of the insights page.
+  ///
+  /// In en, this message translates to:
+  /// **'What the last 90 days look like, worked out on this phone. Observations, never judgements.'**
+  String get insightsHint;
+
+  /// Insights page before there's enough data.
+  ///
+  /// In en, this message translates to:
+  /// **'Once you’ve closed a few things, you’ll see your rhythm here.'**
+  String get insightsEmpty;
+
+  /// Heading of the completions-by-hour chart.
+  ///
+  /// In en, this message translates to:
+  /// **'When you close things'**
+  String get insightsByHour;
+
+  /// Screen reader summary of the hour chart.
+  ///
+  /// In en, this message translates to:
+  /// **'Things closed by hour of day. Most around {hour}.'**
+  String insightsByHourSummary(String hour);
+
+  /// Tooltip on one bar of the hour chart.
+  ///
+  /// In en, this message translates to:
+  /// **'{hour}: {count, plural, =1{1 closed} other{{count} closed}}'**
+  String insightsBarTooltip(String hour, int count);
+
+  /// Insight observation.
+  ///
+  /// In en, this message translates to:
+  /// **'You close most things before noon. Morning must-dos might suit you.'**
+  String get insightsMorning;
+
+  /// Insight observation.
+  ///
+  /// In en, this message translates to:
+  /// **'Afternoons are when most things get closed.'**
+  String get insightsAfternoon;
+
+  /// Insight observation.
+  ///
+  /// In en, this message translates to:
+  /// **'You close most things in the evening. A short evening list might suit you.'**
+  String get insightsEvening;
+
+  /// Insight observation.
+  ///
+  /// In en, this message translates to:
+  /// **'Late hours are your closing time.'**
+  String get insightsNight;
+
+  /// Insight: median time in the Inbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Thoughts usually wait {days, plural, =0{less than a day} =1{about a day} other{about {days} days}} in your Inbox before you decide.'**
+  String insightsInboxWait(int days);
+
+  /// Insight: median capture-to-done.
+  ///
+  /// In en, this message translates to:
+  /// **'From capture to done usually takes {days, plural, =0{less than a day} =1{about a day} other{about {days} days}}.'**
+  String insightsCloseTime(int days);
+
+  /// Insight: list where items close fastest.
+  ///
+  /// In en, this message translates to:
+  /// **'{list} moves fastest: things there close in {days, plural, =0{under a day} =1{about a day} other{about {days} days}}.'**
+  String insightsFastestList(String list, int days);
+
+  /// Insight: list with most Someday items.
+  ///
+  /// In en, this message translates to:
+  /// **'Most of what’s in Someday came from {list}.'**
+  String insightsMostParked(String list);
+
+  /// Heading for the text table under the chart.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed by hour'**
+  String get insightsTable;
+
+  /// Button to share a small, anonymous summary for feedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Share anonymous stats'**
+  String get insightsShareStats;
+
+  /// Explanation for sharing anonymous stats.
+  ///
+  /// In en, this message translates to:
+  /// **'Counts only, no titles or notes. Nothing is sent unless you pick where to send it.'**
+  String get insightsShareStatsHint;
+
+  /// Backup screen section heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic backups'**
+  String get autoBackupSection;
+
+  /// Switch for daily automatic backups.
+  ///
+  /// In en, this message translates to:
+  /// **'Back up every day'**
+  String get autoBackupSwitch;
+
+  /// Explanation of automatic backups.
+  ///
+  /// In en, this message translates to:
+  /// **'A copy each night, into a folder you choose. The last week of copies, and one a week for a month, are kept.'**
+  String get autoBackupHint;
+
+  /// Row showing the automatic backup folder.
+  ///
+  /// In en, this message translates to:
+  /// **'Folder'**
+  String get autoBackupFolder;
+
+  /// No automatic backup folder chosen yet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not chosen'**
+  String get autoBackupFolderNone;
+
+  /// Button to choose the automatic backup folder.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a folder'**
+  String get autoBackupFolderChange;
+
+  /// When the last automatic backup ran.
+  ///
+  /// In en, this message translates to:
+  /// **'Backed up automatically, last {when}'**
+  String autoBackupLast(String when);
+
+  /// Before the first automatic backup.
+  ///
+  /// In en, this message translates to:
+  /// **'The first copy is made tonight, or tap Back up now.'**
+  String get autoBackupNotYet;
+
+  /// Button to run an automatic backup now.
+  ///
+  /// In en, this message translates to:
+  /// **'Back up now'**
+  String get autoBackupNow;
+
+  /// Confirmation after an automatic backup ran.
+  ///
+  /// In en, this message translates to:
+  /// **'Backed up'**
+  String get autoBackupDone;
+
+  /// Error when the automatic backup folder can't be written.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn’t write to that folder. Try choosing it again.'**
+  String get autoBackupFailed;
+
+  /// Switch to encrypt automatic backups.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock backups with a passphrase'**
+  String get autoBackupEncrypt;
+
+  /// Explanation of encrypted backups.
+  ///
+  /// In en, this message translates to:
+  /// **'Anyone who finds the file can’t read it without the passphrase.'**
+  String get autoBackupEncryptHint;
+
+  /// Dialog title for setting the backup passphrase.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a passphrase'**
+  String get passphraseTitle;
+
+  /// Warning when setting the backup passphrase.
+  ///
+  /// In en, this message translates to:
+  /// **'Write it down somewhere safe. If it’s forgotten, these backups can’t be opened by anyone, including Clearing.'**
+  String get passphraseWarning;
+
+  /// Passphrase field label.
+  ///
+  /// In en, this message translates to:
+  /// **'Passphrase'**
+  String get passphraseField;
+
+  /// Passphrase confirmation field label.
+  ///
+  /// In en, this message translates to:
+  /// **'Passphrase again'**
+  String get passphraseAgain;
+
+  /// Error: passphrases differ.
+  ///
+  /// In en, this message translates to:
+  /// **'The two don’t match.'**
+  String get passphraseMismatch;
+
+  /// Error: passphrase too short.
+  ///
+  /// In en, this message translates to:
+  /// **'Use at least 8 characters.'**
+  String get passphraseShort;
+
+  /// Dialog title asking for a backup's passphrase.
+  ///
+  /// In en, this message translates to:
+  /// **'This backup is locked'**
+  String get passphraseAsk;
+
+  /// Dialog text asking for a backup's passphrase.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the passphrase it was made with.'**
+  String get passphraseAskBody;
+
+  /// Error: wrong passphrase.
+  ///
+  /// In en, this message translates to:
+  /// **'That passphrase doesn’t open this backup.'**
+  String get passphraseWrong;
+
+  /// Button to open a locked backup.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get passphraseUnlock;
+
+  /// Row to pick one of the automatic backups.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore an automatic backup'**
+  String get backupFoundTitle;
+
+  /// No automatic backups found.
+  ///
+  /// In en, this message translates to:
+  /// **'No automatic backups in the folder yet.'**
+  String get backupFoundNone;
+
+  /// Preview note for a backup from a newer app version.
+  ///
+  /// In en, this message translates to:
+  /// **'This backup is from a newer version of Clearing. What this version knows about will be restored.'**
+  String get backupNewer;
+
+  /// Backup screen section heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Moving to a new phone'**
+  String get moveSection;
+
+  /// Row to share a backup for moving phones.
+  ///
+  /// In en, this message translates to:
+  /// **'Send everything to a new phone'**
+  String get moveSend;
+
+  /// Explanation for moving phones.
+  ///
+  /// In en, this message translates to:
+  /// **'Share a backup by Nearby Share, Bluetooth or a cable. On the new phone, choose “Restore from a backup” in the welcome.'**
+  String get moveSendHint;
+
+  /// Welcome option for someone moving from another phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore from a backup'**
+  String get welcomeRestore;
+
+  /// Greeting in the Today header, before noon.
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning'**
+  String get todayGoodMorning;
+
+  /// Greeting in the Today header, afternoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Good afternoon'**
+  String get todayGoodAfternoon;
+
+  /// Greeting in the Today header, evening.
+  ///
+  /// In en, this message translates to:
+  /// **'Good evening'**
+  String get todayGoodEvening;
+
+  /// Heading of the all-clear moment on Today.
+  ///
+  /// In en, this message translates to:
+  /// **'Open sky'**
+  String get todayAllClearTitle;
+
+  /// Reflection line when Today is all clear.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{One thing closed today.} other{{count} things closed today.}}'**
+  String todayAllClearReflection(int count);
+
+  /// Second line of the all-clear moment.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing else is asking for you today.'**
+  String get todayAllClearRest;
+
+  /// Quiet row at the bottom of Today.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Tomorrow: 1 planned} other{Tomorrow: {count} planned}}'**
+  String todayTomorrowPeek(int count);
+
+  /// Button that walks through carried-over items.
+  ///
+  /// In en, this message translates to:
+  /// **'Decide these'**
+  String get todayDecideThese;
+
+  /// Today menu: open the Grove.
+  ///
+  /// In en, this message translates to:
+  /// **'Your clearing'**
+  String get todayMenuGrove;
+
+  /// Today menu: find something that fits the time.
+  ///
+  /// In en, this message translates to:
+  /// **'I have a few minutes…'**
+  String get todayMenuHaveTime;
+
+  /// Today menu: reorder Today's items.
+  ///
+  /// In en, this message translates to:
+  /// **'Reorder Today'**
+  String get todayMenuReorder;
+
+  /// Today menu: recent changes with undo.
+  ///
+  /// In en, this message translates to:
+  /// **'Recently changed'**
+  String get todayMenuRecent;
+
+  /// Plan-my-day sheet title.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick up to {cap} for today'**
+  String planDayTitle(int cap);
+
+  /// Plan-my-day sheet explanation.
+  ///
+  /// In en, this message translates to:
+  /// **'From what you set for this week. The rest stays where it is.'**
+  String get planDayHint;
+
+  /// Quiet row offering to plan the day.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan your day?'**
+  String get planDayPrompt;
+
+  /// Subtitle of the plan-my-day row.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a few from this week'**
+  String get planDayPromptHint;
+
+  /// Button: move the chosen items to Today.
+  ///
+  /// In en, this message translates to:
+  /// **'Put on Today'**
+  String get planDayStart;
+
+  /// Button: never show the plan-my-day prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Don’t offer this'**
+  String get planDayNever;
+
+  /// Option in plan-my-day.
+  ///
+  /// In en, this message translates to:
+  /// **'Make the first a must-do'**
+  String get planDayMustDo;
+
+  /// Label for the row of Today filters.
+  ///
+  /// In en, this message translates to:
+  /// **'What fits now'**
+  String get fitsNow;
+
+  /// Shown when the Today filter hides everything.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing on Today fits that. Try “I have a few minutes” for this week too.'**
+  String get fitsNowNone;
+
+  /// Title of the time-available sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'I have…'**
+  String get haveTimeTitle;
+
+  /// Label before the context choices in the time sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'And I’m…'**
+  String get haveTimeWhere;
+
+  /// Context choice: no particular context.
+  ///
+  /// In en, this message translates to:
+  /// **'Anywhere'**
+  String get haveTimeAnywhere;
+
+  /// Heading above matching items.
+  ///
+  /// In en, this message translates to:
+  /// **'These fit'**
+  String get haveTimeResults;
+
+  /// No items fit the chosen time.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing with a length that fits yet. Add how long things take from an item’s details.'**
+  String get haveTimeNone;
+
+  /// Button: open Focus for the picked item.
+  ///
+  /// In en, this message translates to:
+  /// **'Focus on it'**
+  String get haveTimeFocus;
+
+  /// Title of the decide-carried-over flow.
+  ///
+  /// In en, this message translates to:
+  /// **'Carried over'**
+  String get decideTitle;
+
+  /// Progress in the decide flow.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 left} other{{count} left}}. No wrong answers.'**
+  String decideHint(int count);
+
+  /// Decide flow: move to Trash without fuss.
+  ///
+  /// In en, this message translates to:
+  /// **'Let it go'**
+  String get decideLetGo;
+
+  /// End of the decide flow.
+  ///
+  /// In en, this message translates to:
+  /// **'All decided'**
+  String get decideDoneTitle;
+
+  /// End of the decide flow.
+  ///
+  /// In en, this message translates to:
+  /// **'Today is lighter now.'**
+  String get decideDoneBody;
+
+  /// Title of the reorder screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Reorder'**
+  String get reorderTitle;
+
+  /// Explanation on the reorder screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag the handles, or use the actions with a screen reader. Timed items keep to their times.'**
+  String get reorderHint;
+
+  /// Screen reader action to move an item up.
+  ///
+  /// In en, this message translates to:
+  /// **'Move up'**
+  String get reorderMoveUp;
+
+  /// Screen reader action to move an item down.
+  ///
+  /// In en, this message translates to:
+  /// **'Move down'**
+  String get reorderMoveDown;
+
+  /// Shown while pulling down past the top to capture.
+  ///
+  /// In en, this message translates to:
+  /// **'Release to capture'**
+  String get pullToCapture;
+
+  /// Clarify choice for very small items.
+  ///
+  /// In en, this message translates to:
+  /// **'Takes under 2 minutes? Do it now'**
+  String get clarifyTwoMinutes;
+
+  /// Hint under the two-minute choice.
+  ///
+  /// In en, this message translates to:
+  /// **'Then it’s done, not filed.'**
+  String get clarifyTwoMinutesHint;
+
+  /// Expander in clarify for adding subtasks.
+  ///
+  /// In en, this message translates to:
+  /// **'Break it into steps'**
+  String get clarifyBreakDown;
+
+  /// Example for 'Done means'.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Form posted'**
+  String get clarifyDoneMeansExample1;
+
+  /// Example for 'Done means'.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Call made, date booked'**
+  String get clarifyDoneMeansExample2;
+
+  /// Example for 'Done means'.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Draft sent to Sam'**
+  String get clarifyDoneMeansExample3;
+
+  /// Example for 'Done means'.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Receipt filed'**
+  String get clarifyDoneMeansExample4;
+
+  /// Hint when a list is pre-selected from history.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested from similar things you’ve filed'**
+  String get clarifySuggestedList;
+
+  /// Clarify choice: the date read when capturing.
+  ///
+  /// In en, this message translates to:
+  /// **'On {date}'**
+  String clarifyOnDate(String date);
+
+  /// Hint under the remembered date choice.
+  ///
+  /// In en, this message translates to:
+  /// **'As you typed it'**
+  String get clarifyOnDateHint;
+
+  /// Progress when clarifying the whole inbox.
+  ///
+  /// In en, this message translates to:
+  /// **'{current} of {total}'**
+  String clarifyProgress(int current, int total);
+
+  /// Leaves clarify-all; the rest stays in the Inbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop here'**
+  String get clarifyStopHere;
+
+  /// Inbox button: clarify every item back to back.
+  ///
+  /// In en, this message translates to:
+  /// **'Clarify all'**
+  String get inboxClarifyAll;
+
+  /// Inbox button: one card at a time, decided by swiping.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick decide'**
+  String get inboxCards;
+
+  /// Title of the card triage screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick decide'**
+  String get cardsTitle;
+
+  /// How to use the card triage screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Right: this week · Left: someday · Up: today · Down: delete · Tap: the full questions'**
+  String get cardsHint;
+
+  /// Cards left to decide.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 left} other{{count} left}}'**
+  String cardsLeft(int count);
+
+  /// All cards decided.
+  ///
+  /// In en, this message translates to:
+  /// **'Inbox is clear'**
+  String get cardsDone;
+
+  /// Button: open full clarify for the card.
+  ///
+  /// In en, this message translates to:
+  /// **'All questions'**
+  String get cardsDetails;
+
+  /// Item field: rough effort.
+  ///
+  /// In en, this message translates to:
+  /// **'How long'**
+  String get itemEffort;
+
+  /// Item effort not set.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set'**
+  String get itemEffortNone;
+
+  /// Item field: contexts.
+  ///
+  /// In en, this message translates to:
+  /// **'Where or how'**
+  String get itemContexts;
+
+  /// Item has no contexts.
+  ///
+  /// In en, this message translates to:
+  /// **'Anywhere'**
+  String get itemContextsNone;
+
+  /// Item field: the first step, shown in Focus.
+  ///
+  /// In en, this message translates to:
+  /// **'Smallest first step'**
+  String get itemFirstStep;
+
+  /// Hint for the first step field.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Open the form'**
+  String get itemFirstStepHint;
+
+  /// Heading for the item's activity line.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get itemActivity;
+
+  /// Activity entry.
+  ///
+  /// In en, this message translates to:
+  /// **'Captured {date}'**
+  String activityCaptured(String date);
+
+  /// Activity entry.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned {date}'**
+  String activityPlanned(String date);
+
+  /// Activity entry.
+  ///
+  /// In en, this message translates to:
+  /// **'Handed on {date}'**
+  String activityWaiting(String date);
+
+  /// Activity entry.
+  ///
+  /// In en, this message translates to:
+  /// **'Came back {date}'**
+  String activityResolved(String date);
+
+  /// Activity entry.
+  ///
+  /// In en, this message translates to:
+  /// **'Parked {date}'**
+  String activitySomeday(String date);
+
+  /// Activity entry.
+  ///
+  /// In en, this message translates to:
+  /// **'Done {date}'**
+  String activityDone(String date);
+
+  /// Activity entry.
+  ///
+  /// In en, this message translates to:
+  /// **'Reopened {date}'**
+  String activityReopened(String date);
+
+  /// Activity entry.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted {date}'**
+  String activityTrashed(String date);
+
+  /// Activity: how long an item has been carried over.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{Carried over 1 day} other{Carried over {days} days}}'**
+  String activityCarried(int days);
+
+  /// Heading for an item's photos.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos'**
+  String get itemPhotos;
+
+  /// Button to attach a photo.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a photo'**
+  String get itemAddPhoto;
+
+  /// Attach a photo from the camera.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo'**
+  String get itemTakePhoto;
+
+  /// Attach a photo from the gallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from gallery'**
+  String get itemPickPhoto;
+
+  /// Remove an attached photo.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove photo'**
+  String get itemRemovePhoto;
+
+  /// Screen reader label for an attached photo.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo {n}'**
+  String itemPhotoLabel(int n);
+
+  /// Explanation under photos.
+  ///
+  /// In en, this message translates to:
+  /// **'Kept on this phone and in your backups.'**
+  String get itemPhotosHint;
+
+  /// Menu: turn an item into a project.
+  ///
+  /// In en, this message translates to:
+  /// **'Make this a project'**
+  String get itemMakeProject;
+
+  /// Confirmation after making a project.
+  ///
+  /// In en, this message translates to:
+  /// **'“{name}” is now a project'**
+  String itemMadeProject(String name);
+
+  /// Screen reader label for a link in notes.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get itemOpenLink;
+
+  /// Heading for tappable phone numbers, emails and links found in notes.
+  ///
+  /// In en, this message translates to:
+  /// **'Links'**
+  String get itemNotesLinks;
+
+  /// Sheet after finishing a project step.
+  ///
+  /// In en, this message translates to:
+  /// **'What’s next for “{name}”?'**
+  String projectNextTitle(String name);
+
+  /// Hint in the next-step sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the next step for this week, or add one.'**
+  String get projectNextHint;
+
+  /// Button: add a step to a project.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a step'**
+  String get projectAddStep;
+
+  /// Next-step sheet when no steps are left.
+  ///
+  /// In en, this message translates to:
+  /// **'That was the last step. Add another, or let the project rest.'**
+  String get projectNextNone;
+
+  /// Label for a project list.
+  ///
+  /// In en, this message translates to:
+  /// **'Project'**
+  String get projectLabel;
+
+  /// A project's outcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Outcome'**
+  String get projectOutcome;
+
+  /// Hint for a project's outcome.
+  ///
+  /// In en, this message translates to:
+  /// **'What’s true when it’s finished?'**
+  String get projectOutcomeHint;
+
+  /// A project's target date.
+  ///
+  /// In en, this message translates to:
+  /// **'Aiming for'**
+  String get projectTarget;
+
+  /// A project with no target date.
+  ///
+  /// In en, this message translates to:
+  /// **'No date'**
+  String get projectTargetNone;
+
+  /// Explanation on a project's screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the next step shows on Today and This week.'**
+  String get projectOnlyNext;
+
+  /// Button/dialog to create a project.
+  ///
+  /// In en, this message translates to:
+  /// **'New project'**
+  String get projectNew;
+
+  /// Switch: make a list a project.
+  ///
+  /// In en, this message translates to:
+  /// **'Treat as a project'**
+  String get projectMakeList;
+
+  /// Lists tab section heading for projects.
+  ///
+  /// In en, this message translates to:
+  /// **'Projects'**
+  String get projectsSection;
+
+  /// A list's colour setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Colour'**
+  String get listColour;
+
+  /// No list colour.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get listColourNone;
+
+  /// List colour name.
+  ///
+  /// In en, this message translates to:
+  /// **'Moss'**
+  String get listColourMoss;
+
+  /// List colour name.
+  ///
+  /// In en, this message translates to:
+  /// **'Dawn'**
+  String get listColourDawn;
+
+  /// List colour name.
+  ///
+  /// In en, this message translates to:
+  /// **'Sky'**
+  String get listColourSky;
+
+  /// List colour name.
+  ///
+  /// In en, this message translates to:
+  /// **'Clay'**
+  String get listColourClay;
+
+  /// List colour name.
+  ///
+  /// In en, this message translates to:
+  /// **'Heather'**
+  String get listColourHeather;
+
+  /// Pin a list to the top of the Lists tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin to top'**
+  String get listPin;
+
+  /// Unpin a list.
+  ///
+  /// In en, this message translates to:
+  /// **'Unpin'**
+  String get listUnpin;
+
+  /// Lists tab section heading for pinned lists.
+  ///
+  /// In en, this message translates to:
+  /// **'Pinned'**
+  String get listPinned;
+
+  /// Toggle on an errands list: big rows, ticked items stay at the bottom.
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping mode'**
+  String get listShoppingMode;
+
+  /// Explanation of shopping mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Bigger rows; ticked things move to the bottom until you clear them.'**
+  String get listShoppingHint;
+
+  /// Button in shopping mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear ticked'**
+  String get listClearTicked;
+
+  /// List menu: reorder items.
+  ///
+  /// In en, this message translates to:
+  /// **'Reorder'**
+  String get listReorder;
+
+  /// Lists tab section for saved searches.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart lists'**
+  String get savedSearchesSection;
+
+  /// Search action: save the search.
+  ///
+  /// In en, this message translates to:
+  /// **'Save as a smart list'**
+  String get savedSearchSave;
+
+  /// Dialog title for naming a saved search.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart list name'**
+  String get savedSearchName;
+
+  /// Confirmation after saving a search.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to Lists'**
+  String get savedSearchSaved;
+
+  /// Removes a saved search.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove smart list'**
+  String get savedSearchDelete;
+
+  /// Empty saved search.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing matches right now.'**
+  String get savedSearchEmpty;
+
+  /// Heading above recent searches.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent'**
+  String get searchRecent;
+
+  /// Clears recent searches.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get searchClearRecent;
+
+  /// Search filter: context.
+  ///
+  /// In en, this message translates to:
+  /// **'Where'**
+  String get searchContext;
+
+  /// Search filter: any context.
+  ///
+  /// In en, this message translates to:
+  /// **'Anywhere'**
+  String get searchAnyContext;
+
+  /// Search filter: effort.
+  ///
+  /// In en, this message translates to:
+  /// **'Length'**
+  String get searchEffort;
+
+  /// Search filter: any effort.
+  ///
+  /// In en, this message translates to:
+  /// **'Any length'**
+  String get searchAnyEffort;
+
+  /// Search filter: at most this effort.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to {length}'**
+  String searchUpTo(String length);
+
+  /// Tooltip: switch Upcoming to the month view.
+  ///
+  /// In en, this message translates to:
+  /// **'Month view'**
+  String get upcomingMonthView;
+
+  /// Upcoming subtitle in month view.
+  ///
+  /// In en, this message translates to:
+  /// **'Dots show how much is planned; tap a day'**
+  String get upcomingSubtitleMonth;
+
+  /// Tooltip in the month view.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous month'**
+  String get monthPrevious;
+
+  /// Tooltip in the month view.
+  ///
+  /// In en, this message translates to:
+  /// **'Next month'**
+  String get monthNextLabel;
+
+  /// Screen reader label for a day in the month view.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}: {count, plural, =0{nothing planned} =1{1 planned} other{{count} planned}}'**
+  String monthDayCount(String date, int count);
+
+  /// Hint on a day with a lot planned.
+  ///
+  /// In en, this message translates to:
+  /// **'A full day: {count} planned.'**
+  String busyDay(int count);
+
+  /// Button: move a few items from a full day to the next days.
+  ///
+  /// In en, this message translates to:
+  /// **'Spread some out'**
+  String get busySpread;
+
+  /// Undo message after spreading items.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Moved 1 to the next day} other{Moved {count} across the next days}}'**
+  String busySpreadDone(int count);
+
+  /// Tooltip on the drag handle in the week view.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag to another day'**
+  String get dragToDay;
+
+  /// A waiting item's follow-up shown on its day.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow up: {title}'**
+  String followUpOn(String title);
+
+  /// Label above the first step in Focus.
+  ///
+  /// In en, this message translates to:
+  /// **'First step'**
+  String get focusFirstStep;
+
+  /// Screen reader label once the first step is ticked.
+  ///
+  /// In en, this message translates to:
+  /// **'First step done'**
+  String get focusFirstStepDone;
+
+  /// Focus button offering ways out.
+  ///
+  /// In en, this message translates to:
+  /// **'I’m stuck'**
+  String get focusStuck;
+
+  /// Title of the I'm stuck sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'That happens. Try one of these:'**
+  String get focusStuckTitle;
+
+  /// I'm stuck option.
+  ///
+  /// In en, this message translates to:
+  /// **'Break it into smaller steps'**
+  String get focusStuckBreak;
+
+  /// I'm stuck option.
+  ///
+  /// In en, this message translates to:
+  /// **'Change what “done” means'**
+  String get focusStuckDoneMeans;
+
+  /// I'm stuck option: no guilt, just later.
+  ///
+  /// In en, this message translates to:
+  /// **'Put it back for now'**
+  String get focusStuckLater;
+
+  /// Label for the optional timebox choices in Focus.
+  ///
+  /// In en, this message translates to:
+  /// **'Give it a few minutes'**
+  String get focusTimebox;
+
+  /// Shown while a Focus timebox runs.
+  ///
+  /// In en, this message translates to:
+  /// **'The sky clears as the minutes pass. Nothing is recorded.'**
+  String get focusTimeboxRunning;
+
+  /// Shown when a Focus timebox ends.
+  ///
+  /// In en, this message translates to:
+  /// **'Time’s up. Carry on, or stop here; either is fine.'**
+  String get focusTimeboxDone;
+
+  /// Tooltip to stop a timebox.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop the timebox'**
+  String get focusTimeboxStop;
+
+  /// Setting: show timebox choices in Focus.
+  ///
+  /// In en, this message translates to:
+  /// **'Offer a timebox in Focus'**
+  String get settingsFocusTimebox;
+
+  /// Setting hint.
+  ///
+  /// In en, this message translates to:
+  /// **'5, 15 or 25 minutes, shown as the sky clearing. Nothing is tracked.'**
+  String get settingsFocusTimeboxHint;
+
+  /// Breathing opener title before the reset.
+  ///
+  /// In en, this message translates to:
+  /// **'A few breaths first?'**
+  String get breatheTitle;
+
+  /// Breathing opener cue.
+  ///
+  /// In en, this message translates to:
+  /// **'Breathe in'**
+  String get breatheIn;
+
+  /// Breathing opener cue.
+  ///
+  /// In en, this message translates to:
+  /// **'Breathe out'**
+  String get breatheOut;
+
+  /// Skip the breathing opener.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get breatheSkip;
+
+  /// End the breathing opener.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready'**
+  String get breatheReady;
+
+  /// Setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Offer a few breaths before the reset'**
+  String get settingsBreathing;
+
+  /// Question at the start of the weekly review.
+  ///
+  /// In en, this message translates to:
+  /// **'How long have you got?'**
+  String get reviewLengthTitle;
+
+  /// Weekly review choice.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick (about 5 minutes)'**
+  String get reviewQuick;
+
+  /// Hint for the quick review.
+  ///
+  /// In en, this message translates to:
+  /// **'Your inbox and next week'**
+  String get reviewQuickHint;
+
+  /// Weekly review choice.
+  ///
+  /// In en, this message translates to:
+  /// **'Full'**
+  String get reviewFull;
+
+  /// Hint for the full review.
+  ///
+  /// In en, this message translates to:
+  /// **'Every step, about 15 minutes'**
+  String get reviewFullHint;
+
+  /// Encouragement under the review choices.
+  ///
+  /// In en, this message translates to:
+  /// **'A quick one beats none.'**
+  String get reviewQuickCounts;
+
+  /// Setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Review length'**
+  String get settingsReviewLength;
+
+  /// Review length choice.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask each time'**
+  String get settingsReviewAsk;
+
+  /// Review step with the user's custom prompts.
+  ///
+  /// In en, this message translates to:
+  /// **'Your own checks'**
+  String get reviewOwnChecks;
+
+  /// Hint on the custom prompts step.
+  ///
+  /// In en, this message translates to:
+  /// **'Tick what you’ve looked at.'**
+  String get reviewOwnChecksHint;
+
+  /// Setting: edit custom review prompts.
+  ///
+  /// In en, this message translates to:
+  /// **'Your own review checks'**
+  String get settingsReviewPrompts;
+
+  /// Setting hint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Check the bank account, plan meals'**
+  String get settingsReviewPromptsHint;
+
+  /// Button to add a custom review prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a check'**
+  String get reviewPromptAdd;
+
+  /// Setting: show the wins prompt at the end of the review.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask what went well'**
+  String get settingsWinsPrompt;
+
+  /// Review note about projects without a next action.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 project has nothing planned} other{{count} projects have nothing planned}}'**
+  String reviewProjectsStuck(int count);
+
+  /// Button on a stuck project in the review.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a step'**
+  String get reviewProjectAddStep;
+
+  /// Button on a stuck project in the review: hide the list.
+  ///
+  /// In en, this message translates to:
+  /// **'Park it'**
+  String get reviewProjectPark;
+
+  /// Hint of the settings search field.
+  ///
+  /// In en, this message translates to:
+  /// **'Search settings'**
+  String get settingsSearch;
+
+  /// Settings search with no results.
+  ///
+  /// In en, this message translates to:
+  /// **'No setting matches that.'**
+  String get settingsSearchNone;
+
+  /// Settings section heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Capture'**
+  String get settingsCaptureSection;
+
+  /// Settings section description.
+  ///
+  /// In en, this message translates to:
+  /// **'How Clearing reads what you type.'**
+  String get settingsCaptureHint;
+
+  /// Setting: smart capture parsing.
+  ///
+  /// In en, this message translates to:
+  /// **'Understand dates and lists as I type'**
+  String get settingsParse;
+
+  /// Setting hint for smart capture.
+  ///
+  /// In en, this message translates to:
+  /// **'“pay rent fri 9am #home !” becomes Pay rent, Friday 9:00, Home, must-do.'**
+  String get settingsParseHint;
+
+  /// Setting: parsed captures with dates are planned straight away.
+  ///
+  /// In en, this message translates to:
+  /// **'Things with a date skip the Inbox'**
+  String get settingsParsedSkipInbox;
+
+  /// Settings row opening the contexts screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Contexts'**
+  String get settingsContexts;
+
+  /// Settings section heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Focus and reset'**
+  String get settingsFocusSection;
+
+  /// Settings section description.
+  ///
+  /// In en, this message translates to:
+  /// **'Small helps for starting and for heavy days.'**
+  String get settingsFocusHint;
+
+  /// Setting: the morning plan-my-day prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Offer to plan my day'**
+  String get settingsPlanMyDay;
+
+  /// Settings section heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get settingsPrivacySection;
+
+  /// Settings section description.
+  ///
+  /// In en, this message translates to:
+  /// **'Who can see what, on this phone.'**
+  String get settingsPrivacyHint;
+
+  /// Setting: private notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide titles on the lock screen'**
+  String get settingsHideOnLock;
+
+  /// Setting hint.
+  ///
+  /// In en, this message translates to:
+  /// **'The lock screen shows that there’s a reminder, not what it says.'**
+  String get settingsHideOnLockHint;
+
+  /// Setting: app lock with fingerprint, face or screen lock.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock Clearing'**
+  String get settingsAppLock;
+
+  /// Setting hint.
+  ///
+  /// In en, this message translates to:
+  /// **'With your fingerprint, face or screen lock. Quick capture still works while locked.'**
+  String get settingsAppLockHint;
+
+  /// App lock can't be turned on.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a screen lock on the phone first.'**
+  String get settingsAppLockUnavailable;
+
+  /// Setting: how soon the app locks.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock after'**
+  String get settingsLockAfter;
+
+  /// Lock-after choice.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaving the app'**
+  String get settingsLockImmediately;
+
+  /// Lock-after choice.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 minute away} other{{count} minutes away}}'**
+  String settingsLockMinutes(int count);
+
+  /// Title of the lock screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Clearing is locked'**
+  String get lockTitle;
+
+  /// Button to unlock the app.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock'**
+  String get lockUnlock;
+
+  /// Reason shown in the system biometric prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Clearing'**
+  String get lockReason;
+
+  /// Capture from the lock screen; saves only.
+  ///
+  /// In en, this message translates to:
+  /// **'Capture without unlocking'**
+  String get lockCapture;
+
+  /// Settings section heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Feedback'**
+  String get settingsFeedbackSection;
+
+  /// Settings section description.
+  ///
+  /// In en, this message translates to:
+  /// **'Small signals when something’s done.'**
+  String get settingsFeedbackHint;
+
+  /// Setting: short chimes.
+  ///
+  /// In en, this message translates to:
+  /// **'Sounds'**
+  String get settingsSounds;
+
+  /// Setting hint.
+  ///
+  /// In en, this message translates to:
+  /// **'A short chime when Today is clear and when a review is finished. Silent when the phone is.'**
+  String get settingsSoundsHint;
+
+  /// Setting: colour variant.
+  ///
+  /// In en, this message translates to:
+  /// **'Glade colours'**
+  String get settingsThemeVariant;
+
+  /// Setting hint.
+  ///
+  /// In en, this message translates to:
+  /// **'More are found as your clearing grows.'**
+  String get settingsThemeVariantHint;
+
+  /// Colour variant name.
+  ///
+  /// In en, this message translates to:
+  /// **'Glade'**
+  String get variantGlade;
+
+  /// Colour variant name.
+  ///
+  /// In en, this message translates to:
+  /// **'Autumn'**
+  String get variantAutumn;
+
+  /// Colour variant name.
+  ///
+  /// In en, this message translates to:
+  /// **'Monsoon'**
+  String get variantMonsoon;
+
+  /// Colour variant name.
+  ///
+  /// In en, this message translates to:
+  /// **'Winter'**
+  String get variantWinter;
+
+  /// Colour variant name.
+  ///
+  /// In en, this message translates to:
+  /// **'Night sky'**
+  String get variantNightSky;
+
+  /// Screen reader label for a locked colour variant.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}, not found yet'**
+  String variantLocked(String name);
+
+  /// How to unlock a variant.
+  ///
+  /// In en, this message translates to:
+  /// **'Comes with your first season card'**
+  String get variantHowAutumn;
+
+  /// How to unlock a variant.
+  ///
+  /// In en, this message translates to:
+  /// **'Comes after 10 reviews'**
+  String get variantHowMonsoon;
+
+  /// How to unlock a variant.
+  ///
+  /// In en, this message translates to:
+  /// **'Comes after 25 old tabs closed'**
+  String get variantHowWinter;
+
+  /// How to unlock a variant.
+  ///
+  /// In en, this message translates to:
+  /// **'Comes after 100 things closed'**
+  String get variantHowNightSky;
+
+  /// Setting: unlock every colour variant.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all colours'**
+  String get settingsUnlockAll;
+
+  /// Setting: stronger contrast.
+  ///
+  /// In en, this message translates to:
+  /// **'High contrast'**
+  String get settingsHighContrast;
+
+  /// Setting hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Darker text and outlines, for low vision. Always available.'**
+  String get settingsHighContrastHint;
+
+  /// Setting: more line and letter spacing.
+  ///
+  /// In en, this message translates to:
+  /// **'Roomier text'**
+  String get settingsRoomyText;
+
+  /// Setting hint.
+  ///
+  /// In en, this message translates to:
+  /// **'More space between lines and letters, which some readers find easier.'**
+  String get settingsRoomyTextHint;
+
+  /// Heading of the text size preview.
+  ///
+  /// In en, this message translates to:
+  /// **'Text size preview'**
+  String get settingsTextPreview;
+
+  /// Hint under the text preview.
+  ///
+  /// In en, this message translates to:
+  /// **'Text size follows the phone’s setting.'**
+  String get settingsTextPreviewHint;
+
+  /// Settings row: style presets.
+  ///
+  /// In en, this message translates to:
+  /// **'Make Clearing yours'**
+  String get settingsMakeYours;
+
+  /// Settings row hint.
+  ///
+  /// In en, this message translates to:
+  /// **'One choice that sets the rest'**
+  String get settingsMakeYoursHint;
+
+  /// Style presets screen title.
+  ///
+  /// In en, this message translates to:
+  /// **'Make Clearing yours'**
+  String get styleTitle;
+
+  /// Style presets explanation.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a feel. You can change any part of it afterwards.'**
+  String get styleHint;
+
+  /// Style preset.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimal'**
+  String get styleMinimal;
+
+  /// Style preset description.
+  ///
+  /// In en, this message translates to:
+  /// **'Just the lists. No clearing, no tips, no sounds, no morning summary.'**
+  String get styleMinimalHint;
+
+  /// Style preset.
+  ///
+  /// In en, this message translates to:
+  /// **'Gentle'**
+  String get styleGentle;
+
+  /// Style preset description.
+  ///
+  /// In en, this message translates to:
+  /// **'Tips as you go and your clearing, quietly. The default.'**
+  String get styleGentleHint;
+
+  /// Style preset.
+  ///
+  /// In en, this message translates to:
+  /// **'Encouraging'**
+  String get styleEncouraging;
+
+  /// Style preset description.
+  ///
+  /// In en, this message translates to:
+  /// **'Your clearing, weekly invitations, sounds and a morning summary.'**
+  String get styleEncouragingHint;
+
+  /// Confirmation after applying a style.
+  ///
+  /// In en, this message translates to:
+  /// **'Done. Everything can still be changed in Settings.'**
+  String get styleApplied;
+
+  /// Settings row: release notes.
+  ///
+  /// In en, this message translates to:
+  /// **'What’s new'**
+  String get settingsWhatsNew;
+
+  /// Title of the what's new sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'What’s new in Clearing'**
+  String get whatsNewTitle;
+
+  /// What's new point.
+  ///
+  /// In en, this message translates to:
+  /// **'Type it the way you say it'**
+  String get whatsNew1Title;
+
+  /// What's new point.
+  ///
+  /// In en, this message translates to:
+  /// **'“Dentist fri 3pm” is planned for Friday at 3. Tap a chip to undo any part.'**
+  String get whatsNew1Body;
+
+  /// What's new point.
+  ///
+  /// In en, this message translates to:
+  /// **'Many at once'**
+  String get whatsNew2Title;
+
+  /// What's new point.
+  ///
+  /// In en, this message translates to:
+  /// **'Press and hold to select several things, then plan, move or finish them together.'**
+  String get whatsNew2Body;
+
+  /// What's new point.
+  ///
+  /// In en, this message translates to:
+  /// **'Your clearing'**
+  String get whatsNew3Title;
+
+  /// What's new point.
+  ///
+  /// In en, this message translates to:
+  /// **'An optional, private landscape that grows as you close things. Nothing in it ever wilts.'**
+  String get whatsNew3Body;
+
+  /// What's new point.
+  ///
+  /// In en, this message translates to:
+  /// **'Backups that look after themselves'**
+  String get whatsNew4Title;
+
+  /// What's new point.
+  ///
+  /// In en, this message translates to:
+  /// **'A copy every night into a folder you choose, locked with a passphrase if you like.'**
+  String get whatsNew4Body;
+
+  /// Button on a what's new point.
+  ///
+  /// In en, this message translates to:
+  /// **'Show me'**
+  String get whatsNewTry;
+
+  /// Debug-only settings row.
+  ///
+  /// In en, this message translates to:
+  /// **'Developer options'**
+  String get settingsDeveloper;
+
+  /// Debug-only screen title.
+  ///
+  /// In en, this message translates to:
+  /// **'Developer options'**
+  String get developerTitle;
+
+  /// Developer screen explanation.
+  ///
+  /// In en, this message translates to:
+  /// **'Unfinished features, for testing. Only in debug builds.'**
+  String get developerHint;
+
+  /// Developer screen with no flags.
+  ///
+  /// In en, this message translates to:
+  /// **'No unfinished features right now.'**
+  String get developerNoFlags;
+
+  /// Developer action.
+  ///
+  /// In en, this message translates to:
+  /// **'Add sample items'**
+  String get developerSeed;
+
+  /// Title of the contexts screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Contexts'**
+  String get contextsScreenTitle;
+
+  /// Rename a context.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename'**
+  String get contextsRename;
+
+  /// Delete a context.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get contextsDelete;
+
+  /// Settings row: share an .ics file.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Upcoming as a calendar file'**
+  String get settingsExportCalendar;
+
+  /// Settings row hint.
+  ///
+  /// In en, this message translates to:
+  /// **'For importing into any calendar app. Clearing never reads your calendar.'**
+  String get settingsExportCalendarHint;
+
+  /// Nothing to export.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing dated in the next 90 days.'**
+  String get settingsExportCalendarNone;
+
+  /// Notification button: open the item to reschedule.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a time'**
+  String get notifActionPickTime;
+
+  /// Notification button: reply to capture a thought.
+  ///
+  /// In en, this message translates to:
+  /// **'Capture'**
+  String get notifActionCapture;
+
+  /// Placeholder in the reply field of the morning summary.
+  ///
+  /// In en, this message translates to:
+  /// **'Anything else on your mind?'**
+  String get notifReplyHint;
+
+  /// Switch in the repeat editor: a flexible weekly routine.
+  ///
+  /// In en, this message translates to:
+  /// **'Any days of the week'**
+  String get repeatFlexible;
+
+  /// Hint for flexible routines.
+  ///
+  /// In en, this message translates to:
+  /// **'A few times a week, whenever suits. Weeks that fall short just start fresh.'**
+  String get repeatFlexibleHint;
+
+  /// A flexible routine's rule.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Once a week, any day} other{{count} times a week, any days}}'**
+  String repeatTimesAWeek(int count);
+
+  /// Tooltip: lower the weekly target.
+  ///
+  /// In en, this message translates to:
+  /// **'Fewer times'**
+  String get repeatFewer;
+
+  /// Tooltip: raise the weekly target.
+  ///
+  /// In en, this message translates to:
+  /// **'More times'**
+  String get repeatMore;
+
+  /// Progress of a flexible routine. Never a streak.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {target} this week'**
+  String flexibleProgress(int done, int target);
+
+  /// One-time explanation of 'Clarify' in the Inbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Clarify means deciding what a thought is: something to do, someone else’s, an idea for later, or nothing at all. Tap an item to start.'**
+  String get glossClarify;
+
+  /// One-time explanation of 'must-do' on Today.
+  ///
+  /// In en, this message translates to:
+  /// **'Must-dos are the few things that have to happen today. Clearing keeps them to a small number on purpose.'**
+  String get glossMustDo;
+
+  /// One-time explanation of 'carried over' on Today.
+  ///
+  /// In en, this message translates to:
+  /// **'Carried over means it was planned for an earlier day. No harm done: decide again when you’re ready.'**
+  String get glossCarried;
+
+  /// One-time explanation of 'Waiting on' in Upcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting on is for things someone else is doing. Clearing reminds you to check in on the follow-up date.'**
+  String get glossWaiting;
+
+  /// One-time explanation of 'Someday' in Lists.
+  ///
+  /// In en, this message translates to:
+  /// **'Someday holds ideas, not commitments. They never show on Today; the weekly review brings them back to look at.'**
+  String get glossSomeday;
+
+  /// Button on a guide: show the real screen with a pointer.
+  ///
+  /// In en, this message translates to:
+  /// **'Show me'**
+  String get guideShowMe;
+
+  /// Coach mark on the capture button.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap here, or press N on a keyboard, to get a thought out of your head.'**
+  String get coachCapture;
+
+  /// Coach mark on the Inbox tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything you capture waits here until you decide what it is.'**
+  String get coachInbox;
+
+  /// Coach mark on the Today tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Today: your must-dos first, the rest quiet below.'**
+  String get coachToday;
+
+  /// Coach mark on the Upcoming tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Dates, the week ahead, and the month at a glance.'**
+  String get coachUpcoming;
+
+  /// Coach mark on the Lists tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Lists, projects, smart lists, Someday and your settings.'**
+  String get coachLists;
+
+  /// Dismisses a coach mark.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get coachGotIt;
 }
 
 class _AppLocalizationsDelegate

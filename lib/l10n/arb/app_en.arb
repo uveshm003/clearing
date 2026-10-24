@@ -3299,5 +3299,2372 @@
   "guideData4Body": "Deleted items stay in Trash for 30 days; done items move to the archive and stay searchable.",
   "@guideData4Body": {
     "description": "Guide point text."
+  },
+  "effortMinutes": "{count} min",
+  "@effortMinutes": {
+    "description": "Rough effort of an item, in minutes.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "effortHour": "1 hour",
+  "@effortHour": {
+    "description": "Rough effort of an item: about an hour."
+  },
+  "effortLonger": "Longer",
+  "@effortLonger": {
+    "description": "Rough effort of an item: more than an hour."
+  },
+  "effortTitle": "How long?",
+  "@effortTitle": {
+    "description": "Heading for picking an item's rough effort."
+  },
+  "contextHome": "Home",
+  "@contextHome": {
+    "description": "Built-in context: can be done at home."
+  },
+  "contextOut": "Out",
+  "@contextOut": {
+    "description": "Built-in context: needs going out."
+  },
+  "contextComputer": "Computer",
+  "@contextComputer": {
+    "description": "Built-in context: needs a computer."
+  },
+  "contextPhone": "Phone",
+  "@contextPhone": {
+    "description": "Built-in context: a call or something on the phone."
+  },
+  "contextLowEnergy": "Low energy",
+  "@contextLowEnergy": {
+    "description": "Built-in context: fine to do when tired."
+  },
+  "contextsTitle": "Where or how",
+  "@contextsTitle": {
+    "description": "Heading for an item's contexts."
+  },
+  "contextsManage": "Edit contexts",
+  "@contextsManage": {
+    "description": "Opens the list of contexts to add or rename."
+  },
+  "contextsNew": "New context",
+  "@contextsNew": {
+    "description": "Button/dialog title to add a context."
+  },
+  "contextsHint": "Contexts say where or how something can be done, so Today can show what fits right now.",
+  "@contextsHint": {
+    "description": "Explanation at the top of the contexts screen."
+  },
+  "captureToInbox": "Inbox",
+  "@captureToInbox": {
+    "description": "Capture destination toggle: save to the Inbox."
+  },
+  "captureDestination": "Save to",
+  "@captureDestination": {
+    "description": "Label for the capture destination toggles."
+  },
+  "captureChipRemove": "Keep “{label}” in the title",
+  "@captureChipRemove": {
+    "description": "Screen reader label for removing an understood part.",
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "captureUnderstood": "Understood",
+  "@captureUnderstood": {
+    "description": "Screen reader label for the row of understood parts."
+  },
+  "captureChipMustDo": "Must-do",
+  "@captureChipMustDo": {
+    "description": "Chip: the capture is a must-do."
+  },
+  "captureChipWaiting": "Waiting on {person}",
+  "@captureChipWaiting": {
+    "description": "Chip: the capture is waiting on someone.",
+    "placeholders": {
+      "person": {
+        "type": "String"
+      }
+    }
+  },
+  "captureChipDue": "Due {date}",
+  "@captureChipDue": {
+    "description": "Chip: the capture's deadline.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "captureMustDoFull": "Today’s must-dos are full, so it’s on Today instead.",
+  "@captureMustDoFull": {
+    "description": "Shown when a captured must-do couldn't be flagged."
+  },
+  "captureDuplicate": "Looks like “{title}” is already here.",
+  "@captureDuplicate": {
+    "description": "Hint that a capture matches an open item.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "captureDuplicateMerge": "Keep just one",
+  "@captureDuplicateMerge": {
+    "description": "Removes the new duplicate capture."
+  },
+  "captureDuplicateKeep": "Keep both",
+  "@captureDuplicateKeep": {
+    "description": "Keeps the duplicate capture."
+  },
+  "captureDuplicateMerged": "Kept the one already there",
+  "@captureDuplicateMerged": {
+    "description": "Confirmation after removing a duplicate."
+  },
+  "captureEditSaved": "Edit this thought",
+  "@captureEditSaved": {
+    "description": "Title of the dialog for editing a just-captured item."
+  },
+  "captureRemoveSaved": "Remove it",
+  "@captureRemoveSaved": {
+    "description": "Removes a just-captured item."
+  },
+  "captureTemplates": "Templates",
+  "@captureTemplates": {
+    "description": "Label above template suggestions when typing /."
+  },
+  "captureTemplateStarted": "Started “{name}”",
+  "@captureTemplateStarted": {
+    "description": "Saved-stack line after starting a template from capture.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "captureVoice": "Speak",
+  "@captureVoice": {
+    "description": "Tooltip for the microphone button in capture."
+  },
+  "captureVoiceListening": "Listening… pause to start a new line",
+  "@captureVoiceListening": {
+    "description": "Shown while speech capture listens."
+  },
+  "captureVoiceStop": "Stop listening",
+  "@captureVoiceStop": {
+    "description": "Tooltip to stop speech capture."
+  },
+  "captureVoiceFailed": "Couldn’t listen. Speech works offline once the language is downloaded in Android settings.",
+  "@captureVoiceFailed": {
+    "description": "Shown when on-device speech recognition fails."
+  },
+  "captureVoicePermission": "Clearing listens only while you hold the button, on this phone. Nothing is recorded or sent anywhere.",
+  "@captureVoicePermission": {
+    "description": "Explanation before asking for microphone permission."
+  },
+  "captureVoicePermissionTitle": "Use the microphone?",
+  "@captureVoicePermissionTitle": {
+    "description": "Title before asking for microphone permission."
+  },
+  "captureVoiceAllow": "Allow",
+  "@captureVoiceAllow": {
+    "description": "Button to go on to the microphone permission."
+  },
+  "selectCount": "{count} selected",
+  "@selectCount": {
+    "description": "Title of the bulk-action bar.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "selectClear": "Stop selecting",
+  "@selectClear": {
+    "description": "Tooltip to leave multi-select."
+  },
+  "selectThis": "Select",
+  "@selectThis": {
+    "description": "Screen reader action to select an item for bulk actions."
+  },
+  "selectDeselect": "Deselect",
+  "@selectDeselect": {
+    "description": "Screen reader action to unselect an item."
+  },
+  "selectMoveToList": "Move to list",
+  "@selectMoveToList": {
+    "description": "Bulk action: file the selected items in a list."
+  },
+  "selectMoreActions": "More actions",
+  "@selectMoreActions": {
+    "description": "Opens the menu of actions for one selected item."
+  },
+  "selectDone": "{count, plural, =1{1 done} other{{count} done}}",
+  "@selectDone": {
+    "description": "Undo message after completing several items.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "selectPlanned": "{count, plural, =1{1 planned} other{{count} planned}}",
+  "@selectPlanned": {
+    "description": "Undo message after planning several items.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "selectMoved": "{count, plural, =1{1 moved} other{{count} moved}}",
+  "@selectMoved": {
+    "description": "Undo message after moving several items.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "selectTrashed": "{count, plural, =1{1 moved to Trash} other{{count} moved to Trash}}",
+  "@selectTrashed": {
+    "description": "Undo message after deleting several items.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "selectSomeday": "{count, plural, =1{1 moved to Someday} other{{count} moved to Someday}}",
+  "@selectSomeday": {
+    "description": "Undo message after parking several items.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "selectHint": "Tip: press and hold any item to select several at once.",
+  "@selectHint": {
+    "description": "One-time tip about multi-select."
+  },
+  "undoHistoryTitle": "Recently changed",
+  "@undoHistoryTitle": {
+    "description": "Screen listing recent changes that can be undone."
+  },
+  "undoHistoryEmpty": "Nothing changed yet in this session.",
+  "@undoHistoryEmpty": {
+    "description": "Empty state of the recent changes screen."
+  },
+  "undoHistoryHint": "The last ten changes since you opened Clearing. Undo puts things back exactly as they were.",
+  "@undoHistoryHint": {
+    "description": "Explanation on the recent changes screen."
+  },
+  "undoHistoryUndone": "Undone",
+  "@undoHistoryUndone": {
+    "description": "Label for a change that was already undone."
+  },
+  "itemTileAge": "{days, plural, =1{waiting 1 day} other{waiting {days} days}}",
+  "@itemTileAge": {
+    "description": "How long an inbox item has waited, shown softly.",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "itemTileAgeWeeks": "{weeks, plural, =1{waiting 1 week} other{waiting {weeks} weeks}}",
+  "@itemTileAgeWeeks": {
+    "description": "How long an inbox item has waited, in weeks.",
+    "placeholders": {
+      "weeks": {
+        "type": "int"
+      }
+    }
+  },
+  "itemTileNow": "Now",
+  "@itemTileNow": {
+    "description": "Label on the line marking the current time among timed items."
+  },
+  "settingsSwipeSection": "Swipes",
+  "@settingsSwipeSection": {
+    "description": "Settings section heading for swipe actions."
+  },
+  "settingsSwipeHint": "What a swipe on an item does outside the Inbox.",
+  "@settingsSwipeHint": {
+    "description": "Settings section description for swipes."
+  },
+  "settingsSwipeStart": "Swipe right",
+  "@settingsSwipeStart": {
+    "description": "Setting: action for swiping from the start edge."
+  },
+  "settingsSwipeEnd": "Swipe left",
+  "@settingsSwipeEnd": {
+    "description": "Setting: action for swiping from the end edge."
+  },
+  "swipeNone": "Nothing",
+  "@swipeNone": {
+    "description": "Swipe action choice: no action."
+  },
+  "fieldNoteLabel": "Field note",
+  "@fieldNoteLabel": {
+    "description": "Label on the small card shown when a field note is found."
+  },
+  "fieldNoteFound": "Field note: {name}. {body}",
+  "@fieldNoteFound": {
+    "description": "Screen reader text for a found field note.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "body": {
+        "type": "String"
+      }
+    }
+  },
+  "fieldNotesTitle": "Field notes",
+  "@fieldNotesTitle": {
+    "description": "Title of the field notes notebook."
+  },
+  "fieldNotesHint": "Small discoveries, each found by trying something once. There’s no order and nothing to keep up.",
+  "@fieldNotesHint": {
+    "description": "Explanation at the top of the field notes notebook."
+  },
+  "fieldNoteLocked": "Not found yet: {hint}",
+  "@fieldNoteLocked": {
+    "description": "A field note not found yet, with a hint.",
+    "placeholders": {
+      "hint": {
+        "type": "String"
+      }
+    }
+  },
+  "noteFirstLightName": "First light",
+  "@noteFirstLightName": {
+    "description": "Field note name."
+  },
+  "noteFirstLightBody": "You got a thought out of your head.",
+  "@noteFirstLightBody": {
+    "description": "Field note text."
+  },
+  "noteFirstLightHint": "capture a thought",
+  "@noteFirstLightHint": {
+    "description": "Hint for a field note not yet found."
+  },
+  "noteHomeName": "A home for everything",
+  "@noteHomeName": {
+    "description": "Field note name."
+  },
+  "noteHomeBody": "You gave a thought a list to live in.",
+  "@noteHomeBody": {
+    "description": "Field note text."
+  },
+  "noteHomeHint": "clarify something into a list",
+  "@noteHomeHint": {
+    "description": "Hint for a field note not yet found."
+  },
+  "noteHandsName": "Out of your hands",
+  "@noteHandsName": {
+    "description": "Field note name."
+  },
+  "noteHandsBody": "Someone else is doing it; Clearing will remember to check.",
+  "@noteHandsBody": {
+    "description": "Field note text."
+  },
+  "noteHandsHint": "mark something as waiting on someone",
+  "@noteHandsHint": {
+    "description": "Hint for a field note not yet found."
+  },
+  "noteLongViewName": "The long view",
+  "@noteLongViewName": {
+    "description": "Field note name."
+  },
+  "noteLongViewBody": "Something that comes back now looks after itself.",
+  "@noteLongViewBody": {
+    "description": "Field note text."
+  },
+  "noteLongViewHint": "make something repeat",
+  "@noteLongViewHint": {
+    "description": "Hint for a field note not yet found."
+  },
+  "noteBreathName": "Deep breath",
+  "@noteBreathName": {
+    "description": "Field note name."
+  },
+  "noteBreathBody": "You found the overwhelm reset.",
+  "@noteBreathBody": {
+    "description": "Field note text."
+  },
+  "noteBreathHint": "try the overwhelm reset",
+  "@noteBreathHint": {
+    "description": "Hint for a field note not yet found."
+  },
+  "notePathName": "The path",
+  "@notePathName": {
+    "description": "Field note name."
+  },
+  "notePathBody": "Your first weekly review. Your clearing has its first tree.",
+  "@notePathBody": {
+    "description": "Field note text."
+  },
+  "notePathHint": "finish a weekly review",
+  "@notePathHint": {
+    "description": "Hint for a field note not yet found."
+  },
+  "noteOneThingName": "Just one thing",
+  "@noteOneThingName": {
+    "description": "Field note name."
+  },
+  "noteOneThingBody": "You finished something from the focus view.",
+  "@noteOneThingBody": {
+    "description": "Field note text."
+  },
+  "noteOneThingHint": "finish something in Focus",
+  "@noteOneThingHint": {
+    "description": "Hint for a field note not yet found."
+  },
+  "noteKeepingName": "Safe keeping",
+  "@noteKeepingName": {
+    "description": "Field note name."
+  },
+  "noteKeepingBody": "There’s a copy of everything, kept by you.",
+  "@noteKeepingBody": {
+    "description": "Field note text."
+  },
+  "noteKeepingHint": "make a backup",
+  "@noteKeepingHint": {
+    "description": "Hint for a field note not yet found."
+  },
+  "noteDoorstepName": "From the doorstep",
+  "@noteDoorstepName": {
+    "description": "Field note name."
+  },
+  "noteDoorstepBody": "You captured without opening the app first.",
+  "@noteDoorstepBody": {
+    "description": "Field note text."
+  },
+  "noteDoorstepHint": "capture from the widget, a share, a shortcut or your voice",
+  "@noteDoorstepHint": {
+    "description": "Hint for a field note not yet found."
+  },
+  "noteOldTabName": "Old tab",
+  "@noteOldTabName": {
+    "description": "Field note name."
+  },
+  "noteOldTabBody": "You closed something that had been open for a month or more.",
+  "@noteOldTabBody": {
+    "description": "Field note text."
+  },
+  "noteOldTabHint": "close something that’s waited a month",
+  "@noteOldTabHint": {
+    "description": "Hint for a field note not yet found."
+  },
+  "noteOpenSkyName": "Open sky",
+  "@noteOpenSkyName": {
+    "description": "Field note name."
+  },
+  "noteOpenSkyBody": "Everything on Today, done.",
+  "@noteOpenSkyBody": {
+    "description": "Field note text."
+  },
+  "noteOpenSkyHint": "clear a whole Today",
+  "@noteOpenSkyHint": {
+    "description": "Hint for a field note not yet found."
+  },
+  "noteSeasonsName": "Four seasons",
+  "@noteSeasonsName": {
+    "description": "Field note name."
+  },
+  "noteSeasonsBody": "You reviewed in every season of a year.",
+  "@noteSeasonsBody": {
+    "description": "Field note text."
+  },
+  "noteSeasonsHint": "review at least once in each season, at any pace",
+  "@noteSeasonsHint": {
+    "description": "Hint for a field note not yet found."
+  },
+  "groveTitle": "Your clearing",
+  "@groveTitle": {
+    "description": "Title of the Grove screen."
+  },
+  "groveMenu": "Your clearing",
+  "@groveMenu": {
+    "description": "Menu item opening the Grove."
+  },
+  "groveCaption": "This {season}: {closed, plural, =0{nothing closed yet} =1{1 thing closed} other{{closed} things closed}}, {reviews, plural, =0{no reviews} =1{1 review} other{{reviews} reviews}}, {oldTabs, plural, =0{no old tabs} =1{1 old tab cleared} other{{oldTabs} old tabs cleared}}.",
+  "@groveCaption": {
+    "description": "Grove caption with this season's counts.",
+    "placeholders": {
+      "season": {
+        "type": "String"
+      },
+      "closed": {
+        "type": "int"
+      },
+      "reviews": {
+        "type": "int"
+      },
+      "oldTabs": {
+        "type": "int"
+      }
+    }
+  },
+  "groveEmpty": "Your clearing is ready. Close a thought or finish a review, and something will grow here. Nothing here ever wilts.",
+  "@groveEmpty": {
+    "description": "Grove text before anything has grown."
+  },
+  "groveDescription": "Your clearing: {trees, plural, =0{no trees yet} =1{1 tree} other{{trees} trees}}, {flowers, plural, =0{no wildflowers} =1{1 wildflower} other{{flowers} wildflowers}}, {cairns, plural, =0{no cairns} =1{1 cairn} other{{cairns} cairns}}, {birds, plural, =0{no birds} =1{1 bird} other{{birds} birds}}{extras}.",
+  "@groveDescription": {
+    "description": "Screen reader description of the Grove painting.",
+    "placeholders": {
+      "trees": {
+        "type": "int"
+      },
+      "flowers": {
+        "type": "int"
+      },
+      "cairns": {
+        "type": "int"
+      },
+      "birds": {
+        "type": "int"
+      },
+      "extras": {
+        "type": "String"
+      }
+    }
+  },
+  "groveHasStream": ", a stream",
+  "@groveHasStream": {
+    "description": "Added to the Grove description when there's a stream."
+  },
+  "groveHasBench": ", a bench",
+  "@groveHasBench": {
+    "description": "Added to the Grove description when there's a bench."
+  },
+  "groveHasLanterns": ", {count, plural, =1{1 lantern} other{{count} lanterns}}",
+  "@groveHasLanterns": {
+    "description": "Added to the Grove description for lanterns.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "groveTapHint": "Tap anything in your clearing to see what it was for.",
+  "@groveTapHint": {
+    "description": "Hint under the Grove painting."
+  },
+  "groveCairn": "Week of {date}: {count, plural, =1{1 thing closed} other{{count} things closed}}",
+  "@groveCairn": {
+    "description": "Detail for a cairn in the Grove.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "groveFlower": "{title}, waited {days} days, closed {date}",
+  "@groveFlower": {
+    "description": "Detail for a wildflower: an old tab closed.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "groveTree": "A weekly review, {date}",
+  "@groveTree": {
+    "description": "Detail for a tree in the Grove.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "groveOldTree": "A tree from an earlier season, from your review on {date}",
+  "@groveOldTree": {
+    "description": "Detail for an old tree in the Grove.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "groveStream": "Your first overwhelm reset, {date}",
+  "@groveStream": {
+    "description": "Detail for the stream in the Grove.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "groveBird": "Everything on Today done, {date}",
+  "@groveBird": {
+    "description": "Detail for a bird in the Grove.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "groveBench": "You keep a backup. A place to sit.",
+  "@groveBench": {
+    "description": "Detail for the bench in the Grove."
+  },
+  "groveLantern": "Something you were waiting for came back, {date}",
+  "@groveLantern": {
+    "description": "Detail for a lantern in the Grove.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "groveStep": "An invitation taken up, {date}",
+  "@groveStep": {
+    "description": "Detail for a stepping stone in the Grove.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "groveSeasonSpring": "spring",
+  "@groveSeasonSpring": {
+    "description": "Season name, lowercase, used in sentences."
+  },
+  "groveSeasonMonsoon": "monsoon",
+  "@groveSeasonMonsoon": {
+    "description": "Season name, lowercase, used in sentences."
+  },
+  "groveSeasonSummer": "summer",
+  "@groveSeasonSummer": {
+    "description": "Season name, lowercase, used in sentences."
+  },
+  "groveSeasonAutumn": "autumn",
+  "@groveSeasonAutumn": {
+    "description": "Season name, lowercase, used in sentences."
+  },
+  "groveSeasonWinter": "winter",
+  "@groveSeasonWinter": {
+    "description": "Season name, lowercase, used in sentences."
+  },
+  "groveSeasonCard": "{season} {year}",
+  "@groveSeasonCard": {
+    "description": "Title of a pressed season card, e.g. 'Autumn 2026'.",
+    "placeholders": {
+      "season": {
+        "type": "String"
+      },
+      "year": {
+        "type": "String"
+      }
+    }
+  },
+  "groveAlbum": "Season cards",
+  "@groveAlbum": {
+    "description": "Title of the album of past seasons."
+  },
+  "groveAlbumHint": "At each season’s turn, your clearing is pressed into a card and kept. The trees stay standing.",
+  "@groveAlbumHint": {
+    "description": "Explanation at the top of the season cards album."
+  },
+  "groveAlbumEmpty": "Your first card is pressed when this season turns.",
+  "@groveAlbumEmpty": {
+    "description": "Empty state of the season cards album."
+  },
+  "groveCairnTitle": "The cairn",
+  "@groveCairnTitle": {
+    "description": "Title of the done log, drawn as stacked stones per week."
+  },
+  "groveCairnHint": "Everything you’ve closed, a stone each, a pile a week. Tap a week to see what was in it.",
+  "@groveCairnHint": {
+    "description": "Explanation at the top of the cairn screen."
+  },
+  "groveCairnWeek": "Week of {date}",
+  "@groveCairnWeek": {
+    "description": "Heading for one week in the cairn.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "groveCairnEmpty": "Things you finish will stack up here, one stone each.",
+  "@groveCairnEmpty": {
+    "description": "Empty state of the cairn."
+  },
+  "groveCairnOldOnly": "Only old tabs",
+  "@groveCairnOldOnly": {
+    "description": "Filter in the cairn: only items that waited 14+ days."
+  },
+  "groveCairnCount": "{count, plural, =1{1 closed} other{{count} closed}}",
+  "@groveCairnCount": {
+    "description": "Count for a week in the cairn.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "groveJournal": "Glad you did",
+  "@groveJournal": {
+    "description": "Heading for the list of things the user was glad they did."
+  },
+  "groveJournalEmpty": "At the end of a weekly review you can note something you’re glad you did. It stays here, just for you.",
+  "@groveJournalEmpty": {
+    "description": "Empty state of the journal."
+  },
+  "groveMore": "More in your clearing",
+  "@groveMore": {
+    "description": "Section heading for links on the Grove screen."
+  },
+  "groveSettings": "Seasons",
+  "@groveSettings": {
+    "description": "Grove settings section."
+  },
+  "groveHemisphere": "Where you are",
+  "@groveHemisphere": {
+    "description": "Setting: hemisphere for seasons."
+  },
+  "groveNorth": "Northern half of the world",
+  "@groveNorth": {
+    "description": "Hemisphere choice."
+  },
+  "groveSouth": "Southern half of the world",
+  "@groveSouth": {
+    "description": "Hemisphere choice."
+  },
+  "groveWetSeason": "Show monsoon instead of spring",
+  "@groveWetSeason": {
+    "description": "Setting: show the wet season as a monsoon."
+  },
+  "settingsGroveSection": "Your clearing",
+  "@settingsGroveSection": {
+    "description": "Settings section for the Grove."
+  },
+  "settingsGroveHint": "Your progress as a calm, growing picture. Nothing in it ever wilts or resets.",
+  "@settingsGroveHint": {
+    "description": "Settings section description for the Grove."
+  },
+  "settingsGroveShow": "Show your clearing",
+  "@settingsGroveShow": {
+    "description": "Setting: turn the Grove on or off."
+  },
+  "settingsInvitations": "Weekly invitations",
+  "@settingsInvitations": {
+    "description": "Setting: show one optional invitation a week."
+  },
+  "settingsInvitationsHint": "One optional idea a week on Today. Ignoring it does nothing.",
+  "@settingsInvitationsHint": {
+    "description": "Setting hint for invitations."
+  },
+  "groveAskTitle": "See your progress as a growing clearing?",
+  "@groveAskTitle": {
+    "description": "Welcome question about the Grove."
+  },
+  "groveAskBody": "Each thing you close and each review you finish helps a small, private landscape grow. It never shrinks, and there are no streaks to keep. You can turn it off any time.",
+  "@groveAskBody": {
+    "description": "Welcome explanation of the Grove."
+  },
+  "groveAskYes": "Yes, show it",
+  "@groveAskYes": {
+    "description": "Welcome answer: turn the Grove on."
+  },
+  "groveAskNo": "No thanks",
+  "@groveAskNo": {
+    "description": "Welcome answer: keep the Grove off."
+  },
+  "inviteLabel": "This week’s invitation",
+  "@inviteLabel": {
+    "description": "Label on the weekly invitation row."
+  },
+  "inviteHomeForThree": "Give three inbox items a home.",
+  "@inviteHomeForThree": {
+    "description": "Weekly invitation."
+  },
+  "inviteDoneMeans": "Write a “Done means…” for one thing that’s been sitting.",
+  "@inviteDoneMeans": {
+    "description": "Weekly invitation."
+  },
+  "inviteOldThought": "Close one thing that’s been on your mind for more than a month.",
+  "@inviteOldThought": {
+    "description": "Weekly invitation."
+  },
+  "inviteParkAnIdea": "Park one idea in Someday that you won’t do this month.",
+  "@inviteParkAnIdea": {
+    "description": "Weekly invitation."
+  },
+  "inviteTryFocus": "Try the focus view on your must-do.",
+  "@inviteTryFocus": {
+    "description": "Weekly invitation."
+  },
+  "inviteTryReset": "When it feels like a lot, try the overwhelm reset.",
+  "@inviteTryReset": {
+    "description": "Weekly invitation."
+  },
+  "inviteAddEffort": "Add how long two things take, so Today can show what fits.",
+  "@inviteAddEffort": {
+    "description": "Weekly invitation."
+  },
+  "inviteBackUp": "Make a backup, or turn on automatic ones.",
+  "@inviteBackUp": {
+    "description": "Weekly invitation."
+  },
+  "inviteDidIt": "Did it",
+  "@inviteDidIt": {
+    "description": "Button: mark the weekly invitation as taken up."
+  },
+  "inviteNotThisWeek": "Not this week",
+  "@inviteNotThisWeek": {
+    "description": "Button: set the weekly invitation aside."
+  },
+  "inviteOff": "Don’t show invitations",
+  "@inviteOff": {
+    "description": "Button: turn weekly invitations off."
+  },
+  "inviteThanks": "A stepping stone joins your clearing.",
+  "@inviteThanks": {
+    "description": "Shown after taking up an invitation."
+  },
+  "inviteGo": "Go",
+  "@inviteGo": {
+    "description": "Button: go to where the invitation can be done."
+  },
+  "lookBackTitle": "Look back",
+  "@lookBackTitle": {
+    "description": "Title of the weekly review's closing summary."
+  },
+  "lookBackClosed": "{count, plural, =0{A quieter week.} =1{This week you closed 1 thing.} other{This week you closed {count} things.}}",
+  "@lookBackClosed": {
+    "description": "Look back: how many things were closed this week.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "lookBackQuiet": "Clearing your inbox still counts.",
+  "@lookBackQuiet": {
+    "description": "Look back after a light week."
+  },
+  "lookBackBest": "More than any week this season.",
+  "@lookBackBest": {
+    "description": "Look back: a positive-only comparison."
+  },
+  "lookBackOldest": "The oldest was “{title}”, which had waited {days, plural, =1{1 day} other{{days} days}}.",
+  "@lookBackOldest": {
+    "description": "Look back: the oldest thing closed this week.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "lookBackParked": "{count, plural, =1{1 thing moved to Someday, so it’s out of your head.} other{{count} things moved to Someday, so they’re out of your head.}}",
+  "@lookBackParked": {
+    "description": "Look back: things parked during the review.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "lookBackTree": "A new tree is growing in your clearing.",
+  "@lookBackTree": {
+    "description": "Look back: the review planted a tree."
+  },
+  "lookBackWins": "Anything you’re glad you did this week?",
+  "@lookBackWins": {
+    "description": "Optional prompt at the end of the review."
+  },
+  "lookBackWinsHint": "Optional, and only for you",
+  "@lookBackWinsHint": {
+    "description": "Hint for the wins prompt field."
+  },
+  "insightsTitle": "Your rhythm",
+  "@insightsTitle": {
+    "description": "Title of the private insights page."
+  },
+  "insightsHint": "What the last 90 days look like, worked out on this phone. Observations, never judgements.",
+  "@insightsHint": {
+    "description": "Explanation at the top of the insights page."
+  },
+  "insightsEmpty": "Once you’ve closed a few things, you’ll see your rhythm here.",
+  "@insightsEmpty": {
+    "description": "Insights page before there's enough data."
+  },
+  "insightsByHour": "When you close things",
+  "@insightsByHour": {
+    "description": "Heading of the completions-by-hour chart."
+  },
+  "insightsByHourSummary": "Things closed by hour of day. Most around {hour}.",
+  "@insightsByHourSummary": {
+    "description": "Screen reader summary of the hour chart.",
+    "placeholders": {
+      "hour": {
+        "type": "String"
+      }
+    }
+  },
+  "insightsBarTooltip": "{hour}: {count, plural, =1{1 closed} other{{count} closed}}",
+  "@insightsBarTooltip": {
+    "description": "Tooltip on one bar of the hour chart.",
+    "placeholders": {
+      "hour": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "insightsMorning": "You close most things before noon. Morning must-dos might suit you.",
+  "@insightsMorning": {
+    "description": "Insight observation."
+  },
+  "insightsAfternoon": "Afternoons are when most things get closed.",
+  "@insightsAfternoon": {
+    "description": "Insight observation."
+  },
+  "insightsEvening": "You close most things in the evening. A short evening list might suit you.",
+  "@insightsEvening": {
+    "description": "Insight observation."
+  },
+  "insightsNight": "Late hours are your closing time.",
+  "@insightsNight": {
+    "description": "Insight observation."
+  },
+  "insightsInboxWait": "Thoughts usually wait {days, plural, =0{less than a day} =1{about a day} other{about {days} days}} in your Inbox before you decide.",
+  "@insightsInboxWait": {
+    "description": "Insight: median time in the Inbox.",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "insightsCloseTime": "From capture to done usually takes {days, plural, =0{less than a day} =1{about a day} other{about {days} days}}.",
+  "@insightsCloseTime": {
+    "description": "Insight: median capture-to-done.",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "insightsFastestList": "{list} moves fastest: things there close in {days, plural, =0{under a day} =1{about a day} other{about {days} days}}.",
+  "@insightsFastestList": {
+    "description": "Insight: list where items close fastest.",
+    "placeholders": {
+      "list": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "insightsMostParked": "Most of what’s in Someday came from {list}.",
+  "@insightsMostParked": {
+    "description": "Insight: list with most Someday items.",
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "insightsTable": "Closed by hour",
+  "@insightsTable": {
+    "description": "Heading for the text table under the chart."
+  },
+  "insightsShareStats": "Share anonymous stats",
+  "@insightsShareStats": {
+    "description": "Button to share a small, anonymous summary for feedback."
+  },
+  "insightsShareStatsHint": "Counts only, no titles or notes. Nothing is sent unless you pick where to send it.",
+  "@insightsShareStatsHint": {
+    "description": "Explanation for sharing anonymous stats."
+  },
+  "autoBackupSection": "Automatic backups",
+  "@autoBackupSection": {
+    "description": "Backup screen section heading."
+  },
+  "autoBackupSwitch": "Back up every day",
+  "@autoBackupSwitch": {
+    "description": "Switch for daily automatic backups."
+  },
+  "autoBackupHint": "A copy each night, into a folder you choose. The last week of copies, and one a week for a month, are kept.",
+  "@autoBackupHint": {
+    "description": "Explanation of automatic backups."
+  },
+  "autoBackupFolder": "Folder",
+  "@autoBackupFolder": {
+    "description": "Row showing the automatic backup folder."
+  },
+  "autoBackupFolderNone": "Not chosen",
+  "@autoBackupFolderNone": {
+    "description": "No automatic backup folder chosen yet."
+  },
+  "autoBackupFolderChange": "Choose a folder",
+  "@autoBackupFolderChange": {
+    "description": "Button to choose the automatic backup folder."
+  },
+  "autoBackupLast": "Backed up automatically, last {when}",
+  "@autoBackupLast": {
+    "description": "When the last automatic backup ran.",
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "autoBackupNotYet": "The first copy is made tonight, or tap Back up now.",
+  "@autoBackupNotYet": {
+    "description": "Before the first automatic backup."
+  },
+  "autoBackupNow": "Back up now",
+  "@autoBackupNow": {
+    "description": "Button to run an automatic backup now."
+  },
+  "autoBackupDone": "Backed up",
+  "@autoBackupDone": {
+    "description": "Confirmation after an automatic backup ran."
+  },
+  "autoBackupFailed": "Couldn’t write to that folder. Try choosing it again.",
+  "@autoBackupFailed": {
+    "description": "Error when the automatic backup folder can't be written."
+  },
+  "autoBackupEncrypt": "Lock backups with a passphrase",
+  "@autoBackupEncrypt": {
+    "description": "Switch to encrypt automatic backups."
+  },
+  "autoBackupEncryptHint": "Anyone who finds the file can’t read it without the passphrase.",
+  "@autoBackupEncryptHint": {
+    "description": "Explanation of encrypted backups."
+  },
+  "passphraseTitle": "Choose a passphrase",
+  "@passphraseTitle": {
+    "description": "Dialog title for setting the backup passphrase."
+  },
+  "passphraseWarning": "Write it down somewhere safe. If it’s forgotten, these backups can’t be opened by anyone, including Clearing.",
+  "@passphraseWarning": {
+    "description": "Warning when setting the backup passphrase."
+  },
+  "passphraseField": "Passphrase",
+  "@passphraseField": {
+    "description": "Passphrase field label."
+  },
+  "passphraseAgain": "Passphrase again",
+  "@passphraseAgain": {
+    "description": "Passphrase confirmation field label."
+  },
+  "passphraseMismatch": "The two don’t match.",
+  "@passphraseMismatch": {
+    "description": "Error: passphrases differ."
+  },
+  "passphraseShort": "Use at least 8 characters.",
+  "@passphraseShort": {
+    "description": "Error: passphrase too short."
+  },
+  "passphraseAsk": "This backup is locked",
+  "@passphraseAsk": {
+    "description": "Dialog title asking for a backup's passphrase."
+  },
+  "passphraseAskBody": "Enter the passphrase it was made with.",
+  "@passphraseAskBody": {
+    "description": "Dialog text asking for a backup's passphrase."
+  },
+  "passphraseWrong": "That passphrase doesn’t open this backup.",
+  "@passphraseWrong": {
+    "description": "Error: wrong passphrase."
+  },
+  "passphraseUnlock": "Open",
+  "@passphraseUnlock": {
+    "description": "Button to open a locked backup."
+  },
+  "backupFoundTitle": "Restore an automatic backup",
+  "@backupFoundTitle": {
+    "description": "Row to pick one of the automatic backups."
+  },
+  "backupFoundNone": "No automatic backups in the folder yet.",
+  "@backupFoundNone": {
+    "description": "No automatic backups found."
+  },
+  "backupNewer": "This backup is from a newer version of Clearing. What this version knows about will be restored.",
+  "@backupNewer": {
+    "description": "Preview note for a backup from a newer app version."
+  },
+  "moveSection": "Moving to a new phone",
+  "@moveSection": {
+    "description": "Backup screen section heading."
+  },
+  "moveSend": "Send everything to a new phone",
+  "@moveSend": {
+    "description": "Row to share a backup for moving phones."
+  },
+  "moveSendHint": "Share a backup by Nearby Share, Bluetooth or a cable. On the new phone, choose “Restore from a backup” in the welcome.",
+  "@moveSendHint": {
+    "description": "Explanation for moving phones."
+  },
+  "welcomeRestore": "Restore from a backup",
+  "@welcomeRestore": {
+    "description": "Welcome option for someone moving from another phone."
+  },
+  "todayGoodMorning": "Good morning",
+  "@todayGoodMorning": {
+    "description": "Greeting in the Today header, before noon."
+  },
+  "todayGoodAfternoon": "Good afternoon",
+  "@todayGoodAfternoon": {
+    "description": "Greeting in the Today header, afternoon."
+  },
+  "todayGoodEvening": "Good evening",
+  "@todayGoodEvening": {
+    "description": "Greeting in the Today header, evening."
+  },
+  "todayAllClearTitle": "Open sky",
+  "@todayAllClearTitle": {
+    "description": "Heading of the all-clear moment on Today."
+  },
+  "todayAllClearReflection": "{count, plural, =1{One thing closed today.} other{{count} things closed today.}}",
+  "@todayAllClearReflection": {
+    "description": "Reflection line when Today is all clear.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "todayAllClearRest": "Nothing else is asking for you today.",
+  "@todayAllClearRest": {
+    "description": "Second line of the all-clear moment."
+  },
+  "todayTomorrowPeek": "{count, plural, =1{Tomorrow: 1 planned} other{Tomorrow: {count} planned}}",
+  "@todayTomorrowPeek": {
+    "description": "Quiet row at the bottom of Today.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "todayDecideThese": "Decide these",
+  "@todayDecideThese": {
+    "description": "Button that walks through carried-over items."
+  },
+  "todayMenuGrove": "Your clearing",
+  "@todayMenuGrove": {
+    "description": "Today menu: open the Grove."
+  },
+  "todayMenuHaveTime": "I have a few minutes…",
+  "@todayMenuHaveTime": {
+    "description": "Today menu: find something that fits the time."
+  },
+  "todayMenuReorder": "Reorder Today",
+  "@todayMenuReorder": {
+    "description": "Today menu: reorder Today's items."
+  },
+  "todayMenuRecent": "Recently changed",
+  "@todayMenuRecent": {
+    "description": "Today menu: recent changes with undo."
+  },
+  "planDayTitle": "Pick up to {cap} for today",
+  "@planDayTitle": {
+    "description": "Plan-my-day sheet title.",
+    "placeholders": {
+      "cap": {
+        "type": "int"
+      }
+    }
+  },
+  "planDayHint": "From what you set for this week. The rest stays where it is.",
+  "@planDayHint": {
+    "description": "Plan-my-day sheet explanation."
+  },
+  "planDayPrompt": "Plan your day?",
+  "@planDayPrompt": {
+    "description": "Quiet row offering to plan the day."
+  },
+  "planDayPromptHint": "Pick a few from this week",
+  "@planDayPromptHint": {
+    "description": "Subtitle of the plan-my-day row."
+  },
+  "planDayStart": "Put on Today",
+  "@planDayStart": {
+    "description": "Button: move the chosen items to Today."
+  },
+  "planDayNever": "Don’t offer this",
+  "@planDayNever": {
+    "description": "Button: never show the plan-my-day prompt."
+  },
+  "planDayMustDo": "Make the first a must-do",
+  "@planDayMustDo": {
+    "description": "Option in plan-my-day."
+  },
+  "fitsNow": "What fits now",
+  "@fitsNow": {
+    "description": "Label for the row of Today filters."
+  },
+  "fitsNowNone": "Nothing on Today fits that. Try “I have a few minutes” for this week too.",
+  "@fitsNowNone": {
+    "description": "Shown when the Today filter hides everything."
+  },
+  "haveTimeTitle": "I have…",
+  "@haveTimeTitle": {
+    "description": "Title of the time-available sheet."
+  },
+  "haveTimeWhere": "And I’m…",
+  "@haveTimeWhere": {
+    "description": "Label before the context choices in the time sheet."
+  },
+  "haveTimeAnywhere": "Anywhere",
+  "@haveTimeAnywhere": {
+    "description": "Context choice: no particular context."
+  },
+  "haveTimeResults": "These fit",
+  "@haveTimeResults": {
+    "description": "Heading above matching items."
+  },
+  "haveTimeNone": "Nothing with a length that fits yet. Add how long things take from an item’s details.",
+  "@haveTimeNone": {
+    "description": "No items fit the chosen time."
+  },
+  "haveTimeFocus": "Focus on it",
+  "@haveTimeFocus": {
+    "description": "Button: open Focus for the picked item."
+  },
+  "decideTitle": "Carried over",
+  "@decideTitle": {
+    "description": "Title of the decide-carried-over flow."
+  },
+  "decideHint": "{count, plural, =1{1 left} other{{count} left}}. No wrong answers.",
+  "@decideHint": {
+    "description": "Progress in the decide flow.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "decideLetGo": "Let it go",
+  "@decideLetGo": {
+    "description": "Decide flow: move to Trash without fuss."
+  },
+  "decideDoneTitle": "All decided",
+  "@decideDoneTitle": {
+    "description": "End of the decide flow."
+  },
+  "decideDoneBody": "Today is lighter now.",
+  "@decideDoneBody": {
+    "description": "End of the decide flow."
+  },
+  "reorderTitle": "Reorder",
+  "@reorderTitle": {
+    "description": "Title of the reorder screen."
+  },
+  "reorderHint": "Drag the handles, or use the actions with a screen reader. Timed items keep to their times.",
+  "@reorderHint": {
+    "description": "Explanation on the reorder screen."
+  },
+  "reorderMoveUp": "Move up",
+  "@reorderMoveUp": {
+    "description": "Screen reader action to move an item up."
+  },
+  "reorderMoveDown": "Move down",
+  "@reorderMoveDown": {
+    "description": "Screen reader action to move an item down."
+  },
+  "pullToCapture": "Release to capture",
+  "@pullToCapture": {
+    "description": "Shown while pulling down past the top to capture."
+  },
+  "clarifyTwoMinutes": "Takes under 2 minutes? Do it now",
+  "@clarifyTwoMinutes": {
+    "description": "Clarify choice for very small items."
+  },
+  "clarifyTwoMinutesHint": "Then it’s done, not filed.",
+  "@clarifyTwoMinutesHint": {
+    "description": "Hint under the two-minute choice."
+  },
+  "clarifyBreakDown": "Break it into steps",
+  "@clarifyBreakDown": {
+    "description": "Expander in clarify for adding subtasks."
+  },
+  "clarifyDoneMeansExample1": "e.g. Form posted",
+  "@clarifyDoneMeansExample1": {
+    "description": "Example for 'Done means'."
+  },
+  "clarifyDoneMeansExample2": "e.g. Call made, date booked",
+  "@clarifyDoneMeansExample2": {
+    "description": "Example for 'Done means'."
+  },
+  "clarifyDoneMeansExample3": "e.g. Draft sent to Sam",
+  "@clarifyDoneMeansExample3": {
+    "description": "Example for 'Done means'."
+  },
+  "clarifyDoneMeansExample4": "e.g. Receipt filed",
+  "@clarifyDoneMeansExample4": {
+    "description": "Example for 'Done means'."
+  },
+  "clarifySuggestedList": "Suggested from similar things you’ve filed",
+  "@clarifySuggestedList": {
+    "description": "Hint when a list is pre-selected from history."
+  },
+  "clarifyOnDate": "On {date}",
+  "@clarifyOnDate": {
+    "description": "Clarify choice: the date read when capturing.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "clarifyOnDateHint": "As you typed it",
+  "@clarifyOnDateHint": {
+    "description": "Hint under the remembered date choice."
+  },
+  "clarifyProgress": "{current} of {total}",
+  "@clarifyProgress": {
+    "description": "Progress when clarifying the whole inbox.",
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "clarifyStopHere": "Stop here",
+  "@clarifyStopHere": {
+    "description": "Leaves clarify-all; the rest stays in the Inbox."
+  },
+  "inboxClarifyAll": "Clarify all",
+  "@inboxClarifyAll": {
+    "description": "Inbox button: clarify every item back to back."
+  },
+  "inboxCards": "Quick decide",
+  "@inboxCards": {
+    "description": "Inbox button: one card at a time, decided by swiping."
+  },
+  "cardsTitle": "Quick decide",
+  "@cardsTitle": {
+    "description": "Title of the card triage screen."
+  },
+  "cardsHint": "Right: this week · Left: someday · Up: today · Down: delete · Tap: the full questions",
+  "@cardsHint": {
+    "description": "How to use the card triage screen."
+  },
+  "cardsLeft": "{count, plural, =1{1 left} other{{count} left}}",
+  "@cardsLeft": {
+    "description": "Cards left to decide.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cardsDone": "Inbox is clear",
+  "@cardsDone": {
+    "description": "All cards decided."
+  },
+  "cardsDetails": "All questions",
+  "@cardsDetails": {
+    "description": "Button: open full clarify for the card."
+  },
+  "itemEffort": "How long",
+  "@itemEffort": {
+    "description": "Item field: rough effort."
+  },
+  "itemEffortNone": "Not set",
+  "@itemEffortNone": {
+    "description": "Item effort not set."
+  },
+  "itemContexts": "Where or how",
+  "@itemContexts": {
+    "description": "Item field: contexts."
+  },
+  "itemContextsNone": "Anywhere",
+  "@itemContextsNone": {
+    "description": "Item has no contexts."
+  },
+  "itemFirstStep": "Smallest first step",
+  "@itemFirstStep": {
+    "description": "Item field: the first step, shown in Focus."
+  },
+  "itemFirstStepHint": "e.g. Open the form",
+  "@itemFirstStepHint": {
+    "description": "Hint for the first step field."
+  },
+  "itemActivity": "History",
+  "@itemActivity": {
+    "description": "Heading for the item's activity line."
+  },
+  "activityCaptured": "Captured {date}",
+  "@activityCaptured": {
+    "description": "Activity entry.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "activityPlanned": "Planned {date}",
+  "@activityPlanned": {
+    "description": "Activity entry.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "activityWaiting": "Handed on {date}",
+  "@activityWaiting": {
+    "description": "Activity entry.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "activityResolved": "Came back {date}",
+  "@activityResolved": {
+    "description": "Activity entry.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "activitySomeday": "Parked {date}",
+  "@activitySomeday": {
+    "description": "Activity entry.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "activityDone": "Done {date}",
+  "@activityDone": {
+    "description": "Activity entry.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "activityReopened": "Reopened {date}",
+  "@activityReopened": {
+    "description": "Activity entry.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "activityTrashed": "Deleted {date}",
+  "@activityTrashed": {
+    "description": "Activity entry.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "activityCarried": "{days, plural, =1{Carried over 1 day} other{Carried over {days} days}}",
+  "@activityCarried": {
+    "description": "Activity: how long an item has been carried over.",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "itemPhotos": "Photos",
+  "@itemPhotos": {
+    "description": "Heading for an item's photos."
+  },
+  "itemAddPhoto": "Add a photo",
+  "@itemAddPhoto": {
+    "description": "Button to attach a photo."
+  },
+  "itemTakePhoto": "Take a photo",
+  "@itemTakePhoto": {
+    "description": "Attach a photo from the camera."
+  },
+  "itemPickPhoto": "Choose from gallery",
+  "@itemPickPhoto": {
+    "description": "Attach a photo from the gallery."
+  },
+  "itemRemovePhoto": "Remove photo",
+  "@itemRemovePhoto": {
+    "description": "Remove an attached photo."
+  },
+  "itemPhotoLabel": "Photo {n}",
+  "@itemPhotoLabel": {
+    "description": "Screen reader label for an attached photo.",
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "itemPhotosHint": "Kept on this phone and in your backups.",
+  "@itemPhotosHint": {
+    "description": "Explanation under photos."
+  },
+  "itemMakeProject": "Make this a project",
+  "@itemMakeProject": {
+    "description": "Menu: turn an item into a project."
+  },
+  "itemMadeProject": "“{name}” is now a project",
+  "@itemMadeProject": {
+    "description": "Confirmation after making a project.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "itemOpenLink": "Open",
+  "@itemOpenLink": {
+    "description": "Screen reader label for a link in notes."
+  },
+  "itemNotesLinks": "Links",
+  "@itemNotesLinks": {
+    "description": "Heading for tappable phone numbers, emails and links found in notes."
+  },
+  "projectNextTitle": "What’s next for “{name}”?",
+  "@projectNextTitle": {
+    "description": "Sheet after finishing a project step.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "projectNextHint": "Pick the next step for this week, or add one.",
+  "@projectNextHint": {
+    "description": "Hint in the next-step sheet."
+  },
+  "projectAddStep": "Add a step",
+  "@projectAddStep": {
+    "description": "Button: add a step to a project."
+  },
+  "projectNextNone": "That was the last step. Add another, or let the project rest.",
+  "@projectNextNone": {
+    "description": "Next-step sheet when no steps are left."
+  },
+  "projectLabel": "Project",
+  "@projectLabel": {
+    "description": "Label for a project list."
+  },
+  "projectOutcome": "Outcome",
+  "@projectOutcome": {
+    "description": "A project's outcome."
+  },
+  "projectOutcomeHint": "What’s true when it’s finished?",
+  "@projectOutcomeHint": {
+    "description": "Hint for a project's outcome."
+  },
+  "projectTarget": "Aiming for",
+  "@projectTarget": {
+    "description": "A project's target date."
+  },
+  "projectTargetNone": "No date",
+  "@projectTargetNone": {
+    "description": "A project with no target date."
+  },
+  "projectOnlyNext": "Only the next step shows on Today and This week.",
+  "@projectOnlyNext": {
+    "description": "Explanation on a project's screen."
+  },
+  "projectNew": "New project",
+  "@projectNew": {
+    "description": "Button/dialog to create a project."
+  },
+  "projectMakeList": "Treat as a project",
+  "@projectMakeList": {
+    "description": "Switch: make a list a project."
+  },
+  "projectsSection": "Projects",
+  "@projectsSection": {
+    "description": "Lists tab section heading for projects."
+  },
+  "listColour": "Colour",
+  "@listColour": {
+    "description": "A list's colour setting."
+  },
+  "listColourNone": "None",
+  "@listColourNone": {
+    "description": "No list colour."
+  },
+  "listColourMoss": "Moss",
+  "@listColourMoss": {
+    "description": "List colour name."
+  },
+  "listColourDawn": "Dawn",
+  "@listColourDawn": {
+    "description": "List colour name."
+  },
+  "listColourSky": "Sky",
+  "@listColourSky": {
+    "description": "List colour name."
+  },
+  "listColourClay": "Clay",
+  "@listColourClay": {
+    "description": "List colour name."
+  },
+  "listColourHeather": "Heather",
+  "@listColourHeather": {
+    "description": "List colour name."
+  },
+  "listPin": "Pin to top",
+  "@listPin": {
+    "description": "Pin a list to the top of the Lists tab."
+  },
+  "listUnpin": "Unpin",
+  "@listUnpin": {
+    "description": "Unpin a list."
+  },
+  "listPinned": "Pinned",
+  "@listPinned": {
+    "description": "Lists tab section heading for pinned lists."
+  },
+  "listShoppingMode": "Shopping mode",
+  "@listShoppingMode": {
+    "description": "Toggle on an errands list: big rows, ticked items stay at the bottom."
+  },
+  "listShoppingHint": "Bigger rows; ticked things move to the bottom until you clear them.",
+  "@listShoppingHint": {
+    "description": "Explanation of shopping mode."
+  },
+  "listClearTicked": "Clear ticked",
+  "@listClearTicked": {
+    "description": "Button in shopping mode."
+  },
+  "listReorder": "Reorder",
+  "@listReorder": {
+    "description": "List menu: reorder items."
+  },
+  "savedSearchesSection": "Smart lists",
+  "@savedSearchesSection": {
+    "description": "Lists tab section for saved searches."
+  },
+  "savedSearchSave": "Save as a smart list",
+  "@savedSearchSave": {
+    "description": "Search action: save the search."
+  },
+  "savedSearchName": "Smart list name",
+  "@savedSearchName": {
+    "description": "Dialog title for naming a saved search."
+  },
+  "savedSearchSaved": "Saved to Lists",
+  "@savedSearchSaved": {
+    "description": "Confirmation after saving a search."
+  },
+  "savedSearchDelete": "Remove smart list",
+  "@savedSearchDelete": {
+    "description": "Removes a saved search."
+  },
+  "savedSearchEmpty": "Nothing matches right now.",
+  "@savedSearchEmpty": {
+    "description": "Empty saved search."
+  },
+  "searchRecent": "Recent",
+  "@searchRecent": {
+    "description": "Heading above recent searches."
+  },
+  "searchClearRecent": "Clear",
+  "@searchClearRecent": {
+    "description": "Clears recent searches."
+  },
+  "searchContext": "Where",
+  "@searchContext": {
+    "description": "Search filter: context."
+  },
+  "searchAnyContext": "Anywhere",
+  "@searchAnyContext": {
+    "description": "Search filter: any context."
+  },
+  "searchEffort": "Length",
+  "@searchEffort": {
+    "description": "Search filter: effort."
+  },
+  "searchAnyEffort": "Any length",
+  "@searchAnyEffort": {
+    "description": "Search filter: any effort."
+  },
+  "searchUpTo": "Up to {length}",
+  "@searchUpTo": {
+    "description": "Search filter: at most this effort.",
+    "placeholders": {
+      "length": {
+        "type": "String"
+      }
+    }
+  },
+  "upcomingMonthView": "Month view",
+  "@upcomingMonthView": {
+    "description": "Tooltip: switch Upcoming to the month view."
+  },
+  "upcomingSubtitleMonth": "Dots show how much is planned; tap a day",
+  "@upcomingSubtitleMonth": {
+    "description": "Upcoming subtitle in month view."
+  },
+  "monthPrevious": "Previous month",
+  "@monthPrevious": {
+    "description": "Tooltip in the month view."
+  },
+  "monthNextLabel": "Next month",
+  "@monthNextLabel": {
+    "description": "Tooltip in the month view."
+  },
+  "monthDayCount": "{date}: {count, plural, =0{nothing planned} =1{1 planned} other{{count} planned}}",
+  "@monthDayCount": {
+    "description": "Screen reader label for a day in the month view.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "busyDay": "A full day: {count} planned.",
+  "@busyDay": {
+    "description": "Hint on a day with a lot planned.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "busySpread": "Spread some out",
+  "@busySpread": {
+    "description": "Button: move a few items from a full day to the next days."
+  },
+  "busySpreadDone": "{count, plural, =1{Moved 1 to the next day} other{Moved {count} across the next days}}",
+  "@busySpreadDone": {
+    "description": "Undo message after spreading items.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dragToDay": "Drag to another day",
+  "@dragToDay": {
+    "description": "Tooltip on the drag handle in the week view."
+  },
+  "followUpOn": "Follow up: {title}",
+  "@followUpOn": {
+    "description": "A waiting item's follow-up shown on its day.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "focusFirstStep": "First step",
+  "@focusFirstStep": {
+    "description": "Label above the first step in Focus."
+  },
+  "focusFirstStepDone": "First step done",
+  "@focusFirstStepDone": {
+    "description": "Screen reader label once the first step is ticked."
+  },
+  "focusStuck": "I’m stuck",
+  "@focusStuck": {
+    "description": "Focus button offering ways out."
+  },
+  "focusStuckTitle": "That happens. Try one of these:",
+  "@focusStuckTitle": {
+    "description": "Title of the I'm stuck sheet."
+  },
+  "focusStuckBreak": "Break it into smaller steps",
+  "@focusStuckBreak": {
+    "description": "I'm stuck option."
+  },
+  "focusStuckDoneMeans": "Change what “done” means",
+  "@focusStuckDoneMeans": {
+    "description": "I'm stuck option."
+  },
+  "focusStuckLater": "Put it back for now",
+  "@focusStuckLater": {
+    "description": "I'm stuck option: no guilt, just later."
+  },
+  "focusTimebox": "Give it a few minutes",
+  "@focusTimebox": {
+    "description": "Label for the optional timebox choices in Focus."
+  },
+  "focusTimeboxRunning": "The sky clears as the minutes pass. Nothing is recorded.",
+  "@focusTimeboxRunning": {
+    "description": "Shown while a Focus timebox runs."
+  },
+  "focusTimeboxDone": "Time’s up. Carry on, or stop here; either is fine.",
+  "@focusTimeboxDone": {
+    "description": "Shown when a Focus timebox ends."
+  },
+  "focusTimeboxStop": "Stop the timebox",
+  "@focusTimeboxStop": {
+    "description": "Tooltip to stop a timebox."
+  },
+  "settingsFocusTimebox": "Offer a timebox in Focus",
+  "@settingsFocusTimebox": {
+    "description": "Setting: show timebox choices in Focus."
+  },
+  "settingsFocusTimeboxHint": "5, 15 or 25 minutes, shown as the sky clearing. Nothing is tracked.",
+  "@settingsFocusTimeboxHint": {
+    "description": "Setting hint."
+  },
+  "breatheTitle": "A few breaths first?",
+  "@breatheTitle": {
+    "description": "Breathing opener title before the reset."
+  },
+  "breatheIn": "Breathe in",
+  "@breatheIn": {
+    "description": "Breathing opener cue."
+  },
+  "breatheOut": "Breathe out",
+  "@breatheOut": {
+    "description": "Breathing opener cue."
+  },
+  "breatheSkip": "Skip",
+  "@breatheSkip": {
+    "description": "Skip the breathing opener."
+  },
+  "breatheReady": "Ready",
+  "@breatheReady": {
+    "description": "End the breathing opener."
+  },
+  "settingsBreathing": "Offer a few breaths before the reset",
+  "@settingsBreathing": {
+    "description": "Setting."
+  },
+  "reviewLengthTitle": "How long have you got?",
+  "@reviewLengthTitle": {
+    "description": "Question at the start of the weekly review."
+  },
+  "reviewQuick": "Quick (about 5 minutes)",
+  "@reviewQuick": {
+    "description": "Weekly review choice."
+  },
+  "reviewQuickHint": "Your inbox and next week",
+  "@reviewQuickHint": {
+    "description": "Hint for the quick review."
+  },
+  "reviewFull": "Full",
+  "@reviewFull": {
+    "description": "Weekly review choice."
+  },
+  "reviewFullHint": "Every step, about 15 minutes",
+  "@reviewFullHint": {
+    "description": "Hint for the full review."
+  },
+  "reviewQuickCounts": "A quick one beats none.",
+  "@reviewQuickCounts": {
+    "description": "Encouragement under the review choices."
+  },
+  "settingsReviewLength": "Review length",
+  "@settingsReviewLength": {
+    "description": "Setting."
+  },
+  "settingsReviewAsk": "Ask each time",
+  "@settingsReviewAsk": {
+    "description": "Review length choice."
+  },
+  "reviewOwnChecks": "Your own checks",
+  "@reviewOwnChecks": {
+    "description": "Review step with the user's custom prompts."
+  },
+  "reviewOwnChecksHint": "Tick what you’ve looked at.",
+  "@reviewOwnChecksHint": {
+    "description": "Hint on the custom prompts step."
+  },
+  "settingsReviewPrompts": "Your own review checks",
+  "@settingsReviewPrompts": {
+    "description": "Setting: edit custom review prompts."
+  },
+  "settingsReviewPromptsHint": "e.g. Check the bank account, plan meals",
+  "@settingsReviewPromptsHint": {
+    "description": "Setting hint."
+  },
+  "reviewPromptAdd": "Add a check",
+  "@reviewPromptAdd": {
+    "description": "Button to add a custom review prompt."
+  },
+  "settingsWinsPrompt": "Ask what went well",
+  "@settingsWinsPrompt": {
+    "description": "Setting: show the wins prompt at the end of the review."
+  },
+  "reviewProjectsStuck": "{count, plural, =1{1 project has nothing planned} other{{count} projects have nothing planned}}",
+  "@reviewProjectsStuck": {
+    "description": "Review note about projects without a next action.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewProjectAddStep": "Add a step",
+  "@reviewProjectAddStep": {
+    "description": "Button on a stuck project in the review."
+  },
+  "reviewProjectPark": "Park it",
+  "@reviewProjectPark": {
+    "description": "Button on a stuck project in the review: hide the list."
+  },
+  "settingsSearch": "Search settings",
+  "@settingsSearch": {
+    "description": "Hint of the settings search field."
+  },
+  "settingsSearchNone": "No setting matches that.",
+  "@settingsSearchNone": {
+    "description": "Settings search with no results."
+  },
+  "settingsCaptureSection": "Capture",
+  "@settingsCaptureSection": {
+    "description": "Settings section heading."
+  },
+  "settingsCaptureHint": "How Clearing reads what you type.",
+  "@settingsCaptureHint": {
+    "description": "Settings section description."
+  },
+  "settingsParse": "Understand dates and lists as I type",
+  "@settingsParse": {
+    "description": "Setting: smart capture parsing."
+  },
+  "settingsParseHint": "“pay rent fri 9am #home !” becomes Pay rent, Friday 9:00, Home, must-do.",
+  "@settingsParseHint": {
+    "description": "Setting hint for smart capture."
+  },
+  "settingsParsedSkipInbox": "Things with a date skip the Inbox",
+  "@settingsParsedSkipInbox": {
+    "description": "Setting: parsed captures with dates are planned straight away."
+  },
+  "settingsContexts": "Contexts",
+  "@settingsContexts": {
+    "description": "Settings row opening the contexts screen."
+  },
+  "settingsFocusSection": "Focus and reset",
+  "@settingsFocusSection": {
+    "description": "Settings section heading."
+  },
+  "settingsFocusHint": "Small helps for starting and for heavy days.",
+  "@settingsFocusHint": {
+    "description": "Settings section description."
+  },
+  "settingsPlanMyDay": "Offer to plan my day",
+  "@settingsPlanMyDay": {
+    "description": "Setting: the morning plan-my-day prompt."
+  },
+  "settingsPrivacySection": "Privacy",
+  "@settingsPrivacySection": {
+    "description": "Settings section heading."
+  },
+  "settingsPrivacyHint": "Who can see what, on this phone.",
+  "@settingsPrivacyHint": {
+    "description": "Settings section description."
+  },
+  "settingsHideOnLock": "Hide titles on the lock screen",
+  "@settingsHideOnLock": {
+    "description": "Setting: private notifications."
+  },
+  "settingsHideOnLockHint": "The lock screen shows that there’s a reminder, not what it says.",
+  "@settingsHideOnLockHint": {
+    "description": "Setting hint."
+  },
+  "settingsAppLock": "Lock Clearing",
+  "@settingsAppLock": {
+    "description": "Setting: app lock with fingerprint, face or screen lock."
+  },
+  "settingsAppLockHint": "With your fingerprint, face or screen lock. Quick capture still works while locked.",
+  "@settingsAppLockHint": {
+    "description": "Setting hint."
+  },
+  "settingsAppLockUnavailable": "Set a screen lock on the phone first.",
+  "@settingsAppLockUnavailable": {
+    "description": "App lock can't be turned on."
+  },
+  "settingsLockAfter": "Lock after",
+  "@settingsLockAfter": {
+    "description": "Setting: how soon the app locks."
+  },
+  "settingsLockImmediately": "Leaving the app",
+  "@settingsLockImmediately": {
+    "description": "Lock-after choice."
+  },
+  "settingsLockMinutes": "{count, plural, =1{1 minute away} other{{count} minutes away}}",
+  "@settingsLockMinutes": {
+    "description": "Lock-after choice.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "lockTitle": "Clearing is locked",
+  "@lockTitle": {
+    "description": "Title of the lock screen."
+  },
+  "lockUnlock": "Unlock",
+  "@lockUnlock": {
+    "description": "Button to unlock the app."
+  },
+  "lockReason": "Unlock Clearing",
+  "@lockReason": {
+    "description": "Reason shown in the system biometric prompt."
+  },
+  "lockCapture": "Capture without unlocking",
+  "@lockCapture": {
+    "description": "Capture from the lock screen; saves only."
+  },
+  "settingsFeedbackSection": "Feedback",
+  "@settingsFeedbackSection": {
+    "description": "Settings section heading."
+  },
+  "settingsFeedbackHint": "Small signals when something’s done.",
+  "@settingsFeedbackHint": {
+    "description": "Settings section description."
+  },
+  "settingsSounds": "Sounds",
+  "@settingsSounds": {
+    "description": "Setting: short chimes."
+  },
+  "settingsSoundsHint": "A short chime when Today is clear and when a review is finished. Silent when the phone is.",
+  "@settingsSoundsHint": {
+    "description": "Setting hint."
+  },
+  "settingsThemeVariant": "Glade colours",
+  "@settingsThemeVariant": {
+    "description": "Setting: colour variant."
+  },
+  "settingsThemeVariantHint": "More are found as your clearing grows.",
+  "@settingsThemeVariantHint": {
+    "description": "Setting hint."
+  },
+  "variantGlade": "Glade",
+  "@variantGlade": {
+    "description": "Colour variant name."
+  },
+  "variantAutumn": "Autumn",
+  "@variantAutumn": {
+    "description": "Colour variant name."
+  },
+  "variantMonsoon": "Monsoon",
+  "@variantMonsoon": {
+    "description": "Colour variant name."
+  },
+  "variantWinter": "Winter",
+  "@variantWinter": {
+    "description": "Colour variant name."
+  },
+  "variantNightSky": "Night sky",
+  "@variantNightSky": {
+    "description": "Colour variant name."
+  },
+  "variantLocked": "{name}, not found yet",
+  "@variantLocked": {
+    "description": "Screen reader label for a locked colour variant.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "variantHowAutumn": "Comes with your first season card",
+  "@variantHowAutumn": {
+    "description": "How to unlock a variant."
+  },
+  "variantHowMonsoon": "Comes after 10 reviews",
+  "@variantHowMonsoon": {
+    "description": "How to unlock a variant."
+  },
+  "variantHowWinter": "Comes after 25 old tabs closed",
+  "@variantHowWinter": {
+    "description": "How to unlock a variant."
+  },
+  "variantHowNightSky": "Comes after 100 things closed",
+  "@variantHowNightSky": {
+    "description": "How to unlock a variant."
+  },
+  "settingsUnlockAll": "Show all colours",
+  "@settingsUnlockAll": {
+    "description": "Setting: unlock every colour variant."
+  },
+  "settingsHighContrast": "High contrast",
+  "@settingsHighContrast": {
+    "description": "Setting: stronger contrast."
+  },
+  "settingsHighContrastHint": "Darker text and outlines, for low vision. Always available.",
+  "@settingsHighContrastHint": {
+    "description": "Setting hint."
+  },
+  "settingsRoomyText": "Roomier text",
+  "@settingsRoomyText": {
+    "description": "Setting: more line and letter spacing."
+  },
+  "settingsRoomyTextHint": "More space between lines and letters, which some readers find easier.",
+  "@settingsRoomyTextHint": {
+    "description": "Setting hint."
+  },
+  "settingsTextPreview": "Text size preview",
+  "@settingsTextPreview": {
+    "description": "Heading of the text size preview."
+  },
+  "settingsTextPreviewHint": "Text size follows the phone’s setting.",
+  "@settingsTextPreviewHint": {
+    "description": "Hint under the text preview."
+  },
+  "settingsMakeYours": "Make Clearing yours",
+  "@settingsMakeYours": {
+    "description": "Settings row: style presets."
+  },
+  "settingsMakeYoursHint": "One choice that sets the rest",
+  "@settingsMakeYoursHint": {
+    "description": "Settings row hint."
+  },
+  "styleTitle": "Make Clearing yours",
+  "@styleTitle": {
+    "description": "Style presets screen title."
+  },
+  "styleHint": "Pick a feel. You can change any part of it afterwards.",
+  "@styleHint": {
+    "description": "Style presets explanation."
+  },
+  "styleMinimal": "Minimal",
+  "@styleMinimal": {
+    "description": "Style preset."
+  },
+  "styleMinimalHint": "Just the lists. No clearing, no tips, no sounds, no morning summary.",
+  "@styleMinimalHint": {
+    "description": "Style preset description."
+  },
+  "styleGentle": "Gentle",
+  "@styleGentle": {
+    "description": "Style preset."
+  },
+  "styleGentleHint": "Tips as you go and your clearing, quietly. The default.",
+  "@styleGentleHint": {
+    "description": "Style preset description."
+  },
+  "styleEncouraging": "Encouraging",
+  "@styleEncouraging": {
+    "description": "Style preset."
+  },
+  "styleEncouragingHint": "Your clearing, weekly invitations, sounds and a morning summary.",
+  "@styleEncouragingHint": {
+    "description": "Style preset description."
+  },
+  "styleApplied": "Done. Everything can still be changed in Settings.",
+  "@styleApplied": {
+    "description": "Confirmation after applying a style."
+  },
+  "settingsWhatsNew": "What’s new",
+  "@settingsWhatsNew": {
+    "description": "Settings row: release notes."
+  },
+  "whatsNewTitle": "What’s new in Clearing",
+  "@whatsNewTitle": {
+    "description": "Title of the what's new sheet."
+  },
+  "whatsNew1Title": "Type it the way you say it",
+  "@whatsNew1Title": {
+    "description": "What's new point."
+  },
+  "whatsNew1Body": "“Dentist fri 3pm” is planned for Friday at 3. Tap a chip to undo any part.",
+  "@whatsNew1Body": {
+    "description": "What's new point."
+  },
+  "whatsNew2Title": "Many at once",
+  "@whatsNew2Title": {
+    "description": "What's new point."
+  },
+  "whatsNew2Body": "Press and hold to select several things, then plan, move or finish them together.",
+  "@whatsNew2Body": {
+    "description": "What's new point."
+  },
+  "whatsNew3Title": "Your clearing",
+  "@whatsNew3Title": {
+    "description": "What's new point."
+  },
+  "whatsNew3Body": "An optional, private landscape that grows as you close things. Nothing in it ever wilts.",
+  "@whatsNew3Body": {
+    "description": "What's new point."
+  },
+  "whatsNew4Title": "Backups that look after themselves",
+  "@whatsNew4Title": {
+    "description": "What's new point."
+  },
+  "whatsNew4Body": "A copy every night into a folder you choose, locked with a passphrase if you like.",
+  "@whatsNew4Body": {
+    "description": "What's new point."
+  },
+  "whatsNewTry": "Show me",
+  "@whatsNewTry": {
+    "description": "Button on a what's new point."
+  },
+  "settingsDeveloper": "Developer options",
+  "@settingsDeveloper": {
+    "description": "Debug-only settings row."
+  },
+  "developerTitle": "Developer options",
+  "@developerTitle": {
+    "description": "Debug-only screen title."
+  },
+  "developerHint": "Unfinished features, for testing. Only in debug builds.",
+  "@developerHint": {
+    "description": "Developer screen explanation."
+  },
+  "developerNoFlags": "No unfinished features right now.",
+  "@developerNoFlags": {
+    "description": "Developer screen with no flags."
+  },
+  "developerSeed": "Add sample items",
+  "@developerSeed": {
+    "description": "Developer action."
+  },
+  "contextsScreenTitle": "Contexts",
+  "@contextsScreenTitle": {
+    "description": "Title of the contexts screen."
+  },
+  "contextsRename": "Rename",
+  "@contextsRename": {
+    "description": "Rename a context."
+  },
+  "contextsDelete": "Delete",
+  "@contextsDelete": {
+    "description": "Delete a context."
+  },
+  "settingsExportCalendar": "Export Upcoming as a calendar file",
+  "@settingsExportCalendar": {
+    "description": "Settings row: share an .ics file."
+  },
+  "settingsExportCalendarHint": "For importing into any calendar app. Clearing never reads your calendar.",
+  "@settingsExportCalendarHint": {
+    "description": "Settings row hint."
+  },
+  "settingsExportCalendarNone": "Nothing dated in the next 90 days.",
+  "@settingsExportCalendarNone": {
+    "description": "Nothing to export."
+  },
+  "notifActionPickTime": "Pick a time",
+  "@notifActionPickTime": {
+    "description": "Notification button: open the item to reschedule."
+  },
+  "notifActionCapture": "Capture",
+  "@notifActionCapture": {
+    "description": "Notification button: reply to capture a thought."
+  },
+  "notifReplyHint": "Anything else on your mind?",
+  "@notifReplyHint": {
+    "description": "Placeholder in the reply field of the morning summary."
+  },
+  "repeatFlexible": "Any days of the week",
+  "@repeatFlexible": {
+    "description": "Switch in the repeat editor: a flexible weekly routine."
+  },
+  "repeatFlexibleHint": "A few times a week, whenever suits. Weeks that fall short just start fresh.",
+  "@repeatFlexibleHint": {
+    "description": "Hint for flexible routines."
+  },
+  "repeatTimesAWeek": "{count, plural, =1{Once a week, any day} other{{count} times a week, any days}}",
+  "@repeatTimesAWeek": {
+    "description": "A flexible routine's rule.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "repeatFewer": "Fewer times",
+  "@repeatFewer": {
+    "description": "Tooltip: lower the weekly target."
+  },
+  "repeatMore": "More times",
+  "@repeatMore": {
+    "description": "Tooltip: raise the weekly target."
+  },
+  "flexibleProgress": "{done} of {target} this week",
+  "@flexibleProgress": {
+    "description": "Progress of a flexible routine. Never a streak.",
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  },
+  "glossClarify": "Clarify means deciding what a thought is: something to do, someone else’s, an idea for later, or nothing at all. Tap an item to start.",
+  "@glossClarify": {
+    "description": "One-time explanation of 'Clarify' in the Inbox."
+  },
+  "glossMustDo": "Must-dos are the few things that have to happen today. Clearing keeps them to a small number on purpose.",
+  "@glossMustDo": {
+    "description": "One-time explanation of 'must-do' on Today."
+  },
+  "glossCarried": "Carried over means it was planned for an earlier day. No harm done: decide again when you’re ready.",
+  "@glossCarried": {
+    "description": "One-time explanation of 'carried over' on Today."
+  },
+  "glossWaiting": "Waiting on is for things someone else is doing. Clearing reminds you to check in on the follow-up date.",
+  "@glossWaiting": {
+    "description": "One-time explanation of 'Waiting on' in Upcoming."
+  },
+  "glossSomeday": "Someday holds ideas, not commitments. They never show on Today; the weekly review brings them back to look at.",
+  "@glossSomeday": {
+    "description": "One-time explanation of 'Someday' in Lists."
+  },
+  "guideShowMe": "Show me",
+  "@guideShowMe": {
+    "description": "Button on a guide: show the real screen with a pointer."
+  },
+  "coachCapture": "Tap here, or press N on a keyboard, to get a thought out of your head.",
+  "@coachCapture": {
+    "description": "Coach mark on the capture button."
+  },
+  "coachInbox": "Everything you capture waits here until you decide what it is.",
+  "@coachInbox": {
+    "description": "Coach mark on the Inbox tab."
+  },
+  "coachToday": "Today: your must-dos first, the rest quiet below.",
+  "@coachToday": {
+    "description": "Coach mark on the Today tab."
+  },
+  "coachUpcoming": "Dates, the week ahead, and the month at a glance.",
+  "@coachUpcoming": {
+    "description": "Coach mark on the Upcoming tab."
+  },
+  "coachLists": "Lists, projects, smart lists, Someday and your settings.",
+  "@coachLists": {
+    "description": "Coach mark on the Lists tab."
+  },
+  "coachGotIt": "Got it",
+  "@coachGotIt": {
+    "description": "Dismisses a coach mark."
   }
 }

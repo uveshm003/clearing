@@ -2601,4 +2601,1912 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get guideData4Body =>
       'हटाए गए काम 30 दिन ट्रैश में रहते हैं; पूरे हुए काम आर्काइव में जाते हैं और खोजे जा सकते हैं।';
+
+  @override
+  String effortMinutes(int count) {
+    return '$count मिनट';
+  }
+
+  @override
+  String get effortHour => '1 घंटा';
+
+  @override
+  String get effortLonger => 'इससे ज़्यादा';
+
+  @override
+  String get effortTitle => 'कितना समय?';
+
+  @override
+  String get contextHome => 'घर';
+
+  @override
+  String get contextOut => 'बाहर';
+
+  @override
+  String get contextComputer => 'कंप्यूटर';
+
+  @override
+  String get contextPhone => 'फ़ोन';
+
+  @override
+  String get contextLowEnergy => 'कम ऊर्जा';
+
+  @override
+  String get contextsTitle => 'कहाँ या कैसे';
+
+  @override
+  String get contextsManage => 'संदर्भ बदलें';
+
+  @override
+  String get contextsNew => 'नया संदर्भ';
+
+  @override
+  String get contextsHint =>
+      'संदर्भ बताते हैं कि कोई काम कहाँ या कैसे हो सकता है, ताकि Today दिखा सके कि अभी क्या हो सकता है।';
+
+  @override
+  String get captureToInbox => 'इनबॉक्स';
+
+  @override
+  String get captureDestination => 'कहाँ सहेजें';
+
+  @override
+  String captureChipRemove(String label) {
+    return '“$label” को शीर्षक में रहने दें';
+  }
+
+  @override
+  String get captureUnderstood => 'समझा गया';
+
+  @override
+  String get captureChipMustDo => 'ज़रूरी';
+
+  @override
+  String captureChipWaiting(String person) {
+    return '$person का इंतज़ार';
+  }
+
+  @override
+  String captureChipDue(String date) {
+    return '$date तक';
+  }
+
+  @override
+  String get captureMustDoFull =>
+      'आज के ज़रूरी काम पूरे हैं, इसलिए यह Today में है।';
+
+  @override
+  String captureDuplicate(String title) {
+    return 'लगता है “$title” पहले से है।';
+  }
+
+  @override
+  String get captureDuplicateMerge => 'बस एक रखें';
+
+  @override
+  String get captureDuplicateKeep => 'दोनों रखें';
+
+  @override
+  String get captureDuplicateMerged => 'जो पहले से था, वही रखा';
+
+  @override
+  String get captureEditSaved => 'इस बात को बदलें';
+
+  @override
+  String get captureRemoveSaved => 'हटाएँ';
+
+  @override
+  String get captureTemplates => 'टेम्पलेट';
+
+  @override
+  String captureTemplateStarted(String name) {
+    return '“$name” शुरू किया';
+  }
+
+  @override
+  String get captureVoice => 'बोलें';
+
+  @override
+  String get captureVoiceListening => 'सुन रहे हैं… नई लाइन के लिए रुकें';
+
+  @override
+  String get captureVoiceStop => 'सुनना बंद करें';
+
+  @override
+  String get captureVoiceFailed =>
+      'सुन नहीं पाए। Android सेटिंग्स में भाषा डाउनलोड होने पर बोलना बिना इंटरनेट के काम करता है।';
+
+  @override
+  String get captureVoicePermission =>
+      'Clearing सिर्फ़ तभी सुनता है जब आप बटन दबाते हैं, इसी फ़ोन पर। कुछ भी रिकॉर्ड या कहीं भेजा नहीं जाता।';
+
+  @override
+  String get captureVoicePermissionTitle => 'माइक्रोफ़ोन इस्तेमाल करें?';
+
+  @override
+  String get captureVoiceAllow => 'अनुमति दें';
+
+  @override
+  String selectCount(int count) {
+    return '$count चुने गए';
+  }
+
+  @override
+  String get selectClear => 'चुनना बंद करें';
+
+  @override
+  String get selectThis => 'चुनें';
+
+  @override
+  String get selectDeselect => 'न चुनें';
+
+  @override
+  String get selectMoveToList => 'सूची में डालें';
+
+  @override
+  String get selectMoreActions => 'और काम';
+
+  @override
+  String selectDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count पूरे',
+      one: '1 पूरा',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String selectPlanned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count तय',
+      one: '1 तय',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String selectMoved(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count हटाए गए',
+      one: '1 हटाया गया',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String selectTrashed(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ट्रैश में',
+      one: '1 ट्रैश में',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String selectSomeday(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count कभी-न-कभी में',
+      one: '1 कभी-न-कभी में',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get selectHint =>
+      'सुझाव: कई काम एक साथ चुनने के लिए किसी भी काम को दबाकर रखें।';
+
+  @override
+  String get undoHistoryTitle => 'हाल के बदलाव';
+
+  @override
+  String get undoHistoryEmpty => 'इस बार अभी तक कुछ नहीं बदला।';
+
+  @override
+  String get undoHistoryHint =>
+      'Clearing खोलने के बाद के आख़िरी दस बदलाव। वापस करने से चीज़ें पहले जैसी हो जाती हैं।';
+
+  @override
+  String get undoHistoryUndone => 'वापस किया';
+
+  @override
+  String itemTileAge(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days दिन से',
+      one: '1 दिन से',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String itemTileAgeWeeks(int weeks) {
+    String _temp0 = intl.Intl.pluralLogic(
+      weeks,
+      locale: localeName,
+      other: '$weeks हफ़्ते से',
+      one: '1 हफ़्ते से',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get itemTileNow => 'अभी';
+
+  @override
+  String get settingsSwipeSection => 'स्वाइप';
+
+  @override
+  String get settingsSwipeHint =>
+      'इनबॉक्स के बाहर किसी काम पर स्वाइप करने से क्या हो।';
+
+  @override
+  String get settingsSwipeStart => 'दाएँ स्वाइप';
+
+  @override
+  String get settingsSwipeEnd => 'बाएँ स्वाइप';
+
+  @override
+  String get swipeNone => 'कुछ नहीं';
+
+  @override
+  String get fieldNoteLabel => 'फ़ील्ड नोट';
+
+  @override
+  String fieldNoteFound(String name, String body) {
+    return 'फ़ील्ड नोट: $name। $body';
+  }
+
+  @override
+  String get fieldNotesTitle => 'फ़ील्ड नोट्स';
+
+  @override
+  String get fieldNotesHint =>
+      'छोटी खोजें, हर एक कुछ एक बार आज़माने से मिलती है। कोई क्रम नहीं, कुछ बनाए रखना नहीं।';
+
+  @override
+  String fieldNoteLocked(String hint) {
+    return 'अभी नहीं मिला: $hint';
+  }
+
+  @override
+  String get noteFirstLightName => 'पहली रोशनी';
+
+  @override
+  String get noteFirstLightBody => 'आपने एक बात दिमाग़ से बाहर निकाली।';
+
+  @override
+  String get noteFirstLightHint => 'कोई बात लिखें';
+
+  @override
+  String get noteHomeName => 'हर चीज़ की जगह';
+
+  @override
+  String get noteHomeBody => 'आपने एक बात को रहने के लिए सूची दी।';
+
+  @override
+  String get noteHomeHint => 'किसी बात को सूची में रखें';
+
+  @override
+  String get noteHandsName => 'अब आपके हाथ में नहीं';
+
+  @override
+  String get noteHandsBody => 'कोई और कर रहा है; Clearing पूछना याद रखेगा।';
+
+  @override
+  String get noteHandsHint => 'किसी काम को किसी और के इंतज़ार में रखें';
+
+  @override
+  String get noteLongViewName => 'दूर की सोच';
+
+  @override
+  String get noteLongViewBody => 'जो बार-बार आता है, अब अपने आप याद रहेगा।';
+
+  @override
+  String get noteLongViewHint => 'किसी काम को दोहराने वाला बनाएँ';
+
+  @override
+  String get noteBreathName => 'गहरी साँस';
+
+  @override
+  String get noteBreathBody => 'आपने बोझ कम करने का तरीका ढूँढ़ लिया।';
+
+  @override
+  String get noteBreathHint => 'बोझ कम करें आज़माएँ';
+
+  @override
+  String get notePathName => 'रास्ता';
+
+  @override
+  String get notePathBody =>
+      'आपकी पहली साप्ताहिक समीक्षा। आपके मैदान में पहला पेड़ लगा।';
+
+  @override
+  String get notePathHint => 'एक साप्ताहिक समीक्षा पूरी करें';
+
+  @override
+  String get noteOneThingName => 'बस एक काम';
+
+  @override
+  String get noteOneThingBody => 'आपने फ़ोकस से एक काम पूरा किया।';
+
+  @override
+  String get noteOneThingHint => 'फ़ोकस में कोई काम पूरा करें';
+
+  @override
+  String get noteKeepingName => 'सुरक्षित';
+
+  @override
+  String get noteKeepingBody => 'हर चीज़ की एक कॉपी है, आपके पास।';
+
+  @override
+  String get noteKeepingHint => 'बैकअप बनाएँ';
+
+  @override
+  String get noteDoorstepName => 'दरवाज़े से';
+
+  @override
+  String get noteDoorstepBody => 'आपने ऐप खोले बिना बात लिख ली।';
+
+  @override
+  String get noteDoorstepHint => 'विजेट, शेयर, शॉर्टकट या आवाज़ से लिखें';
+
+  @override
+  String get noteOldTabName => 'पुराना टैब';
+
+  @override
+  String get noteOldTabBody => 'आपने एक महीने या ज़्यादा से खुला काम बंद किया।';
+
+  @override
+  String get noteOldTabHint => 'एक महीने से रुका कोई काम बंद करें';
+
+  @override
+  String get noteOpenSkyName => 'खुला आसमान';
+
+  @override
+  String get noteOpenSkyBody => 'Today का सब कुछ पूरा।';
+
+  @override
+  String get noteOpenSkyHint => 'पूरा Today ख़ाली करें';
+
+  @override
+  String get noteSeasonsName => 'चार मौसम';
+
+  @override
+  String get noteSeasonsBody => 'आपने साल के हर मौसम में समीक्षा की।';
+
+  @override
+  String get noteSeasonsHint =>
+      'हर मौसम में कम से कम एक बार समीक्षा करें, अपनी रफ़्तार से';
+
+  @override
+  String get groveTitle => 'आपका मैदान';
+
+  @override
+  String get groveMenu => 'आपका मैदान';
+
+  @override
+  String groveCaption(String season, int closed, int reviews, int oldTabs) {
+    String _temp0 = intl.Intl.pluralLogic(
+      closed,
+      locale: localeName,
+      other: '$closed काम बंद',
+      one: '1 काम बंद',
+      zero: 'अभी कुछ बंद नहीं',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      reviews,
+      locale: localeName,
+      other: '$reviews समीक्षाएँ',
+      one: '1 समीक्षा',
+      zero: 'कोई समीक्षा नहीं',
+    );
+    String _temp2 = intl.Intl.pluralLogic(
+      oldTabs,
+      locale: localeName,
+      other: '$oldTabs पुराने टैब बंद',
+      one: '1 पुराना टैब बंद',
+      zero: 'कोई पुराना टैब नहीं',
+    );
+    return 'इस $season: $_temp0, $_temp1, $_temp2।';
+  }
+
+  @override
+  String get groveEmpty =>
+      'आपका मैदान तैयार है। कोई बात बंद करें या समीक्षा पूरी करें, और यहाँ कुछ उगेगा। यहाँ कुछ भी मुरझाता नहीं।';
+
+  @override
+  String groveDescription(
+    int trees,
+    int flowers,
+    int cairns,
+    int birds,
+    String extras,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      trees,
+      locale: localeName,
+      other: '$trees पेड़',
+      one: '1 पेड़',
+      zero: 'अभी कोई पेड़ नहीं',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      flowers,
+      locale: localeName,
+      other: '$flowers जंगली फूल',
+      one: '1 जंगली फूल',
+      zero: 'कोई जंगली फूल नहीं',
+    );
+    String _temp2 = intl.Intl.pluralLogic(
+      cairns,
+      locale: localeName,
+      other: '$cairns पत्थरों के ढेर',
+      one: '1 पत्थरों का ढेर',
+      zero: 'कोई पत्थरों का ढेर नहीं',
+    );
+    String _temp3 = intl.Intl.pluralLogic(
+      birds,
+      locale: localeName,
+      other: '$birds चिड़ियाँ',
+      one: '1 चिड़िया',
+      zero: 'कोई चिड़िया नहीं',
+    );
+    return 'आपका मैदान: $_temp0, $_temp1, $_temp2, $_temp3$extras।';
+  }
+
+  @override
+  String get groveHasStream => ', एक धारा';
+
+  @override
+  String get groveHasBench => ', एक बेंच';
+
+  @override
+  String groveHasLanterns(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count लालटेनें',
+      one: '1 लालटेन',
+    );
+    return ', $_temp0';
+  }
+
+  @override
+  String get groveTapHint =>
+      'अपने मैदान में किसी भी चीज़ पर टैप करें और देखें कि वह किसलिए है।';
+
+  @override
+  String groveCairn(String date, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count काम बंद',
+      one: '1 काम बंद',
+    );
+    return '$date वाला हफ़्ता: $_temp0';
+  }
+
+  @override
+  String groveFlower(String title, int days, String date) {
+    return '$title, $days दिन रुका, $date को बंद';
+  }
+
+  @override
+  String groveTree(String date) {
+    return 'साप्ताहिक समीक्षा, $date';
+  }
+
+  @override
+  String groveOldTree(String date) {
+    return 'पिछले मौसम का पेड़, $date की समीक्षा से';
+  }
+
+  @override
+  String groveStream(String date) {
+    return 'आपका पहला बोझ कम करना, $date';
+  }
+
+  @override
+  String groveBird(String date) {
+    return 'Today का सब पूरा, $date';
+  }
+
+  @override
+  String get groveBench => 'आप बैकअप रखते हैं। बैठने की एक जगह।';
+
+  @override
+  String groveLantern(String date) {
+    return 'जिसका इंतज़ार था वह वापस आया, $date';
+  }
+
+  @override
+  String groveStep(String date) {
+    return 'एक न्योता स्वीकारा, $date';
+  }
+
+  @override
+  String get groveSeasonSpring => 'वसंत';
+
+  @override
+  String get groveSeasonMonsoon => 'मानसून';
+
+  @override
+  String get groveSeasonSummer => 'गर्मी';
+
+  @override
+  String get groveSeasonAutumn => 'पतझड़';
+
+  @override
+  String get groveSeasonWinter => 'सर्दी';
+
+  @override
+  String groveSeasonCard(String season, String year) {
+    return '$season $year';
+  }
+
+  @override
+  String get groveAlbum => 'मौसम कार्ड';
+
+  @override
+  String get groveAlbumHint =>
+      'हर मौसम के बदलने पर, आपका मैदान एक कार्ड में दबाकर रखा जाता है। पेड़ खड़े रहते हैं।';
+
+  @override
+  String get groveAlbumEmpty => 'यह मौसम बदलने पर आपका पहला कार्ड बनेगा।';
+
+  @override
+  String get groveCairnTitle => 'पत्थरों का ढेर';
+
+  @override
+  String get groveCairnHint =>
+      'आपने जो भी बंद किया, हर एक का एक पत्थर, हर हफ़्ते का एक ढेर। हफ़्ते पर टैप करें और देखें उसमें क्या था।';
+
+  @override
+  String groveCairnWeek(String date) {
+    return '$date वाला हफ़्ता';
+  }
+
+  @override
+  String get groveCairnEmpty =>
+      'आप जो पूरा करेंगे, वह यहाँ एक-एक पत्थर करके जुड़ेगा।';
+
+  @override
+  String get groveCairnOldOnly => 'बस पुराने टैब';
+
+  @override
+  String groveCairnCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count बंद',
+      one: '1 बंद',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get groveJournal => 'अच्छा हुआ जो किया';
+
+  @override
+  String get groveJournalEmpty =>
+      'साप्ताहिक समीक्षा के अंत में आप कुछ लिख सकते हैं जो करके आपको अच्छा लगा। वह यहीं रहता है, बस आपके लिए।';
+
+  @override
+  String get groveMore => 'आपके मैदान में और';
+
+  @override
+  String get groveSettings => 'मौसम';
+
+  @override
+  String get groveHemisphere => 'आप कहाँ हैं';
+
+  @override
+  String get groveNorth => 'दुनिया का उत्तरी हिस्सा';
+
+  @override
+  String get groveSouth => 'दुनिया का दक्षिणी हिस्सा';
+
+  @override
+  String get groveWetSeason => 'वसंत की जगह मानसून दिखाएँ';
+
+  @override
+  String get settingsGroveSection => 'आपका मैदान';
+
+  @override
+  String get settingsGroveHint =>
+      'आपकी प्रगति एक शांत, बढ़ती तस्वीर की तरह। इसमें कुछ भी मुरझाता या मिटता नहीं।';
+
+  @override
+  String get settingsGroveShow => 'अपना मैदान दिखाएँ';
+
+  @override
+  String get settingsInvitations => 'हफ़्ते के न्योते';
+
+  @override
+  String get settingsInvitationsHint =>
+      'हर हफ़्ते Today पर एक वैकल्पिक सुझाव। अनदेखा करने से कुछ नहीं होता।';
+
+  @override
+  String get groveAskTitle => 'अपनी प्रगति को बढ़ते मैदान की तरह देखें?';
+
+  @override
+  String get groveAskBody =>
+      'हर बंद किया काम और हर पूरी समीक्षा एक छोटे, निजी नज़ारे को बढ़ाती है। यह कभी घटता नहीं, और कोई सिलसिला बनाए नहीं रखना। आप इसे कभी भी बंद कर सकते हैं।';
+
+  @override
+  String get groveAskYes => 'हाँ, दिखाएँ';
+
+  @override
+  String get groveAskNo => 'नहीं, धन्यवाद';
+
+  @override
+  String get inviteLabel => 'इस हफ़्ते का न्योता';
+
+  @override
+  String get inviteHomeForThree => 'इनबॉक्स की तीन चीज़ों को जगह दें।';
+
+  @override
+  String get inviteDoneMeans => 'किसी रुके हुए काम के लिए “पूरा मतलब…” लिखें।';
+
+  @override
+  String get inviteOldThought =>
+      'एक महीने से ज़्यादा से दिमाग़ में रही एक बात बंद करें।';
+
+  @override
+  String get inviteParkAnIdea =>
+      'जो इस महीने नहीं करेंगे, ऐसा एक विचार कभी-न-कभी में रख दें।';
+
+  @override
+  String get inviteTryFocus => 'अपने ज़रूरी काम पर फ़ोकस आज़माएँ।';
+
+  @override
+  String get inviteTryReset => 'जब बहुत लगे, बोझ कम करें आज़माएँ।';
+
+  @override
+  String get inviteAddEffort =>
+      'दो कामों में लगने वाला समय जोड़ें, ताकि Today दिखा सके कि क्या हो सकता है।';
+
+  @override
+  String get inviteBackUp =>
+      'बैकअप बनाएँ, या अपने आप होने वाले बैकअप चालू करें।';
+
+  @override
+  String get inviteDidIt => 'कर लिया';
+
+  @override
+  String get inviteNotThisWeek => 'इस हफ़्ते नहीं';
+
+  @override
+  String get inviteOff => 'न्योते न दिखाएँ';
+
+  @override
+  String get inviteThanks => 'आपके मैदान में एक पत्थर जुड़ गया।';
+
+  @override
+  String get inviteGo => 'चलें';
+
+  @override
+  String get lookBackTitle => 'पीछे देखें';
+
+  @override
+  String lookBackClosed(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'इस हफ़्ते आपने $count काम बंद किए।',
+      one: 'इस हफ़्ते आपने 1 काम बंद किया।',
+      zero: 'एक शांत हफ़्ता।',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get lookBackQuiet => 'इनबॉक्स ख़ाली करना भी मायने रखता है।';
+
+  @override
+  String get lookBackBest => 'इस मौसम के किसी भी हफ़्ते से ज़्यादा।';
+
+  @override
+  String lookBackOldest(String title, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days दिन',
+      one: '1 दिन',
+    );
+    return 'सबसे पुराना “$title” था, जो $_temp0 से रुका था।';
+  }
+
+  @override
+  String lookBackParked(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count काम कभी-न-कभी में गए, अब दिमाग़ से बाहर।',
+      one: '1 काम कभी-न-कभी में गया, अब दिमाग़ से बाहर।',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get lookBackTree => 'आपके मैदान में एक नया पेड़ उग रहा है।';
+
+  @override
+  String get lookBackWins => 'इस हफ़्ते कुछ ऐसा जो करके अच्छा लगा?';
+
+  @override
+  String get lookBackWinsHint => 'वैकल्पिक, और सिर्फ़ आपके लिए';
+
+  @override
+  String get insightsTitle => 'आपकी लय';
+
+  @override
+  String get insightsHint =>
+      'पिछले 90 दिन कैसे रहे, इसी फ़ोन पर निकाला गया। बस बातें, कोई फ़ैसला नहीं।';
+
+  @override
+  String get insightsEmpty => 'कुछ काम बंद करने के बाद यहाँ आपकी लय दिखेगी।';
+
+  @override
+  String get insightsByHour => 'आप काम कब बंद करते हैं';
+
+  @override
+  String insightsByHourSummary(String hour) {
+    return 'दिन के घंटे के हिसाब से बंद काम। सबसे ज़्यादा $hour के आसपास।';
+  }
+
+  @override
+  String insightsBarTooltip(String hour, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count बंद',
+      one: '1 बंद',
+    );
+    return '$hour: $_temp0';
+  }
+
+  @override
+  String get insightsMorning =>
+      'आप ज़्यादातर काम दोपहर से पहले बंद करते हैं। सुबह के ज़रूरी काम आपको जँच सकते हैं।';
+
+  @override
+  String get insightsAfternoon => 'ज़्यादातर काम दोपहर में बंद होते हैं।';
+
+  @override
+  String get insightsEvening =>
+      'आप ज़्यादातर काम शाम को बंद करते हैं। शाम की छोटी सूची आपको जँच सकती है।';
+
+  @override
+  String get insightsNight => 'देर रात आपका काम बंद करने का समय है।';
+
+  @override
+  String insightsInboxWait(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'लगभग $days दिन',
+      one: 'लगभग एक दिन',
+      zero: 'एक दिन से कम',
+    );
+    return 'बातें आमतौर पर फ़ैसले से पहले इनबॉक्स में $_temp0 रुकती हैं।';
+  }
+
+  @override
+  String insightsCloseTime(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'लगभग $days दिन',
+      one: 'लगभग एक दिन',
+      zero: 'एक दिन से कम',
+    );
+    return 'लिखने से पूरा होने तक आमतौर पर $_temp0 लगते हैं।';
+  }
+
+  @override
+  String insightsFastestList(String list, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'लगभग $days दिन में',
+      one: 'लगभग एक दिन में',
+      zero: 'एक दिन से कम में',
+    );
+    return '$list सबसे तेज़ चलती है: वहाँ काम $_temp0 बंद होते हैं।';
+  }
+
+  @override
+  String insightsMostParked(String list) {
+    return 'कभी-न-कभी में ज़्यादातर चीज़ें $list से आईं।';
+  }
+
+  @override
+  String get insightsTable => 'घंटे के हिसाब से बंद';
+
+  @override
+  String get insightsShareStats => 'बेनाम आँकड़े भेजें';
+
+  @override
+  String get insightsShareStatsHint =>
+      'सिर्फ़ गिनती, कोई शीर्षक या नोट नहीं। जब तक आप भेजने की जगह न चुनें, कुछ नहीं भेजा जाता।';
+
+  @override
+  String get autoBackupSection => 'अपने आप बैकअप';
+
+  @override
+  String get autoBackupSwitch => 'रोज़ बैकअप लें';
+
+  @override
+  String get autoBackupHint =>
+      'हर रात एक कॉपी, आपके चुने फ़ोल्डर में। पिछले हफ़्ते की कॉपियाँ, और एक महीने तक हर हफ़्ते की एक, रखी जाती हैं।';
+
+  @override
+  String get autoBackupFolder => 'फ़ोल्डर';
+
+  @override
+  String get autoBackupFolderNone => 'चुना नहीं';
+
+  @override
+  String get autoBackupFolderChange => 'फ़ोल्डर चुनें';
+
+  @override
+  String autoBackupLast(String when) {
+    return 'अपने आप बैकअप हुआ, पिछली बार $when';
+  }
+
+  @override
+  String get autoBackupNotYet =>
+      'पहली कॉपी आज रात बनेगी, या अभी बैकअप लें पर टैप करें।';
+
+  @override
+  String get autoBackupNow => 'अभी बैकअप लें';
+
+  @override
+  String get autoBackupDone => 'बैकअप हो गया';
+
+  @override
+  String get autoBackupFailed =>
+      'उस फ़ोल्डर में लिख नहीं पाए। उसे फिर से चुनकर देखें।';
+
+  @override
+  String get autoBackupEncrypt => 'बैकअप पर पासफ़्रेज़ लगाएँ';
+
+  @override
+  String get autoBackupEncryptHint =>
+      'फ़ाइल मिलने पर भी कोई पासफ़्रेज़ के बिना उसे पढ़ नहीं सकता।';
+
+  @override
+  String get passphraseTitle => 'पासफ़्रेज़ चुनें';
+
+  @override
+  String get passphraseWarning =>
+      'इसे कहीं सुरक्षित लिख लें। भूल गए तो ये बैकअप कोई नहीं खोल सकता, Clearing भी नहीं।';
+
+  @override
+  String get passphraseField => 'पासफ़्रेज़';
+
+  @override
+  String get passphraseAgain => 'पासफ़्रेज़ फिर से';
+
+  @override
+  String get passphraseMismatch => 'दोनों मेल नहीं खाते।';
+
+  @override
+  String get passphraseShort => 'कम से कम 8 अक्षर रखें।';
+
+  @override
+  String get passphraseAsk => 'यह बैकअप लॉक है';
+
+  @override
+  String get passphraseAskBody => 'जिस पासफ़्रेज़ से यह बना था, वह डालें।';
+
+  @override
+  String get passphraseWrong => 'यह पासफ़्रेज़ इस बैकअप को नहीं खोलता।';
+
+  @override
+  String get passphraseUnlock => 'खोलें';
+
+  @override
+  String get backupFoundTitle => 'अपने आप बने बैकअप से वापस लाएँ';
+
+  @override
+  String get backupFoundNone => 'फ़ोल्डर में अभी कोई बैकअप नहीं।';
+
+  @override
+  String get backupNewer =>
+      'यह बैकअप Clearing के नए संस्करण से है। जो यह संस्करण जानता है, वह वापस आ जाएगा।';
+
+  @override
+  String get moveSection => 'नए फ़ोन पर जाना';
+
+  @override
+  String get moveSend => 'सब कुछ नए फ़ोन पर भेजें';
+
+  @override
+  String get moveSendHint =>
+      'Nearby Share, ब्लूटूथ या केबल से बैकअप भेजें। नए फ़ोन पर, स्वागत में “बैकअप से वापस लाएँ” चुनें।';
+
+  @override
+  String get welcomeRestore => 'बैकअप से वापस लाएँ';
+
+  @override
+  String get todayGoodMorning => 'सुप्रभात';
+
+  @override
+  String get todayGoodAfternoon => 'नमस्ते';
+
+  @override
+  String get todayGoodEvening => 'शुभ संध्या';
+
+  @override
+  String get todayAllClearTitle => 'खुला आसमान';
+
+  @override
+  String todayAllClearReflection(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'आज $count काम बंद हुए।',
+      one: 'आज एक काम बंद हुआ।',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get todayAllClearRest => 'आज और कुछ आपका इंतज़ार नहीं कर रहा।';
+
+  @override
+  String todayTomorrowPeek(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'कल: $count तय',
+      one: 'कल: 1 तय',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get todayDecideThese => 'इन पर फ़ैसला करें';
+
+  @override
+  String get todayMenuGrove => 'आपका मैदान';
+
+  @override
+  String get todayMenuHaveTime => 'मेरे पास कुछ मिनट हैं…';
+
+  @override
+  String get todayMenuReorder => 'Today का क्रम बदलें';
+
+  @override
+  String get todayMenuRecent => 'हाल के बदलाव';
+
+  @override
+  String planDayTitle(int cap) {
+    return 'आज के लिए $cap तक चुनें';
+  }
+
+  @override
+  String get planDayHint =>
+      'इस हफ़्ते के लिए रखी चीज़ों में से। बाकी जहाँ है वहीं रहेगा।';
+
+  @override
+  String get planDayPrompt => 'आज की योजना बनाएँ?';
+
+  @override
+  String get planDayPromptHint => 'इस हफ़्ते में से कुछ चुनें';
+
+  @override
+  String get planDayStart => 'Today पर रखें';
+
+  @override
+  String get planDayNever => 'यह न पूछें';
+
+  @override
+  String get planDayMustDo => 'पहले को ज़रूरी बनाएँ';
+
+  @override
+  String get fitsNow => 'अभी क्या हो सकता है';
+
+  @override
+  String get fitsNowNone =>
+      'Today पर इसमें कुछ नहीं बैठता। इस हफ़्ते के लिए भी “मेरे पास कुछ मिनट हैं” आज़माएँ।';
+
+  @override
+  String get haveTimeTitle => 'मेरे पास है…';
+
+  @override
+  String get haveTimeWhere => 'और मैं…';
+
+  @override
+  String get haveTimeAnywhere => 'कहीं भी';
+
+  @override
+  String get haveTimeResults => 'ये हो सकते हैं';
+
+  @override
+  String get haveTimeNone =>
+      'अभी कुछ ऐसा नहीं जिसका समय बैठे। किसी काम के विवरण में समय जोड़ें।';
+
+  @override
+  String get haveTimeFocus => 'इस पर ध्यान दें';
+
+  @override
+  String get decideTitle => 'आगे बढ़ाए गए';
+
+  @override
+  String decideHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count बाकी',
+      one: '1 बाकी',
+    );
+    return '$_temp0। कोई गलत जवाब नहीं।';
+  }
+
+  @override
+  String get decideLetGo => 'छोड़ दें';
+
+  @override
+  String get decideDoneTitle => 'सब तय';
+
+  @override
+  String get decideDoneBody => 'Today अब हल्का है।';
+
+  @override
+  String get reorderTitle => 'क्रम बदलें';
+
+  @override
+  String get reorderHint =>
+      'हैंडल खींचें, या स्क्रीन रीडर के साथ विकल्प इस्तेमाल करें। समय वाले काम अपने समय पर रहते हैं।';
+
+  @override
+  String get reorderMoveUp => 'ऊपर करें';
+
+  @override
+  String get reorderMoveDown => 'नीचे करें';
+
+  @override
+  String get pullToCapture => 'लिखने के लिए छोड़ें';
+
+  @override
+  String get clarifyTwoMinutes => '2 मिनट से कम लगेगा? अभी कर लें';
+
+  @override
+  String get clarifyTwoMinutesHint => 'फिर यह पूरा, कहीं रखना नहीं।';
+
+  @override
+  String get clarifyBreakDown => 'इसे कदमों में बाँटें';
+
+  @override
+  String get clarifyDoneMeansExample1 => 'जैसे: फ़ॉर्म भेज दिया';
+
+  @override
+  String get clarifyDoneMeansExample2 => 'जैसे: फ़ोन किया, तारीख़ तय';
+
+  @override
+  String get clarifyDoneMeansExample3 => 'जैसे: ड्राफ़्ट सैम को भेजा';
+
+  @override
+  String get clarifyDoneMeansExample4 => 'जैसे: रसीद रख दी';
+
+  @override
+  String get clarifySuggestedList => 'मिलती-जुलती चीज़ों के आधार पर सुझाया';
+
+  @override
+  String clarifyOnDate(String date) {
+    return '$date को';
+  }
+
+  @override
+  String get clarifyOnDateHint => 'जैसा आपने लिखा था';
+
+  @override
+  String clarifyProgress(int current, int total) {
+    return '$total में से $current';
+  }
+
+  @override
+  String get clarifyStopHere => 'यहीं रुकें';
+
+  @override
+  String get inboxClarifyAll => 'सब तय करें';
+
+  @override
+  String get inboxCards => 'जल्दी तय करें';
+
+  @override
+  String get cardsTitle => 'जल्दी तय करें';
+
+  @override
+  String get cardsHint =>
+      'दाएँ: इस हफ़्ते · बाएँ: कभी-न-कभी · ऊपर: आज · नीचे: हटाएँ · टैप: पूरे सवाल';
+
+  @override
+  String cardsLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count बाकी',
+      one: '1 बाकी',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get cardsDone => 'इनबॉक्स ख़ाली है';
+
+  @override
+  String get cardsDetails => 'सारे सवाल';
+
+  @override
+  String get itemEffort => 'कितना समय';
+
+  @override
+  String get itemEffortNone => 'तय नहीं';
+
+  @override
+  String get itemContexts => 'कहाँ या कैसे';
+
+  @override
+  String get itemContextsNone => 'कहीं भी';
+
+  @override
+  String get itemFirstStep => 'सबसे छोटा पहला कदम';
+
+  @override
+  String get itemFirstStepHint => 'जैसे: फ़ॉर्म खोलें';
+
+  @override
+  String get itemActivity => 'इतिहास';
+
+  @override
+  String activityCaptured(String date) {
+    return '$date को लिखा';
+  }
+
+  @override
+  String activityPlanned(String date) {
+    return '$date को तय';
+  }
+
+  @override
+  String activityWaiting(String date) {
+    return '$date को सौंपा';
+  }
+
+  @override
+  String activityResolved(String date) {
+    return '$date को वापस आया';
+  }
+
+  @override
+  String activitySomeday(String date) {
+    return '$date को रखा';
+  }
+
+  @override
+  String activityDone(String date) {
+    return '$date को पूरा';
+  }
+
+  @override
+  String activityReopened(String date) {
+    return '$date को फिर खोला';
+  }
+
+  @override
+  String activityTrashed(String date) {
+    return '$date को हटाया';
+  }
+
+  @override
+  String activityCarried(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days दिन आगे बढ़ा',
+      one: '1 दिन आगे बढ़ा',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get itemPhotos => 'फ़ोटो';
+
+  @override
+  String get itemAddPhoto => 'फ़ोटो जोड़ें';
+
+  @override
+  String get itemTakePhoto => 'फ़ोटो खींचें';
+
+  @override
+  String get itemPickPhoto => 'गैलरी से चुनें';
+
+  @override
+  String get itemRemovePhoto => 'फ़ोटो हटाएँ';
+
+  @override
+  String itemPhotoLabel(int n) {
+    return 'फ़ोटो $n';
+  }
+
+  @override
+  String get itemPhotosHint => 'इसी फ़ोन पर और आपके बैकअप में रखी जाती हैं।';
+
+  @override
+  String get itemMakeProject => 'इसे प्रोजेक्ट बनाएँ';
+
+  @override
+  String itemMadeProject(String name) {
+    return '“$name” अब एक प्रोजेक्ट है';
+  }
+
+  @override
+  String get itemOpenLink => 'खोलें';
+
+  @override
+  String get itemNotesLinks => 'लिंक';
+
+  @override
+  String projectNextTitle(String name) {
+    return '“$name” में आगे क्या?';
+  }
+
+  @override
+  String get projectNextHint =>
+      'इस हफ़्ते के लिए अगला कदम चुनें, या एक जोड़ें।';
+
+  @override
+  String get projectAddStep => 'कदम जोड़ें';
+
+  @override
+  String get projectNextNone =>
+      'वह आख़िरी कदम था। एक और जोड़ें, या प्रोजेक्ट को आराम दें।';
+
+  @override
+  String get projectLabel => 'प्रोजेक्ट';
+
+  @override
+  String get projectOutcome => 'नतीजा';
+
+  @override
+  String get projectOutcomeHint => 'पूरा होने पर क्या सच होगा?';
+
+  @override
+  String get projectTarget => 'लक्ष्य';
+
+  @override
+  String get projectTargetNone => 'कोई तारीख़ नहीं';
+
+  @override
+  String get projectOnlyNext => 'Today और इस हफ़्ते में बस अगला कदम दिखता है।';
+
+  @override
+  String get projectNew => 'नया प्रोजेक्ट';
+
+  @override
+  String get projectMakeList => 'प्रोजेक्ट मानें';
+
+  @override
+  String get projectsSection => 'प्रोजेक्ट';
+
+  @override
+  String get listColour => 'रंग';
+
+  @override
+  String get listColourNone => 'कोई नहीं';
+
+  @override
+  String get listColourMoss => 'काई';
+
+  @override
+  String get listColourDawn => 'भोर';
+
+  @override
+  String get listColourSky => 'आसमान';
+
+  @override
+  String get listColourClay => 'मिट्टी';
+
+  @override
+  String get listColourHeather => 'हीदर';
+
+  @override
+  String get listPin => 'ऊपर पिन करें';
+
+  @override
+  String get listUnpin => 'पिन हटाएँ';
+
+  @override
+  String get listPinned => 'पिन किए गए';
+
+  @override
+  String get listShoppingMode => 'ख़रीदारी मोड';
+
+  @override
+  String get listShoppingHint =>
+      'बड़ी पंक्तियाँ; टिक की गई चीज़ें हटाने तक नीचे चली जाती हैं।';
+
+  @override
+  String get listClearTicked => 'टिक वाली हटाएँ';
+
+  @override
+  String get listReorder => 'क्रम बदलें';
+
+  @override
+  String get savedSearchesSection => 'स्मार्ट सूचियाँ';
+
+  @override
+  String get savedSearchSave => 'स्मार्ट सूची के रूप में रखें';
+
+  @override
+  String get savedSearchName => 'स्मार्ट सूची का नाम';
+
+  @override
+  String get savedSearchSaved => 'सूचियों में रखा';
+
+  @override
+  String get savedSearchDelete => 'स्मार्ट सूची हटाएँ';
+
+  @override
+  String get savedSearchEmpty => 'अभी कुछ मेल नहीं खाता।';
+
+  @override
+  String get searchRecent => 'हाल के';
+
+  @override
+  String get searchClearRecent => 'मिटाएँ';
+
+  @override
+  String get searchContext => 'कहाँ';
+
+  @override
+  String get searchAnyContext => 'कहीं भी';
+
+  @override
+  String get searchEffort => 'समय';
+
+  @override
+  String get searchAnyEffort => 'कोई भी समय';
+
+  @override
+  String searchUpTo(String length) {
+    return '$length तक';
+  }
+
+  @override
+  String get upcomingMonthView => 'महीने का दृश्य';
+
+  @override
+  String get upcomingSubtitleMonth =>
+      'बिंदु बताते हैं कितना तय है; किसी दिन पर टैप करें';
+
+  @override
+  String get monthPrevious => 'पिछला महीना';
+
+  @override
+  String get monthNextLabel => 'अगला महीना';
+
+  @override
+  String monthDayCount(String date, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count तय',
+      one: '1 तय',
+      zero: 'कुछ तय नहीं',
+    );
+    return '$date: $_temp0';
+  }
+
+  @override
+  String busyDay(int count) {
+    return 'भरा हुआ दिन: $count तय।';
+  }
+
+  @override
+  String get busySpread => 'कुछ आगे बाँटें';
+
+  @override
+  String busySpreadDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count अगले दिनों में बँटे',
+      one: '1 अगले दिन पर गया',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dragToDay => 'किसी और दिन पर खींचें';
+
+  @override
+  String followUpOn(String title) {
+    return 'पूछें: $title';
+  }
+
+  @override
+  String get focusFirstStep => 'पहला कदम';
+
+  @override
+  String get focusFirstStepDone => 'पहला कदम पूरा';
+
+  @override
+  String get focusStuck => 'मैं अटक गया';
+
+  @override
+  String get focusStuckTitle => 'ऐसा होता है। इनमें से कुछ आज़माएँ:';
+
+  @override
+  String get focusStuckBreak => 'इसे छोटे कदमों में बाँटें';
+
+  @override
+  String get focusStuckDoneMeans => '“पूरा” का मतलब बदलें';
+
+  @override
+  String get focusStuckLater => 'अभी के लिए वापस रखें';
+
+  @override
+  String get focusTimebox => 'इसे कुछ मिनट दें';
+
+  @override
+  String get focusTimeboxRunning =>
+      'मिनट बीतने के साथ आसमान साफ़ होता है। कुछ भी दर्ज नहीं होता।';
+
+  @override
+  String get focusTimeboxDone =>
+      'समय पूरा। जारी रखें, या यहीं रुकें; दोनों ठीक हैं।';
+
+  @override
+  String get focusTimeboxStop => 'टाइमबॉक्स रोकें';
+
+  @override
+  String get settingsFocusTimebox => 'फ़ोकस में टाइमबॉक्स दिखाएँ';
+
+  @override
+  String get settingsFocusTimeboxHint =>
+      '5, 15 या 25 मिनट, साफ़ होते आसमान की तरह। कुछ भी दर्ज नहीं होता।';
+
+  @override
+  String get breatheTitle => 'पहले कुछ साँसें?';
+
+  @override
+  String get breatheIn => 'साँस लें';
+
+  @override
+  String get breatheOut => 'साँस छोड़ें';
+
+  @override
+  String get breatheSkip => 'छोड़ें';
+
+  @override
+  String get breatheReady => 'तैयार';
+
+  @override
+  String get settingsBreathing => 'बोझ कम करने से पहले कुछ साँसें';
+
+  @override
+  String get reviewLengthTitle => 'आपके पास कितना समय है?';
+
+  @override
+  String get reviewQuick => 'छोटी (लगभग 5 मिनट)';
+
+  @override
+  String get reviewQuickHint => 'आपका इनबॉक्स और अगला हफ़्ता';
+
+  @override
+  String get reviewFull => 'पूरी';
+
+  @override
+  String get reviewFullHint => 'हर कदम, लगभग 15 मिनट';
+
+  @override
+  String get reviewQuickCounts => 'छोटी समीक्षा, न होने से बेहतर।';
+
+  @override
+  String get settingsReviewLength => 'समीक्षा की लंबाई';
+
+  @override
+  String get settingsReviewAsk => 'हर बार पूछें';
+
+  @override
+  String get reviewOwnChecks => 'आपकी अपनी जाँचें';
+
+  @override
+  String get reviewOwnChecksHint => 'जो देख लिया उस पर टिक करें।';
+
+  @override
+  String get settingsReviewPrompts => 'समीक्षा की अपनी जाँचें';
+
+  @override
+  String get settingsReviewPromptsHint => 'जैसे: बैंक खाता देखें, खाना तय करें';
+
+  @override
+  String get reviewPromptAdd => 'जाँच जोड़ें';
+
+  @override
+  String get settingsWinsPrompt => 'पूछें क्या अच्छा रहा';
+
+  @override
+  String reviewProjectsStuck(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count प्रोजेक्ट में कुछ तय नहीं',
+      one: '1 प्रोजेक्ट में कुछ तय नहीं',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get reviewProjectAddStep => 'कदम जोड़ें';
+
+  @override
+  String get reviewProjectPark => 'रख दें';
+
+  @override
+  String get settingsSearch => 'सेटिंग्स खोजें';
+
+  @override
+  String get settingsSearchNone => 'कोई सेटिंग मेल नहीं खाती।';
+
+  @override
+  String get settingsCaptureSection => 'लिखना';
+
+  @override
+  String get settingsCaptureHint => 'Clearing आपके लिखे को कैसे पढ़ता है।';
+
+  @override
+  String get settingsParse => 'लिखते समय तारीख़ और सूची समझें';
+
+  @override
+  String get settingsParseHint =>
+      '“किराया शुक्रवार 9 बजे #home !” बन जाता है: किराया, शुक्रवार 9:00, Home, ज़रूरी।';
+
+  @override
+  String get settingsParsedSkipInbox => 'तारीख़ वाली चीज़ें इनबॉक्स छोड़ दें';
+
+  @override
+  String get settingsContexts => 'संदर्भ';
+
+  @override
+  String get settingsFocusSection => 'फ़ोकस और बोझ कम करना';
+
+  @override
+  String get settingsFocusHint => 'शुरू करने और भारी दिनों के लिए छोटी मदद।';
+
+  @override
+  String get settingsPlanMyDay => 'दिन की योजना का सुझाव दें';
+
+  @override
+  String get settingsPrivacySection => 'निजता';
+
+  @override
+  String get settingsPrivacyHint => 'इस फ़ोन पर कौन क्या देख सकता है।';
+
+  @override
+  String get settingsHideOnLock => 'लॉक स्क्रीन पर शीर्षक छिपाएँ';
+
+  @override
+  String get settingsHideOnLockHint =>
+      'लॉक स्क्रीन बस इतना दिखाती है कि रिमाइंडर है, उसमें क्या लिखा है वह नहीं।';
+
+  @override
+  String get settingsAppLock => 'Clearing लॉक करें';
+
+  @override
+  String get settingsAppLockHint =>
+      'आपके फ़िंगरप्रिंट, चेहरे या स्क्रीन लॉक से। लॉक होने पर भी जल्दी लिखना काम करता है।';
+
+  @override
+  String get settingsAppLockUnavailable => 'पहले फ़ोन पर स्क्रीन लॉक लगाएँ।';
+
+  @override
+  String get settingsLockAfter => 'कब लॉक हो';
+
+  @override
+  String get settingsLockImmediately => 'ऐप छोड़ते ही';
+
+  @override
+  String settingsLockMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count मिनट दूर रहने पर',
+      one: '1 मिनट दूर रहने पर',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get lockTitle => 'Clearing लॉक है';
+
+  @override
+  String get lockUnlock => 'खोलें';
+
+  @override
+  String get lockReason => 'Clearing खोलें';
+
+  @override
+  String get lockCapture => 'बिना खोले लिखें';
+
+  @override
+  String get settingsFeedbackSection => 'प्रतिक्रिया';
+
+  @override
+  String get settingsFeedbackHint => 'कुछ पूरा होने पर छोटे संकेत।';
+
+  @override
+  String get settingsSounds => 'आवाज़ें';
+
+  @override
+  String get settingsSoundsHint =>
+      'Today ख़ाली होने और समीक्षा पूरी होने पर एक छोटी घंटी। फ़ोन साइलेंट हो तो चुप।';
+
+  @override
+  String get settingsThemeVariant => 'Glade रंग';
+
+  @override
+  String get settingsThemeVariantHint => 'आपका मैदान बढ़ने पर और मिलते हैं।';
+
+  @override
+  String get variantGlade => 'Glade';
+
+  @override
+  String get variantAutumn => 'पतझड़';
+
+  @override
+  String get variantMonsoon => 'मानसून';
+
+  @override
+  String get variantWinter => 'सर्दी';
+
+  @override
+  String get variantNightSky => 'रात का आसमान';
+
+  @override
+  String variantLocked(String name) {
+    return '$name, अभी नहीं मिला';
+  }
+
+  @override
+  String get variantHowAutumn => 'पहले मौसम कार्ड के साथ';
+
+  @override
+  String get variantHowMonsoon => '10 समीक्षाओं के बाद';
+
+  @override
+  String get variantHowWinter => '25 पुराने टैब बंद करने के बाद';
+
+  @override
+  String get variantHowNightSky => '100 काम बंद करने के बाद';
+
+  @override
+  String get settingsUnlockAll => 'सारे रंग दिखाएँ';
+
+  @override
+  String get settingsHighContrast => 'ज़्यादा कंट्रास्ट';
+
+  @override
+  String get settingsHighContrastHint =>
+      'गहरा पाठ और किनारे, कम दृष्टि के लिए। हमेशा उपलब्ध।';
+
+  @override
+  String get settingsRoomyText => 'खुला-खुला पाठ';
+
+  @override
+  String get settingsRoomyTextHint =>
+      'पंक्तियों और अक्षरों के बीच ज़्यादा जगह, जो कुछ पाठकों को आसान लगती है।';
+
+  @override
+  String get settingsTextPreview => 'पाठ आकार का नमूना';
+
+  @override
+  String get settingsTextPreviewHint =>
+      'पाठ का आकार फ़ोन की सेटिंग के हिसाब से है।';
+
+  @override
+  String get settingsMakeYours => 'Clearing को अपना बनाएँ';
+
+  @override
+  String get settingsMakeYoursHint => 'एक चुनाव जो बाकी तय कर दे';
+
+  @override
+  String get styleTitle => 'Clearing को अपना बनाएँ';
+
+  @override
+  String get styleHint =>
+      'एक अंदाज़ चुनें। बाद में कोई भी हिस्सा बदल सकते हैं।';
+
+  @override
+  String get styleMinimal => 'सादा';
+
+  @override
+  String get styleMinimalHint =>
+      'बस सूचियाँ। कोई मैदान, सुझाव, आवाज़ या सुबह का सार नहीं।';
+
+  @override
+  String get styleGentle => 'हल्का';
+
+  @override
+  String get styleGentleHint =>
+      'चलते-चलते सुझाव और आपका मैदान, चुपचाप। सामान्य।';
+
+  @override
+  String get styleEncouraging => 'हौसला देने वाला';
+
+  @override
+  String get styleEncouragingHint =>
+      'आपका मैदान, हफ़्ते के न्योते, आवाज़ें और सुबह का सार।';
+
+  @override
+  String get styleApplied => 'हो गया। सेटिंग्स में अब भी सब बदला जा सकता है।';
+
+  @override
+  String get settingsWhatsNew => 'नया क्या है';
+
+  @override
+  String get whatsNewTitle => 'Clearing में नया क्या है';
+
+  @override
+  String get whatsNew1Title => 'जैसे बोलते हैं वैसे लिखें';
+
+  @override
+  String get whatsNew1Body =>
+      '“डेंटिस्ट शुक्रवार 3 बजे” शुक्रवार 3 बजे के लिए तय होता है। कोई हिस्सा हटाने के लिए चिप पर टैप करें।';
+
+  @override
+  String get whatsNew2Title => 'कई एक साथ';
+
+  @override
+  String get whatsNew2Body =>
+      'कई चीज़ें चुनने के लिए दबाकर रखें, फिर उन्हें एक साथ तय करें, हटाएँ या पूरा करें।';
+
+  @override
+  String get whatsNew3Title => 'आपका मैदान';
+
+  @override
+  String get whatsNew3Body =>
+      'एक वैकल्पिक, निजी नज़ारा जो काम बंद करने पर बढ़ता है। इसमें कुछ भी मुरझाता नहीं।';
+
+  @override
+  String get whatsNew4Title => 'अपने आप होने वाले बैकअप';
+
+  @override
+  String get whatsNew4Body =>
+      'हर रात आपके चुने फ़ोल्डर में एक कॉपी, चाहें तो पासफ़्रेज़ के साथ।';
+
+  @override
+  String get whatsNewTry => 'दिखाएँ';
+
+  @override
+  String get settingsDeveloper => 'डेवलपर विकल्प';
+
+  @override
+  String get developerTitle => 'डेवलपर विकल्प';
+
+  @override
+  String get developerHint =>
+      'अधूरी सुविधाएँ, जाँच के लिए। सिर्फ़ डीबग बिल्ड में।';
+
+  @override
+  String get developerNoFlags => 'अभी कोई अधूरी सुविधा नहीं।';
+
+  @override
+  String get developerSeed => 'नमूना काम जोड़ें';
+
+  @override
+  String get contextsScreenTitle => 'संदर्भ';
+
+  @override
+  String get contextsRename => 'नाम बदलें';
+
+  @override
+  String get contextsDelete => 'हटाएँ';
+
+  @override
+  String get settingsExportCalendar => 'आने वाले काम कैलेंडर फ़ाइल में भेजें';
+
+  @override
+  String get settingsExportCalendarHint =>
+      'किसी भी कैलेंडर ऐप में डालने के लिए। Clearing आपका कैलेंडर कभी नहीं पढ़ता।';
+
+  @override
+  String get settingsExportCalendarNone => 'अगले 90 दिनों में कुछ तय नहीं।';
+
+  @override
+  String get notifActionPickTime => 'समय चुनें';
+
+  @override
+  String get notifActionCapture => 'लिखें';
+
+  @override
+  String get notifReplyHint => 'मन में और कुछ?';
+
+  @override
+  String get repeatFlexible => 'हफ़्ते के किसी भी दिन';
+
+  @override
+  String get repeatFlexibleHint =>
+      'हफ़्ते में कुछ बार, जब ठीक लगे। कम रहे हफ़्ते बस नए सिरे से शुरू होते हैं।';
+
+  @override
+  String repeatTimesAWeek(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'हफ़्ते में $count बार, किसी भी दिन',
+      one: 'हफ़्ते में एक बार, किसी भी दिन',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get repeatFewer => 'कम बार';
+
+  @override
+  String get repeatMore => 'ज़्यादा बार';
+
+  @override
+  String flexibleProgress(int done, int target) {
+    return 'इस हफ़्ते $target में से $done';
+  }
+
+  @override
+  String get glossClarify =>
+      'तय करना मतलब यह तय करना कि बात क्या है: करने का काम, किसी और का, बाद का विचार, या कुछ नहीं। शुरू करने के लिए किसी काम पर टैप करें।';
+
+  @override
+  String get glossMustDo =>
+      'ज़रूरी काम वे थोड़े काम हैं जो आज होने ही चाहिए। Clearing जानबूझकर इन्हें कम रखता है।';
+
+  @override
+  String get glossCarried =>
+      'आगे बढ़ाया मतलब यह पहले के दिन के लिए तय था। कोई बात नहीं: जब तैयार हों, फिर से तय करें।';
+
+  @override
+  String get glossWaiting =>
+      'इंतज़ार उन कामों के लिए है जो कोई और कर रहा है। Clearing पूछताछ की तारीख़ पर याद दिलाता है।';
+
+  @override
+  String get glossSomeday =>
+      'कभी-न-कभी में विचार रहते हैं, वादे नहीं। ये Today पर नहीं दिखते; साप्ताहिक समीक्षा इन्हें फिर दिखाती है।';
+
+  @override
+  String get guideShowMe => 'मुझे दिखाएँ';
+
+  @override
+  String get coachCapture =>
+      'कोई बात दिमाग़ से निकालने के लिए यहाँ टैप करें, या कीबोर्ड पर N दबाएँ।';
+
+  @override
+  String get coachInbox => 'आप जो भी लिखते हैं, वह तय होने तक यहाँ रहता है।';
+
+  @override
+  String get coachToday => 'Today: पहले ज़रूरी काम, बाकी नीचे शांत।';
+
+  @override
+  String get coachUpcoming =>
+      'तारीख़ें, आने वाला हफ़्ता, और महीना एक नज़र में।';
+
+  @override
+  String get coachLists =>
+      'सूचियाँ, प्रोजेक्ट, स्मार्ट सूचियाँ, कभी-न-कभी और आपकी सेटिंग्स।';
+
+  @override
+  String get coachGotIt => 'समझ गया';
 }

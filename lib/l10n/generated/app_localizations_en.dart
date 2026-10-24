@@ -2593,4 +2593,1926 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get guideData4Body =>
       'Deleted items stay in Trash for 30 days; done items move to the archive and stay searchable.';
+
+  @override
+  String effortMinutes(int count) {
+    return '$count min';
+  }
+
+  @override
+  String get effortHour => '1 hour';
+
+  @override
+  String get effortLonger => 'Longer';
+
+  @override
+  String get effortTitle => 'How long?';
+
+  @override
+  String get contextHome => 'Home';
+
+  @override
+  String get contextOut => 'Out';
+
+  @override
+  String get contextComputer => 'Computer';
+
+  @override
+  String get contextPhone => 'Phone';
+
+  @override
+  String get contextLowEnergy => 'Low energy';
+
+  @override
+  String get contextsTitle => 'Where or how';
+
+  @override
+  String get contextsManage => 'Edit contexts';
+
+  @override
+  String get contextsNew => 'New context';
+
+  @override
+  String get contextsHint =>
+      'Contexts say where or how something can be done, so Today can show what fits right now.';
+
+  @override
+  String get captureToInbox => 'Inbox';
+
+  @override
+  String get captureDestination => 'Save to';
+
+  @override
+  String captureChipRemove(String label) {
+    return 'Keep “$label” in the title';
+  }
+
+  @override
+  String get captureUnderstood => 'Understood';
+
+  @override
+  String get captureChipMustDo => 'Must-do';
+
+  @override
+  String captureChipWaiting(String person) {
+    return 'Waiting on $person';
+  }
+
+  @override
+  String captureChipDue(String date) {
+    return 'Due $date';
+  }
+
+  @override
+  String get captureMustDoFull =>
+      'Today’s must-dos are full, so it’s on Today instead.';
+
+  @override
+  String captureDuplicate(String title) {
+    return 'Looks like “$title” is already here.';
+  }
+
+  @override
+  String get captureDuplicateMerge => 'Keep just one';
+
+  @override
+  String get captureDuplicateKeep => 'Keep both';
+
+  @override
+  String get captureDuplicateMerged => 'Kept the one already there';
+
+  @override
+  String get captureEditSaved => 'Edit this thought';
+
+  @override
+  String get captureRemoveSaved => 'Remove it';
+
+  @override
+  String get captureTemplates => 'Templates';
+
+  @override
+  String captureTemplateStarted(String name) {
+    return 'Started “$name”';
+  }
+
+  @override
+  String get captureVoice => 'Speak';
+
+  @override
+  String get captureVoiceListening => 'Listening… pause to start a new line';
+
+  @override
+  String get captureVoiceStop => 'Stop listening';
+
+  @override
+  String get captureVoiceFailed =>
+      'Couldn’t listen. Speech works offline once the language is downloaded in Android settings.';
+
+  @override
+  String get captureVoicePermission =>
+      'Clearing listens only while you hold the button, on this phone. Nothing is recorded or sent anywhere.';
+
+  @override
+  String get captureVoicePermissionTitle => 'Use the microphone?';
+
+  @override
+  String get captureVoiceAllow => 'Allow';
+
+  @override
+  String selectCount(int count) {
+    return '$count selected';
+  }
+
+  @override
+  String get selectClear => 'Stop selecting';
+
+  @override
+  String get selectThis => 'Select';
+
+  @override
+  String get selectDeselect => 'Deselect';
+
+  @override
+  String get selectMoveToList => 'Move to list';
+
+  @override
+  String get selectMoreActions => 'More actions';
+
+  @override
+  String selectDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count done',
+      one: '1 done',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String selectPlanned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count planned',
+      one: '1 planned',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String selectMoved(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count moved',
+      one: '1 moved',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String selectTrashed(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count moved to Trash',
+      one: '1 moved to Trash',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String selectSomeday(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count moved to Someday',
+      one: '1 moved to Someday',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get selectHint =>
+      'Tip: press and hold any item to select several at once.';
+
+  @override
+  String get undoHistoryTitle => 'Recently changed';
+
+  @override
+  String get undoHistoryEmpty => 'Nothing changed yet in this session.';
+
+  @override
+  String get undoHistoryHint =>
+      'The last ten changes since you opened Clearing. Undo puts things back exactly as they were.';
+
+  @override
+  String get undoHistoryUndone => 'Undone';
+
+  @override
+  String itemTileAge(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'waiting $days days',
+      one: 'waiting 1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String itemTileAgeWeeks(int weeks) {
+    String _temp0 = intl.Intl.pluralLogic(
+      weeks,
+      locale: localeName,
+      other: 'waiting $weeks weeks',
+      one: 'waiting 1 week',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get itemTileNow => 'Now';
+
+  @override
+  String get settingsSwipeSection => 'Swipes';
+
+  @override
+  String get settingsSwipeHint =>
+      'What a swipe on an item does outside the Inbox.';
+
+  @override
+  String get settingsSwipeStart => 'Swipe right';
+
+  @override
+  String get settingsSwipeEnd => 'Swipe left';
+
+  @override
+  String get swipeNone => 'Nothing';
+
+  @override
+  String get fieldNoteLabel => 'Field note';
+
+  @override
+  String fieldNoteFound(String name, String body) {
+    return 'Field note: $name. $body';
+  }
+
+  @override
+  String get fieldNotesTitle => 'Field notes';
+
+  @override
+  String get fieldNotesHint =>
+      'Small discoveries, each found by trying something once. There’s no order and nothing to keep up.';
+
+  @override
+  String fieldNoteLocked(String hint) {
+    return 'Not found yet: $hint';
+  }
+
+  @override
+  String get noteFirstLightName => 'First light';
+
+  @override
+  String get noteFirstLightBody => 'You got a thought out of your head.';
+
+  @override
+  String get noteFirstLightHint => 'capture a thought';
+
+  @override
+  String get noteHomeName => 'A home for everything';
+
+  @override
+  String get noteHomeBody => 'You gave a thought a list to live in.';
+
+  @override
+  String get noteHomeHint => 'clarify something into a list';
+
+  @override
+  String get noteHandsName => 'Out of your hands';
+
+  @override
+  String get noteHandsBody =>
+      'Someone else is doing it; Clearing will remember to check.';
+
+  @override
+  String get noteHandsHint => 'mark something as waiting on someone';
+
+  @override
+  String get noteLongViewName => 'The long view';
+
+  @override
+  String get noteLongViewBody =>
+      'Something that comes back now looks after itself.';
+
+  @override
+  String get noteLongViewHint => 'make something repeat';
+
+  @override
+  String get noteBreathName => 'Deep breath';
+
+  @override
+  String get noteBreathBody => 'You found the overwhelm reset.';
+
+  @override
+  String get noteBreathHint => 'try the overwhelm reset';
+
+  @override
+  String get notePathName => 'The path';
+
+  @override
+  String get notePathBody =>
+      'Your first weekly review. Your clearing has its first tree.';
+
+  @override
+  String get notePathHint => 'finish a weekly review';
+
+  @override
+  String get noteOneThingName => 'Just one thing';
+
+  @override
+  String get noteOneThingBody => 'You finished something from the focus view.';
+
+  @override
+  String get noteOneThingHint => 'finish something in Focus';
+
+  @override
+  String get noteKeepingName => 'Safe keeping';
+
+  @override
+  String get noteKeepingBody => 'There’s a copy of everything, kept by you.';
+
+  @override
+  String get noteKeepingHint => 'make a backup';
+
+  @override
+  String get noteDoorstepName => 'From the doorstep';
+
+  @override
+  String get noteDoorstepBody => 'You captured without opening the app first.';
+
+  @override
+  String get noteDoorstepHint =>
+      'capture from the widget, a share, a shortcut or your voice';
+
+  @override
+  String get noteOldTabName => 'Old tab';
+
+  @override
+  String get noteOldTabBody =>
+      'You closed something that had been open for a month or more.';
+
+  @override
+  String get noteOldTabHint => 'close something that’s waited a month';
+
+  @override
+  String get noteOpenSkyName => 'Open sky';
+
+  @override
+  String get noteOpenSkyBody => 'Everything on Today, done.';
+
+  @override
+  String get noteOpenSkyHint => 'clear a whole Today';
+
+  @override
+  String get noteSeasonsName => 'Four seasons';
+
+  @override
+  String get noteSeasonsBody => 'You reviewed in every season of a year.';
+
+  @override
+  String get noteSeasonsHint =>
+      'review at least once in each season, at any pace';
+
+  @override
+  String get groveTitle => 'Your clearing';
+
+  @override
+  String get groveMenu => 'Your clearing';
+
+  @override
+  String groveCaption(String season, int closed, int reviews, int oldTabs) {
+    String _temp0 = intl.Intl.pluralLogic(
+      closed,
+      locale: localeName,
+      other: '$closed things closed',
+      one: '1 thing closed',
+      zero: 'nothing closed yet',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      reviews,
+      locale: localeName,
+      other: '$reviews reviews',
+      one: '1 review',
+      zero: 'no reviews',
+    );
+    String _temp2 = intl.Intl.pluralLogic(
+      oldTabs,
+      locale: localeName,
+      other: '$oldTabs old tabs cleared',
+      one: '1 old tab cleared',
+      zero: 'no old tabs',
+    );
+    return 'This $season: $_temp0, $_temp1, $_temp2.';
+  }
+
+  @override
+  String get groveEmpty =>
+      'Your clearing is ready. Close a thought or finish a review, and something will grow here. Nothing here ever wilts.';
+
+  @override
+  String groveDescription(
+    int trees,
+    int flowers,
+    int cairns,
+    int birds,
+    String extras,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      trees,
+      locale: localeName,
+      other: '$trees trees',
+      one: '1 tree',
+      zero: 'no trees yet',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      flowers,
+      locale: localeName,
+      other: '$flowers wildflowers',
+      one: '1 wildflower',
+      zero: 'no wildflowers',
+    );
+    String _temp2 = intl.Intl.pluralLogic(
+      cairns,
+      locale: localeName,
+      other: '$cairns cairns',
+      one: '1 cairn',
+      zero: 'no cairns',
+    );
+    String _temp3 = intl.Intl.pluralLogic(
+      birds,
+      locale: localeName,
+      other: '$birds birds',
+      one: '1 bird',
+      zero: 'no birds',
+    );
+    return 'Your clearing: $_temp0, $_temp1, $_temp2, $_temp3$extras.';
+  }
+
+  @override
+  String get groveHasStream => ', a stream';
+
+  @override
+  String get groveHasBench => ', a bench';
+
+  @override
+  String groveHasLanterns(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lanterns',
+      one: '1 lantern',
+    );
+    return ', $_temp0';
+  }
+
+  @override
+  String get groveTapHint =>
+      'Tap anything in your clearing to see what it was for.';
+
+  @override
+  String groveCairn(String date, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count things closed',
+      one: '1 thing closed',
+    );
+    return 'Week of $date: $_temp0';
+  }
+
+  @override
+  String groveFlower(String title, int days, String date) {
+    return '$title, waited $days days, closed $date';
+  }
+
+  @override
+  String groveTree(String date) {
+    return 'A weekly review, $date';
+  }
+
+  @override
+  String groveOldTree(String date) {
+    return 'A tree from an earlier season, from your review on $date';
+  }
+
+  @override
+  String groveStream(String date) {
+    return 'Your first overwhelm reset, $date';
+  }
+
+  @override
+  String groveBird(String date) {
+    return 'Everything on Today done, $date';
+  }
+
+  @override
+  String get groveBench => 'You keep a backup. A place to sit.';
+
+  @override
+  String groveLantern(String date) {
+    return 'Something you were waiting for came back, $date';
+  }
+
+  @override
+  String groveStep(String date) {
+    return 'An invitation taken up, $date';
+  }
+
+  @override
+  String get groveSeasonSpring => 'spring';
+
+  @override
+  String get groveSeasonMonsoon => 'monsoon';
+
+  @override
+  String get groveSeasonSummer => 'summer';
+
+  @override
+  String get groveSeasonAutumn => 'autumn';
+
+  @override
+  String get groveSeasonWinter => 'winter';
+
+  @override
+  String groveSeasonCard(String season, String year) {
+    return '$season $year';
+  }
+
+  @override
+  String get groveAlbum => 'Season cards';
+
+  @override
+  String get groveAlbumHint =>
+      'At each season’s turn, your clearing is pressed into a card and kept. The trees stay standing.';
+
+  @override
+  String get groveAlbumEmpty =>
+      'Your first card is pressed when this season turns.';
+
+  @override
+  String get groveCairnTitle => 'The cairn';
+
+  @override
+  String get groveCairnHint =>
+      'Everything you’ve closed, a stone each, a pile a week. Tap a week to see what was in it.';
+
+  @override
+  String groveCairnWeek(String date) {
+    return 'Week of $date';
+  }
+
+  @override
+  String get groveCairnEmpty =>
+      'Things you finish will stack up here, one stone each.';
+
+  @override
+  String get groveCairnOldOnly => 'Only old tabs';
+
+  @override
+  String groveCairnCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count closed',
+      one: '1 closed',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get groveJournal => 'Glad you did';
+
+  @override
+  String get groveJournalEmpty =>
+      'At the end of a weekly review you can note something you’re glad you did. It stays here, just for you.';
+
+  @override
+  String get groveMore => 'More in your clearing';
+
+  @override
+  String get groveSettings => 'Seasons';
+
+  @override
+  String get groveHemisphere => 'Where you are';
+
+  @override
+  String get groveNorth => 'Northern half of the world';
+
+  @override
+  String get groveSouth => 'Southern half of the world';
+
+  @override
+  String get groveWetSeason => 'Show monsoon instead of spring';
+
+  @override
+  String get settingsGroveSection => 'Your clearing';
+
+  @override
+  String get settingsGroveHint =>
+      'Your progress as a calm, growing picture. Nothing in it ever wilts or resets.';
+
+  @override
+  String get settingsGroveShow => 'Show your clearing';
+
+  @override
+  String get settingsInvitations => 'Weekly invitations';
+
+  @override
+  String get settingsInvitationsHint =>
+      'One optional idea a week on Today. Ignoring it does nothing.';
+
+  @override
+  String get groveAskTitle => 'See your progress as a growing clearing?';
+
+  @override
+  String get groveAskBody =>
+      'Each thing you close and each review you finish helps a small, private landscape grow. It never shrinks, and there are no streaks to keep. You can turn it off any time.';
+
+  @override
+  String get groveAskYes => 'Yes, show it';
+
+  @override
+  String get groveAskNo => 'No thanks';
+
+  @override
+  String get inviteLabel => 'This week’s invitation';
+
+  @override
+  String get inviteHomeForThree => 'Give three inbox items a home.';
+
+  @override
+  String get inviteDoneMeans =>
+      'Write a “Done means…” for one thing that’s been sitting.';
+
+  @override
+  String get inviteOldThought =>
+      'Close one thing that’s been on your mind for more than a month.';
+
+  @override
+  String get inviteParkAnIdea =>
+      'Park one idea in Someday that you won’t do this month.';
+
+  @override
+  String get inviteTryFocus => 'Try the focus view on your must-do.';
+
+  @override
+  String get inviteTryReset =>
+      'When it feels like a lot, try the overwhelm reset.';
+
+  @override
+  String get inviteAddEffort =>
+      'Add how long two things take, so Today can show what fits.';
+
+  @override
+  String get inviteBackUp => 'Make a backup, or turn on automatic ones.';
+
+  @override
+  String get inviteDidIt => 'Did it';
+
+  @override
+  String get inviteNotThisWeek => 'Not this week';
+
+  @override
+  String get inviteOff => 'Don’t show invitations';
+
+  @override
+  String get inviteThanks => 'A stepping stone joins your clearing.';
+
+  @override
+  String get inviteGo => 'Go';
+
+  @override
+  String get lookBackTitle => 'Look back';
+
+  @override
+  String lookBackClosed(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'This week you closed $count things.',
+      one: 'This week you closed 1 thing.',
+      zero: 'A quieter week.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get lookBackQuiet => 'Clearing your inbox still counts.';
+
+  @override
+  String get lookBackBest => 'More than any week this season.';
+
+  @override
+  String lookBackOldest(String title, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days',
+      one: '1 day',
+    );
+    return 'The oldest was “$title”, which had waited $_temp0.';
+  }
+
+  @override
+  String lookBackParked(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count things moved to Someday, so they’re out of your head.',
+      one: '1 thing moved to Someday, so it’s out of your head.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get lookBackTree => 'A new tree is growing in your clearing.';
+
+  @override
+  String get lookBackWins => 'Anything you’re glad you did this week?';
+
+  @override
+  String get lookBackWinsHint => 'Optional, and only for you';
+
+  @override
+  String get insightsTitle => 'Your rhythm';
+
+  @override
+  String get insightsHint =>
+      'What the last 90 days look like, worked out on this phone. Observations, never judgements.';
+
+  @override
+  String get insightsEmpty =>
+      'Once you’ve closed a few things, you’ll see your rhythm here.';
+
+  @override
+  String get insightsByHour => 'When you close things';
+
+  @override
+  String insightsByHourSummary(String hour) {
+    return 'Things closed by hour of day. Most around $hour.';
+  }
+
+  @override
+  String insightsBarTooltip(String hour, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count closed',
+      one: '1 closed',
+    );
+    return '$hour: $_temp0';
+  }
+
+  @override
+  String get insightsMorning =>
+      'You close most things before noon. Morning must-dos might suit you.';
+
+  @override
+  String get insightsAfternoon => 'Afternoons are when most things get closed.';
+
+  @override
+  String get insightsEvening =>
+      'You close most things in the evening. A short evening list might suit you.';
+
+  @override
+  String get insightsNight => 'Late hours are your closing time.';
+
+  @override
+  String insightsInboxWait(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'about $days days',
+      one: 'about a day',
+      zero: 'less than a day',
+    );
+    return 'Thoughts usually wait $_temp0 in your Inbox before you decide.';
+  }
+
+  @override
+  String insightsCloseTime(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'about $days days',
+      one: 'about a day',
+      zero: 'less than a day',
+    );
+    return 'From capture to done usually takes $_temp0.';
+  }
+
+  @override
+  String insightsFastestList(String list, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'about $days days',
+      one: 'about a day',
+      zero: 'under a day',
+    );
+    return '$list moves fastest: things there close in $_temp0.';
+  }
+
+  @override
+  String insightsMostParked(String list) {
+    return 'Most of what’s in Someday came from $list.';
+  }
+
+  @override
+  String get insightsTable => 'Closed by hour';
+
+  @override
+  String get insightsShareStats => 'Share anonymous stats';
+
+  @override
+  String get insightsShareStatsHint =>
+      'Counts only, no titles or notes. Nothing is sent unless you pick where to send it.';
+
+  @override
+  String get autoBackupSection => 'Automatic backups';
+
+  @override
+  String get autoBackupSwitch => 'Back up every day';
+
+  @override
+  String get autoBackupHint =>
+      'A copy each night, into a folder you choose. The last week of copies, and one a week for a month, are kept.';
+
+  @override
+  String get autoBackupFolder => 'Folder';
+
+  @override
+  String get autoBackupFolderNone => 'Not chosen';
+
+  @override
+  String get autoBackupFolderChange => 'Choose a folder';
+
+  @override
+  String autoBackupLast(String when) {
+    return 'Backed up automatically, last $when';
+  }
+
+  @override
+  String get autoBackupNotYet =>
+      'The first copy is made tonight, or tap Back up now.';
+
+  @override
+  String get autoBackupNow => 'Back up now';
+
+  @override
+  String get autoBackupDone => 'Backed up';
+
+  @override
+  String get autoBackupFailed =>
+      'Couldn’t write to that folder. Try choosing it again.';
+
+  @override
+  String get autoBackupEncrypt => 'Lock backups with a passphrase';
+
+  @override
+  String get autoBackupEncryptHint =>
+      'Anyone who finds the file can’t read it without the passphrase.';
+
+  @override
+  String get passphraseTitle => 'Choose a passphrase';
+
+  @override
+  String get passphraseWarning =>
+      'Write it down somewhere safe. If it’s forgotten, these backups can’t be opened by anyone, including Clearing.';
+
+  @override
+  String get passphraseField => 'Passphrase';
+
+  @override
+  String get passphraseAgain => 'Passphrase again';
+
+  @override
+  String get passphraseMismatch => 'The two don’t match.';
+
+  @override
+  String get passphraseShort => 'Use at least 8 characters.';
+
+  @override
+  String get passphraseAsk => 'This backup is locked';
+
+  @override
+  String get passphraseAskBody => 'Enter the passphrase it was made with.';
+
+  @override
+  String get passphraseWrong => 'That passphrase doesn’t open this backup.';
+
+  @override
+  String get passphraseUnlock => 'Open';
+
+  @override
+  String get backupFoundTitle => 'Restore an automatic backup';
+
+  @override
+  String get backupFoundNone => 'No automatic backups in the folder yet.';
+
+  @override
+  String get backupNewer =>
+      'This backup is from a newer version of Clearing. What this version knows about will be restored.';
+
+  @override
+  String get moveSection => 'Moving to a new phone';
+
+  @override
+  String get moveSend => 'Send everything to a new phone';
+
+  @override
+  String get moveSendHint =>
+      'Share a backup by Nearby Share, Bluetooth or a cable. On the new phone, choose “Restore from a backup” in the welcome.';
+
+  @override
+  String get welcomeRestore => 'Restore from a backup';
+
+  @override
+  String get todayGoodMorning => 'Good morning';
+
+  @override
+  String get todayGoodAfternoon => 'Good afternoon';
+
+  @override
+  String get todayGoodEvening => 'Good evening';
+
+  @override
+  String get todayAllClearTitle => 'Open sky';
+
+  @override
+  String todayAllClearReflection(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count things closed today.',
+      one: 'One thing closed today.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get todayAllClearRest => 'Nothing else is asking for you today.';
+
+  @override
+  String todayTomorrowPeek(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Tomorrow: $count planned',
+      one: 'Tomorrow: 1 planned',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get todayDecideThese => 'Decide these';
+
+  @override
+  String get todayMenuGrove => 'Your clearing';
+
+  @override
+  String get todayMenuHaveTime => 'I have a few minutes…';
+
+  @override
+  String get todayMenuReorder => 'Reorder Today';
+
+  @override
+  String get todayMenuRecent => 'Recently changed';
+
+  @override
+  String planDayTitle(int cap) {
+    return 'Pick up to $cap for today';
+  }
+
+  @override
+  String get planDayHint =>
+      'From what you set for this week. The rest stays where it is.';
+
+  @override
+  String get planDayPrompt => 'Plan your day?';
+
+  @override
+  String get planDayPromptHint => 'Pick a few from this week';
+
+  @override
+  String get planDayStart => 'Put on Today';
+
+  @override
+  String get planDayNever => 'Don’t offer this';
+
+  @override
+  String get planDayMustDo => 'Make the first a must-do';
+
+  @override
+  String get fitsNow => 'What fits now';
+
+  @override
+  String get fitsNowNone =>
+      'Nothing on Today fits that. Try “I have a few minutes” for this week too.';
+
+  @override
+  String get haveTimeTitle => 'I have…';
+
+  @override
+  String get haveTimeWhere => 'And I’m…';
+
+  @override
+  String get haveTimeAnywhere => 'Anywhere';
+
+  @override
+  String get haveTimeResults => 'These fit';
+
+  @override
+  String get haveTimeNone =>
+      'Nothing with a length that fits yet. Add how long things take from an item’s details.';
+
+  @override
+  String get haveTimeFocus => 'Focus on it';
+
+  @override
+  String get decideTitle => 'Carried over';
+
+  @override
+  String decideHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count left',
+      one: '1 left',
+    );
+    return '$_temp0. No wrong answers.';
+  }
+
+  @override
+  String get decideLetGo => 'Let it go';
+
+  @override
+  String get decideDoneTitle => 'All decided';
+
+  @override
+  String get decideDoneBody => 'Today is lighter now.';
+
+  @override
+  String get reorderTitle => 'Reorder';
+
+  @override
+  String get reorderHint =>
+      'Drag the handles, or use the actions with a screen reader. Timed items keep to their times.';
+
+  @override
+  String get reorderMoveUp => 'Move up';
+
+  @override
+  String get reorderMoveDown => 'Move down';
+
+  @override
+  String get pullToCapture => 'Release to capture';
+
+  @override
+  String get clarifyTwoMinutes => 'Takes under 2 minutes? Do it now';
+
+  @override
+  String get clarifyTwoMinutesHint => 'Then it’s done, not filed.';
+
+  @override
+  String get clarifyBreakDown => 'Break it into steps';
+
+  @override
+  String get clarifyDoneMeansExample1 => 'e.g. Form posted';
+
+  @override
+  String get clarifyDoneMeansExample2 => 'e.g. Call made, date booked';
+
+  @override
+  String get clarifyDoneMeansExample3 => 'e.g. Draft sent to Sam';
+
+  @override
+  String get clarifyDoneMeansExample4 => 'e.g. Receipt filed';
+
+  @override
+  String get clarifySuggestedList =>
+      'Suggested from similar things you’ve filed';
+
+  @override
+  String clarifyOnDate(String date) {
+    return 'On $date';
+  }
+
+  @override
+  String get clarifyOnDateHint => 'As you typed it';
+
+  @override
+  String clarifyProgress(int current, int total) {
+    return '$current of $total';
+  }
+
+  @override
+  String get clarifyStopHere => 'Stop here';
+
+  @override
+  String get inboxClarifyAll => 'Clarify all';
+
+  @override
+  String get inboxCards => 'Quick decide';
+
+  @override
+  String get cardsTitle => 'Quick decide';
+
+  @override
+  String get cardsHint =>
+      'Right: this week · Left: someday · Up: today · Down: delete · Tap: the full questions';
+
+  @override
+  String cardsLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count left',
+      one: '1 left',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get cardsDone => 'Inbox is clear';
+
+  @override
+  String get cardsDetails => 'All questions';
+
+  @override
+  String get itemEffort => 'How long';
+
+  @override
+  String get itemEffortNone => 'Not set';
+
+  @override
+  String get itemContexts => 'Where or how';
+
+  @override
+  String get itemContextsNone => 'Anywhere';
+
+  @override
+  String get itemFirstStep => 'Smallest first step';
+
+  @override
+  String get itemFirstStepHint => 'e.g. Open the form';
+
+  @override
+  String get itemActivity => 'History';
+
+  @override
+  String activityCaptured(String date) {
+    return 'Captured $date';
+  }
+
+  @override
+  String activityPlanned(String date) {
+    return 'Planned $date';
+  }
+
+  @override
+  String activityWaiting(String date) {
+    return 'Handed on $date';
+  }
+
+  @override
+  String activityResolved(String date) {
+    return 'Came back $date';
+  }
+
+  @override
+  String activitySomeday(String date) {
+    return 'Parked $date';
+  }
+
+  @override
+  String activityDone(String date) {
+    return 'Done $date';
+  }
+
+  @override
+  String activityReopened(String date) {
+    return 'Reopened $date';
+  }
+
+  @override
+  String activityTrashed(String date) {
+    return 'Deleted $date';
+  }
+
+  @override
+  String activityCarried(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Carried over $days days',
+      one: 'Carried over 1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get itemPhotos => 'Photos';
+
+  @override
+  String get itemAddPhoto => 'Add a photo';
+
+  @override
+  String get itemTakePhoto => 'Take a photo';
+
+  @override
+  String get itemPickPhoto => 'Choose from gallery';
+
+  @override
+  String get itemRemovePhoto => 'Remove photo';
+
+  @override
+  String itemPhotoLabel(int n) {
+    return 'Photo $n';
+  }
+
+  @override
+  String get itemPhotosHint => 'Kept on this phone and in your backups.';
+
+  @override
+  String get itemMakeProject => 'Make this a project';
+
+  @override
+  String itemMadeProject(String name) {
+    return '“$name” is now a project';
+  }
+
+  @override
+  String get itemOpenLink => 'Open';
+
+  @override
+  String get itemNotesLinks => 'Links';
+
+  @override
+  String projectNextTitle(String name) {
+    return 'What’s next for “$name”?';
+  }
+
+  @override
+  String get projectNextHint => 'Pick the next step for this week, or add one.';
+
+  @override
+  String get projectAddStep => 'Add a step';
+
+  @override
+  String get projectNextNone =>
+      'That was the last step. Add another, or let the project rest.';
+
+  @override
+  String get projectLabel => 'Project';
+
+  @override
+  String get projectOutcome => 'Outcome';
+
+  @override
+  String get projectOutcomeHint => 'What’s true when it’s finished?';
+
+  @override
+  String get projectTarget => 'Aiming for';
+
+  @override
+  String get projectTargetNone => 'No date';
+
+  @override
+  String get projectOnlyNext =>
+      'Only the next step shows on Today and This week.';
+
+  @override
+  String get projectNew => 'New project';
+
+  @override
+  String get projectMakeList => 'Treat as a project';
+
+  @override
+  String get projectsSection => 'Projects';
+
+  @override
+  String get listColour => 'Colour';
+
+  @override
+  String get listColourNone => 'None';
+
+  @override
+  String get listColourMoss => 'Moss';
+
+  @override
+  String get listColourDawn => 'Dawn';
+
+  @override
+  String get listColourSky => 'Sky';
+
+  @override
+  String get listColourClay => 'Clay';
+
+  @override
+  String get listColourHeather => 'Heather';
+
+  @override
+  String get listPin => 'Pin to top';
+
+  @override
+  String get listUnpin => 'Unpin';
+
+  @override
+  String get listPinned => 'Pinned';
+
+  @override
+  String get listShoppingMode => 'Shopping mode';
+
+  @override
+  String get listShoppingHint =>
+      'Bigger rows; ticked things move to the bottom until you clear them.';
+
+  @override
+  String get listClearTicked => 'Clear ticked';
+
+  @override
+  String get listReorder => 'Reorder';
+
+  @override
+  String get savedSearchesSection => 'Smart lists';
+
+  @override
+  String get savedSearchSave => 'Save as a smart list';
+
+  @override
+  String get savedSearchName => 'Smart list name';
+
+  @override
+  String get savedSearchSaved => 'Saved to Lists';
+
+  @override
+  String get savedSearchDelete => 'Remove smart list';
+
+  @override
+  String get savedSearchEmpty => 'Nothing matches right now.';
+
+  @override
+  String get searchRecent => 'Recent';
+
+  @override
+  String get searchClearRecent => 'Clear';
+
+  @override
+  String get searchContext => 'Where';
+
+  @override
+  String get searchAnyContext => 'Anywhere';
+
+  @override
+  String get searchEffort => 'Length';
+
+  @override
+  String get searchAnyEffort => 'Any length';
+
+  @override
+  String searchUpTo(String length) {
+    return 'Up to $length';
+  }
+
+  @override
+  String get upcomingMonthView => 'Month view';
+
+  @override
+  String get upcomingSubtitleMonth =>
+      'Dots show how much is planned; tap a day';
+
+  @override
+  String get monthPrevious => 'Previous month';
+
+  @override
+  String get monthNextLabel => 'Next month';
+
+  @override
+  String monthDayCount(String date, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count planned',
+      one: '1 planned',
+      zero: 'nothing planned',
+    );
+    return '$date: $_temp0';
+  }
+
+  @override
+  String busyDay(int count) {
+    return 'A full day: $count planned.';
+  }
+
+  @override
+  String get busySpread => 'Spread some out';
+
+  @override
+  String busySpreadDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Moved $count across the next days',
+      one: 'Moved 1 to the next day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dragToDay => 'Drag to another day';
+
+  @override
+  String followUpOn(String title) {
+    return 'Follow up: $title';
+  }
+
+  @override
+  String get focusFirstStep => 'First step';
+
+  @override
+  String get focusFirstStepDone => 'First step done';
+
+  @override
+  String get focusStuck => 'I’m stuck';
+
+  @override
+  String get focusStuckTitle => 'That happens. Try one of these:';
+
+  @override
+  String get focusStuckBreak => 'Break it into smaller steps';
+
+  @override
+  String get focusStuckDoneMeans => 'Change what “done” means';
+
+  @override
+  String get focusStuckLater => 'Put it back for now';
+
+  @override
+  String get focusTimebox => 'Give it a few minutes';
+
+  @override
+  String get focusTimeboxRunning =>
+      'The sky clears as the minutes pass. Nothing is recorded.';
+
+  @override
+  String get focusTimeboxDone =>
+      'Time’s up. Carry on, or stop here; either is fine.';
+
+  @override
+  String get focusTimeboxStop => 'Stop the timebox';
+
+  @override
+  String get settingsFocusTimebox => 'Offer a timebox in Focus';
+
+  @override
+  String get settingsFocusTimeboxHint =>
+      '5, 15 or 25 minutes, shown as the sky clearing. Nothing is tracked.';
+
+  @override
+  String get breatheTitle => 'A few breaths first?';
+
+  @override
+  String get breatheIn => 'Breathe in';
+
+  @override
+  String get breatheOut => 'Breathe out';
+
+  @override
+  String get breatheSkip => 'Skip';
+
+  @override
+  String get breatheReady => 'Ready';
+
+  @override
+  String get settingsBreathing => 'Offer a few breaths before the reset';
+
+  @override
+  String get reviewLengthTitle => 'How long have you got?';
+
+  @override
+  String get reviewQuick => 'Quick (about 5 minutes)';
+
+  @override
+  String get reviewQuickHint => 'Your inbox and next week';
+
+  @override
+  String get reviewFull => 'Full';
+
+  @override
+  String get reviewFullHint => 'Every step, about 15 minutes';
+
+  @override
+  String get reviewQuickCounts => 'A quick one beats none.';
+
+  @override
+  String get settingsReviewLength => 'Review length';
+
+  @override
+  String get settingsReviewAsk => 'Ask each time';
+
+  @override
+  String get reviewOwnChecks => 'Your own checks';
+
+  @override
+  String get reviewOwnChecksHint => 'Tick what you’ve looked at.';
+
+  @override
+  String get settingsReviewPrompts => 'Your own review checks';
+
+  @override
+  String get settingsReviewPromptsHint =>
+      'e.g. Check the bank account, plan meals';
+
+  @override
+  String get reviewPromptAdd => 'Add a check';
+
+  @override
+  String get settingsWinsPrompt => 'Ask what went well';
+
+  @override
+  String reviewProjectsStuck(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count projects have nothing planned',
+      one: '1 project has nothing planned',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get reviewProjectAddStep => 'Add a step';
+
+  @override
+  String get reviewProjectPark => 'Park it';
+
+  @override
+  String get settingsSearch => 'Search settings';
+
+  @override
+  String get settingsSearchNone => 'No setting matches that.';
+
+  @override
+  String get settingsCaptureSection => 'Capture';
+
+  @override
+  String get settingsCaptureHint => 'How Clearing reads what you type.';
+
+  @override
+  String get settingsParse => 'Understand dates and lists as I type';
+
+  @override
+  String get settingsParseHint =>
+      '“pay rent fri 9am #home !” becomes Pay rent, Friday 9:00, Home, must-do.';
+
+  @override
+  String get settingsParsedSkipInbox => 'Things with a date skip the Inbox';
+
+  @override
+  String get settingsContexts => 'Contexts';
+
+  @override
+  String get settingsFocusSection => 'Focus and reset';
+
+  @override
+  String get settingsFocusHint =>
+      'Small helps for starting and for heavy days.';
+
+  @override
+  String get settingsPlanMyDay => 'Offer to plan my day';
+
+  @override
+  String get settingsPrivacySection => 'Privacy';
+
+  @override
+  String get settingsPrivacyHint => 'Who can see what, on this phone.';
+
+  @override
+  String get settingsHideOnLock => 'Hide titles on the lock screen';
+
+  @override
+  String get settingsHideOnLockHint =>
+      'The lock screen shows that there’s a reminder, not what it says.';
+
+  @override
+  String get settingsAppLock => 'Lock Clearing';
+
+  @override
+  String get settingsAppLockHint =>
+      'With your fingerprint, face or screen lock. Quick capture still works while locked.';
+
+  @override
+  String get settingsAppLockUnavailable =>
+      'Set a screen lock on the phone first.';
+
+  @override
+  String get settingsLockAfter => 'Lock after';
+
+  @override
+  String get settingsLockImmediately => 'Leaving the app';
+
+  @override
+  String settingsLockMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minutes away',
+      one: '1 minute away',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get lockTitle => 'Clearing is locked';
+
+  @override
+  String get lockUnlock => 'Unlock';
+
+  @override
+  String get lockReason => 'Unlock Clearing';
+
+  @override
+  String get lockCapture => 'Capture without unlocking';
+
+  @override
+  String get settingsFeedbackSection => 'Feedback';
+
+  @override
+  String get settingsFeedbackHint => 'Small signals when something’s done.';
+
+  @override
+  String get settingsSounds => 'Sounds';
+
+  @override
+  String get settingsSoundsHint =>
+      'A short chime when Today is clear and when a review is finished. Silent when the phone is.';
+
+  @override
+  String get settingsThemeVariant => 'Glade colours';
+
+  @override
+  String get settingsThemeVariantHint =>
+      'More are found as your clearing grows.';
+
+  @override
+  String get variantGlade => 'Glade';
+
+  @override
+  String get variantAutumn => 'Autumn';
+
+  @override
+  String get variantMonsoon => 'Monsoon';
+
+  @override
+  String get variantWinter => 'Winter';
+
+  @override
+  String get variantNightSky => 'Night sky';
+
+  @override
+  String variantLocked(String name) {
+    return '$name, not found yet';
+  }
+
+  @override
+  String get variantHowAutumn => 'Comes with your first season card';
+
+  @override
+  String get variantHowMonsoon => 'Comes after 10 reviews';
+
+  @override
+  String get variantHowWinter => 'Comes after 25 old tabs closed';
+
+  @override
+  String get variantHowNightSky => 'Comes after 100 things closed';
+
+  @override
+  String get settingsUnlockAll => 'Show all colours';
+
+  @override
+  String get settingsHighContrast => 'High contrast';
+
+  @override
+  String get settingsHighContrastHint =>
+      'Darker text and outlines, for low vision. Always available.';
+
+  @override
+  String get settingsRoomyText => 'Roomier text';
+
+  @override
+  String get settingsRoomyTextHint =>
+      'More space between lines and letters, which some readers find easier.';
+
+  @override
+  String get settingsTextPreview => 'Text size preview';
+
+  @override
+  String get settingsTextPreviewHint =>
+      'Text size follows the phone’s setting.';
+
+  @override
+  String get settingsMakeYours => 'Make Clearing yours';
+
+  @override
+  String get settingsMakeYoursHint => 'One choice that sets the rest';
+
+  @override
+  String get styleTitle => 'Make Clearing yours';
+
+  @override
+  String get styleHint =>
+      'Pick a feel. You can change any part of it afterwards.';
+
+  @override
+  String get styleMinimal => 'Minimal';
+
+  @override
+  String get styleMinimalHint =>
+      'Just the lists. No clearing, no tips, no sounds, no morning summary.';
+
+  @override
+  String get styleGentle => 'Gentle';
+
+  @override
+  String get styleGentleHint =>
+      'Tips as you go and your clearing, quietly. The default.';
+
+  @override
+  String get styleEncouraging => 'Encouraging';
+
+  @override
+  String get styleEncouragingHint =>
+      'Your clearing, weekly invitations, sounds and a morning summary.';
+
+  @override
+  String get styleApplied =>
+      'Done. Everything can still be changed in Settings.';
+
+  @override
+  String get settingsWhatsNew => 'What’s new';
+
+  @override
+  String get whatsNewTitle => 'What’s new in Clearing';
+
+  @override
+  String get whatsNew1Title => 'Type it the way you say it';
+
+  @override
+  String get whatsNew1Body =>
+      '“Dentist fri 3pm” is planned for Friday at 3. Tap a chip to undo any part.';
+
+  @override
+  String get whatsNew2Title => 'Many at once';
+
+  @override
+  String get whatsNew2Body =>
+      'Press and hold to select several things, then plan, move or finish them together.';
+
+  @override
+  String get whatsNew3Title => 'Your clearing';
+
+  @override
+  String get whatsNew3Body =>
+      'An optional, private landscape that grows as you close things. Nothing in it ever wilts.';
+
+  @override
+  String get whatsNew4Title => 'Backups that look after themselves';
+
+  @override
+  String get whatsNew4Body =>
+      'A copy every night into a folder you choose, locked with a passphrase if you like.';
+
+  @override
+  String get whatsNewTry => 'Show me';
+
+  @override
+  String get settingsDeveloper => 'Developer options';
+
+  @override
+  String get developerTitle => 'Developer options';
+
+  @override
+  String get developerHint =>
+      'Unfinished features, for testing. Only in debug builds.';
+
+  @override
+  String get developerNoFlags => 'No unfinished features right now.';
+
+  @override
+  String get developerSeed => 'Add sample items';
+
+  @override
+  String get contextsScreenTitle => 'Contexts';
+
+  @override
+  String get contextsRename => 'Rename';
+
+  @override
+  String get contextsDelete => 'Delete';
+
+  @override
+  String get settingsExportCalendar => 'Export Upcoming as a calendar file';
+
+  @override
+  String get settingsExportCalendarHint =>
+      'For importing into any calendar app. Clearing never reads your calendar.';
+
+  @override
+  String get settingsExportCalendarNone => 'Nothing dated in the next 90 days.';
+
+  @override
+  String get notifActionPickTime => 'Pick a time';
+
+  @override
+  String get notifActionCapture => 'Capture';
+
+  @override
+  String get notifReplyHint => 'Anything else on your mind?';
+
+  @override
+  String get repeatFlexible => 'Any days of the week';
+
+  @override
+  String get repeatFlexibleHint =>
+      'A few times a week, whenever suits. Weeks that fall short just start fresh.';
+
+  @override
+  String repeatTimesAWeek(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count times a week, any days',
+      one: 'Once a week, any day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get repeatFewer => 'Fewer times';
+
+  @override
+  String get repeatMore => 'More times';
+
+  @override
+  String flexibleProgress(int done, int target) {
+    return '$done of $target this week';
+  }
+
+  @override
+  String get glossClarify =>
+      'Clarify means deciding what a thought is: something to do, someone else’s, an idea for later, or nothing at all. Tap an item to start.';
+
+  @override
+  String get glossMustDo =>
+      'Must-dos are the few things that have to happen today. Clearing keeps them to a small number on purpose.';
+
+  @override
+  String get glossCarried =>
+      'Carried over means it was planned for an earlier day. No harm done: decide again when you’re ready.';
+
+  @override
+  String get glossWaiting =>
+      'Waiting on is for things someone else is doing. Clearing reminds you to check in on the follow-up date.';
+
+  @override
+  String get glossSomeday =>
+      'Someday holds ideas, not commitments. They never show on Today; the weekly review brings them back to look at.';
+
+  @override
+  String get guideShowMe => 'Show me';
+
+  @override
+  String get coachCapture =>
+      'Tap here, or press N on a keyboard, to get a thought out of your head.';
+
+  @override
+  String get coachInbox =>
+      'Everything you capture waits here until you decide what it is.';
+
+  @override
+  String get coachToday => 'Today: your must-dos first, the rest quiet below.';
+
+  @override
+  String get coachUpcoming =>
+      'Dates, the week ahead, and the month at a glance.';
+
+  @override
+  String get coachLists =>
+      'Lists, projects, smart lists, Someday and your settings.';
+
+  @override
+  String get coachGotIt => 'Got it';
 }

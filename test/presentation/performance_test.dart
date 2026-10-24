@@ -40,6 +40,34 @@ void main() {
     expect(watch.elapsedMilliseconds, lessThan(50));
   });
 
+  test('Today from 2,000 open items, projects included, fits in a frame', () {
+    final all = [
+      for (var i = 0; i < 2000; i++)
+        Item(
+          id: 'p$i',
+          title: 'Item $i',
+          status: ItemStatus.active,
+          doDate: i.isEven ? today : null,
+          horizon: i.isOdd ? WhenHorizon.thisWeek : null,
+          listId: 'project${i % 20}',
+          sortOrder: i.toDouble(),
+          createdAt: now,
+          updatedAt: now,
+        ),
+    ];
+    final projects = {for (var p = 0; p < 10; p++) 'project$p'};
+    // Warm up, then time the best of a few runs.
+    buildTodayView(nextProjectSteps(all, projects), today);
+    var best = 1 << 30;
+    for (var run = 0; run < 5; run++) {
+      final watch = Stopwatch()..start();
+      buildTodayView(nextProjectSteps(all, projects), today);
+      watch.stop();
+      if (watch.elapsedMicroseconds < best) best = watch.elapsedMicroseconds;
+    }
+    expect(best, lessThan(16000), reason: 'one 60 Hz frame');
+  });
+
   testWidgets('Today with 500 items builds only the rows on screen', (
     tester,
   ) async {
@@ -66,6 +94,11 @@ void main() {
     // "Also today" collapses after 5; show all 500, then count built rows.
     await tester.tap(find.text('Got it'));
     await tester.pumpAndSettle();
+    await scrollTo(
+      tester,
+      find.text('Show 495 more'),
+      within: find.text('Item 0'),
+    );
     await tester.tap(find.text('Show 495 more'));
     await tester.pumpAndSettle();
     final built = find.byType(ItemTile, skipOffstage: false).evaluate().length;

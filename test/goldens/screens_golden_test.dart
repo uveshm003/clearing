@@ -7,7 +7,10 @@ import 'package:clearing/core/providers.dart';
 import 'package:clearing/core/router.dart';
 import 'package:clearing/data/db/database.dart';
 import 'package:clearing/data/item_repository.dart';
+import 'package:clearing/data/review_repository.dart';
 import 'package:clearing/domain/app_settings.dart';
+import 'package:clearing/domain/field_notes.dart';
+import 'package:clearing/domain/item.dart';
 import 'package:clearing/domain/enums.dart';
 import 'package:clearing/domain/local_date.dart';
 import 'package:flutter/material.dart';
@@ -84,6 +87,7 @@ void main() {
     Size size = const Size(1080, 2340),
     double pixelRatio = 2.625,
     bool tips = false,
+    AppSettings? settings,
   }) async {
     phoneSurface(tester, size: size);
     tester.view.devicePixelRatio = pixelRatio;
@@ -94,7 +98,12 @@ void main() {
           clockProvider.overrideWithValue(() => now),
           todayProvider.overrideWith((ref) => Stream.value(today)),
           settingsProvider.overrideWith(
-            (ref) => Stream.value(AppSettings(theme: theme, showTips: tips)),
+            (ref) => Stream.value(
+              (settings ?? const AppSettings()).copyWith(
+                theme: theme,
+                showTips: tips,
+              ),
+            ),
           ),
         ],
         child: MediaQuery(
@@ -226,6 +235,123 @@ void main() {
     final db = await seeded();
     await pump(tester, db, theme: ThemePreference.light, textScale: 2);
     await shoot(tester, 'today_large_text');
+    await closeDatabase(tester, db);
+  });
+
+  /// A clearing with a few weeks in it: closed things (some long-waited),
+  /// reviews, a reset and a backup.
+  Future<AppDatabase> grown() async {
+    final db = await seeded();
+    final items = ItemRepository(db, now: () => now);
+    final reviews = ReviewRepository(db, now: () => now);
+    for (var week = 0; week < 6; week++) {
+      final at = now.subtract(Duration(days: 7 * week + 1));
+      for (var i = 0; i <= week % 4; i++) {
+        final created = at.subtract(Duration(days: i == 0 ? 3 : 20 + i));
+        final item = await items.capture('Closed $week.$i');
+        await items.restore(
+          Item(
+            id: item.id,
+            title: item.title,
+            status: ItemStatus.done,
+            createdAt: created,
+            updatedAt: at,
+            completedAt: at,
+          ),
+        );
+      }
+      final review = await reviews.start(ReviewKind.weekly);
+      await reviews.save(review.copyWith(completedAt: at));
+    }
+    final reset = await reviews.start(ReviewKind.reset);
+    await reviews.save(reset.copyWith(completedAt: now));
+    return db;
+  }
+
+  final groveOn = AppSettings(
+    groveEnabled: true,
+    lastExportAt: DateTime(2026, 10, 1),
+    fieldNotes: {
+      FieldNote.firstLight.name,
+      FieldNote.thePath.name,
+      FieldNote.deepBreath.name,
+      FieldNote.oldTab.name,
+    },
+  );
+
+  for (final (mode, theme) in [
+    ('morning', ThemePreference.light),
+    ('dusk', ThemePreference.dark),
+  ]) {
+    testWidgets('Grove, $mode', (tester) async {
+      final db = await grown();
+      await pump(tester, db, theme: theme, settings: groveOn);
+      GoRouter.of(
+        tester.element(find.byType(Scaffold).first),
+      ).push(Routes.grove);
+      await tester.pumpAndSettle();
+      await shoot(tester, 'grove_$mode');
+      await closeDatabase(tester, db);
+    });
+  }
+
+  for (final (name, route) in [
+    ('field_notes', Routes.fieldNotes),
+    ('cairn', Routes.cairn),
+  ]) {
+    testWidgets('$name screen', (tester) async {
+      final db = await grown();
+      await pump(tester, db, theme: ThemePreference.light, settings: groveOn);
+      GoRouter.of(tester.element(find.byType(Scaffold).first)).push(route);
+      await tester.pumpAndSettle();
+      await shoot(tester, name);
+      await closeDatabase(tester, db);
+    });
+  }
+
+  testWidgets('capture understands what is typed', (tester) async {
+    final db = await seeded();
+    await pump(tester, db, theme: ThemePreference.light);
+    await tester.tap(find.byTooltip('Capture'));
+    await tester.pumpAndSettle();
+    await tester.enterText(
+      find.byType(TextField),
+      'Pay the water bill fri 9am #Errands !',
+    );
+    await tester.pumpAndSettle();
+    await shoot(tester, 'capture_chips');
+    await closeDatabase(tester, db);
+  });
+
+  testWidgets('Today all clear', (tester) async {
+    final db = memoryDatabase(now: () => now);
+    final actions = ItemActions(
+      ItemRepository(db, now: () => now),
+      now: () => now,
+    );
+    for (final title in ['Pay rent', 'Buy stamps']) {
+      await actions.complete(
+        await actions.planToday((await actions.capture(title))[0]),
+      );
+    }
+    await pump(tester, db, theme: ThemePreference.dark);
+    await shoot(tester, 'today_all_clear');
+    await closeDatabase(tester, db);
+  });
+
+  testWidgets('autumn Glade, high contrast', (tester) async {
+    final db = await seeded();
+    await pump(
+      tester,
+      db,
+      theme: ThemePreference.light,
+      settings: const AppSettings(
+        themeVariant: GladeVariant.autumn,
+        unlockAllThemes: true,
+        highContrast: true,
+      ),
+    );
+    await shoot(tester, 'today_autumn_contrast');
     await closeDatabase(tester, db);
   });
 }

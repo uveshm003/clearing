@@ -111,7 +111,7 @@ void captureToRestore() {
     await tab('Today');
     expect(find.text('Book passport photo'), findsOneWidget);
     await tap(find.byType(Checkbox));
-    expect(find.text('A clear day'), findsOneWidget);
+    expect(find.text('Open sky'), findsOneWidget);
 
     // Export.
     await tab('Lists');

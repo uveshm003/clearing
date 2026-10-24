@@ -193,6 +193,16 @@ class ItemRepository {
         if (filter.repeating case final repeating?) {
           where &= repeating ? t.seriesId.isNotNull() : t.seriesId.isNull();
         }
+        if (filter.contextId case final contextId?) {
+          where &= t.id.isInQuery(
+            _db.selectOnly(_db.itemContexts)
+              ..addColumns([_db.itemContexts.itemId])
+              ..where(_db.itemContexts.contextId.equals(contextId)),
+          );
+        }
+        if (filter.maxEffort case final maxEffort?) {
+          where &= t.effort.isSmallerOrEqualValue(maxEffort);
+        }
         return where;
       })
       ..orderBy([
@@ -202,6 +212,25 @@ class ItemRepository {
     if (ranked == null) return items;
     final order = {for (final (i, id) in ranked.indexed) id: i};
     return items..sort((a, b) => order[a.id]!.compareTo(order[b.id]!));
+  }
+
+  /// For each item matching [text] in its notes, done-means or steps, a
+  /// short excerpt around the match with it marked by ‹ and ›.
+  Future<Map<String, String>> snippets(String text) async {
+    final match = ftsQuery(text);
+    if (match == null) return const {};
+    final rows = await _db
+        .customSelect(
+          "SELECT item_id, snippet(search_fts, -1, '‹', '›', '…', 8) AS s "
+          'FROM search_fts WHERE search_fts MATCH ?',
+          variables: [Variable('{notes done_means subtasks} : ($match)')],
+          readsFrom: {_db.items, _db.subtasks},
+        )
+        .get();
+    return {
+      for (final row in rows)
+        row.read<String>('item_id'): row.read<String>('s'),
+    };
   }
 
   /// How many items were completed at or after [since].

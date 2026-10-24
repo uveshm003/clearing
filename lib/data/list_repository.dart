@@ -21,13 +21,19 @@ class ListRepository {
     return query.watch().map((rows) => [for (final r in rows) r.toDomain()]);
   }
 
-  Future<ItemList> create(String name) async {
+  Future<ItemList> create(
+    String name, {
+    bool isProject = false,
+    String? outcome,
+  }) async {
     final now = _now();
     final list = ItemList(
       id: newId(),
       name: name.trim(),
       kind: ListKind.user,
       sortOrder: now.millisecondsSinceEpoch.toDouble(),
+      isProject: isProject,
+      outcome: outcome,
     );
     await _db
         .into(_db.lists)
@@ -37,6 +43,8 @@ class ListRepository {
             name: list.name,
             kind: list.kind,
             sortOrder: Value(list.sortOrder),
+            isProject: Value(isProject),
+            outcome: Value(outcome),
             updatedAt: now,
           ),
         );
@@ -50,6 +58,11 @@ class ListRepository {
           icon: Value(list.icon),
           sortOrder: Value(list.sortOrder),
           archived: Value(list.archived),
+          colour: Value(list.colour),
+          pinned: Value(list.pinned),
+          isProject: Value(list.isProject),
+          outcome: Value(list.outcome),
+          targetDate: Value(list.targetDate),
           updatedAt: Value(_now()),
         ),
       );

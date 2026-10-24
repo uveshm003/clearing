@@ -32,6 +32,30 @@ class ReviewRepository {
     return row == null ? null : _toDomain(row);
   }
 
+  /// When each finished session of [kind] was finished, oldest first.
+  Stream<List<DateTime>> watchCompleted(ReviewKind kind) {
+    final query = _db.select(_db.reviewSessions)
+      ..where((t) => t.kind.equalsValue(kind) & t.completedAt.isNotNull())
+      ..orderBy([(t) => OrderingTerm(expression: t.completedAt)]);
+    return query.watch().map(
+      (rows) => [for (final row in rows) row.completedAt!],
+    );
+  }
+
+  /// Finished sessions of [kind], newest first.
+  Future<List<ReviewSession>> completed(
+    ReviewKind kind, {
+    int limit = 20,
+  }) async {
+    final query = _db.select(_db.reviewSessions)
+      ..where((t) => t.kind.equalsValue(kind) & t.completedAt.isNotNull())
+      ..orderBy([
+        (t) => OrderingTerm(expression: t.completedAt, mode: OrderingMode.desc),
+      ])
+      ..limit(limit);
+    return [for (final row in await query.get()) _toDomain(row)];
+  }
+
   Future<ReviewSession> start(ReviewKind kind) async {
     final session = ReviewSession(id: newId(), kind: kind, startedAt: _now());
     await save(session);

@@ -131,4 +131,40 @@ void main() {
     expect(results, isNotEmpty);
     expect(stopwatch.elapsedMilliseconds, lessThan(200));
   });
+
+  test('snippets mark matches in notes and steps, not titles', () async {
+    final rent = await items.save(
+      (await items.capture(
+        'Pay rent',
+      )).copyWith(notes: () => 'Landlord wants the invoice number this time'),
+    );
+    final taxes = await items.capture('Taxes');
+    await items.addSubtask(taxes.id, 'Find the invoice');
+    await items.capture('Invoice template');
+
+    final found = await items.snippets('invoice');
+    expect(found.keys, unorderedEquals([rent.id, taxes.id]));
+    expect(found[rent.id], contains('‹invoice›'));
+    expect(await items.snippets('  '), isEmpty);
+  });
+
+  test('filters by context and effort', () async {
+    final quick = await items.save(
+      (await items.capture('Quick')).copyWith(effort: () => 5),
+    );
+    await items.save((await items.capture('Long')).copyWith(effort: () => 60));
+    final contextId = (await db.select(db.contexts).get()).first.id;
+    await db
+        .into(db.itemContexts)
+        .insert(
+          ItemContextsCompanion.insert(
+            id: '${quick.id}|$contextId',
+            itemId: quick.id,
+            contextId: contextId,
+            updatedAt: DateTime(2026),
+          ),
+        );
+    expect(await titles(const SearchFilter(maxEffort: 15)), ['Quick']);
+    expect(await titles(SearchFilter(contextId: contextId)), ['Quick']);
+  });
 }

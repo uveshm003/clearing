@@ -11,6 +11,7 @@ import '../widgets/day_rail.dart';
 import '../widgets/pebble.dart';
 import '../widgets/item_tile.dart';
 import '../widgets/section_header.dart';
+import 'day_tools.dart';
 
 /// The week timeline (FR-15): seven days with what's planned on each, one
 /// week at a time.
@@ -77,18 +78,21 @@ class _WeekViewState extends ConsumerState<WeekView> {
           ),
         ],
         for (final (:day, items: dayItems) in week.days)
-          DaySection(
+          DayDropTarget(
             day: day,
-            today: today,
-            emptyText: day.isBefore(today)
-                ? context.l10n.weekNothingLeft
-                : context.l10n.weekFree,
-            children: [
-              for (final block in blocks)
-                if (block.occursOn(day)) BlockTile(block: block),
-              for (final item in dayItems)
-                ItemTile(item: item, showDate: false),
-            ],
+            child: DaySection(
+              day: day,
+              today: today,
+              emptyText: day.isBefore(today)
+                  ? context.l10n.weekNothingLeft
+                  : context.l10n.weekFree,
+              children: [
+                BusyNote(day: day, items: dayItems),
+                for (final block in blocks)
+                  if (block.occursOn(day)) BlockTile(block: block),
+                for (final item in dayItems) DraggableItemRow(item: item),
+              ],
+            ),
           ),
       ],
     );

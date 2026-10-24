@@ -14,6 +14,8 @@ import '../widgets/empty_state.dart';
 import '../widgets/glade_header.dart';
 import '../widgets/pebble.dart';
 import '../widgets/search_button.dart';
+import 'day_tools.dart';
+import 'month_view.dart';
 import 'week_view.dart';
 import '../widgets/item_tile.dart';
 import '../widgets/section_header.dart';
@@ -37,8 +39,12 @@ class UpcomingScreen extends ConsumerStatefulWidget {
   ConsumerState<UpcomingScreen> createState() => _UpcomingScreenState();
 }
 
+enum _Mode { agenda, week, month }
+
 class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
-  var _week = false;
+  var _mode = _Mode.agenda;
+
+  bool get _week => _mode == _Mode.week;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +57,20 @@ class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
           in view?.days ?? const <(LocalDate, List<Item>)>[])
         day: items,
     };
+    // A waiting item's follow-up shows on its day, as well as under
+    // Waiting.
+    final followUps = <LocalDate, List<Item>>{};
+    if (today != null) {
+      for (final item in view?.waiting ?? const <Item>[]) {
+        final date = item.followUpDate;
+        if (date != null &&
+            date.isAfter(today) &&
+            !date.isAfter(today.addDays(upcomingDays))) {
+          (followUps[date] ??= []).add(item);
+          days.putIfAbsent(date, () => const []);
+        }
+      }
+    }
     if (today != null) {
       for (final block in allBlocks) {
         for (final day in block.datesBetween(
@@ -68,14 +88,18 @@ class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
           day: day,
           today: today!,
           children: [
+            BusyNote(day: day, items: days[day]!),
             for (final block in allBlocks)
               if (block.occursOn(day)) BlockTile(block: block),
             for (final item in days[day]!)
+              ItemTile(item: item, showDate: false, swipe: true),
+            for (final item in followUps[day] ?? const <Item>[])
               ItemTile(item: item, showDate: false),
           ],
         ),
       if (view != null && view.waiting.isNotEmpty) ...[
         () => SectionHeader(context.l10n.waitingOn),
+        () => TipCard(id: Tips.glossWaiting, text: context.l10n.glossWaiting),
         () => Pebble(
           children: [
             for (final item in view.waiting)
@@ -90,34 +114,66 @@ class _UpcomingScreenState extends ConsumerState<UpcomingScreen> {
         bottom: false,
         child: Column(
           children: [
-            GladeHeader(
-              title: context.l10n.tabUpcoming,
-              subtitle: _week
-                  ? context.l10n.upcomingSubtitleWeek
-                  : context.l10n.upcomingSubtitleAgenda,
-              actions: [
-                IconButton(
-                  icon: Icon(
-                    _week
-                        ? Icons.view_agenda_outlined
-                        : Icons.view_week_outlined,
-                  ),
-                  tooltip: _week
-                      ? context.l10n.upcomingAgenda
-                      : context.l10n.upcomingWeekView,
-                  onPressed: () => setState(() => _week = !_week),
-                ),
-                const SearchButton(),
-              ],
-            ),
-            if (!_week)
-              TipCard(
-                id: Tips.upcomingWeek,
-                text: context.l10n.tipUpcomingWeek,
+            // The header and tip never take more than half the screen, so
+            // the days keep room at large text sizes.
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.sizeOf(context).height * 0.5,
               ),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    GladeHeader(
+                      title: context.l10n.tabUpcoming,
+                      subtitle: switch (_mode) {
+                        _Mode.week => context.l10n.upcomingSubtitleWeek,
+                        _Mode.month => context.l10n.upcomingSubtitleMonth,
+                        _Mode.agenda => context.l10n.upcomingSubtitleAgenda,
+                      },
+                      actions: [
+                        IconButton(
+                          icon: Icon(
+                            _week
+                                ? Icons.view_agenda_outlined
+                                : Icons.view_week_outlined,
+                          ),
+                          tooltip: _week
+                              ? context.l10n.upcomingAgenda
+                              : context.l10n.upcomingWeekView,
+                          onPressed: () => setState(
+                            () => _mode = _week ? _Mode.agenda : _Mode.week,
+                          ),
+                        ),
+                        IconButton(
+                          isSelected: _mode == _Mode.month,
+                          icon: const Icon(Icons.calendar_month_outlined),
+                          selectedIcon: const Icon(Icons.calendar_month),
+                          tooltip: _mode == _Mode.month
+                              ? context.l10n.upcomingAgenda
+                              : context.l10n.upcomingMonthView,
+                          onPressed: () => setState(
+                            () => _mode = _mode == _Mode.month
+                                ? _Mode.agenda
+                                : _Mode.month,
+                          ),
+                        ),
+                        const SearchButton(),
+                      ],
+                    ),
+                    if (_mode == _Mode.agenda)
+                      TipCard(
+                        id: Tips.upcomingWeek,
+                        text: context.l10n.tipUpcomingWeek,
+                      ),
+                  ],
+                ),
+              ),
+            ),
             Expanded(
               child: _week
                   ? const WeekView()
+                  : _mode == _Mode.month
+                  ? const MonthView()
                   : view == null || today == null
                   ? const SizedBox.shrink()
                   : rows.isEmpty

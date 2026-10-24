@@ -130,6 +130,7 @@ void main() {
     await open(tester, 'Call dentist');
     expect(gateway.asked, 0, reason: 'never at launch');
 
+    await scrollTo(tester, find.text('Remind me'), within: find.text('When'));
     await tester.tap(find.text('Remind me'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('1 h before'));

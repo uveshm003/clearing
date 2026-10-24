@@ -22,6 +22,15 @@ first three questions map to the PRD §11 success criteria.
 10. Would you keep using Clearing? Definitely · Probably · Not sure ·
     Probably not · No
 11. Phone model and Android version (optional, helps with reminder issues).
+12. How did the growing clearing (the Grove) make you feel? Encouraged ·
+    Neutral · Pressured · Didn't notice · Turned it off
+13. How often did Clearing understand the date or list you typed? Almost
+    always · Usually · Sometimes · Rarely · I turned it off
+14. Have you lost data, or worried about losing it? Yes · No · Worried
+
+**Targets for the post-beta features:** no one answers "Pressured" on Q12,
+and Q7 gets no Grove mentions; most answer "Almost always" or "Usually" on
+Q13.
 
 **Targets:** a majority report improvement on Q1 and Q2; fewer than 1 in 5
 answer "turned them off" or "dismiss them" on Q3.

@@ -23,6 +23,30 @@ devices or real people, and gate the beta and its end.
 - [ ] Privacy policy published at a public URL.
 - [ ] Release signed with the upload key; build number bumped.
 
+## Post-beta features (releases 1.2–2.0) on a device
+
+These are built and covered by unit, widget and golden tests, but touch the
+phone in ways only a phone can check.
+
+- [ ] **Voice capture** works in **airplane mode** with the language pack
+      downloaded, and the microphone button is **absent** on a phone without
+      an on-device recogniser (never falls back to the cloud).
+- [ ] **Automatic backup** runs overnight into a chosen folder (internal and
+      SD card), prunes old copies, and restores; an **encrypted** one asks
+      for the passphrase and rejects a wrong one.
+- [ ] **Quick Settings tile** and **launcher shortcuts** open capture,
+      Today, the review and the reset.
+- [ ] **Home-screen widgets**: Next thing ticks in the background; the
+      Today widget's Inbox line opens the Inbox; the Grove widget shows the
+      clearing after it changes.
+- [ ] **App lock** asks after the chosen time away; capture works while
+      locked; turning it on needs a working screen lock.
+- [ ] **Notifications**: lock-screen privacy hides titles; "Pick a time"
+      opens the item; replying to the morning summary captures a thought.
+- [ ] **Photos** from camera and gallery attach, show, survive a backup
+      round trip, and are removed with their item.
+- [ ] Release APK still requests **no INTERNET** (the CI job checks this).
+
 ## During the beta (M5: 5–10 testers, 2–4 weeks)
 
 - [ ] Usability sessions with 5 people (`usability-sessions.md`).

@@ -23,6 +23,32 @@ If you choose **Export a backup**, Clearing creates a file and hands it to the
 app or folder you pick. Where that file goes is up to you. Clearing never
 uploads it.
 
+## Automatic backups
+
+If you turn on **Back up every day**, Clearing writes a backup file each night
+into a folder you choose through Android's folder picker, and keeps the last
+week or so of copies there. Clearing can only write to that one folder. You
+can lock these files with a passphrase; the passphrase is kept in the app's
+private storage on this phone and is never included in a backup.
+
+## Photos
+
+Photos you add to an item are copied into the app's private storage on your
+phone and included in your backups. Clearing doesn't look at your other
+photos; Android's own picker or camera hands over only the one you choose.
+
+## Voice capture
+
+The microphone button uses Android's **on-device** speech recognition only.
+Audio is not recorded, stored or sent anywhere, by Clearing or by the
+recogniser. If your phone can't recognise speech offline, Clearing doesn't
+offer the button rather than use an online service.
+
+## App lock
+
+If you turn on the app lock, Android checks your fingerprint, face or screen
+lock. Clearing never sees or stores these.
+
 ## Feedback
 
 **Send feedback** opens an app of your choice (for example, email) with a short
@@ -34,6 +60,9 @@ it yourself.
 - **Notifications** and **exact alarms**: to show the reminders you set, at
   the time you set.
 - **Run at startup**: to put reminders back after the phone restarts.
+- **Microphone** (asked only when you first tap the microphone): for voice
+  capture, recognised on the phone.
+- **Biometrics** (only if you turn on the app lock): to unlock Clearing.
 
 ## Children
 

@@ -14,6 +14,31 @@ close**. It's deliberately not a feature-dense task manager.
 - **Recovery over punishment.** No streaks, no red overdue badges. Missed items
   are "carried over".
 
+## What's in it
+
+- **Capture** from the app, a widget, a share, a launcher shortcut, the
+  Quick Settings tile or your voice (on-device only). Type "pay rent fri 9am
+  #home !" and it's understood, in English or Hindi, with chips to undo any
+  part.
+- **Clarify** one at a time, all at once, or by swiping cards; select many
+  items to plan, move or finish them together.
+- **Today**: must-dos first, the rest quiet, carried-over items you can
+  decide on calmly, "what fits now" by length or context, and an "Open sky"
+  moment when it's clear. Projects show only their next step.
+- **Upcoming** as an agenda, a week you can drag between days, or a month.
+- **Weekly review**, quick or full, ending with a kind look back; an
+  **overwhelm reset** that ends on one thing in **Focus**.
+- **The Grove** (optional): a private landscape that grows as you close
+  things. No streaks, no points, nothing ever wilts. Field notes, a done log
+  drawn as a cairn, season cards, earned colour variants and a private
+  "your rhythm" page.
+- **Trust**: automatic nightly backups to a folder you choose, optionally
+  encrypted; app lock; lock-screen privacy; photos kept with items.
+
+The improvement plan behind 1.2–2.0 is in
+[docs/improvement-plan.md](docs/improvement-plan.md); translating is
+described in [docs/translating.md](docs/translating.md).
+
 > Status: preparing the closed beta (M5); see [docs/beta](docs/beta/README.md).
 > The v1.1 features (batch blocks, after-completion repeats, routines and
 > templates, week timeline and series calendar, printable worksheets, morning

@@ -34,11 +34,17 @@ abstract interface class NotificationGateway {
 
   /// Opens the system screen that grants exact timing.
   Future<void> requestExact();
+
+  /// Whether notifications show their titles on the lock screen (FR-09a).
+  set lockScreenPrivate(bool value);
 }
 
 /// Used where the platform has no notifications, and in tests.
 class NoNotifications implements NotificationGateway {
   const NoNotifications();
+
+  @override
+  set lockScreenPrivate(bool value) {}
 
   @override
   Future<Map<int, String?>> pending() async => const {};
@@ -65,6 +71,9 @@ class NoNotifications implements NotificationGateway {
 /// Keeps the device's pending notifications equal to what the database says
 /// they should be (PRD §8.3).
 class NotificationScheduler {
+  /// The lock-screen privacy last applied, to notice a change.
+  bool? _private;
+
   NotificationScheduler(
     this._gateway,
     this._reminders,
@@ -138,7 +147,17 @@ class NotificationScheduler {
       ))
         n.id: n,
     };
-    final pending = await _gateway.pending();
+    _gateway.lockScreenPrivate = settings.hideOnLockScreen;
+    var pending = await _gateway.pending();
+    // Changing lock-screen privacy reposts everything with the new setting.
+    final private = _private;
+    _private = settings.hideOnLockScreen;
+    if (private != null && private != settings.hideOnLockScreen) {
+      for (final id in pending.keys) {
+        await _gateway.cancel(id);
+      }
+      pending = const {};
+    }
     for (final MapEntry(key: id, value: payload) in pending.entries) {
       if (desired[id]?.payload != payload) await _gateway.cancel(id);
     }
@@ -155,7 +174,13 @@ class NotificationScheduler {
 enum NotificationAction {
   done('Done'),
   snoozeHour('Snooze 1 h'),
-  snoozeTomorrow('Tomorrow');
+  snoozeTomorrow('Tomorrow'),
+
+  /// Opens the item to choose another time; handled by the app itself.
+  pickTime('Pick a time'),
+
+  /// A reply typed on the morning summary, captured to the Inbox.
+  reply('Capture');
 
   const NotificationAction(this.label);
   final String label;
@@ -180,7 +205,17 @@ class NotificationActions {
   final NotificationScheduler _scheduler;
   final DateTime Function() _now;
 
-  Future<void> handle(NotificationAction action, String? payload) async {
+  Future<void> handle(
+    NotificationAction action,
+    String? payload, {
+    String? input,
+  }) async {
+    if (action == NotificationAction.reply) {
+      if (input != null && input.trim().isNotEmpty) {
+        await _items.capture(input);
+      }
+      return;
+    }
     final target = parsePayload(payload);
     if (target == null) return;
     switch (action) {
@@ -194,6 +229,9 @@ class NotificationActions {
         );
       case NotificationAction.snoozeTomorrow:
         await _reminders.snooze(target.reminderId, await _tomorrowMorning());
+      case NotificationAction.pickTime || NotificationAction.reply:
+        // The app opens on the item; nothing to do here.
+        return;
     }
     await _scheduler.reconcile();
   }

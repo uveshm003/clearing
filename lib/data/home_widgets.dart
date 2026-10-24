@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/widgets.dart';
 import 'package:home_widget/home_widget.dart';
 
 import '../application/widget_sync.dart';
@@ -9,8 +10,11 @@ import '../application/widget_sync.dart';
 class HomeWidgets implements HomeWidgetGateway {
   const HomeWidgets();
 
-  /// Shared with `TodayWidgetProvider.kt`.
+  /// Shared with `TodayWidgetProvider.kt` and `NextWidgetProvider.kt`.
   static const todayKey = 'today';
+
+  /// Shared with `GroveWidgetProvider.kt`: the path of the painted Grove.
+  static const groveKey = 'grove';
 
   @override
   Future<void> showToday(TodayWidgetData data) async {
@@ -19,6 +23,17 @@ class HomeWidgets implements HomeWidgetGateway {
       jsonEncode(data.toJson()),
     );
     await HomeWidget.updateWidget(androidName: 'TodayWidgetProvider');
+    await HomeWidget.updateWidget(androidName: 'NextWidgetProvider');
+  }
+
+  @override
+  Future<void> showGrove(Widget picture, Size size) async {
+    await HomeWidget.renderFlutterWidget(
+      picture,
+      key: groveKey,
+      logicalSize: size,
+    );
+    await HomeWidget.updateWidget(androidName: 'GroveWidgetProvider');
   }
 }
 
@@ -28,9 +43,17 @@ sealed class WidgetLink {
 
   static WidgetLink? parse(Uri? uri) {
     if (uri == null || uri.scheme != 'clearing') return null;
+    final from = uri.queryParameters['from'];
     return switch (uri.host) {
-      'capture' => const CaptureLink(),
+      'capture' => CaptureLink(
+        listen: uri.queryParameters['listen'] == '1',
+        fromOutside: from != null,
+      ),
+      'review' => const ReviewLink(),
+      'grove' => const GroveLink(),
+      'reset' => const ResetLink(),
       'today' => const TodayLink(),
+      'inbox' => const InboxLink(),
       'item' when uri.pathSegments.isNotEmpty => ItemLink(
         uri.pathSegments.first,
       ),
@@ -42,9 +65,34 @@ sealed class WidgetLink {
   }
 }
 
-/// clearing://capture
+/// clearing://capture, from the widget, a shortcut or the Quick Settings
+/// tile; `?listen=1` starts listening straight away.
 class CaptureLink extends WidgetLink {
-  const CaptureLink();
+  const CaptureLink({this.listen = false, this.fromOutside = true});
+  final bool listen;
+
+  /// Opened from outside the app (always, except in tests).
+  final bool fromOutside;
+}
+
+/// clearing://review, from a launcher shortcut.
+class ReviewLink extends WidgetLink {
+  const ReviewLink();
+}
+
+/// clearing://inbox, from the Today widget's inbox line.
+class InboxLink extends WidgetLink {
+  const InboxLink();
+}
+
+/// clearing://grove, from the Grove widget.
+class GroveLink extends WidgetLink {
+  const GroveLink();
+}
+
+/// clearing://reset, from a launcher shortcut.
+class ResetLink extends WidgetLink {
+  const ResetLink();
 }
 
 /// clearing://today

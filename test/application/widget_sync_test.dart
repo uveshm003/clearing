@@ -3,6 +3,7 @@ import 'package:clearing/application/widget_sync.dart';
 import 'package:clearing/data/db/database.dart';
 import 'package:clearing/data/home_widgets.dart';
 import 'package:clearing/data/item_repository.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../helpers.dart';
@@ -12,6 +13,9 @@ class _FakeWidgets implements HomeWidgetGateway {
 
   @override
   Future<void> showToday(TodayWidgetData data) async => shown = data;
+
+  @override
+  Future<void> showGrove(Widget picture, Size size) async {}
 }
 
 void main() {
@@ -64,12 +68,17 @@ void main() {
   });
 
   test('data is what the native widget reads', () {
-    const data = TodayWidgetData(rows: [(id: 'i1', title: 'Rent')], more: 3);
+    const data = TodayWidgetData(
+      rows: [(id: 'i1', title: 'Rent')],
+      more: 3,
+      inbox: 2,
+    );
     expect(data.toJson(), {
       'rows': [
         {'id': 'i1', 'title': 'Rent'},
       ],
       'more': 3,
+      'inbox': 2,
     });
   });
 

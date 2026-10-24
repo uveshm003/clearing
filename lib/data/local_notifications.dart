@@ -14,6 +14,10 @@ class LocalNotifications implements NotificationGateway {
 
   final FlutterLocalNotificationsPlugin _plugin;
 
+  @override
+  set lockScreenPrivate(bool value) => _private = value;
+  bool _private = false;
+
   static const _standardChannel = AndroidNotificationChannel(
     'reminders',
     'Reminders',
@@ -123,10 +127,33 @@ class LocalNotifications implements NotificationGateway {
           playSound: !notification.silent,
           enableVibration: !notification.silent,
           category: AndroidNotificationCategory.reminder,
+          // Private: the lock screen shows that there's a reminder, not
+          // what it is.
+          visibility: _private
+              ? NotificationVisibility.private
+              : NotificationVisibility.public,
           actions: [
             if (notification.isReminder)
-              for (final action in NotificationAction.values)
-                AndroidNotificationAction(action.name, _label(action)),
+              for (final action in const [
+                NotificationAction.done,
+                NotificationAction.snoozeHour,
+                NotificationAction.snoozeTomorrow,
+                NotificationAction.pickTime,
+              ])
+                AndroidNotificationAction(
+                  action.name,
+                  _label(action),
+                  showsUserInterface: action == NotificationAction.pickTime,
+                ),
+            // Anything else on your mind? Reply to capture it.
+            if (notification.kind == NotificationKind.digest)
+              AndroidNotificationAction(
+                NotificationAction.reply.name,
+                _label(NotificationAction.reply),
+                inputs: [
+                  AndroidNotificationActionInput(label: l10n.notifReplyHint),
+                ],
+              ),
           ],
         ),
       ),
@@ -139,6 +166,8 @@ class LocalNotifications implements NotificationGateway {
     NotificationAction.done => l10n.notifActionDone,
     NotificationAction.snoozeHour => l10n.notifActionSnoozeHour,
     NotificationAction.snoozeTomorrow => l10n.notifActionTomorrow,
+    NotificationAction.pickTime => l10n.notifActionPickTime,
+    NotificationAction.reply => l10n.notifActionCapture,
   };
 
   static bool _timeZonesLoaded = false;

@@ -38,6 +38,8 @@ class SchedulerReceiver : BroadcastReceiver() {
                 engine.destroy()
                 pending.finish()
             }
+            // The nightly automatic backup writes to the chosen folder.
+            FolderChannel(appContext) { null }.register(engine.dartExecutor.binaryMessenger)
             MethodChannel(engine.dartExecutor.binaryMessenger, CHANNEL)
                 .setMethodCallHandler { call, result ->
                     if (call.method == "done") {

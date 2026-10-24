@@ -67,4 +67,9 @@ flutter {
 
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
+    // The automatic backup folder (FolderChannel.kt).
+    implementation("androidx.documentfile:documentfile:1.0.1")
+    // The app lock's biometric prompt needs AppCompat themes.
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("androidx.core:core-ktx:1.13.1")
 }

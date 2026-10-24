@@ -13,4 +13,17 @@
         <item quantity="other">आज +%d और</item>
     </plurals>
     <string name="widget_mark_done">पूरा करें: %s</string>
+    <string name="shortcut_capture">लिखें</string>
+    <string name="shortcut_today">आज</string>
+    <string name="shortcut_review">साप्ताहिक समीक्षा</string>
+    <string name="shortcut_reset">बोझ कम करें</string>
+    <string name="tile_capture">लिखें</string>
+    <string name="widget_next_label">अगला काम</string>
+    <string name="widget_next_description">Today का अगला काम, एक टैप में पूरा</string>
+    <string name="widget_grove_label">आपका मैदान</string>
+    <string name="widget_grove_description">आपका मैदान, काम बंद करने पर बढ़ता हुआ</string>
+    <plurals name="widget_inbox_count">
+        <item quantity="one">इनबॉक्स में %d</item>
+        <item quantity="other">इनबॉक्स में %d</item>
+    </plurals>
 </resources>

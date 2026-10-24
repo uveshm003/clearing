@@ -12,4 +12,17 @@
         <item quantity="other">+%d more on Today</item>
     </plurals>
     <string name="widget_mark_done">Mark done: %s</string>
+    <string name="shortcut_capture">Capture</string>
+    <string name="shortcut_today">Today</string>
+    <string name="shortcut_review">Weekly review</string>
+    <string name="shortcut_reset">Overwhelm reset</string>
+    <string name="tile_capture">Capture</string>
+    <string name="widget_next_label">Next thing</string>
+    <string name="widget_next_description">The next thing on Today, with one-tap done</string>
+    <string name="widget_grove_label">Your clearing</string>
+    <string name="widget_grove_description">Your clearing, growing as you close things</string>
+    <plurals name="widget_inbox_count">
+        <item quantity="one">%d in the Inbox</item>
+        <item quantity="other">%d in the Inbox</item>
+    </plurals>
 </resources>

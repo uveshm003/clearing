@@ -26,11 +26,20 @@ class TodayWidgetProvider : HomeWidgetProvider() {
         widgetData: SharedPreferences,
     ) {
         val (rows, more) = parse(widgetData.getString(KEY, null))
+        val inbox = inboxCount(widgetData.getString(KEY, null))
         for (widgetId in appWidgetIds) {
             val views = RemoteViews(context.packageName, R.layout.widget_today)
             views.setOnClickPendingIntent(R.id.header, launch(context, "clearing://today"))
             views.setOnClickPendingIntent(R.id.empty, launch(context, "clearing://today"))
             views.setViewVisibility(R.id.empty, if (rows.isEmpty()) View.VISIBLE else View.GONE)
+            views.setViewVisibility(R.id.inbox, if (inbox > 0) View.VISIBLE else View.GONE)
+            if (inbox > 0) {
+                views.setTextViewText(
+                    R.id.inbox,
+                    context.resources.getQuantityString(R.plurals.widget_inbox_count, inbox, inbox),
+                )
+                views.setOnClickPendingIntent(R.id.inbox, launch(context, "clearing://inbox"))
+            }
 
             for (i in ROW_IDS.indices) {
                 val row = rows.getOrNull(i)
@@ -69,6 +78,13 @@ class TodayWidgetProvider : HomeWidgetProvider() {
 
     private fun launch(context: Context, uri: String) =
         HomeWidgetLaunchIntent.getActivity(context, MainActivity::class.java, Uri.parse(uri))
+
+    /** Thoughts waiting in the Inbox. */
+    private fun inboxCount(json: String?): Int = try {
+        if (json == null) 0 else JSONObject(json).optInt("inbox", 0)
+    } catch (e: JSONException) {
+        0
+    }
 
     /** Rows of (id, title) and the count of items not shown. */
     private fun parse(json: String?): Pair<List<Pair<String, String>>, Int> {

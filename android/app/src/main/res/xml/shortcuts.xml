@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Launcher shortcuts (long-press the icon). They open the app the way the
+     home-screen widgets do, through home_widget's launch action. -->
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="capture"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_capture"
+        android:shortcutShortLabel="@string/shortcut_capture">
+        <intent
+            android:action="es.antonborri.home_widget.action.LAUNCH"
+            android:data="clearing://capture?from=shortcut"
+            android:targetClass="com.uveshm003.clearing.MainActivity"
+            android:targetPackage="com.uveshm003.clearing" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="today"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_today"
+        android:shortcutShortLabel="@string/shortcut_today">
+        <intent
+            android:action="es.antonborri.home_widget.action.LAUNCH"
+            android:data="clearing://today"
+            android:targetClass="com.uveshm003.clearing.MainActivity"
+            android:targetPackage="com.uveshm003.clearing" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="review"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_review"
+        android:shortcutShortLabel="@string/shortcut_review">
+        <intent
+            android:action="es.antonborri.home_widget.action.LAUNCH"
+            android:data="clearing://review"
+            android:targetClass="com.uveshm003.clearing.MainActivity"
+            android:targetPackage="com.uveshm003.clearing" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="reset"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_reset"
+        android:shortcutShortLabel="@string/shortcut_reset">
+        <intent
+            android:action="es.antonborri.home_widget.action.LAUNCH"
+            android:data="clearing://reset"
+            android:targetClass="com.uveshm003.clearing.MainActivity"
+            android:targetPackage="com.uveshm003.clearing" />
+    </shortcut>
+</shortcuts>

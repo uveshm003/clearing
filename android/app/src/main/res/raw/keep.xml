@@ -2,4 +2,4 @@
 <!-- The notification icon is looked up by name at runtime, so resource
      shrinking would otherwise remove it from release builds. -->
 <resources xmlns:tools="http://schemas.android.com/tools"
-    tools:keep="@drawable/ic_notification,@layout/widget_today,@layout/widget_capture" />
+    tools:keep="@drawable/ic_notification,@layout/widget_today,@layout/widget_capture,@layout/widget_next,@layout/widget_grove,@raw/chime_clear,@raw/chime_review" />

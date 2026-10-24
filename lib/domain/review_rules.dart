@@ -15,8 +15,27 @@ enum ReviewStep {
   waiting,
   nextWeek,
   someday,
+
+  /// The user's own checks, when they've added any.
+  ownChecks,
   close,
 }
+
+/// The steps a review walks, in order (§4.10): every step, or a quick one
+/// of the Inbox and next week. Their own checks come before the close.
+List<ReviewStep> reviewSteps({required bool quick, required bool ownChecks}) =>
+    [
+      for (final step in ReviewStep.values)
+        if (step == ReviewStep.ownChecks
+            ? ownChecks
+            : !quick ||
+                  const {
+                    ReviewStep.inbox,
+                    ReviewStep.nextWeek,
+                    ReviewStep.close,
+                  }.contains(step))
+          step,
+    ];
 
 /// A review left unfinished can be resumed for this long.
 const reviewResumeWindow = Duration(days: 7);

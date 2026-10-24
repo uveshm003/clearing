@@ -55,6 +55,28 @@ bool isFromEarlierWeek(Item item, LocalDate today, int weekStart) {
       setOn.isBefore(today.startOfWeek(weekStart));
 }
 
+/// Keeps only each project's next step (§5.4): the first open one in
+/// order. Must-dos always stay, since the user chose them.
+Iterable<Item> nextProjectSteps(Iterable<Item> items, Set<String> projectIds) {
+  if (projectIds.isEmpty) return items;
+  final first = <String, Item>{};
+  for (final item in items) {
+    final listId = item.listId;
+    if (listId == null || !projectIds.contains(listId) || item.mustDo) {
+      continue;
+    }
+    final best = first[listId];
+    if (best == null || compareTodayOrder(item, best) < 0) first[listId] = item;
+  }
+  return items.where((item) {
+    final listId = item.listId;
+    if (listId == null || !projectIds.contains(listId) || item.mustDo) {
+      return true;
+    }
+    return first[listId]?.id == item.id;
+  });
+}
+
 /// Builds the Today view from all items.
 ///
 /// Must-do items stay in Must-do even when carried over, so the user's chosen

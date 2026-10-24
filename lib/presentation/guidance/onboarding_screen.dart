@@ -10,6 +10,7 @@ import '../../domain/enums.dart';
 import '../../domain/local_date.dart';
 import '../../l10n/l10n.dart';
 import '../capture/capture_sheet.dart';
+import '../settings/backup_screen.dart';
 import '../format.dart';
 import '../widgets/choice_sheet.dart';
 import '../widgets/clearing_art.dart';
@@ -60,7 +61,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     }
     await ref
         .read(settingsRepositoryProvider)
-        .save(_settings.copyWith(onboardingDone: true));
+        .save(_settings.copyWith(onboardingDone: true, groveAsked: true));
     if (!mounted) return;
     context.go(Routes.today);
     if (capture) {
@@ -168,6 +169,16 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         TextButton(
                           onPressed: _finish,
                           child: Text(l.welcomeSkip),
+                        ),
+                        // Moving from another phone: bring everything over.
+                        TextButton.icon(
+                          icon: const Icon(Icons.restore_page_outlined),
+                          label: Text(l.welcomeRestore),
+                          onPressed: () async {
+                            if (await restoreFromFile(context, ref)) {
+                              await _finish();
+                            }
+                          },
                         ),
                       ],
                     ),
@@ -373,6 +384,26 @@ class _SetupPage extends StatelessWidget {
               ),
             ],
           ],
+        ),
+        SectionHeader(l.groveAskTitle, description: l.groveAskBody),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: SegmentedButton<bool>(
+            emptySelectionAllowed: true,
+            showSelectedIcon: false,
+            segments: [
+              ButtonSegment(value: true, label: Text(l.groveAskYes)),
+              ButtonSegment(value: false, label: Text(l.groveAskNo)),
+            ],
+            // Nothing chosen until the person chooses; unchosen means off.
+            selected: settings.groveAsked ? {settings.groveEnabled} : {},
+            onSelectionChanged: (s) => onChanged(
+              settings.copyWith(
+                groveEnabled: s.isNotEmpty && s.single,
+                groveAsked: s.isNotEmpty,
+              ),
+            ),
+          ),
         ),
       ],
     );

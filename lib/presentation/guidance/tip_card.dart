@@ -14,6 +14,15 @@ abstract final class Tips {
   static const listsBlock = 'lists_block';
   static const itemFocus = 'item_focus';
   static const captureBurst = 'capture_burst';
+  static const selectMany = 'select_many';
+  static const effort = 'effort';
+
+  // Words testers found confusing, explained once where they first appear.
+  static const glossClarify = 'gloss_clarify';
+  static const glossMustDo = 'gloss_must_do';
+  static const glossCarried = 'gloss_carried';
+  static const glossWaiting = 'gloss_waiting';
+  static const glossSomeday = 'gloss_someday';
 }
 
 /// A one-time hint ("Tips as you go"): a small pebble with a bulb, the hint
@@ -60,7 +69,7 @@ class TipCard extends ConsumerWidget {
                     side: BorderSide(color: glade.dawn, width: 1.5),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 12, 8, 4),
+                    padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 8, 4),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -75,7 +84,9 @@ class TipCard extends ConsumerWidget {
                             const SizedBox(width: 12),
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.only(right: 8),
+                                padding: const EdgeInsetsDirectional.only(
+                                  end: 8,
+                                ),
                                 child: Text(
                                   text,
                                   style: theme.textTheme.bodyMedium,

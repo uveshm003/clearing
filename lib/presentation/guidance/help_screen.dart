@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/glade.dart';
@@ -6,6 +7,7 @@ import '../../core/router.dart';
 import '../../l10n/l10n.dart';
 import '../widgets/pebble.dart';
 import '../widgets/section_header.dart';
+import 'coach_marks.dart';
 import 'guides.dart';
 
 /// The help centre: getting started, a short guide per area, and the rest
@@ -76,18 +78,38 @@ class HelpScreen extends StatelessWidget {
 }
 
 /// One guide: its lead, then four short points.
-class GuideScreen extends StatelessWidget {
+class GuideScreen extends ConsumerWidget {
   const GuideScreen({super.key, required this.topic});
 
   final GuideTopic topic;
 
+  /// The tab a guide's "Show me" opens.
+  static String _tab(CoachTarget target) => switch (target) {
+    CoachTarget.capture || CoachTarget.today => Routes.today,
+    CoachTarget.inbox => Routes.inbox,
+    CoachTarget.upcoming => Routes.upcoming,
+    CoachTarget.lists => Routes.lists,
+  };
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     final guide = guideFor(context.l10n, topic);
     return Scaffold(
       appBar: AppBar(title: Text(guide.title)),
+      floatingActionButton: FloatingActionButton.extended(
+        icon: const Icon(Icons.touch_app_outlined),
+        label: Text(context.l10n.guideShowMe),
+        onPressed: () {
+          final target = coachFor(topic);
+          context.go(_tab(target));
+          // After the shell has laid out the tab.
+          WidgetsBinding.instance.addPostFrameCallback(
+            (_) => ref.read(coachProvider.notifier).show(target),
+          );
+        },
+      ),
       body: ListView(
         padding: const EdgeInsets.only(bottom: 32),
         children: [

@@ -191,3 +191,26 @@ abstract final class GladeFonts {
 /// The side margin for a screen [width] wide.
 double gladeGutter(double width) =>
     width < GladeSpace.narrow ? GladeSpace.lg : GladeSpace.gutter;
+
+/// The curated list colours (§4.8): each has a Morning and a Dusk step,
+/// checked for 3:1 or better against the pebble it sits on, as icons need.
+/// Colour is never the only way a list is told apart: its name is always
+/// there.
+enum ListColour {
+  moss(Color(0xFF2F5D48), Color(0xFF9CCBB0)),
+  dawn(Color(0xFF8A5A10), Color(0xFFF2BC6B)),
+  sky(Color(0xFF2F6690), Color(0xFF8FC1E3)),
+  clay(Color(0xFF9C4F35), Color(0xFFE3A58C)),
+  heather(Color(0xFF6E5A8E), Color(0xFFC2B1DE));
+
+  const ListColour(this.morning, this.dusk);
+
+  final Color morning;
+  final Color dusk;
+
+  Color of(BuildContext context) =>
+      Theme.of(context).brightness == Brightness.dark ? dusk : morning;
+
+  static ListColour? byName(String? name) =>
+      values.where((c) => c.name == name).firstOrNull;
+}

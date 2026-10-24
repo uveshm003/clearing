@@ -3,10 +3,24 @@ import 'package:go_router/go_router.dart';
 
 import '../presentation/clarify/clarify_screen.dart';
 import '../presentation/focus/focus_screen.dart';
+import '../presentation/grove/cairn_screen.dart';
+import '../presentation/grove/field_notes_screen.dart';
+import '../presentation/grove/grove_screen.dart';
+import '../presentation/grove/insights_screen.dart';
+import '../presentation/grove/season_album_screen.dart';
+import '../presentation/settings/changes_screen.dart';
+import '../presentation/settings/contexts_screen.dart';
+import '../presentation/settings/developer_screen.dart';
+import '../presentation/settings/review_prompts_screen.dart';
+import '../presentation/settings/style_screen.dart';
+import '../presentation/today/decide_screen.dart';
+import '../presentation/widgets/reorder_screen.dart';
+import '../presentation/inbox/cards_screen.dart';
 import '../presentation/inbox/inbox_screen.dart';
 import '../presentation/item/item_screen.dart';
 import '../presentation/lists/archive_screen.dart';
 import '../presentation/lists/list_screen.dart';
+import '../presentation/lists/saved_search_screen.dart';
 import '../presentation/lists/lists_screen.dart';
 import '../presentation/lists/someday_screen.dart';
 import '../presentation/lists/trash_screen.dart';
@@ -53,12 +67,31 @@ abstract final class Routes {
   static const intro = '/intro';
   static const welcome = '/welcome';
   static const help = '/settings/help';
+  static const contexts = '/settings/contexts';
+  static const style = '/settings/style';
+  static const developer = '/settings/developer';
+  static const reviewPrompts = '/settings/review-checks';
 
   static String guide(String topic) => '/settings/help/$topic';
+  static const recent = '/recent';
+  static const grove = '/grove';
+  static const fieldNotes = '/grove/notes';
+  static const cairn = '/grove/cairn';
+  static const seasons = '/grove/seasons';
+  static const insights = '/grove/rhythm';
+  static const reorderToday = '/reorder';
+  static String reorderList(String id) => '/reorder/$id';
+  static const decide = '/decide';
+  static const inboxCards = '/cards';
 
   static String list(String id) => '/lists/$id';
+  static String savedSearch(String id) => '/lists/saved/$id';
   static String item(String id) => '/item/$id';
   static String clarify(String id) => '/clarify/$id';
+
+  /// Clarifies [ids] one after another; [done] counts those already done.
+  static String clarifyAll(List<String> ids, {int done = 0}) =>
+      '/clarify/${ids.first}?next=${ids.skip(1).join(',')}&done=$done';
   static String focus(String id) => '/focus/$id';
 }
 
@@ -132,6 +165,11 @@ GoRouter buildRouter({String initialLocation = Routes.today}) => GoRouter(
                   ],
                 ),
                 GoRoute(
+                  path: 'saved/:id',
+                  builder: (context, state) =>
+                      SavedSearchScreen(id: state.pathParameters['id']!),
+                ),
+                GoRoute(
                   path: ':id',
                   builder: (context, state) =>
                       ListScreen(listId: state.pathParameters['id']!),
@@ -153,7 +191,16 @@ GoRouter buildRouter({String initialLocation = Routes.today}) => GoRouter(
       parentNavigatorKey: rootNavigatorKey,
       pageBuilder: (context, state) => MaterialPage(
         fullscreenDialog: true,
-        child: ClarifyScreen(itemId: state.pathParameters['id']!),
+        child: ClarifyScreen(
+          itemId: state.pathParameters['id']!,
+          next: [
+            for (final id in (state.uri.queryParameters['next'] ?? '').split(
+              ',',
+            ))
+              if (id.isNotEmpty) id,
+          ],
+          done: int.tryParse(state.uri.queryParameters['done'] ?? '') ?? 0,
+        ),
       ),
     ),
     GoRoute(
@@ -191,6 +238,58 @@ GoRouter buildRouter({String initialLocation = Routes.today}) => GoRouter(
           const MaterialPage(fullscreenDialog: true, child: ResetScreen()),
     ),
     GoRoute(
+      path: Routes.reorderToday,
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (context, state) => const ReorderScreen(),
+      routes: [
+        GoRoute(
+          path: ':id',
+          builder: (context, state) =>
+              ReorderScreen(listId: state.pathParameters['id']),
+        ),
+      ],
+    ),
+    GoRoute(
+      path: Routes.inboxCards,
+      parentNavigatorKey: rootNavigatorKey,
+      pageBuilder: (context, state) =>
+          const MaterialPage(fullscreenDialog: true, child: CardsScreen()),
+    ),
+    GoRoute(
+      path: Routes.decide,
+      parentNavigatorKey: rootNavigatorKey,
+      pageBuilder: (context, state) =>
+          const MaterialPage(fullscreenDialog: true, child: DecideScreen()),
+    ),
+    GoRoute(
+      path: Routes.recent,
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (context, state) => const ChangesScreen(),
+    ),
+    GoRoute(
+      path: Routes.grove,
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (context, state) => const GroveScreen(),
+      routes: [
+        GoRoute(
+          path: 'notes',
+          builder: (context, state) => const FieldNotesScreen(),
+        ),
+        GoRoute(
+          path: 'cairn',
+          builder: (context, state) => const CairnScreen(),
+        ),
+        GoRoute(
+          path: 'seasons',
+          builder: (context, state) => const SeasonAlbumScreen(),
+        ),
+        GoRoute(
+          path: 'rhythm',
+          builder: (context, state) => const InsightsScreen(),
+        ),
+      ],
+    ),
+    GoRoute(
       path: Routes.search,
       parentNavigatorKey: rootNavigatorKey,
       builder: (context, state) => const SearchScreen(),
@@ -217,6 +316,22 @@ GoRouter buildRouter({String initialLocation = Routes.today}) => GoRouter(
           ],
         ),
         GoRoute(path: 'faq', builder: (context, state) => const FaqScreen()),
+        GoRoute(
+          path: 'contexts',
+          builder: (context, state) => const ContextsScreen(),
+        ),
+        GoRoute(
+          path: 'style',
+          builder: (context, state) => const StyleScreen(),
+        ),
+        GoRoute(
+          path: 'developer',
+          builder: (context, state) => const DeveloperScreen(),
+        ),
+        GoRoute(
+          path: 'review-checks',
+          builder: (context, state) => const ReviewPromptsScreen(),
+        ),
         GoRoute(
           path: 'about',
           builder: (context, state) => const AboutScreen(),

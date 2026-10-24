@@ -1,6 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../application/backup_actions.dart';
+import '../application/backup_schedule.dart';
+import '../data/backup_folder.dart';
+import '../data/passphrase_store.dart';
+import '../application/day_records.dart';
+import '../application/project_actions.dart';
 import '../l10n/notification_texts.dart';
 import 'error_log.dart';
 import '../application/item_actions.dart';
@@ -10,6 +18,22 @@ import '../application/reset_actions.dart';
 import '../application/series_actions.dart';
 import '../application/template_actions.dart';
 import '../application/widget_sync.dart';
+import '../data/attachment_repository.dart';
+import '../data/authenticator.dart';
+import '../data/context_repository.dart';
+import '../data/day_record_repository.dart';
+import '../data/device.dart';
+import '../data/event_repository.dart';
+import '../data/journal_repository.dart';
+import '../data/saved_search_repository.dart';
+import '../data/speech.dart';
+import '../domain/attachment.dart';
+import '../domain/day_record.dart';
+import '../domain/grove.dart';
+import '../domain/item_context.dart';
+import '../domain/item_event.dart';
+import '../domain/journal_entry.dart';
+import '../domain/saved_search.dart';
 import '../data/backup.dart';
 import '../data/backup_files.dart';
 import '../data/block_repository.dart';
@@ -96,6 +120,15 @@ final seriesActionsProvider = Provider(
     ref.watch(itemRepositoryProvider),
     ref.watch(reminderRepositoryProvider),
     now: ref.watch(clockProvider),
+    weekStart: () async =>
+        (await ref.read(settingsRepositoryProvider).get()).weekStart,
+  ),
+);
+
+final eventRepositoryProvider = Provider(
+  (ref) => EventRepository(
+    ref.watch(databaseProvider),
+    now: ref.watch(clockProvider),
   ),
 );
 
@@ -104,8 +137,101 @@ final itemActionsProvider = Provider(
     ref.watch(itemRepositoryProvider),
     now: ref.watch(clockProvider),
     series: ref.watch(seriesActionsProvider),
+    events: ref.watch(eventRepositoryProvider),
   ),
 );
+
+final projectActionsProvider = Provider(
+  (ref) => ProjectActions(
+    ref.watch(listRepositoryProvider),
+    ref.watch(itemRepositoryProvider),
+    ref.watch(itemActionsProvider),
+  ),
+);
+
+final contextRepositoryProvider = Provider(
+  (ref) => ContextRepository(
+    ref.watch(databaseProvider),
+    now: ref.watch(clockProvider),
+  ),
+);
+
+final contextsProvider = StreamProvider<List<ItemContext>>(
+  (ref) => ref.watch(contextRepositoryProvider).watchAll(),
+);
+
+/// Context ids per item id.
+final itemContextsProvider = StreamProvider<Map<String, Set<String>>>(
+  (ref) => ref.watch(contextRepositoryProvider).watchByItem(),
+);
+
+final dayRecordRepositoryProvider = Provider(
+  (ref) => DayRecordRepository(
+    ref.watch(databaseProvider),
+    now: ref.watch(clockProvider),
+  ),
+);
+
+final dayRecordActionsProvider = Provider(
+  (ref) => DayRecordActions(
+    ref.watch(itemRepositoryProvider),
+    ref.watch(dayRecordRepositoryProvider),
+    now: ref.watch(clockProvider),
+  ),
+);
+
+final dayRecordsProvider = StreamProvider<List<DayRecord>>(
+  (ref) => ref.watch(dayRecordRepositoryProvider).watchAll(),
+);
+
+final itemEventsProvider = StreamProvider.autoDispose
+    .family<List<ItemEvent>, String>(
+      (ref, itemId) => ref.watch(eventRepositoryProvider).watchForItem(itemId),
+    );
+
+final savedSearchRepositoryProvider = Provider(
+  (ref) => SavedSearchRepository(
+    ref.watch(databaseProvider),
+    now: ref.watch(clockProvider),
+  ),
+);
+
+final savedSearchesProvider = StreamProvider<List<SavedSearch>>(
+  (ref) => ref.watch(savedSearchRepositoryProvider).watchAll(),
+);
+
+final journalRepositoryProvider = Provider(
+  (ref) => JournalRepository(
+    ref.watch(databaseProvider),
+    now: ref.watch(clockProvider),
+  ),
+);
+
+final journalProvider = StreamProvider<List<JournalEntry>>(
+  (ref) => ref.watch(journalRepositoryProvider).watchAll(),
+);
+
+/// Where attachments are stored; tests override it with a temporary folder.
+final attachmentsFolderProvider = Provider<Future<Directory> Function()>(
+  (ref) =>
+      () async => Directory(
+        '${(await getApplicationSupportDirectory()).path}/attachments',
+      ),
+);
+
+final attachmentRepositoryProvider = Provider(
+  (ref) => AttachmentRepository(
+    ref.watch(databaseProvider),
+    folder: ref.watch(attachmentsFolderProvider),
+    now: ref.watch(clockProvider),
+  ),
+);
+
+final attachmentsProvider = StreamProvider.autoDispose
+    .family<List<Attachment>, String>(
+      (ref, itemId) =>
+          ref.watch(attachmentRepositoryProvider).watchForItem(itemId),
+    );
 
 final resetActionsProvider = Provider(
   (ref) => ResetActions(
@@ -167,10 +293,40 @@ final backupFilesProvider = Provider<BackupFiles>(
 
 final backupActionsProvider = Provider(
   (ref) => BackupActions(
-    BackupService(ref.watch(databaseProvider), now: ref.watch(clockProvider)),
+    BackupService(
+      ref.watch(databaseProvider),
+      now: ref.watch(clockProvider),
+      attachments: ref.watch(attachmentRepositoryProvider),
+    ),
     ref.watch(backupFilesProvider),
     ref.watch(settingsRepositoryProvider),
     ref.watch(seriesActionsProvider),
+    now: ref.watch(clockProvider),
+  ),
+);
+
+/// Overridden in `main()` with the system folder picker.
+final backupFolderProvider = Provider<BackupFolder>(
+  (ref) => const NoBackupFolder(),
+);
+
+final passphraseStoreProvider = Provider<PassphraseStore>(
+  (ref) => PassphraseStore(
+    () async =>
+        File('${(await getApplicationSupportDirectory()).path}/backup.key'),
+  ),
+);
+
+final backupScheduleProvider = Provider(
+  (ref) => BackupSchedule(
+    BackupService(
+      ref.watch(databaseProvider),
+      now: ref.watch(clockProvider),
+      attachments: ref.watch(attachmentRepositoryProvider),
+    ),
+    ref.watch(backupFolderProvider),
+    ref.watch(settingsRepositoryProvider),
+    ref.watch(passphraseStoreProvider),
     now: ref.watch(clockProvider),
   ),
 );
@@ -258,9 +414,13 @@ final activeListCountsProvider = StreamProvider<Map<String, int>>(
 final todayViewProvider = Provider<AsyncValue<TodayView>>((ref) {
   final items = ref.watch(todayItemsProvider);
   final today = ref.watch(todayProvider);
+  final projectIds = {
+    for (final list in ref.watch(listsProvider).value ?? const <ItemList>[])
+      if (list.isProject) list.id,
+  };
   return switch ((items, today)) {
     (AsyncData(value: final items), AsyncData(value: final today)) => AsyncData(
-      buildTodayView(items, today),
+      buildTodayView(nextProjectSteps(items, projectIds), today),
     ),
     (AsyncError(:final error, :final stackTrace), _) ||
     (
@@ -326,3 +486,110 @@ final todayProvider = StreamProvider<LocalDate>((ref) async* {
     await Future<void>.delayed(midnight.difference(current));
   }
 });
+
+/// Overridden in `main()` with the phone's on-device speech recogniser.
+final speechGatewayProvider = Provider<SpeechGateway>(
+  (ref) => const NoSpeech(),
+);
+
+final speechAvailableProvider = FutureProvider<bool>(
+  (ref) => ref.watch(speechGatewayProvider).isAvailable(),
+);
+
+/// Done items, archived ones included, most recent first.
+final doneItemsProvider = StreamProvider<List<Item>>(
+  (ref) => ref.watch(itemRepositoryProvider).watchDone(),
+);
+
+/// When each weekly review was finished.
+final completedReviewsProvider = StreamProvider<List<DateTime>>(
+  (ref) =>
+      ref.watch(reviewRepositoryProvider).watchCompleted(ReviewKind.weekly),
+);
+
+final completedResetsProvider = StreamProvider<List<DateTime>>(
+  (ref) => ref.watch(reviewRepositoryProvider).watchCompleted(ReviewKind.reset),
+);
+
+final resolvedEventsProvider = StreamProvider<List<ItemEvent>>(
+  (ref) => ref.watch(eventRepositoryProvider).watchKind(ItemEventKind.resolved),
+);
+
+/// What the Grove grows from (§6.2), all of it data the app already keeps.
+final groveInputsProvider = Provider<GroveInputs?>((ref) {
+  final settings = ref.watch(settingsProvider).value;
+  final done = ref.watch(doneItemsProvider).value;
+  if (settings == null || done == null) return null;
+  return GroveInputs(
+    closed: [
+      for (final item in done)
+        if (item.completedAt case final completedAt?)
+          ClosedThing(
+            id: item.id,
+            title: item.title,
+            createdAt: item.createdAt,
+            completedAt: completedAt,
+          ),
+    ],
+    reviews: ref.watch(completedReviewsProvider).value ?? const [],
+    resets: ref.watch(completedResetsProvider).value ?? const [],
+    allClearDays: [
+      for (final record in ref.watch(dayRecordsProvider).value ?? const [])
+        if (record.allClear) record.date,
+    ],
+    resolved: [
+      for (final event in ref.watch(resolvedEventsProvider).value ?? const [])
+        event.at,
+    ],
+    backedUp:
+        settings.lastExportAt != null || settings.lastAutoBackupAt != null,
+    invitations: [
+      for (final key in settings.invitationsDone)
+        if (!key.endsWith(':skip')) ?LocalDate.tryParse(key.split(':').first),
+    ],
+    hemisphere: settings.hemisphere,
+  );
+});
+
+/// This season's Grove.
+final groveProvider = Provider<GroveState?>((ref) {
+  final inputs = ref.watch(groveInputsProvider);
+  final today = ref.watch(todayProvider).value;
+  if (inputs == null || today == null) return null;
+  return buildGrove(inputs, seasonOf(today, inputs.hemisphere));
+});
+
+/// The Glade variants earned so far.
+final earnedVariantsProvider = Provider<Set<GladeVariant>>(
+  (ref) => ref.watch(groveProvider)?.totals.earned ?? const {},
+);
+
+/// Overridden in `main()` with the phone.
+final deviceGatewayProvider = Provider<DeviceGateway>(
+  (ref) => const NoDevice(),
+);
+
+/// Overridden in `main()` with the phone's own lock.
+final authenticatorProvider = Provider<Authenticator>(
+  (ref) => const NoAuthenticator(),
+);
+
+/// A flexible routine's progress this week: done so far, and the target.
+final flexibleProgressProvider = Provider.autoDispose
+    .family<({int done, int target})?, String>((ref, seriesId) {
+      final series = ref.watch(seriesProvider(seriesId)).value;
+      final target = series?.weeklyTarget;
+      final today = ref.watch(todayProvider).value;
+      if (target == null || today == null) return null;
+      final weekStart = ref.watch(settingsProvider).value?.weekStart ?? 1;
+      final start = today.startOfWeek(weekStart);
+      final done = (ref.watch(doneItemsProvider).value ?? const <Item>[])
+          .where(
+            (i) =>
+                i.seriesId == seriesId &&
+                i.completedAt != null &&
+                !LocalDate.fromDateTime(i.completedAt!).isBefore(start),
+          )
+          .length;
+      return (done: done, target: target);
+    });

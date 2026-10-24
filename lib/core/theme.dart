@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../domain/enums.dart';
 import 'glade.dart';
 
 /// The Glade theme (see `lib/core/glade.dart`): warm birch paper by day,
@@ -10,8 +11,151 @@ import 'glade.dart';
 /// no red: status is never conveyed by alarm colours, and colour is always
 /// paired with text or an icon (FR-20).
 abstract final class AppTheme {
-  static ThemeData light() => _build(_morning, GladeTokens.morning);
-  static ThemeData dark() => _build(_dusk, GladeTokens.dusk);
+  /// Morning, in [variant]; [highContrast] goes beyond AA for low vision;
+  /// [roomy] adds space between lines and letters.
+  static ThemeData light({
+    GladeVariant variant = GladeVariant.glade,
+    bool highContrast = false,
+    bool roomy = false,
+  }) {
+    final (scheme, glade) = _variant(_morning, GladeTokens.morning, variant);
+    return _build(
+      highContrast ? _contrasted(scheme) : scheme,
+      glade,
+      roomy: roomy,
+    );
+  }
+
+  static ThemeData dark({
+    GladeVariant variant = GladeVariant.glade,
+    bool highContrast = false,
+    bool roomy = false,
+  }) {
+    final (scheme, glade) = _variant(_dusk, GladeTokens.dusk, variant);
+    return _build(
+      highContrast ? _contrasted(scheme) : scheme,
+      glade,
+      roomy: roomy,
+    );
+  }
+
+  /// The earned colour variants (§6.8): the same structure, other hues.
+  /// Every pair is checked in `test/core/glade_contrast_test.dart`.
+  static (ColorScheme, GladeTokens) _variant(
+    ColorScheme base,
+    GladeTokens glade,
+    GladeVariant variant,
+  ) {
+    final dark = base.brightness == Brightness.dark;
+    (Color, Color, Color, Color)? accent = switch (variant) {
+      GladeVariant.glade => null,
+      GladeVariant.autumn =>
+        dark
+            ? (
+                const Color(0xFFF2B880),
+                const Color(0xFF3A1D04),
+                const Color(0xFF5A3414),
+                const Color(0xFFFCE6CF),
+              )
+            : (
+                const Color(0xFF8A4B16),
+                const Color(0xFFFFFFFF),
+                const Color(0xFFF6DFC4),
+                const Color(0xFF3A1D04),
+              ),
+      GladeVariant.monsoon =>
+        dark
+            ? (
+                const Color(0xFF8FD1D6),
+                const Color(0xFF032326),
+                const Color(0xFF1E4A4F),
+                const Color(0xFFCDEFF1),
+              )
+            : (
+                const Color(0xFF1F5F66),
+                const Color(0xFFFFFFFF),
+                const Color(0xFFC9E6E8),
+                const Color(0xFF06282B),
+              ),
+      GladeVariant.winter =>
+        dark
+            ? (
+                const Color(0xFFA9C7EB),
+                const Color(0xFF0B1B2E),
+                const Color(0xFF24384F),
+                const Color(0xFFDCE8F6),
+              )
+            : (
+                const Color(0xFF1E3A5F),
+                const Color(0xFFFFFFFF),
+                const Color(0xFFD6E2F0),
+                const Color(0xFF0B1B2E),
+              ),
+      GladeVariant.nightSky =>
+        dark
+            ? (
+                const Color(0xFFB4BEF2),
+                const Color(0xFF111A4A),
+                const Color(0xFF2B3466),
+                const Color(0xFFE0E4FB),
+              )
+            : (
+                const Color(0xFF2D3A7A),
+                const Color(0xFFFFFFFF),
+                const Color(0xFFDADFF7),
+                const Color(0xFF111A4A),
+              ),
+    };
+    if (accent == null) return (base, glade);
+    final (primary, onPrimary, container, onContainer) = accent;
+    var scheme = base.copyWith(
+      primary: primary,
+      onPrimary: onPrimary,
+      primaryContainer: container,
+      onPrimaryContainer: onContainer,
+      secondary: primary,
+      onSecondary: onPrimary,
+      secondaryContainer: container,
+      onSecondaryContainer: onContainer,
+      inversePrimary: container,
+    );
+    if (variant == GladeVariant.nightSky && dark) {
+      // A deeper, bluer dusk.
+      scheme = scheme.copyWith(
+        surface: const Color(0xFF0E1222),
+        surfaceContainerLowest: const Color(0xFF0A0D19),
+        surfaceContainerLow: const Color(0xFF131729),
+        surfaceContainer: const Color(0xFF171C30),
+        surfaceContainerHigh: const Color(0xFF20263D),
+        surfaceContainerHighest: const Color(0xFF2A3049),
+      );
+    }
+    return (
+      scheme,
+      glade.copyWith(
+        skyFull: container,
+        skyClear: scheme.surface,
+        art: primary,
+        dawn: switch (variant) {
+          GladeVariant.autumn =>
+            dark ? const Color(0xFFF2BC6B) : const Color(0xFFD9822B),
+          _ => glade.dawn,
+        },
+      ),
+    );
+  }
+
+  /// Stronger than AA: secondary text as dark as primary text, firmer
+  /// outlines, a deeper accent.
+  static ColorScheme _contrasted(ColorScheme scheme) {
+    final dark = scheme.brightness == Brightness.dark;
+    return scheme.copyWith(
+      onSurfaceVariant: scheme.onSurface,
+      outline: dark ? const Color(0xFFC9CEC5) : const Color(0xFF3D3F38),
+      outlineVariant: dark ? const Color(0xFF8E968B) : const Color(0xFF6B6E64),
+      primary: Color.lerp(scheme.primary, scheme.onSurface, 0.25),
+    );
+  }
 
   static const _morning = ColorScheme(
     brightness: Brightness.light,
@@ -89,7 +233,7 @@ abstract final class AppTheme {
   /// Display and headline in Fraunces; everything else in Atkinson
   /// Hyperlegible Next. Sizes are in sp, so they follow the text-size
   /// setting.
-  static TextTheme _text(Color ink) {
+  static TextTheme _text(Color ink, {bool roomy = false}) {
     const display = GladeFonts.display;
     TextStyle serif(double size, double height) => TextStyle(
       fontFamily: display,
@@ -101,7 +245,10 @@ abstract final class AppTheme {
     TextStyle sans(double size, double height, FontWeight weight) => TextStyle(
       fontFamily: GladeFonts.body,
       fontSize: size,
-      height: height / size,
+      // Roomier text: more space between lines and letters.
+      height: height / size * (roomy ? 1.25 : 1),
+      letterSpacing: roomy ? 0.5 : null,
+      wordSpacing: roomy ? 1.5 : null,
       fontWeight: weight,
       color: ink,
     );
@@ -124,8 +271,12 @@ abstract final class AppTheme {
     );
   }
 
-  static ThemeData _build(ColorScheme scheme, GladeTokens glade) {
-    final text = _text(scheme.onSurface);
+  static ThemeData _build(
+    ColorScheme scheme,
+    GladeTokens glade, {
+    bool roomy = false,
+  }) {
+    final text = _text(scheme.onSurface, roomy: roomy);
     const pebble = RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(GladeSpace.pebble)),
     );

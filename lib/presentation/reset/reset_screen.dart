@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -12,7 +14,9 @@ import '../../domain/reset_rules.dart';
 import '../../domain/review_session.dart';
 import '../../domain/today_rules.dart';
 import '../../l10n/l10n.dart';
+import '../guidance/field_notes_hooks.dart';
 import '../widgets/flow_step.dart';
+import 'breathing.dart';
 import '../widgets/step_trail.dart';
 
 enum _Step { mind, today, week, letGo, smallest }
@@ -35,6 +39,10 @@ class _ResetScreenState extends ConsumerState<ResetScreen> {
   String? _focusId;
   final _firstStep = TextEditingController();
   bool _seeded = false;
+
+  /// A few breaths first, unless turned off in Settings.
+  late bool _breathing =
+      ref.read(settingsProvider).value?.breathingOpener ?? false;
 
   @override
   void initState() {
@@ -134,6 +142,7 @@ class _ResetScreenState extends ConsumerState<ResetScreen> {
             ),
           );
     }
+    unawaited(noteFieldNote(ref, FieldNote.deepBreath));
     if (!mounted) return;
     if (item != null) {
       context.pushReplacement(Routes.focus(item.id));
@@ -157,19 +166,21 @@ class _ResetScreenState extends ConsumerState<ResetScreen> {
         ),
       ),
       body: SafeArea(
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 180),
-          child: KeyedSubtree(
-            key: ValueKey(step),
-            child: switch (step) {
-              _Step.mind => _mind(),
-              _Step.today => _chooseToday(),
-              _Step.week => _chooseWeek(),
-              _Step.letGo => _chooseLetGo(),
-              _Step.smallest => _smallest(),
-            },
-          ),
-        ),
+        child: _breathing
+            ? BreathingOpener(onDone: () => setState(() => _breathing = false))
+            : AnimatedSwitcher(
+                duration: const Duration(milliseconds: 180),
+                child: KeyedSubtree(
+                  key: ValueKey(step),
+                  child: switch (step) {
+                    _Step.mind => _mind(),
+                    _Step.today => _chooseToday(),
+                    _Step.week => _chooseWeek(),
+                    _Step.letGo => _chooseLetGo(),
+                    _Step.smallest => _smallest(),
+                  },
+                ),
+              ),
       ),
     );
   }

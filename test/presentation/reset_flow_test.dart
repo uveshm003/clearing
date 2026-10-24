@@ -40,6 +40,10 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.text('Overwhelm reset'));
     await tester.pumpAndSettle();
+    // A few breaths are offered first, and can be skipped.
+    expect(find.text('A few breaths first?'), findsOneWidget);
+    await tester.tap(find.text('Skip'));
+    await tester.pumpAndSettle();
     expect(find.text('Everything on your mind'), findsOneWidget);
 
     await tester.enterText(find.byType(TextField), 'Call the vet');

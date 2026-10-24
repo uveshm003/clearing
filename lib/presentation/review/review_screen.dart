@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -9,9 +12,14 @@ import '../../domain/item.dart';
 import '../../domain/local_date.dart';
 import '../../domain/review_rules.dart';
 import '../../domain/review_session.dart';
+import '../../data/device.dart';
+import '../../domain/item_list.dart';
 import '../../l10n/l10n.dart';
+import '../capture/capture_sheet.dart';
 import '../format.dart';
+import '../guidance/field_notes_hooks.dart';
 import '../item_commands.dart';
+import 'look_back.dart';
 import '../widgets/flow_step.dart';
 import '../widgets/step_trail.dart';
 import '../widgets/clearing_art.dart';
@@ -21,6 +29,13 @@ import '../widgets/when_sheet.dart';
 const _cleared = 'cleared';
 const _planned = 'planned';
 const _skipped = 'skipped';
+const _parked = 'parked';
+
+/// Set on a quick review, so resuming keeps it quick.
+const _quick = 'quick';
+
+/// Set once the length was chosen.
+const _chosen = 'chosen';
 
 /// The weekly review (FR-11, PRD §4.3). Progress is saved after every step
 /// and every decision, so leaving part-way resumes at the same step.
@@ -37,6 +52,16 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
 
   /// Inbox items passed over with "Skip for now" during this visit.
   final _skippedIds = <String>{};
+
+  /// Own checks ticked this visit.
+  final _checked = <int>{};
+  final _wins = TextEditingController();
+
+  @override
+  void dispose() {
+    _wins.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -58,11 +83,38 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     }
   }
 
+  List<ReviewStep> get _steps => reviewSteps(
+    quick: (_session?.count(_quick) ?? 0) > 0,
+    ownChecks:
+        ref.read(settingsProvider).value?.reviewPrompts.isNotEmpty ?? false,
+  );
+
   ReviewStep get _step =>
       ReviewStep.values[(_session?.step ?? 0).clamp(
         0,
         ReviewStep.values.length - 1,
       )];
+
+  /// The length was chosen (or the setting chose it).
+  bool get _lengthChosen {
+    final session = _session;
+    if (session == null) return true;
+    if (session.count(_chosen) > 0 || session.step > 0) return true;
+    return ref.read(settingsProvider).value?.reviewLength != ReviewLength.ask;
+  }
+
+  Future<void> _choose({required bool quick}) async {
+    final session = _session;
+    if (session == null) return;
+    var next = session.tally(_chosen);
+    if (quick) next = next.tally(_quick);
+    final steps = reviewSteps(
+      quick: quick,
+      ownChecks:
+          ref.read(settingsProvider).value?.reviewPrompts.isNotEmpty ?? false,
+    );
+    await _save(next.copyWith(step: steps.first.index));
+  }
 
   LocalDate get _today =>
       ref.read(todayProvider).value ?? LocalDate.fromDateTime(DateTime.now());
@@ -83,12 +135,26 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     }
   }
 
-  Future<void> _next() => _go(ReviewStep.values[_step.index + 1]);
+  Future<void> _next() {
+    final steps = _steps;
+    final i = steps.indexOf(_step);
+    return _go(steps[(i + 1).clamp(0, steps.length - 1)]);
+  }
 
   Future<void> _finish() async {
+    final settings = ref.read(settingsProvider).value;
+    final wins = _wins.text.trim();
+    if (wins.isNotEmpty) {
+      await ref.read(journalRepositoryProvider).add(_today, wins);
+    }
     if (_session case final session?) {
       await _save(session.copyWith(completedAt: ref.read(clockProvider)()));
     }
+    HapticFeedback.mediumImpact();
+    if (settings?.sounds ?? false) {
+      unawaited(ref.read(deviceGatewayProvider).chime(Chime.review));
+    }
+    unawaited(noteFieldNote(ref, FieldNote.thePath));
     if (mounted) Navigator.pop(context);
   }
 
@@ -104,8 +170,8 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(30),
           child: StepTrail(
-            count: ReviewStep.values.length,
-            current: step.index,
+            count: _steps.length,
+            current: _steps.indexOf(step).clamp(0, _steps.length - 1),
             stones: true,
           ),
         ),
@@ -128,23 +194,68 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
                   Expanded(
                     child: AnimatedSwitcher(
                       duration: const Duration(milliseconds: 180),
-                      child: KeyedSubtree(
-                        key: ValueKey(step),
-                        child: switch (step) {
-                          ReviewStep.emptyHead => _emptyHead(),
-                          ReviewStep.inbox => _inbox(),
-                          ReviewStep.lastWeek => _lastWeek(),
-                          ReviewStep.waiting => _waiting(),
-                          ReviewStep.nextWeek => _nextWeek(),
-                          ReviewStep.someday => _someday(),
-                          ReviewStep.close => _close(session),
-                        },
-                      ),
+                      child: !_lengthChosen
+                          ? _length()
+                          : KeyedSubtree(
+                              key: ValueKey(step),
+                              child: switch (step) {
+                                ReviewStep.emptyHead => _emptyHead(),
+                                ReviewStep.inbox => _inbox(),
+                                ReviewStep.lastWeek => _lastWeek(),
+                                ReviewStep.waiting => _waiting(),
+                                ReviewStep.nextWeek => _nextWeek(),
+                                ReviewStep.someday => _someday(),
+                                ReviewStep.ownChecks => _ownChecks(),
+                                ReviewStep.close => _close(session),
+                              },
+                            ),
                     ),
                   ),
                 ],
               ),
             ),
+    );
+  }
+
+  /// Quick or full, unless the setting already says.
+  Widget _length() => FlowStep(
+    question: context.l10n.reviewLengthTitle,
+    hint: context.l10n.reviewQuickCounts,
+    actions: const [],
+    children: [
+      ListTile(
+        leading: const Icon(Icons.bolt_outlined),
+        title: Text(context.l10n.reviewQuick),
+        subtitle: Text(context.l10n.reviewQuickHint),
+        onTap: () => _choose(quick: true),
+      ),
+      ListTile(
+        leading: const Icon(Icons.hiking),
+        title: Text(context.l10n.reviewFull),
+        subtitle: Text(context.l10n.reviewFullHint),
+        onTap: () => _choose(quick: false),
+      ),
+    ],
+  );
+
+  Widget _ownChecks() {
+    final prompts =
+        ref.watch(settingsProvider).value?.reviewPrompts ?? const <String>[];
+    return FlowStep(
+      question: context.l10n.reviewOwnChecks,
+      hint: context.l10n.reviewOwnChecksHint,
+      actions: [_nextButton()],
+      children: [
+        for (final (i, prompt) in prompts.indexed)
+          CheckboxListTile(
+            contentPadding: EdgeInsets.zero,
+            value: _checked.contains(i),
+            title: Text(prompt),
+            onChanged: (v) => setState(
+              () => v == true ? _checked.add(i) : _checked.remove(i),
+            ),
+          ),
+      ],
     );
   }
 
@@ -234,11 +345,10 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
                 }
               },
             ),
-            _choice(
-              Icons.lightbulb_outline,
-              context.l10n.someday,
-              () => decide(_cleared, () => actions.moveToSomeday(item)),
-            ),
+            _choice(Icons.lightbulb_outline, context.l10n.someday, () async {
+              await decide(_cleared, () => actions.moveToSomeday(item));
+              await _tally(_parked);
+            }),
             _choice(
               Icons.check,
               context.l10n.reviewAlreadyDone,
@@ -324,6 +434,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     onPressed: () async {
       await ref.read(itemActionsProvider).moveToSomeday(item);
       await _tally(_cleared);
+      await _tally(_parked);
     },
   );
 
@@ -397,6 +508,16 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
   Widget _nextWeek() {
     final today = _today;
     final items = nextSevenDays(_openItems, today);
+    final open = _openItems;
+    final stuck = [
+      for (final list in ref.watch(listsProvider).value ?? const <ItemList>[])
+        if (list.isProject &&
+            !list.archived &&
+            !open.any(
+              (i) => i.listId == list.id && i.status == ItemStatus.active,
+            ))
+          list,
+    ];
     return FlowStep(
       question: context.l10n.reviewNextWeekTitle,
       hint: items.isEmpty
@@ -417,6 +538,35 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.push(Routes.item(item.id)),
           ),
+        if (stuck.isNotEmpty) ...[
+          const SizedBox(height: 16),
+          Text(
+            context.l10n.reviewProjectsStuck(stuck.length),
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
+          for (final project in stuck)
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(Icons.flag_outlined),
+              title: Text(project.name),
+              subtitle: project.outcome == null ? null : Text(project.outcome!),
+              trailing: Wrap(
+                children: [
+                  TextButton(
+                    onPressed: () => ref
+                        .read(listRepositoryProvider)
+                        .save(project.copyWith(archived: true)),
+                    child: Text(context.l10n.reviewProjectPark),
+                  ),
+                  TextButton(
+                    onPressed: () =>
+                        showCaptureSheet(context, listId: project.id),
+                    child: Text(context.l10n.reviewProjectAddStep),
+                  ),
+                ],
+              ),
+            ),
+        ],
       ],
     );
   }
@@ -489,6 +639,21 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
           Text(
             context.l10n.reviewCloseSkipped(skipped),
             textAlign: TextAlign.center,
+          ),
+        ],
+        const SizedBox(height: 24),
+        LookBack(parked: session.count(_parked)),
+        if (ref.watch(settingsProvider).value?.winsPrompt ?? true) ...[
+          const SizedBox(height: 24),
+          TextField(
+            controller: _wins,
+            maxLines: null,
+            textCapitalization: TextCapitalization.sentences,
+            decoration: InputDecoration(
+              labelText: context.l10n.lookBackWins,
+              helperText: context.l10n.lookBackWinsHint,
+              border: const OutlineInputBorder(),
+            ),
           ),
         ],
       ],

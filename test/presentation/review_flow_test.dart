@@ -60,6 +60,10 @@ void main() {
 
     await pumpApp(tester);
     await openReview(tester);
+    // Quick or full: this one is full.
+    expect(find.text('How long have you got?'), findsOneWidget);
+    await tester.tap(find.text('Full'));
+    await tester.pumpAndSettle();
     expect(find.text('Empty your head'), findsOneWidget);
     await next(tester);
 
@@ -112,7 +116,7 @@ void main() {
 
     // Finished reviews start fresh.
     await openReview(tester);
-    expect(find.text('Empty your head'), findsOneWidget);
+    expect(find.text('How long have you got?'), findsOneWidget);
     expect(find.text('Picking up where you left off.'), findsNothing);
 
     final rows = (await tester.runAsync(() => db.select(db.items).get()))!;
@@ -120,6 +124,21 @@ void main() {
     expect(byTitle['Clean gutters'], ItemStatus.someday);
     expect(byTitle['Old magazine'], ItemStatus.inbox);
 
+    await closeDatabase(tester, db);
+  });
+
+  testWidgets('a quick review is just the inbox and next week', (tester) async {
+    await pumpApp(tester);
+    await openReview(tester);
+    await tester.tap(find.text('Quick (about 5 minutes)'));
+    await tester.pumpAndSettle();
+    expect(find.text('Inbox clear'), findsOneWidget);
+    await next(tester);
+    expect(find.text('The next 7 days'), findsOneWidget);
+    await next(tester);
+    expect(find.text('Look back'), findsOneWidget);
+    await tester.tap(find.text('Finish'));
+    await tester.pumpAndSettle();
     await closeDatabase(tester, db);
   });
 }

@@ -103,7 +103,8 @@ void main() {
     // Complete it, then undo, then complete again.
     await tester.tap(find.byType(Checkbox));
     await tester.pumpAndSettle();
-    expect(find.text('A clear day'), findsOneWidget);
+    // The day is cleared: the "Open sky" moment, not an empty day.
+    expect(find.text('Open sky'), findsOneWidget);
     await tester.tap(find.text('Undo'));
     await tester.pumpAndSettle();
     expect(find.text('Book passport photo'), findsOneWidget);

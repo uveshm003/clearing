@@ -1,15 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/router.dart';
+import '../guidance/field_notes_hooks.dart';
 import 'capture_sheet.dart';
 
 /// Opens quick capture pre-filled with text shared from another app (FR-01).
 ///
 /// The Android side lives in `MainActivity.kt`: shared text that launched the
 /// app is fetched once on start, later shares arrive as `sharedText` calls.
-class ShareIntake extends StatefulWidget {
+class ShareIntake extends ConsumerStatefulWidget {
   const ShareIntake({super.key, required this.child});
 
   final Widget child;
@@ -17,10 +19,10 @@ class ShareIntake extends StatefulWidget {
   static const channel = MethodChannel('clearing/share');
 
   @override
-  State<ShareIntake> createState() => _ShareIntakeState();
+  ConsumerState<ShareIntake> createState() => _ShareIntakeState();
 }
 
-class _ShareIntakeState extends State<ShareIntake> {
+class _ShareIntakeState extends ConsumerState<ShareIntake> {
   bool get _supported =>
       !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
 
@@ -54,6 +56,7 @@ class _ShareIntakeState extends State<ShareIntake> {
   void _open(String text) {
     final context = rootNavigatorKey.currentContext;
     if (context != null && text.trim().isNotEmpty) {
+      noteFieldNote(ref, FieldNote.fromTheDoorstep);
       showCaptureSheet(context, initialText: text.trim());
     }
   }

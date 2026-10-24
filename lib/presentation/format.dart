@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../domain/enums.dart';
+import '../domain/item_context.dart';
 import '../domain/local_date.dart';
 import '../domain/repeat_series.dart';
 import '../l10n/l10n.dart';
@@ -58,6 +59,13 @@ String ordinal(int n) {
 /// "Every day", "Every 2 weeks on Mon, Thu", "Every month on the 31st,
 /// until Fri 30 Oct".
 String describeRepeat(RepeatSeries series, LocalDate today) {
+  if (series.weeklyTarget case final target?) {
+    return [
+      l10n.repeatTimesAWeek(target),
+      if (series.endDate case final end?)
+        l10n.repeatUntil(dateLabel(end, today)),
+    ].join(', ');
+  }
   final n = series.interval;
   final weekdays = series.weekdays.isEmpty
       ? [series.startDate.weekday]
@@ -100,4 +108,21 @@ String offsetLabel(int minutes) => switch (minutes) {
   _ when minutes % (24 * 60) == 0 => l10n.offsetDays(minutes ~/ (24 * 60)),
   _ when minutes >= 60 && minutes % 60 == 0 => l10n.offsetHours(minutes ~/ 60),
   _ => l10n.offsetMinutes(minutes),
+};
+
+/// "5 min", "1 hour", "Longer" for an effort from [Item.effortSteps].
+String effortLabel(int minutes) => switch (minutes) {
+  < 60 => l10n.effortMinutes(minutes),
+  60 => l10n.effortHour,
+  _ => l10n.effortLonger,
+};
+
+/// A context's name: built-in ones in the app's language.
+String contextLabel(ItemContext context) => switch (context.kind) {
+  ContextKind.home => l10n.contextHome,
+  ContextKind.out => l10n.contextOut,
+  ContextKind.computer => l10n.contextComputer,
+  ContextKind.phone => l10n.contextPhone,
+  ContextKind.lowEnergy => l10n.contextLowEnergy,
+  ContextKind.user => context.name,
 };

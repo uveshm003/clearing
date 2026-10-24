@@ -24,6 +24,7 @@ class SeriesActions {
     this._items,
     this._reminders, {
     required this._now,
+    this._weekStart,
   });
 
   final AppDatabase _db;
@@ -31,6 +32,9 @@ class SeriesActions {
   final ItemRepository _items;
   final ReminderRepository _reminders;
   final DateTime Function() _now;
+
+  /// The first day of the week, for flexible routines; Monday if absent.
+  final Future<int> Function()? _weekStart;
 
   LocalDate get _today => LocalDate.fromDateTime(_now());
 
@@ -52,6 +56,7 @@ class SeriesActions {
     final today = _today;
     final all = await _series.occurrences(seriesId);
     final open = all.where(_isOpen).toList();
+    if (series.isFlexible) return _advanceFlexible(series, all, open, today);
 
     // An after-completion series has no fixed dates to miss: its open
     // occurrence just waits until done.
@@ -79,6 +84,46 @@ class SeriesActions {
     return item;
   });
 
+  /// A flexible routine (FR-10b): "3 times a week, any days". While this
+  /// week's target isn't met, the next occurrence waits in This week; once
+  /// it is, the next starts on the first day of next week. A week that
+  /// falls short is simply a new week: nothing is carried as a debt.
+  Future<Item?> _advanceFlexible(
+    RepeatSeries series,
+    List<Item> all,
+    List<Item> open,
+    LocalDate today,
+  ) async {
+    if (open.isNotEmpty) return null;
+    final weekStart = await _weekStart?.call() ?? DateTime.monday;
+    final thisWeek = today.startOfWeek(weekStart);
+    final doneThisWeek = all
+        .where(
+          (i) =>
+              i.status == ItemStatus.done &&
+              i.completedAt != null &&
+              !LocalDate.fromDateTime(i.completedAt!).isBefore(thisWeek),
+        )
+        .length;
+    if (series.maxCount case final max?
+        when all.where((i) => i.status == ItemStatus.done).length >= max) {
+      return null;
+    }
+    final Item item;
+    if (doneThisWeek < series.weeklyTarget!) {
+      item = series
+          .occurrenceOn(today, id: newId(), now: _now())
+          .planThisWeek(today)
+          .copyWith(occurrenceDate: () => today);
+    } else {
+      final next = thisWeek.addDays(7);
+      if (series.endDate case final end? when next.isAfter(end)) return null;
+      item = series.occurrenceOn(next, id: newId(), now: _now());
+    }
+    await _series.insertOccurrence(item, series.template);
+    return item;
+  }
+
   /// Makes [item] the first occurrence of a new series built from [draft],
   /// whose template is taken from the item as it is now.
   Future<RepeatSeries> startRepeating(Item item, RepeatSeries draft) =>
@@ -86,6 +131,19 @@ class SeriesActions {
         final series = await _series.save(
           draft.copyWith(template: await _templateOf(item)),
         );
+        if (series.isFlexible) {
+          // A flexible routine starts in This week, not on a date.
+          return _items
+              .save(
+                item
+                    .planThisWeek(_today)
+                    .copyWith(
+                      seriesId: () => series.id,
+                      occurrenceDate: () => _today,
+                    ),
+              )
+              .then((_) => series);
+        }
         final first = series.nextOccurrence(onOrAfter: series.startDate);
         await _items.save(
           (first == null ? item : item.planOnDate(first, time: item.doTime))

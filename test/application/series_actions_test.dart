@@ -231,4 +231,60 @@ void main() {
     expect(LocalDate(2026, 1, 31).addMonths(1), LocalDate(2026, 2, 28));
     expect(LocalDate(2026, 11, 15).addMonths(3), LocalDate(2027, 2, 15));
   });
+
+  group('flexible routines', () {
+    // Tuesday 20 October; weeks start on Monday 19th.
+    Future<Item> flexible(int target) async {
+      final [captured] = await actions.capture('Run');
+      await series.startRepeating(
+        captured,
+        RepeatSeries(
+          id: 'run',
+          freq: RepeatFrequency.weekly,
+          startDate: day(20),
+          onMissed: OnMissed.carryOver,
+          weeklyTarget: target,
+          template: const SeriesTemplate(title: ''),
+        ),
+      );
+      return (await items.getItem(captured.id))!;
+    }
+
+    Future<List<Item>> open() async => [
+      for (final i in await seriesRepo.occurrences('run'))
+        if (i.status != ItemStatus.done && i.status != ItemStatus.trashed) i,
+    ];
+
+    test('starts in This week, not on a date', () async {
+      final first = await flexible(2);
+      expect(first.when, When.thisWeek);
+      expect(first.doDate, isNull);
+    });
+
+    test(
+      'stays in This week until the target, then waits for next week',
+      () async {
+        final first = await flexible(2);
+        await actions.complete(first);
+        final [second] = await open();
+        expect(second.when, When.thisWeek);
+
+        now = DateTime(2026, 10, 22, 9);
+        await actions.complete(second);
+        final [third] = await open();
+        expect(third.doDate, day(26), reason: 'target met: next Monday');
+      },
+    );
+
+    test('a week that falls short starts fresh', () async {
+      final first = await flexible(3);
+      // A week later, nothing done: still one open, no backlog.
+      now = DateTime(2026, 10, 28, 9);
+      await series.advanceAll();
+      expect(await open(), [first]);
+      await actions.complete(first);
+      final [next] = await open();
+      expect(next.when, When.thisWeek);
+    });
+  });
 }

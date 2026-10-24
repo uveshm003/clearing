@@ -58,5 +58,10 @@ class ResetActions {
     final subtask = await _items.addSubtask(item.id, step);
     final first = existing.isEmpty ? 0.0 : existing.first.sortOrder - 1;
     await _items.saveSubtask(subtask.copyWith(sortOrder: first));
+    // Also pinned at the top of Focus, where the reset ends.
+    final latest = await _items.getItem(item.id);
+    if (latest != null) {
+      await _items.save(latest.copyWith(firstStep: () => step.trim()));
+    }
   }
 }

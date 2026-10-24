@@ -55,6 +55,10 @@ dependencies:
   package_info_plus: ^10.2.2
   pdf: ^3.13.1
   printing: ^5.15.1
+  cryptography: ^2.9.0
+  local_auth: ^3.0.2
+  image_picker: ^1.2.4
+  url_launcher: ^6.3.3
 
 dev_dependencies:
   flutter_test:

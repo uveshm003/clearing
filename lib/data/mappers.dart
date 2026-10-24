@@ -32,6 +32,8 @@ extension ItemRowMapper on ItemRow {
     completedAt: completedAt,
     archived: archived,
     trashedAt: trashedAt,
+    effort: effort,
+    firstStep: firstStep,
   );
 }
 
@@ -59,6 +61,8 @@ extension ItemMapper on Item {
     completedAt: Value(completedAt),
     archived: Value(archived),
     trashedAt: Value(trashedAt),
+    effort: Value(effort),
+    firstStep: Value(firstStep),
   );
 }
 
@@ -80,6 +84,11 @@ extension ListRowMapper on ListRow {
     icon: icon,
     sortOrder: sortOrder,
     archived: archived,
+    colour: colour,
+    pinned: pinned,
+    isProject: isProject,
+    outcome: outcome,
+    targetDate: targetDate,
   );
 }
 
@@ -118,6 +127,7 @@ extension SeriesRowMapper on SeriesRow {
     onMissed: onMissed,
     paused: paused,
     template: SeriesTemplate.fromJson(template),
+    weeklyTarget: weeklyTarget,
   );
 }
 
@@ -135,6 +145,7 @@ extension SeriesMapper on RepeatSeries {
     onMissed: Value(onMissed),
     paused: Value(paused),
     template: Value(template.toJson()),
+    weeklyTarget: Value(weeklyTarget),
     updatedAt: Value(updatedAt),
   );
 }

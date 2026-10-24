@@ -43,3 +43,48 @@ enum ReviewKind { weekly, reset }
 enum NotificationIntensity { off, gentle, standard }
 
 enum ThemePreference { system, light, dark }
+
+/// Built-in contexts are translated by kind; user ones keep their name.
+enum ContextKind { home, out, computer, phone, lowEnergy, user }
+
+/// Entries in an item's activity line.
+enum ItemEventKind {
+  captured,
+  planned,
+  waiting,
+
+  /// A waiting item came back: done, or planned again.
+  resolved,
+  someday,
+  done,
+  reopened,
+  trashed,
+}
+
+/// Which half of the world the Grove's seasons follow.
+enum Hemisphere { north, south }
+
+/// The Grove's wet season: a temperate spring, or a monsoon.
+enum SeasonStyle { spring, monsoon }
+
+/// Glade's colour variants. Morning and Dusk are [glade]; the rest are
+/// unlocked through the Grove, or all at once in Settings.
+enum GladeVariant { glade, autumn, monsoon, winter, nightSky }
+
+/// What a swipe on an item does (outside the Inbox, which has its own).
+enum SwipeAction {
+  none,
+  done,
+  tomorrow,
+  today,
+  thisWeek,
+  pickDate,
+  someday,
+  delete,
+}
+
+/// How long the weekly review is: ask each time, or always quick or full.
+enum ReviewLength { ask, quick, full }
+
+/// Presets from "Make Clearing yours".
+enum ClearingStyle { minimal, gentle, encouraging }

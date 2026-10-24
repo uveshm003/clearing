@@ -43,6 +43,14 @@ class Items extends Table {
   BoolColumn get archived => boolean().withDefault(const Constant(false))();
   DateTimeColumn get trashedAt => dateTime().nullable()();
 
+  /// Rough minutes the item takes (5, 15, 30, 60, or more). Added in schema
+  /// version 4.
+  IntColumn get effort => integer().nullable()();
+
+  /// The smallest first step, pinned at the top of Focus. Added in schema
+  /// version 4.
+  TextColumn get firstStep => text().nullable()();
+
   @override
   Set<Column> get primaryKey => {id};
 }
@@ -72,6 +80,19 @@ class Lists extends Table {
   BoolColumn get archived => boolean().withDefault(const Constant(false))();
   DateTimeColumn get updatedAt => dateTime()();
 
+  // Added in schema version 4.
+
+  /// A colour name from the curated, contrast-checked set.
+  TextColumn get colour => text().nullable()();
+  BoolColumn get pinned => boolean().withDefault(const Constant(false))();
+
+  /// A project is a list with an outcome; only its next action shows on
+  /// Today and This week.
+  BoolColumn get isProject => boolean().withDefault(const Constant(false))();
+  TextColumn get outcome => text().nullable()();
+  TextColumn get targetDate =>
+      text().map(const LocalDateConverter()).nullable()();
+
   @override
   Set<Column> get primaryKey => {id};
 }
@@ -92,6 +113,10 @@ class Series extends Table {
       textEnum<RepeatMode>().withDefault(Constant(RepeatMode.fixed.name))();
   TextColumn get onMissed => textEnum<OnMissed>()();
   BoolColumn get paused => boolean().withDefault(const Constant(false))();
+
+  /// A flexible routine: this many times a week, on any days. Added in
+  /// schema version 4.
+  IntColumn get weeklyTarget => integer().nullable()();
 
   /// Title, list, time, reminder offsets, done-means and subtasks to copy
   /// into each new occurrence.
@@ -207,4 +232,110 @@ class Settings extends Table {
 
   @override
   Set<Column> get primaryKey => {key};
+}
+
+/// Where or how something can be done: at home, out, low energy (FR-22).
+/// Added in schema version 4.
+@DataClassName('ContextRow')
+class Contexts extends Table {
+  TextColumn get id => text()();
+  TextColumn get name => text()();
+  TextColumn get kind => textEnum<ContextKind>()();
+  RealColumn get sortOrder => real().withDefault(const Constant(0))();
+  DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+/// Which contexts an item has. The id is `itemId|contextId`, so a backup
+/// can upsert rows by id like every other table.
+@DataClassName('ItemContextRow')
+@TableIndex(name: 'item_contexts_item_idx', columns: {#itemId})
+class ItemContexts extends Table {
+  TextColumn get id => text()();
+  TextColumn get itemId =>
+      text().references(Items, #id, onDelete: KeyAction.cascade)();
+  TextColumn get contextId =>
+      text().references(Contexts, #id, onDelete: KeyAction.cascade)();
+  DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+/// One row per finished day, written at the day's end: how Today went.
+/// The id is the date. Added in schema version 4.
+@DataClassName('DayRecordRow')
+class DayRecords extends Table {
+  TextColumn get id => text()();
+  IntColumn get mustDoPlanned => integer().withDefault(const Constant(0))();
+  IntColumn get mustDoDone => integer().withDefault(const Constant(0))();
+  IntColumn get closed => integer().withDefault(const Constant(0))();
+  BoolColumn get allClear => boolean().withDefault(const Constant(false))();
+  DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+/// What happened to an item and when, for its activity line. Added in
+/// schema version 4.
+@DataClassName('ItemEventRow')
+@TableIndex(name: 'item_events_item_idx', columns: {#itemId})
+class ItemEvents extends Table {
+  TextColumn get id => text()();
+  TextColumn get itemId =>
+      text().references(Items, #id, onDelete: KeyAction.cascade)();
+  TextColumn get kind => textEnum<ItemEventKind>()();
+  DateTimeColumn get at => dateTime()();
+  DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+/// A photo kept with an item, stored in the app's own files. Added in
+/// schema version 4.
+@DataClassName('AttachmentRow')
+@TableIndex(name: 'attachments_item_idx', columns: {#itemId})
+class Attachments extends Table {
+  TextColumn get id => text()();
+  TextColumn get itemId =>
+      text().references(Items, #id, onDelete: KeyAction.cascade)();
+
+  /// The file's name inside the attachments folder.
+  TextColumn get fileName => text()();
+  TextColumn get mime => text()();
+  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+/// A search kept as a smart list. Added in schema version 4.
+@DataClassName('SavedSearchRow')
+class SavedSearches extends Table {
+  TextColumn get id => text()();
+  TextColumn get name => text()();
+  TextColumn get filter => text().map(const JsonConverter())();
+  RealColumn get sortOrder => real().withDefault(const Constant(0))();
+  DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+/// A private note from the weekly review: something the user is glad they
+/// did. Added in schema version 4.
+@DataClassName('JournalEntryRow')
+class JournalEntries extends Table {
+  TextColumn get id => text()();
+  TextColumn get date => text().map(const LocalDateConverter())();
+  TextColumn get body => text()();
+  DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column> get primaryKey => {id};
 }

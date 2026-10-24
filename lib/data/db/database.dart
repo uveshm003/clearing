@@ -23,6 +23,13 @@ part 'database.g.dart';
     ReviewSessions,
     Settings,
     BatchBlocks,
+    Contexts,
+    ItemContexts,
+    DayRecords,
+    ItemEvents,
+    Attachments,
+    SavedSearches,
+    JournalEntries,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -40,7 +47,7 @@ class AppDatabase extends _$AppDatabase {
   final DateTime Function() _now;
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -55,6 +62,27 @@ class AppDatabase extends _$AppDatabase {
       },
       from2To3: (m, schema) async {
         await m.createTable(schema.batchBlocks);
+      },
+      from3To4: (m, schema) async {
+        await m.addColumn(schema.items, schema.items.effort);
+        await m.addColumn(schema.items, schema.items.firstStep);
+        await m.addColumn(schema.lists, schema.lists.colour);
+        await m.addColumn(schema.lists, schema.lists.pinned);
+        await m.addColumn(schema.lists, schema.lists.isProject);
+        await m.addColumn(schema.lists, schema.lists.outcome);
+        await m.addColumn(schema.lists, schema.lists.targetDate);
+        await m.addColumn(schema.series, schema.series.weeklyTarget);
+        await m.createTable(schema.contexts);
+        await m.createTable(schema.itemContexts);
+        await m.createIndex(schema.itemContextsItemIdx);
+        await m.createTable(schema.dayRecords);
+        await m.createTable(schema.itemEvents);
+        await m.createIndex(schema.itemEventsItemIdx);
+        await m.createTable(schema.attachments);
+        await m.createIndex(schema.attachmentsItemIdx);
+        await m.createTable(schema.savedSearches);
+        await m.createTable(schema.journalEntries);
+        await _seedContexts();
       },
     ),
     beforeOpen: (details) async {
@@ -89,6 +117,30 @@ class AppDatabase extends _$AppDatabase {
             id: newId(),
             title: title,
             listKind: Value(kind),
+            sortOrder: Value(i.toDouble()),
+            updatedAt: now,
+          ),
+      ]);
+    });
+    await _seedContexts();
+  }
+
+  /// The built-in contexts (FR-22); names are shown translated by kind.
+  Future<void> _seedContexts() async {
+    final now = _now();
+    await batch((b) {
+      b.insertAll(contexts, [
+        for (final (i, (kind, name)) in const [
+          (ContextKind.home, 'Home'),
+          (ContextKind.out, 'Out'),
+          (ContextKind.computer, 'Computer'),
+          (ContextKind.phone, 'Phone'),
+          (ContextKind.lowEnergy, 'Low energy'),
+        ].indexed)
+          ContextsCompanion.insert(
+            id: newId(),
+            name: name,
+            kind: kind,
             sortOrder: Value(i.toDouble()),
             updatedAt: now,
           ),

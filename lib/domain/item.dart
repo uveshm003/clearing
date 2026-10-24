@@ -33,6 +33,8 @@ class Item {
     this.completedAt,
     this.archived = false,
     this.trashedAt,
+    this.effort,
+    this.firstStep,
   });
 
   final String id;
@@ -66,6 +68,15 @@ class Item {
   final bool archived;
   final DateTime? trashedAt;
 
+  /// Rough minutes the item takes; see [effortSteps].
+  final int? effort;
+
+  /// The smallest first step, pinned at the top of Focus.
+  final String? firstStep;
+
+  /// The effort choices offered, in minutes. 120 stands for "longer".
+  static const effortSteps = [5, 15, 30, 60, 120];
+
   /// The effective "When": a date always wins over a horizon.
   When get when {
     if (doDate != null) return When.onDate;
@@ -97,6 +108,8 @@ class Item {
     Nullable<DateTime>? completedAt,
     bool? archived,
     Nullable<DateTime>? trashedAt,
+    Nullable<int>? effort,
+    Nullable<String>? firstStep,
   }) {
     return Item(
       id: id,
@@ -123,6 +136,8 @@ class Item {
       completedAt: completedAt != null ? completedAt() : this.completedAt,
       archived: archived ?? this.archived,
       trashedAt: trashedAt != null ? trashedAt() : this.trashedAt,
+      effort: effort != null ? effort() : this.effort,
+      firstStep: firstStep != null ? firstStep() : this.firstStep,
     );
   }
 
@@ -150,7 +165,9 @@ class Item {
       other.updatedAt == updatedAt &&
       other.completedAt == completedAt &&
       other.archived == archived &&
-      other.trashedAt == trashedAt;
+      other.trashedAt == trashedAt &&
+      other.effort == effort &&
+      other.firstStep == firstStep;
 
   @override
   int get hashCode => Object.hashAll([
@@ -176,6 +193,8 @@ class Item {
     completedAt,
     archived,
     trashedAt,
+    effort,
+    firstStep,
   ]);
 
   @override

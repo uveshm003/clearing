@@ -32,6 +32,15 @@ class LocalDate implements Comparable<LocalDate> {
     );
   }
 
+  /// [LocalDate.parse], or null for anything else.
+  static LocalDate? tryParse(String iso) {
+    try {
+      return LocalDate.parse(iso);
+    } on FormatException {
+      return null;
+    }
+  }
+
   final int year;
   final int month;
   final int day;

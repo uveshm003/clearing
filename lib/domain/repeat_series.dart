@@ -108,7 +108,9 @@ class RepeatSeries {
     this.maxCount,
     this.mode = RepeatMode.fixed,
     this.paused = false,
+    this.weeklyTarget,
   }) : assert(interval >= 1),
+       assert(weeklyTarget == null || weeklyTarget >= 1),
        assert(monthDay == null || (monthDay >= 1 && monthDay <= 31)),
        assert(weekdays.every((d) => d >= 1 && d <= 7)),
        weekdays = Set.unmodifiable(weekdays);
@@ -144,6 +146,12 @@ class RepeatSeries {
   final bool paused;
   final SeriesTemplate template;
 
+  /// A flexible routine: [weeklyTarget] times a week, on any days. Its open
+  /// occurrence sits in This week rather than on a date (FR-10).
+  final int? weeklyTarget;
+
+  bool get isFlexible => weeklyTarget != null;
+
   RepeatSeries copyWith({
     RepeatFrequency? freq,
     int? interval,
@@ -156,6 +164,7 @@ class RepeatSeries {
     OnMissed? onMissed,
     bool? paused,
     SeriesTemplate? template,
+    int? Function()? weeklyTarget,
   }) => RepeatSeries(
     id: id,
     freq: freq ?? this.freq,
@@ -169,6 +178,7 @@ class RepeatSeries {
     onMissed: onMissed ?? this.onMissed,
     paused: paused ?? this.paused,
     template: template ?? this.template,
+    weeklyTarget: weeklyTarget != null ? weeklyTarget() : this.weeklyTarget,
   );
 
   static const _setEquality = SetEquality<int>();
@@ -187,7 +197,8 @@ class RepeatSeries {
       other.mode == mode &&
       other.onMissed == onMissed &&
       other.paused == paused &&
-      other.template == template;
+      other.template == template &&
+      other.weeklyTarget == weeklyTarget;
 
   @override
   int get hashCode => Object.hash(
@@ -203,6 +214,7 @@ class RepeatSeries {
     onMissed,
     paused,
     template,
+    weeklyTarget,
   );
 
   @override

@@ -11,6 +11,7 @@ import '../widgets/search_button.dart';
 import '../../core/glade.dart';
 import '../widgets/glade_header.dart';
 import '../guidance/tip_card.dart';
+import '../widgets/choice_sheet.dart';
 import '../widgets/pebble.dart';
 import '../widgets/section_header.dart';
 
@@ -25,10 +26,15 @@ final _countsProvider = Provider<({Map<String, int> byList, int someday})>((
 });
 
 IconData listIcon(ItemList list) => switch (list.kind) {
+  _ when list.isProject => Icons.flag_outlined,
   ListKind.lifeAdmin => Icons.receipt_long_outlined,
   ListKind.errands => Icons.shopping_bag_outlined,
   ListKind.user => Icons.label_outline,
 };
+
+/// A list's icon, in its colour when it has one.
+Widget listIconWidget(BuildContext context, ItemList list) =>
+    Icon(listIcon(list), color: ListColour.byName(list.colour)?.of(context));
 
 class ListsScreen extends ConsumerWidget {
   const ListsScreen({super.key});
@@ -39,9 +45,14 @@ class ListsScreen extends ConsumerWidget {
     final counts = ref.watch(_countsProvider);
     final visible = lists.where((l) => !l.archived).toList();
     final hidden = lists.where((l) => l.archived).toList();
+    final pinned = visible.where((l) => l.pinned).toList();
+    final projects = visible.where((l) => l.isProject && !l.pinned).toList();
+    final plain = visible.where((l) => !l.isProject && !l.pinned).toList();
+    final saved = ref.watch(savedSearchesProvider).value ?? const [];
+    final grove = ref.watch(settingsProvider).value?.groveEnabled ?? false;
 
     Widget tile(ItemList list) => ListTile(
-      leading: Icon(listIcon(list)),
+      leading: listIconWidget(context, list),
       title: Text(list.name),
       // Only a count worth reading: an empty list shows none.
       trailing: switch (counts.byList[list.id]) {
@@ -71,9 +82,14 @@ class ListsScreen extends ConsumerWidget {
               ],
             ),
             TipCard(id: Tips.listsBlock, text: context.l10n.tipListsBlock),
+            if (pinned.isNotEmpty) ...[
+              SectionHeader(context.l10n.listPinned),
+              Pebble(children: [for (final list in pinned) tile(list)]),
+              const SizedBox(height: GladeSpace.lg),
+            ],
             Pebble(
               children: [
-                for (final list in visible) tile(list),
+                for (final list in plain) tile(list),
                 ListTile(
                   leading: const Icon(Icons.add),
                   title: Text(context.l10n.listsNewList),
@@ -81,6 +97,43 @@ class ListsScreen extends ConsumerWidget {
                 ),
               ],
             ),
+            SectionHeader(context.l10n.projectsSection),
+            Pebble(
+              children: [
+                for (final list in projects) tile(list),
+                ListTile(
+                  leading: const Icon(Icons.add),
+                  title: Text(context.l10n.projectNew),
+                  onTap: () => _createList(context, ref, project: true),
+                ),
+              ],
+            ),
+            if (saved.isNotEmpty) ...[
+              SectionHeader(context.l10n.savedSearchesSection),
+              Pebble(
+                children: [
+                  for (final search in saved)
+                    ListTile(
+                      leading: const Icon(Icons.saved_search),
+                      title: Text(search.name),
+                      onTap: () => context.push(Routes.savedSearch(search.id)),
+                    ),
+                ],
+              ),
+            ],
+            const SizedBox(height: GladeSpace.lg),
+            if (grove) ...[
+              Pebble(
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.park_outlined),
+                    title: Text(context.l10n.groveTitle),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => context.push(Routes.grove),
+                  ),
+                ],
+              ),
+            ],
             const SizedBox(height: GladeSpace.lg),
             Pebble(
               children: [
@@ -93,6 +146,13 @@ class ListsScreen extends ConsumerWidget {
               ],
             ),
             SectionHeader(context.l10n.listsNotNow),
+            if (ref
+                    .watch(settingsProvider)
+                    .value
+                    ?.seenTips
+                    .contains(Tips.listsBlock) ??
+                false)
+              TipCard(id: Tips.glossSomeday, text: context.l10n.glossSomeday),
             Pebble(
               children: [
                 ListTile(
@@ -103,6 +163,11 @@ class ListsScreen extends ConsumerWidget {
                       ? Text('${counts.someday}')
                       : null,
                   onTap: () => context.push(Routes.someday),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.layers_outlined),
+                  title: Text(context.l10n.groveCairnTitle),
+                  onTap: () => context.push(Routes.cairn),
                 ),
                 ListTile(
                   leading: const Icon(Icons.inventory_2_outlined),
@@ -172,9 +237,17 @@ Future<String?> _askName(
   return name == null || name.trim().isEmpty ? null : name.trim();
 }
 
-Future<void> _createList(BuildContext context, WidgetRef ref) async {
-  final name = await _askName(context, title: context.l10n.listsNewList);
-  if (name != null) await ref.read(listRepositoryProvider).create(name);
+Future<void> _createList(
+  BuildContext context,
+  WidgetRef ref, {
+  bool project = false,
+}) async {
+  final name = await _askName(
+    context,
+    title: project ? context.l10n.projectNew : context.l10n.listsNewList,
+  );
+  if (name == null) return;
+  await ref.read(listRepositoryProvider).create(name, isProject: project);
 }
 
 Future<void> _showListMenu(BuildContext context, WidgetRef ref, ItemList list) {
@@ -214,6 +287,50 @@ Future<void> _showListMenu(BuildContext context, WidgetRef ref, ItemList list) {
               repo.save(list.copyWith(archived: !list.archived));
             },
           ),
+          ListTile(
+            leading: Icon(
+              list.pinned ? Icons.push_pin : Icons.push_pin_outlined,
+            ),
+            title: Text(
+              list.pinned
+                  ? sheetContext.l10n.listUnpin
+                  : sheetContext.l10n.listPin,
+            ),
+            onTap: () {
+              Navigator.pop(sheetContext);
+              repo.save(list.copyWith(pinned: !list.pinned));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.palette_outlined),
+            title: Text(sheetContext.l10n.listColour),
+            onTap: () async {
+              Navigator.pop(sheetContext);
+              final picked = await showChoiceSheet<String?>(
+                context,
+                title: context.l10n.listColour,
+                selected: list.colour,
+                options: [
+                  (null, context.l10n.listColourNone),
+                  for (final colour in ListColour.values)
+                    (colour.name, listColourName(context.l10n, colour)),
+                ],
+              );
+              if (picked != null) {
+                await repo.save(list.copyWith(colour: () => picked.value));
+              }
+            },
+          ),
+          if (!list.isSystem)
+            SwitchListTile(
+              secondary: const Icon(Icons.flag_outlined),
+              title: Text(sheetContext.l10n.projectMakeList),
+              value: list.isProject,
+              onChanged: (on) {
+                Navigator.pop(sheetContext);
+                repo.save(list.copyWith(isProject: on));
+              },
+            ),
           if (!list.isSystem)
             ListTile(
               leading: const Icon(Icons.delete_outline),
@@ -229,3 +346,12 @@ Future<void> _showListMenu(BuildContext context, WidgetRef ref, ItemList list) {
     ),
   );
 }
+
+String listColourName(AppLocalizations l, ListColour colour) =>
+    switch (colour) {
+      ListColour.moss => l.listColourMoss,
+      ListColour.dawn => l.listColourDawn,
+      ListColour.sky => l.listColourSky,
+      ListColour.clay => l.listColourClay,
+      ListColour.heather => l.listColourHeather,
+    };

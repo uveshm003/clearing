@@ -18,6 +18,7 @@ import '../widgets/glade_header.dart';
 import '../widgets/mist_list.dart';
 import '../widgets/pebble.dart';
 import '../widgets/item_tile.dart';
+import '../widgets/pull_to_capture.dart';
 import '../widgets/when_sheet.dart';
 
 /// The inbox gets a gentle time estimate once it's long enough to feel heavy.
@@ -46,60 +47,90 @@ class InboxScreen extends ConsumerWidget {
             ],
           ),
           AsyncData(value: final items) => SlidableAutoCloseBehavior(
-            child: CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(
-                  child: GladeHeader(
-                    title: context.l10n.tabInbox,
-                    actions: const [SearchButton()],
-                    subtitle: context.l10n.inboxToDecide(items.length),
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: TipCard(
-                    id: Tips.inboxSwipe,
-                    text: context.l10n.tipInboxSwipe,
-                  ),
-                ),
-                if (items.length >= _estimateThreshold)
+            child: PullToCapture(
+              child: CustomScrollView(
+                slivers: [
                   SliverToBoxAdapter(
-                    child: Pebble(
-                      highlight: true,
-                      margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                      children: [
-                        ListTile(
-                          leading: const Icon(Icons.self_improvement_outlined),
-                          title: Text(
-                            context.l10n.inboxReviewEstimate(items.length),
-                          ),
-                          subtitle: Text(context.l10n.inboxReviewSubtitle),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-                          child: Align(
-                            alignment: AlignmentDirectional.centerEnd,
-                            child: FilledButton.tonal(
-                              onPressed: () => context.push(Routes.review),
-                              child: Text(context.l10n.inboxStartReview),
-                            ),
-                          ),
-                        ),
-                      ],
+                    child: GladeHeader(
+                      title: context.l10n.tabInbox,
+                      actions: const [SearchButton()],
+                      subtitle: context.l10n.inboxToDecide(items.length),
                     ),
                   ),
-                SliverPebble(
-                  sliver: SliverMistList<Item>(
-                    items: items,
-                    keyOf: (item) => item.id,
-                    itemBuilder: (context, item, {leaving = false}) => leaving
-                        ? ItemTile(item: item, leaving: true)
-                        : _InboxRow(item: item),
+                  if (items.length >= 3)
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                        child: Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: [
+                            FilledButton.tonalIcon(
+                              icon: const Icon(Icons.playlist_play),
+                              label: Text(context.l10n.inboxClarifyAll),
+                              onPressed: () => context.push(
+                                Routes.clarifyAll([
+                                  for (final i in items) i.id,
+                                ]),
+                              ),
+                            ),
+                            OutlinedButton.icon(
+                              icon: const Icon(Icons.style_outlined),
+                              label: Text(context.l10n.inboxCards),
+                              onPressed: () => context.push(Routes.inboxCards),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  SliverToBoxAdapter(
+                    child: TipCard(
+                      id: Tips.inboxSwipe,
+                      text: context.l10n.tipInboxSwipe,
+                    ),
                   ),
-                ),
-                SliverToBoxAdapter(
-                  child: SizedBox(height: 96 + theme.visualDensity.vertical),
-                ),
-              ],
+                  if (items.length >= _estimateThreshold)
+                    SliverToBoxAdapter(
+                      child: Pebble(
+                        highlight: true,
+                        margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                        children: [
+                          ListTile(
+                            leading: const Icon(
+                              Icons.self_improvement_outlined,
+                            ),
+                            title: Text(
+                              context.l10n.inboxReviewEstimate(items.length),
+                            ),
+                            subtitle: Text(context.l10n.inboxReviewSubtitle),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                            child: Align(
+                              alignment: AlignmentDirectional.centerEnd,
+                              child: FilledButton.tonal(
+                                onPressed: () => context.push(Routes.review),
+                                child: Text(context.l10n.inboxStartReview),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  SliverPebble(
+                    sliver: SliverMistList<Item>(
+                      items: items,
+                      keyOf: (item) => item.id,
+                      itemBuilder: (context, item, {leaving = false}) => leaving
+                          ? ItemTile(item: item, leaving: true)
+                          : _InboxRow(item: item),
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: SizedBox(height: 96 + theme.visualDensity.vertical),
+                  ),
+                ],
+              ),
             ),
           ),
           AsyncError(:final error) => Center(child: Text('$error')),

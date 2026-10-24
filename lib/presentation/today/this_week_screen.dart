@@ -44,6 +44,7 @@ class ThisWeekScreen extends ConsumerWidget {
                       Expanded(
                         child: ItemTile(
                           item: item,
+                          swipe: true,
                           quiet:
                               today != null &&
                               isFromEarlierWeek(item, today, weekStart),
